@@ -73,29 +73,29 @@
                   <div class="form-group row">
                      <label for="bono" class="col-md-1 control-label">Bono</label>
                      <div class="col-md-2">
-                        <input type="number" class="form-control input-sm" id="bono" name="bono" min="0.01" step="0.01" placeholder="Bono personal" required>
+                        <input type="number" class="form-control input-sm" id="bono" name="bono" min="0" step="0.01" placeholder="Bono personal" required>
                      </div>  
                      <label for="anticipo" class="col-md-1 control-label">Anticipo Personal</label>
                      <div class="col-md-2">
-                        <input type="number" class="form-control input-sm" id="anticipo" name="anticipo" min="0.01" step="0.01" required>
+                        <input type="number" class="form-control input-sm" id="anticipo" name="anticipo" min="0" >
                      </div>  
                      <label for="descuento" class="col-md-1 control-label">Descuento(%)</label>
                      <div class="col-md-2">
-                        <input type="number" class="form-control input-sm" id="descuento" name="descuento" min="0.01" step="0.01" placeholder="Descuento(%)" required>
+                        <input type="number" class="form-control input-sm" id="descuento" name="descuento" min="0" placeholder="Descuento(%)">
                      </div>
                      <label for="decimos" class="col-md-1 control-label">Décimos</label>
                      <div class="col-md-2">
-                        <input type="number" class="form-control input-sm" id="decimos" name="decimos" placeholder="Décimos" min="0.01" step="0.01" required>
+                        <input type="number" class="form-control input-sm" id="decimos" name="decimos" placeholder="Décimos" min="0" >
                      </div>                                    
                    </div>
                    <div class="form-group row">     
                      <label for="vacaciones" class="col-md-1 control-label">Vacaciones</label>
                      <div class="col-md-2">
-                        <input type="number" class="form-control input-sm" id="vacaciones" name="vacaciones" min="0.01" step="0.01" placeholder="Vacaciones" required>
+                        <input type="number" class="form-control input-sm" id="vacaciones" name="vacaciones" min="0" placeholder="Vacaciones">
                      </div>                  
                      <label for="comisiones" class="col-md-1 control-label">Comisiones</label>
                      <div class="col-md-2">
-                        <input type="number" class="form-control input-sm" id="comisiones" name="comisiones" placeholder="Comisiones" min="0.01" step="0.01" required>
+                        <input type="number" class="form-control input-sm" id="comisiones" name="comisiones" placeholder="Comisiones" min="0" >
                      </div>   
                      <label for="es_usuario" class="col-md-1 control-label">¿Usuario?</label>
                      <div class="form-check col-md-1">
