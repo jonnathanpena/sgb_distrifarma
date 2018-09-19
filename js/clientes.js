@@ -30,6 +30,7 @@ function load() {
     timer = setTimeout(function() {
         cargar();
     }, 1000);
+    consultarSectores();
 }
 
 function cargar() {
@@ -194,6 +195,7 @@ $('#tipo_documento').change(function() {
 function detallar(id) {
     var urlCompleta = url + 'cliente/getById.php';
     $.post(urlCompleta, JSON.stringify({ df_id_cliente: id }), function(data, status, hrx) {
+        console.log('Detalle de Cliente para editar: ',data);
         $('#editTipo_documento').val(data.data[0].df_tipo_documento_cli);
         $('#editDocumento').val(data.data[0].df_documento_cli);
         $('#editRuc').val(data.data[0].df_documento_cli);
@@ -298,6 +300,7 @@ function update(cliente) {
 
 function nuevoCliente() {
     $('#span_documento').hide('slow');
+    consultarSectores();
 }
 
 function getByRUC() {
@@ -339,4 +342,22 @@ function getByRUC() {
             });
         }
     }, 100);
+}
+
+function consultarSectores() {
+    var urlCompleta = url + 'sector/getAll.php';
+    $('#sector').empty();
+    $('#sector').append('<option value="null">Seleccione...</option>');
+    $.get(urlCompleta, function(response) {
+        $.each(response.data, function(index, row){
+            $('#sector').append('<option value="'+ row.df_codigo_sector +'">'+ row.df_nombre_sector +'</option>');
+        });
+    });
+    $('#editSector').empty();
+    $('#editSector').append('<option value="null">Seleccione...</option>');
+    $.get(urlCompleta, function(response) {
+        $.each(response.data, function(index, row){
+            $('#editSector').append('<option value="'+ row.df_codigo_sector +'">'+ row.df_nombre_sector +'</option>');
+        });
+    });
 }

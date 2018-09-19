@@ -68,7 +68,7 @@ function consultarCliente() {
             var tr;
             if (response.data.length > 0) {
                 $.each(response.data, function(index, row) {
-                    tr = $('<tr style="cursor: pointer;" onclick="seleccionarCliente(' + row.df_id_cliente + ', ' + row.df_documento_cli + ', `' + row.df_nombre_cli + '` )"/>');
+                    tr = $('<tr style="cursor: pointer;" onclick="seleccionarCliente(' + row.df_id_cliente + ', ' + row.df_documento_cli + ', ' + row.df_sector_cod + ', `' + row.df_nombre_cli + '` )"/>');
                     tr.append("<td>" + row.df_codigo_cliente + "</td>");
                     tr.append("<td>" + row.df_tipo_documento_cli + "</td>");
                     tr.append("<td>" + row.df_documento_cli + "</td>");
@@ -83,11 +83,12 @@ function consultarCliente() {
     }, 1000);
 }
 
-function seleccionarCliente(id_cliente, documento, nombre) {
+function seleccionarCliente(id_cliente, documento, sector, nombre) {
     $('#consultarClientes').modal('hide');
     $('#documento_cliente').val(documento);
     $('#cliente_id').val(id_cliente);
     $('#nombre_cliente').val(nombre);
+    $('#sector').val(sector);
 }
 
 function buscarProductos() {
@@ -172,7 +173,7 @@ function getCliente() {
             var tr;
             if (response.data.length > 0) {
                 $.each(response.data, function(index, row) {
-                    tr = $('<tr style="cursor: pointer;" onclick="seleccionarCliente(' + row.df_id_cliente + ', ' + row.df_documento_cli + ', `' + row.df_nombre_cli + '` )"/>');
+                    tr = $('<tr style="cursor: pointer;" onclick="seleccionarCliente(' + row.df_id_cliente + ', ' + row.df_documento_cli + ', ' + row.df_sector_cod + ', `' + row.df_nombre_cli + '` )"/>');
                     tr.append("<td>" + row.df_codigo_cliente + "</td>");
                     tr.append("<td>" + row.df_tipo_documento_cli + "</td>");
                     tr.append("<td>" + row.df_documento_cli + "</td>");
@@ -394,7 +395,6 @@ function seleccionaUnidad(codigo) {
         descuento = descuento.toFixed(2);
     }
     $('#costo_' + codigo).empty();
-    $('#costo_' + codigo).append('<option value="null">Seleccione...</option>');
-    $('#costo_' + codigo).append('<option value="' + normal + '">Normal $' + normal + '</option>');
+    $('#costo_' + codigo).append('<option value="' + normal + '" selected>Normal $' + normal + '</option>');
     $('#costo_' + codigo).append('<option value="' + descuento + '">Descuento $' + descuento + '</option>');
 }

@@ -62,9 +62,6 @@
                             <label for="editSector" class="col-sm-3 control-label">Sector</label>
                             <div class="col-sm-8">
                                 <select class="form-control" name="editSector" id="editSector">
-                                    <option value="null">Seleccione...</option>
-                                    <option value="1">Sector 1</option>
-                                    <option value="2">Sector 2</option>
                                 </select>
                             </div>
                         </div>
