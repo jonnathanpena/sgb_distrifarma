@@ -149,6 +149,27 @@ function crearObjetoDetalle(id, id_usuario) {
         df_usuario_detper: id_usuario,
         df_fecha_proceso: fecha
     };
+    if (detalle.df_anticipo_detper == ''){
+        detalle.df_anticipo_detper = 0;
+    }
+    if (detalle.df_bono_detper == ''){
+        detalle.df_bono_detper = 0;
+    }
+    if (detalle.df_comisiones_detper == ''){
+        detalle.df_comisiones_detper = 0;
+    }
+    if (detalle.df_decimos_detper == ''){
+        detalle.df_decimos_detper = 0;
+    }
+    if (detalle.df_descuento_detper == ''){
+        detalle.df_descuento_detper = 0;
+    }
+    if (detalle.df_tabala_comision_detper == ''){
+        detalle.df_tabala_comision_detper = 0;
+    }
+    if (detalle.df_vacaciones_detper == ''){
+        detalle.df_vacaciones_detper = 0;
+    }
     insertDetalle(detalle);
 }
 
@@ -210,6 +231,7 @@ function cancelar() {
 function getDocumento() {
     var urlCompleta = url + 'personal/getByDocumento.php';
     $.post(urlCompleta, JSON.stringify({ df_documento_per: $('#documento').val() }), function(response) {
+        console.log('Respuesta getdocumento ',response);
         if (response.data.length > 0) {
             $('#span_documento').show('slow');
             $('#btn-guardar').prop('disabled', true);
