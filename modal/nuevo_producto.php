@@ -1,0 +1,77 @@
+<!-- Modal -->
+<div class="modal fade" id="nuevoProducto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><i class='glyphicon glyphicon-edit'></i> Nuevo producto</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="guardar_producto" name="guardar_producto">
+                    <div id="resultados_ajax"></div>
+                        <div class="form-group">
+                            <label for="nombre" class="col-sm-3 control-label">Nombre</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="nombre" name="nombre" autofocus required> 
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="ppp" class="col-sm-3 control-label">PPP</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control" id="ppp" name="ppp" min="0.01" step="0.01" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pvt1" class="col-sm-3 control-label">PVT1</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control" id="pvt1" name="pvt1" min="0.01" step="0.01" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pvt2" class="col-sm-3 control-label">PVT2</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control" id="pvt2" name="pvt2" min="0.01" step="0.01" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pvp" class="col-sm-3 control-label">PVP</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control" id="pvp" name="pvp" min="0.01" step="0.01" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="iva" class="col-sm-3 control-label">IVA</label>
+                            <div class="col-sm-8">
+                                <select name="iva" id="iva" class="form-control"></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="min" class="col-sm-3 control-label">Min Sugerido</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control" id="min" name="min" min="1" step="1" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="unidad_caja" class="col-sm-3 control-label">Unidad x caja</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control" id="unidad_caja" name="unidad_caja" min="1" step="1" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="utilidad" class="col-sm-3 control-label">Utilidad</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control" id="utilidad" name="utilidad" min="0.01" step="0.01" required>
+                            </div>
+                        </div>
+                    </div>
+                <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-primary" id="guardar">Guardar</button>
+        </div>
+    </form>
+</div>
+</div>
+</div>
+
+
+
