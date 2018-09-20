@@ -113,6 +113,7 @@ function detalleFacturas(fact, sector, posicion) {
             facturas.splice(facturas[posicion], 1);
         }
         llenarTablaFacturas();
+        console.log('facturas', facturas);
     });
 }
 
@@ -145,12 +146,17 @@ function seleccionarFactura(numFactura) {
     if ($('#check_factura_' + numFactura).prop('checked') == true) {
         $('#check_factura_' + numFactura).prop('checked', false);
         var contador = 0;
-        $.each(facturas, function(index, row) {
-            if (row.df_num_factura == numFactura) {
-                seleccionadas.splice(contador, 1);
-            }
+        var seguir = true;
+        $.each(seleccionadas, function(index, row) {
+            if (seguir){
+                if (row.df_num_factura == numFactura) {
+                    seguir = false;
+                    seleccionadas.splice(contador, 1);
+                }
+            }            
             contador++;
         });
+        $('#table_productos tbody').html('<p><img src="./img/ajax-loader.gif"> Cargando...</p>');
         clearTimeout(timer);
         timer = setTimeout(function() {
             poblarDetalles();
@@ -158,10 +164,13 @@ function seleccionarFactura(numFactura) {
     } else if ($('#check_factura_' + numFactura).prop('checked') == false) {
         $('#check_factura_' + numFactura).prop('checked', true);
         $.each(facturas, function(index, row) {
+            console.log('else row.df_num_factura: ', row.df_num_factura);
+            console.log('else numFactura: ', numFactura);
             if (row.df_num_factura == numFactura) {
                 seleccionadas.push(row);
             }
         });
+        $('#table_productos tbody').html('<p><img src="./img/ajax-loader.gif"> Cargando...</p>');
         clearTimeout(timer);
         timer = setTimeout(function() {
             poblarDetalles();
@@ -170,9 +179,9 @@ function seleccionarFactura(numFactura) {
     $('#facturas').val(seleccionadas.length);
 }
 
-function poblarDetalles() {
-    $('#table_productos tbody').empty();
+function poblarDetalles() {    
     var temp = [];
+    $('#table_productos tbody').empty();
     $.each(seleccionadas, function(index, row) {
         for (var i = 0; i < row.detalles.length; i++) {
             temp.push({
@@ -196,6 +205,7 @@ function generateTablaDetalles(temp) {
     console.log('temp', temp);
     var totalProductos = 0;
     var posicion = 0;
+    $('#table_productos tbody').empty();
     $.each(temp, function(index, row) {
         /*
                 for (var i = 0; i < temp.length; i++) {
@@ -218,6 +228,9 @@ function generateTablaDetalles(temp) {
         $('#table_productos tbody').append(tr);
         $('#cantidad').val(totalProductos);
     });
+    if (temp.length == 0) {
+        $('#cantidad').val('0');
+    }
 }
 
 $('#form_nueva_guia').submit(function(event) {

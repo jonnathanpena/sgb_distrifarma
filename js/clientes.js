@@ -40,6 +40,9 @@ function cargar() {
     $.post(urlCompleta, JSON.stringify({ df_nombre_cli: q }), function(data, status, xhr) {
         if (data.data.length > 0) {
             $('#resultados .table-responsive table tbody').html('');
+            data.data.sort(function (a, b){
+                return (b.df_id_cliente - a.df_id_cliente)
+              });
             records = data.data;
             totalRecords = records.length;
             totalPages = Math.ceil(totalRecords / recPerPage);

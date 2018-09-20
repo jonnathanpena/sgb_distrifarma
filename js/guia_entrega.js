@@ -45,6 +45,9 @@ function cargar() {
         });
         clearTimeout(timer);
         timer = setTimeout(function() {
+            guias.sort(function (a, b){
+                return (b.df_num_guia_entrega - a.df_num_guia_entrega)
+              });
             records = guias;
             totalRecords = records.length;
             totalPages = Math.ceil(totalRecords / recPerPage);

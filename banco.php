@@ -69,6 +69,7 @@
                         <table class="table">
                             <thead>
                                 <tr class="info">
+                                    <th>#</th>
                                     <th>Fecha</th>
                                     <th>Usuario</th>
                                     <th>Movimiento</th>
