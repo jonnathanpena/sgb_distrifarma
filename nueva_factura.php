@@ -57,7 +57,7 @@ include("modal/consultar_productos.php");
                      </div>
                      <label for="sector" class="col-md-1 control-label">Sector</label>
                      <div class="col-md-2">
-                        <select name="sector" id="sector" class="form-control">
+                        <select name="sector" id="sector" class="form-control" disabled>
                             <option value="null">Seleccione...</option>
                         </select>
                      </div>
