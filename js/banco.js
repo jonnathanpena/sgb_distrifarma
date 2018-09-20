@@ -31,6 +31,8 @@ $(document).ready(function() {
 function load() {
     bancos = [];
     records = [];
+    selectDetalles();
+    selectDetallesIngreso();
     var urlCompleta = url + 'banco/getAll.php';
     $.get(urlCompleta, function(response) {
         if (response.data.length > 0) {
@@ -211,21 +213,27 @@ function insertIngreso(ingreso) {
 function selectDetalles(){
     var urlCompleta = url + 'banco/getAutocomplete.php';
     $.get(urlCompleta, function(response){
-        return response.data;
+        localStorage.setItem('distrifarma_autocomplete_banco', JSON.stringify(response.data));
     });
 }
 
 var opciones = {
-    url: selectDetalles(),
-    getValue: 'df_detalle_mov_banco',
-    list: {
-        match: {
-            enable: true
-        }
-    }
+    data: JSON.parse(localStorage.getItem('distrifarma_autocomplete_banco'))
 };
 
-function getValue(elemento) {
-    return elemento.df_detalle_mov_banco;
-}
 $('#movimiento').easyAutocomplete(opciones);
+
+
+function selectDetallesIngreso(){
+    var urlCompleta = url + 'banco/getAutocompleteIng.php';
+    $.get(urlCompleta, function(response){
+        localStorage.setItem('distrifarma_autocomplete_bancoingreso', JSON.stringify(response.data));
+    });
+}
+
+var opcionesing = {
+    data: JSON.parse(localStorage.getItem('distrifarma_autocomplete_bancoingreso'))
+};
+
+$('#detalle').easyAutocomplete(opcionesing);
+$('div .easy-autocomplete').removeAttr("style");

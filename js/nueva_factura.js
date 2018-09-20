@@ -305,12 +305,12 @@ function insertarFactura(factura) {
         var id_factura = response;
         var inserto = true;
         $('table#table_productos tbody tr').each(function(a, b) {
-            var id_precio = $('.id_precio', b).text();
+            var id_precio = $('.id_producto', b).text(); //cambiado id_precio por id_producto
             var precio = $('.precio_unitario', b).text() * 1;
             var cantidad = $('.cantidad', b).text() * 1;
             var valor_sin_iva = $('.subtotal', b).text() * 1;
             var iva = $('.iva', b).text() * 1;
-            var total_tupla = $('.total_tupla_producto', b).text() * 1;
+            var total_tupla = ($('.total_tupla_producto', b).text() * 1) + iva;
             var nombre_unidad = $('.unidad', b).text();
             var unidad_caja = $('.unidad_caja', b).text();
             var cant_x_und = 0;

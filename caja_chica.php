@@ -13,6 +13,8 @@
 <html lang="en">
   <head>
     <?php include("head.php");?>
+    <link rel="stylesheet" href="libraries/autocomplete/easy-autocomplete.min.css"> 
+    <link rel="stylesheet" href="libraries/autocomplete/easy-autocomplete.themes.min.css">
   </head>
   <body>
 <?php
@@ -89,6 +91,7 @@
 <?php
     include("footer.php");
 ?>
+    <script src="libraries/autocomplete/jquery.easy-autocomplete.min.js"></script>
     <script type="text/javascript" src="js/config.js"></script>
     <script type="text/javascript" src="js/caja_chica.js"></script>
     </body>
