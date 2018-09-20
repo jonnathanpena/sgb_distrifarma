@@ -24,7 +24,7 @@ $fecha = date("d/m/Y");
                         <div class="form-group">
                             <label for="fecha" class="col-sm-3 control-label">Fecha</label>
                             <div class="col-sm-8">
-                                <input type="datetime" class="form-control" id="fecha" name="fecha" value="<?php echo $fecha; ?>" require>
+                                <input type="date" class="form-control" id="fecha" name="fecha" value="<?php echo $fecha; ?>" require>
                             </div>
                         </div>
                         <div class="form-group">

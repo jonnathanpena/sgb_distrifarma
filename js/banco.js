@@ -9,6 +9,7 @@ var timer;
 var items = [];
 var bancos = [];
 var saldo = 0;
+var detalles = [];
 
 $(document).ready(function() {
     usuario = JSON.parse(localStorage.getItem('distrifarma_test_user'));
@@ -41,6 +42,15 @@ function load() {
         }
         clearTimeout(timer);
         timer = setTimeout(function() {
+            bancos.sort(function(a,b) {
+                if (a.df_fecha_banco > b.df_fecha_banco){
+                    return -1;
+                }
+                if (a.df_fecha_banco < b.df_fecha_banco){
+                    return 1;
+                }
+                return 0;
+            })
             records = bancos;
             totalRecords = records.length;
             totalPages = Math.ceil(totalRecords / recPerPage);
@@ -75,18 +85,15 @@ function generate_table() {
         var dia = f.split('-')[2];
         var mes = f.split('-')[1];
         var ano = f.split('-')[0];
-        var hora = time.split(':')[0];
-        var min = time.split(':')[1];
-        var seg = time.split(':')[2];
-        var fecha = dia + '/' + mes + '/' + ano + ' ' + hora + ':' + min + ':' + seg;
+        var fecha = dia + '/' + mes + '/' + ano; 
         tr = $('<tr/>');
         tr.append("<td>" + fecha + "</td>");
         tr.append("<td>" + row.df_usuario_usuario + "</td>");
         tr.append("<td>" + row.df_tipo_movimiento + "</td>");
         tr.append("<td>" + row.df_detalle_mov_banco + "</td>");
         tr.append("<td>" + row.df_num_documento_banco + "</td>");
-        tr.append("<td class='text-center'> $ " + Number(row.df_monto_banco).toFixed(2) + "</td>");
-        tr.append("<td class='text-center'> $ " + Number(row.df_saldo_banco).toFixed(2) + "</td>");        
+        tr.append("<td class='text-center'> $ " + Number(row.df_monto_banco).toFixed(3) + "</td>");
+        tr.append("<td class='text-center'> $ " + Number(row.df_saldo_banco).toFixed(3) + "</td>");        
         //tr.append("<td><button class='btn btn-default pull-right' title='Detallar' onclick='detallar(" + row.df_id_gasto + ",`" + row.tipo + "`, `"+ row.df_movimiento +"`)'><i class='glyphicon glyphicon-edit'></i></button></td>");
         $('#resultados .table-responsive table tbody').append(tr);
     })         
@@ -118,13 +125,13 @@ function nuevoIngreso() {
 function calcularIngreso() {
     var ingresa = $('#valor').val() * 1;
     var aFavor = saldo + ingresa;
-    $('#saldo_ingreso').val(aFavor.toFixed(2));
+    $('#saldo_ingreso').val(aFavor.toFixed(3));
 }
 
 function calcularEgreso() {
     var egreso = $('#valor_egreso').val() * 1;
     var aFavor = saldo - egreso;
-    $('#saldo').val(aFavor.toFixed(2));
+    $('#saldo').val(aFavor.toFixed(3));
 }
 
 $('#guardar_egreso').submit(function(event) {
@@ -133,15 +140,7 @@ $('#guardar_egreso').submit(function(event) {
         alertar('warning','¡Advertencia!','Todos los campos son obligtorios');
     } else {
     var f = $('#fecha_egreso').val();
-    var fecha = f.split('T')[0];
-    var dia = fecha.split('-')[2];
-    var mes = fecha.split('-')[1];
-    var anio = fecha.split('-')[0];    
-    var tiempo = f.split('T')[1];
-    var hora = tiempo.split(':')[0];
-    var min = tiempo.split(':')[0];
-    var seg = '00';
-    var datetime = anio + '-' + mes + '-' + dia + ' ' + hora + ':' + min + ':' +seg;
+    var datetime = f + ' 00:00:00';
 
     var egreso = {
         df_fecha_banco: datetime,
@@ -178,15 +177,7 @@ $('#guardar_ingreso').submit(function(event) {
         alertar('warning','¡Advertencia!','Todos los campos son obligtorios');
     } else {
     var f = $('#fecha').val();
-    var fecha = f.split('T')[0];
-    var dia = fecha.split('-')[2];
-    var mes = fecha.split('-')[1];
-    var anio = fecha.split('-')[0];    
-    var tiempo = f.split('T')[1];
-    var hora = tiempo.split(':')[0];
-    var min = tiempo.split(':')[0];
-    var seg = '00';
-    var datetime = anio + '-' + mes + '-' + dia + ' ' + hora + ':' + min + ':' +seg;
+    var datetime = f + ' 00:00:00';
 
     var ingreso = {
         df_fecha_banco: datetime,
@@ -216,3 +207,25 @@ function insertIngreso(ingreso) {
         load();
     });
 }
+
+function selectDetalles(){
+    var urlCompleta = url + 'banco/getAutocomplete.php';
+    $.get(urlCompleta, function(response){
+        return response.data;
+    });
+}
+
+var opciones = {
+    url: selectDetalles(),
+    getValue: 'df_detalle_mov_banco',
+    list: {
+        match: {
+            enable: true
+        }
+    }
+};
+
+function getValue(elemento) {
+    return elemento.df_detalle_mov_banco;
+}
+$('#movimiento').easyAutocomplete(opciones);
