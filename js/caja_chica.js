@@ -37,14 +37,44 @@ function load() {
     egresos = [];
     saldo = 0;
     items = [];
+    caja = [];
     selectMovimientos();
-    var urlCompleta = url + 'cajaChicaIngreso/getAll.php';
+    /*var urlCompleta = url + 'cajaChicaIngreso/getAll.php';
     $.get(urlCompleta, function(response) {
         if (response.data.length > 0) {
             ingresos = response.data;
             estatus = true;
         }
         getEgresos();
+    });    */
+    var urlCompleta = url + 'cajaChicaGasto/getMes.php';
+    $.get(urlCompleta, function(response) {
+        console.log('response ',response.data);
+        if (response.data.length > 0) {
+            $('#saldo_caja').val(response.data[0].df_saldo * 1);
+            saldo = response.data[0].df_saldo * 1; 
+            caja = response.data;           
+        }
+        console.log(caja);
+        clearTimeout(timer);
+        timer = setTimeout(function() {
+           /* caja.sort(function (a, b){
+              return (a.df_fecha_gasto - b.df_fecha_gasto)
+            });*/
+            caja.sort(function(a,b) {
+                if (a.df_fecha_gasto > b.df_fecha_gasto){
+                    return -1;
+                }
+                if (a.df_fecha_gasto < b.df_fecha_gasto){
+                    return 1;
+                }
+                return 0;
+            });
+            records = caja;
+            totalRecords = records.length;
+            totalPages = Math.ceil(totalRecords / recPerPage);
+            apply_pagination();
+        }, 1000);
     });
 }
 
@@ -53,6 +83,7 @@ function getEgresos() {
     $.get(urlCompleta, function(response) {
         if (response.data.length > 0) {
             egresos = response.data;
+            console.log('getEgresos ', egresos);
             if (ingresos.length > 0) {
                 var fecha_ingreso = new Date(ingresos[0].df_fecha_ingreso);
                 var fecha_egreso = new Date(egresos[0].df_fecha_gasto);
@@ -78,7 +109,8 @@ function llenarTabla() {
     $('#resultados .table-responsive table tbody').empty();
     var urlCompleta = url + 'cajaChicaGasto/getMes.php';
     $.get(urlCompleta, function(response) {
-        response.data.sort(function(a,b) {
+        console.log('llenar tabla: ',response.data);
+      /*  response.data.sort(function(a,b) {
             if (a.df_fecha_gasto > b.df_fecha_gasto){
                 return -1;
             }
@@ -86,7 +118,7 @@ function llenarTabla() {
                 return 1;
             }
             return 0;
-        })
+        })*/
         records = response.data;
         totalRecords = records.length;
         totalPages = Math.ceil(totalRecords / recPerPage);
@@ -97,28 +129,47 @@ function llenarTabla() {
 var cajasChicas = [];
 
 function generate_table() {
-    cajasChicas = [];
+    $('#resultados .table-responsive table tbody').empty();
+    $.each(displayRecords, function(index, row) {
+        var tr;
+        var f = row.df_fecha_gasto.split(' ')[0];
+        var time = row.df_fecha_gasto.split(' ')[1];
+        var dia = f.split('-')[2];
+        var mes = f.split('-')[1];
+        var ano = f.split('-')[0];
+        var fecha = dia + '/' + mes + '/' + ano; 
+        tr = $('<tr/>');
+        tr.append("<td>" + fecha + "</td>");
+        tr.append("<td>" + row.df_usuario_usuario + "</td>");
+        tr.append("<td>" + row.df_movimiento + "</td>");
+        if (row.tipo == 'E') {
+            tr.append("<td class='text-center'>0.000</td>");
+            tr.append("<td class='text-center'>" + row.df_gasto + "</td>");
+        } else {
+            tr.append("<td class='text-center'>" + row.df_gasto + "</td>");
+            tr.append("<td class='text-center'>0.000</td>");
+        }
+        tr.append("<td>" + row.df_saldo + "</td>");      
+        $('#resultados .table-responsive table tbody').append(tr);
+    })         
+    /*cajasChicas = [];
     $('#resultados .table-responsive table tbody').empty();
     for (var i = 0; i < displayRecords.length; i++) {
         getUsuario(displayRecords[i]);
     }
     clearTimeout(timer);
     timer = setTimeout(function(){
-        cajasChicas.sort(function(a,b) {
-            if (Date(a.fecha) > Date(b.fecha)){
-                return -1;
-            }
-            if (Date(a.fecha) < Date(b.fecha)){
-                return 1;
-            }
-            return 0;
-        })
+        console.log('generate table timer', cajasChicas);
+        cajasChicas.sort(function (a, b){
+            return (b.fecha - a.fecha)
+          });
         poblarTabla();
-    }, 1000);
+    }, 1000);*/
 }
 
 function poblarTabla() {
     $.each(cajasChicas, function(index,row) {
+        console.log('poblartbla');
         tr = $('<tr/>');
         tr.append("<td>" + row.fecha + "</td>");
         tr.append("<td>" + row.personal + "</td>");
@@ -151,7 +202,7 @@ function getUsuario(row) {
             cajasChicas.push(
                 {
                     fecha: fecha,
-                    personal: response.data[0].df_nombre_usuario + ' ' + response.data[0].df_apellido_usuario,
+                    personal: response.data[0].df_usuario_usuario,//response.data[0].df_nombre_usuario + ' ' + response.data[0].df_apellido_usuario,
                     tipo: row.tipo,
                     movimiento: row.df_movimiento,
                     gasto: Number(row.df_gasto).toFixed(3),
@@ -188,7 +239,7 @@ function apply_pagination() {
     displayRecordsIndex = Math.max(page - 1, 0) * recPerPage;
     endRec = (displayRecordsIndex) + recPerPage;
     displayRecords = records.slice(displayRecordsIndex, endRec);
-    //generate_table();
+    generate_table();
     $pagination.twbsPagination({
         totalPages: totalPages,
         visiblePages: 6,
@@ -217,7 +268,7 @@ function insertarTablaEgreso(item) {
             tr = $('<tr/>');
             tr.append("<td>" + item.df_id_gasto + "</td>");
             tr.append("<td>" + item.df_fecha_gasto.split(' ')[0] + "</td>");
-            tr.append("<td>" + response.data[0].df_nombre_usuario + ' ' + response.data[0].df_apellido_usuario + "</td>");
+            tr.append("<td>" + response.data[0].df_usuario_usuario +/*response.data[0].df_nombre_usuario + ' ' + response.data[0].df_apellido_usuario +*/ "</td>");
             tr.append("<td>" + item.df_movimiento + "</td>");
             tr.append("<td class='text-center'>0.00</td>");
             tr.append("<td class='text-center'>" + Number(item.df_gasto).toFixed(3) + "</td>");
@@ -242,7 +293,7 @@ function insertarTablaIngreso(item) {
             tr = $('<tr/>');
             tr.append("<td>" + item.df_id_ingreso_cc + "</td>");
             tr.append("<td>" + item.df_fecha_ingreso.split(' ')[0] + "</td>");
-            tr.append("<td>" + response.data[0].df_nombre_usuario + ' ' + response.data[0].df_apellido_usuario + "</td>");
+            tr.append("<td>" + response.data[0].df_usuario_usuario +/* response.data[0].df_nombre_usuario + ' ' + response.data[0].df_apellido_usuario +*/ "</td>");
             tr.append("<td>Ingreso</td>");
             tr.append("<td class='text-center'>" + Number(item.df_valor_cheque).toFixed(3) + "</td>");
             tr.append("<td class='text-center'>0.00</td>");
@@ -254,13 +305,13 @@ function insertarTablaIngreso(item) {
 }
 
 function insertarPersonalEnTablaEgreso(item, personalId) {
-    var urlCompleta = url + 'personal/getById.php';
+    var urlCompleta = url + 'usuario/getById.php';// 'personal/getById.php';
     var tr;
     $.post(urlCompleta, JSON.stringify({ df_id_personal: personalId }), function(response) {
         tr = $('<tr/>');
         tr.append("<td>" + item.df_id_gasto + "</td>");
         tr.append("<td>" + item.df_fecha_gasto.split(' ')[0] + "</td>");
-        tr.append("<td>" + response.data[0].df_nombre_per + ' ' + response.data[0].df_apellido_per + "</td>");
+        tr.append("<td>" + response.data[0].df_usuario_usuario + /*+ response.data[0].df_nombre_per + ' ' + response.data[0].df_apellido_per +*/ "</td>");
         tr.append("<td>" + item.df_movimiento + "</td>");
         tr.append("<td class='text-center'>0.00</td>");
         tr.append("<td class='text-center'>" + Number(item.df_gasto).toFixed(3) + "</td>");
@@ -271,13 +322,13 @@ function insertarPersonalEnTablaEgreso(item, personalId) {
 }
 
 function insertarPersonalEnTablaIngreso(item, personalId) {
-    var urlCompleta = url + 'personal/getById.php';
+    var urlCompleta = url + 'usuario/getById.php'; //'personal/getById.php';
     var tr;
     $.post(urlCompleta, JSON.stringify({ df_id_personal: personalId }), function(response) {
         tr = $('<tr/>');
         tr.append("<td>" + item.df_id_ingreso_cc + "</td>");
         tr.append("<td>" + item.df_fecha_ingreso.split(' ')[0] + "</td>");
-        tr.append("<td>" + response.data[0].df_nombre_per + ' ' + response.data[0].df_apellido_per + "</td>");
+        tr.append("<td>" + response.data[0].df_usuario_usuario + /*+ response.data[0].df_nombre_per + ' ' + response.data[0].df_apellido_per +*/ "</td>");
         tr.append("<td>Ingreso</td>");
         tr.append("<td class='text-center'>" + Number(item.df_valor_cheque).toFixed(3) + "</td>");
         tr.append("<td class='text-center'>0.00</td>");
@@ -388,6 +439,7 @@ function insertEgreso(egreso) {
         $('#nuevoEgreso').modal('hide');
         load();
     });
+    selectMovimientos();
 }
 
 $('#tipo').change(function() {
@@ -422,6 +474,7 @@ function consultarUsuarioEditarIngreso(ingreso) {
 function selectMovimientos(){
     var urlCompleta = url + 'cajaChicaGasto/getAutocomplete.php';
     $.get(urlCompleta, function(response){
+        console.log('opciones', response);
         localStorage.setItem('distrifarma_autocomplete_caja', JSON.stringify(response.data));
     });
 }

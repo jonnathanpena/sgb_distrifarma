@@ -44,15 +44,9 @@ function cargar() {
             });
             clearTimeout(timer);
             timer = setTimeout(function() {
-                facts.sort(function(a,b) {
-                    if (a.df_fecha_fac > b.df_fecha_fac){
-                        return -1;
-                    }
-                    if (a.df_fecha_fac < b.df_fecha_fac){
-                        return 1;
-                    }
-                    return 0;
-                })
+                facts.sort(function (a, b){
+                    return (b.df_num_factura - a.df_num_factura)
+                  });
                 records = facts;
                 totalRecords = records.length;
                 totalPages = Math.ceil(totalRecords / recPerPage);

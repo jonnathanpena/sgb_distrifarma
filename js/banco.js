@@ -44,15 +44,9 @@ function load() {
         }
         clearTimeout(timer);
         timer = setTimeout(function() {
-            bancos.sort(function(a,b) {
-                if (a.df_fecha_banco > b.df_fecha_banco){
-                    return -1;
-                }
-                if (a.df_fecha_banco < b.df_fecha_banco){
-                    return 1;
-                }
-                return 0;
-            })
+            bancos.sort(function (a, b){
+              return (b.df_id_banco - a.df_id_banco)
+            });
             records = bancos;
             totalRecords = records.length;
             totalPages = Math.ceil(totalRecords / recPerPage);
@@ -89,6 +83,7 @@ function generate_table() {
         var ano = f.split('-')[0];
         var fecha = dia + '/' + mes + '/' + ano; 
         tr = $('<tr/>');
+        tr.append("<td>" + row.df_id_banco + "</td>");
         tr.append("<td>" + fecha + "</td>");
         tr.append("<td>" + row.df_usuario_usuario + "</td>");
         tr.append("<td>" + row.df_tipo_movimiento + "</td>");
@@ -171,6 +166,7 @@ function insertEgreso(egreso) {
         $('#nuevoEgreso').modal('hide');
         load();
     });
+    selectDetalles();
 }
 
 $('#guardar_ingreso').submit(function(event) {
@@ -208,6 +204,7 @@ function insertIngreso(ingreso) {
         $('#nuevoIngreso').modal('hide');
         load();
     });
+    selectDetallesIngreso();
 }
 
 function selectDetalles(){
