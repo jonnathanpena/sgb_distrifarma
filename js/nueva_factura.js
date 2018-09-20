@@ -192,16 +192,16 @@ var acciones = '<a class="delete" title="Eliminar" data-toggle="tooltip"><i clas
 var precio = 10;
 
 function agregar(codigo, producto, id_producto, id_precio, iva) {
-    var cantidad = $('#cantidad_' + codigo).val();
-    var precio = $('#costo_' + codigo).val();
+    var cantidad = $('#cantidad_' + codigo).val() * 1;
+    var precio = $('#costo_' + codigo).val() * 1;
     var unidad = $('#unidad_' + codigo).val();
-    var unidad_caja = $('#und_caja' + codigo).val();
+    var unidad_caja = $('#und_caja' + codigo).val() * 1;
     if (precio == 'null' || cantidad < 1) {
         alert('Debe escoger valores reales');
     } else {
         var subtotal_tabla = cantidad * precio;
         var total_iva_tabla = subtotal_tabla * iva;
-        var total_tupla = subtotal_tabla + total_iva_tabla;
+        var total_tupla = subtotal_tabla;
         total_tupla = total_tupla.toFixed(2);
         var row = '<tr>' +
             '<td class="id_producto" style="display: none;">' + id_producto + '</td>' +
@@ -236,7 +236,7 @@ function calcular() {
     $('table#table_productos tbody tr').each(function(a, b) {
         subtotal += $('.subtotal', b).text() * 1;
         total_iva += $('.total_iva', b).text() * 1;
-        total += $('.total_tupla_producto', b).text() * 1;
+        total = subtotal + total_iva;//+= $('.total_tupla_producto', b).text() * 1;
     });
     $('#subtotal').html(subtotal.toFixed(2));
     $('#total_iva').html(total_iva.toFixed(2));
