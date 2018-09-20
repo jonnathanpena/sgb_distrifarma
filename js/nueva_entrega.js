@@ -182,7 +182,7 @@ function poblarDetalles() {
                 cantidad: row.detalles[i].df_cantidad_detfac,
                 factura: row.detalles[i].df_id_factura_detfac,
                 sector: row.sector,
-                numFactura: row.df_num_factura
+                numFactura: row.df_num_factura        
             });
         }
         clearTimeout(timer);
