@@ -56,17 +56,14 @@
                         <div class="form-group">
                             <label for="sector" class="col-sm-3 control-label">Sector</label>
                             <div class="col-sm-8">
-                                <select class="form-control" name="sector" id="sector" class="sector">
-                                    <option value="null">Seleccione...</option>
-                                    <option value="1">Sector 1</option>
-                                    <option value="2">Sector 2</option>
+                                <select class="form-control" name="sector" id="sector" class="sector">                                    
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="email" class="col-sm-3 control-label">Email</label>
                             <div class="col-sm-8">
-                                <input type="email" class="form-control" id="email" name="email" required>
+                                <input type="email" class="form-control" id="email" name="email">
                             </div>
                         </div>
                         <div class="form-group">
