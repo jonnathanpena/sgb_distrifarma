@@ -52,14 +52,14 @@ include("modal/editar_producto.php");
                             <tr class="info">
                                 <th>Código</th>
                                 <th>Nombre</th>
-                                <th class="text-center">PPP</th>
-                                <th class="text-center">PVT1</th>
-                                <th class="text-center">PVT2</th>
+                                <!--<th class="text-center">PPP</th>-->
+                                <th class="text-center">Normal</th>
+                                <th class="text-center">Descuento</th>
                                 <th class="text-center">PVP</th>
                                 <th class="text-center">IVA</th>
-                                <th class="text-center">Min Sugerido</th>
+                                <!--<th class="text-center">Min Sugerido</th>-->
                                 <th class="text-center">Unidad Caja</th>
-                                <th class="text-center">Utilidad</th>
+                                <!--<th class="text-center">Utilidad</th>-->
                                 <th class='text-right'>Acciones</th>
                             </tr>
                         </thead>

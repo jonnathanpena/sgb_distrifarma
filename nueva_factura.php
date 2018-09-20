@@ -67,6 +67,7 @@ include("modal/consultar_productos.php");
                             <option value="EFECTIVO" selected>Efectivo</option> 
                             <option value="TRANSFERENCIA">Transferencia</option>
                             <option value="CHEQUE">Cheque</option>                                                       
+                            <option value="CREDITO">Crédito</option>                                                       
                         </select>
                      </div>                                                          
                     </div>    

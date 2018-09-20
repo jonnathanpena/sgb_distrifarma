@@ -59,14 +59,14 @@ function generate_table() {
         tr = $('<tr/>');
         tr.append("<td>" + displayRecords[i].df_codigo_prod + "</td>");
         tr.append("<td>" + displayRecords[i].df_nombre_producto + "</td>");
-        tr.append("<td class='text-center'>" + displayRecords[i].df_ppp + "</td>");
+        //tr.append("<td class='text-center'>" + displayRecords[i].df_ppp + "</td>");
         tr.append("<td class='text-center'>" + displayRecords[i].df_pvt1 + "</td>");
         tr.append("<td class='text-center'>" + displayRecords[i].df_pvt2 + "</td>");
         tr.append("<td class='text-center'>" + displayRecords[i].df_pvp + "</td>");
         tr.append("<td class='text-center'>" + displayRecords[i].df_valor_impuesto + "%</td>");
-        tr.append("<td class='text-center'>" + displayRecords[i].df_min_sugerido + "</td>");
+        //tr.append("<td class='text-center'>" + displayRecords[i].df_min_sugerido + "</td>");
         tr.append("<td class='text-center'>" + displayRecords[i].df_und_caja + "</td>");
-        tr.append("<td class='text-center'>" + displayRecords[i].df_utilidad + "</td>");
+        //tr.append("<td class='text-center'>" + displayRecords[i].df_utilidad + "</td>");
         tr.append("<td><button class='btn btn-default pull-right' title='Detallar' onclick='detallar(" + displayRecords[i].df_id_producto + ")'><i class='glyphicon glyphicon-edit'></i></button></td>");
         $('#resultados .table-responsive table tbody').append(tr);
     }
@@ -138,20 +138,24 @@ $('#guardar_producto').submit(function(event) {
     event.preventDefault();
     var producto = {
         df_nombre_producto: $('#nombre').val(),
-        df_codigo_prod: ''
+        df_codigo_prod: $('#codigop').val()
     };
     var productoPrecio = {
         df_producto_id: '',
-        df_ppp: $('#ppp').val(),
+        df_ppp: 0,
         df_pvt1: $('#pvt1').val(),
         df_pvt2: $('#pvt2').val(),
         df_pvp: $('#pvp').val(),
         df_iva: $('#iva').val(),
-        df_min_sugerido: $('#min').val(),
+        df_min_sugerido: 0,
         df_und_caja: $('#unidad_caja').val(),
-        df_utilidad: $('#utilidad').val()
+        df_utilidad: 0
     };
-    getMaxId(producto, productoPrecio);
+    if (producto.df_codigo_prod == ''){
+        getMaxId(producto, productoPrecio);
+    } else {
+        insertProducto(producto, productoPrecio);
+    }
 });
 
 function getMaxId(producto, productoPrecio) {
@@ -192,6 +196,7 @@ function insertPrecioProducto(productoPrecio) {
         } else {
             alertar('danger', '¡Error!', 'Error al insertar, verifique que todo está bien e intente de nuevo');
         }
+        $('#codigop').val('');
         $('#nombre').val('');
         $('#ppp').val('');
         $('#pvt1').val('');
@@ -214,6 +219,7 @@ function detallar(id) {
 }
 
 function getProductoPrecioDetalle(producto) {
+    console.log('producto: ',producto);
     var urlCompleta = url + 'productoPrecio/getByProducto.php';
     $.post(urlCompleta, JSON.stringify({ df_producto_id: producto.df_id_producto }), function(response) {
         producto.df_id_precio = response.data[0].df_id_precio;
@@ -232,6 +238,7 @@ function getProductoPrecioDetalle(producto) {
 function getIvasDetalle(producto) {
     var urlCompleta = url + 'productoPrecio/getAllImpuesto.php';
     $.get(urlCompleta, function(response) {
+        console.log('detallar: ', response);
         $.each(response.data, function(index, row) {
             $('#editIva').append('<option value="' + row.df_id_impuesto + '">' + row.df_nombre_impuesto + ' - ' + row.df_valor_impuesto + '</option>')
         });
@@ -286,6 +293,6 @@ function updatePrecio() {
             alertar('danger', '¡Error!', 'Ocurrió un error, por favor, intenta nuevamente');
         }
         $('#editarProducto').modal('hide');
-        location.reload();
+        load();
     });
 }
