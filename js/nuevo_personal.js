@@ -21,9 +21,10 @@ function load() {
 
 $('#toggle-usuario').change(function() {
     var valor = $(this).prop('checked');
+    var cargo = $('#cargo').val();
     if (valor == true) {
         $('.usuario').show('slow');
-        $('#es_usuario').val('1');
+        $('#es_usuario').val('1');        
     } else {
         $('.usuario').hide('slow');
         $('#es_usuario').val('0');
@@ -46,6 +47,17 @@ $('#form_nuevo_personal').submit(function(event) {
                     if (clave.length > 0) {
                         if (confirme.length > 0) {
                             if (confirme == clave) {
+                                if( cargo == 'Supervisor' || cargo == 'Secretaria'){
+                                    $('#perfil').val('Supervisor');
+                                    var perfil = $('#perfil').val();
+                                    console.log('Cargo', $('#cargo').val());
+                                    console.log('Perfil', $('#perfil').val());
+                                } else if ( cargo == 'Vendedor' || cargo == 'Repartidor'){
+                                    $('#perfil').val('Ventas');
+                                    var perfil = $('#perfil').val();
+                                    console.log('Cargo', $('#cargo').val());
+                                    console.log('Perfil', $('#perfil').val());
+                                }
                                 if (perfil != 'null') {
                                     selectMaxID({
                                         df_tipo_documento_per: $('#tipo_documento').val(),

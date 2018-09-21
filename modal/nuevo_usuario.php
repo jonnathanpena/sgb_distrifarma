@@ -58,7 +58,8 @@
                                 <select name="perfil" id="perfil" class="form-control">
                                     <option value="null">Seleccione...</option>
                                     <option value="Administrador">Administrador</option>
-                                    <option value="Funcionario">Funcionario</option>
+                                    <option value="Supervisor">Supervisor</option>
+                                    <option value="Ventas">Ventas</option>
                                 </select>
                             </div>
                         </div>

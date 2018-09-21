@@ -57,6 +57,8 @@
                      <div class="col-md-2">
                         <select name="cargo" id="cargo" class="form-control">
                             <option value="null">Seleccione...</option>
+                            <option value="Supervisor">Supervisor</option>
+                            <option value="Secretaria">Secretaria</option>
                             <option value="Vendedor">Vendedor</option>
                             <option value="Repartidor">Repartidor</option>
                         </select>
@@ -115,17 +117,18 @@
                         <label for="confirme" class="col-md-1 control-label usuario">Repetir Clave</label>
                         <div class="col-md-2">
                             <input type="password" name="confirme" id="confirme" class="form-control usuario">
+                            <input type="hidden" id="perfil" >
                         </div>
-                        <div class="form-group">
+                        <!--<div class="form-group">
                             <label for="perfil" class="col-md-1 control-label usuario">Perfil</label>
                             <div class="col-md-2">
-                                <select name="perfil" id="perfil" class="form-control usuario">
+                                <select name="perfil" id="perfil" class="form-control usuario" disabled>
                                     <option value="null">Seleccione...</option>
-                                    <option value="Administrador">Adminitrador</option>
-                                    <option value="Funcionario">Funcionario</option>
+                                    <option value="Supervisor">Supervisor</option>
+                                    <option value="Ventas">Ventas</option>
                                 </select>
                             </div>
-                        </div>
+                        </div>-->
                    </div>
                     <div class="col-md-12">
                         <div class="pull-right">
