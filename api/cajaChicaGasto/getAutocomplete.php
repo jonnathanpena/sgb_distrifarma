@@ -15,7 +15,7 @@ $db = $database->getConnection();
 $cajaChicaGasto = new CajaChicaGasto($db);
  
 // query de lectura
-$stmt = $cajaChicaGasto->readMes();
+$stmt = $cajaChicaGasto->readAutocomplete();
 $num = $stmt->rowCount();
 
 //cajaChicaGasto array
@@ -34,19 +34,9 @@ if($num>0){
         extract($row);
         
         //Los nombres acá son iguales a los de la clase iguales a las columnas de la BD
-        $cajaChicaGasto_item=array(
-            "df_id_gasto"=>$df_id_gasto, 
-            "df_usuario_id"=>$df_usuario_id,
-            "df_usuario_usuario"=>$df_usuario_usuario,
-            "df_movimiento"=>$df_movimiento,
-            "df_gasto"=>$df_gasto,
-            "df_saldo"=>$df_saldo,
-            "df_fecha_gasto"=>$df_fecha_gasto,
-            "df_num_documento"=>$df_num_documento,
-            "tipo"=>$tipo
-        );
+        $valor = $df_movimiento;
  
-        array_push($cajaChicaGasto_arr["data"], $cajaChicaGasto_item);
+        array_push($cajaChicaGasto_arr["data"], $valor);
     }
  
     echo json_encode($cajaChicaGasto_arr);

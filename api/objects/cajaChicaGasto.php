@@ -14,7 +14,8 @@ class CajaChicaGasto {
     public $df_fecha_gasto;
     public $df_num_documento;
     public $df_ingreso_id;
-	public $tipo;
+    public $tipo;
+    public $df_usuario_usuario;
 
     //constructor con base de datos como conexión
     public function __construct($db){
@@ -43,14 +44,18 @@ class CajaChicaGasto {
     function readMes(){
     
         // select all query
-        $query = "(SELECT `df_id_gasto`, `df_usuario_id`, `df_movimiento`, `df_gasto`, `df_saldo`, `df_fecha_gasto`, `df_num_documento`, 'E' as tipo 
- 								FROM `df_caja_chica_gasto` 
-								 where df_fecha_gasto  BETWEEN NOW() - INTERVAL 30 DAY AND NOW()
-								 ORDER by df_fecha_gasto DESC) 
-							UNION (SELECT `df_id_ingreso_cc`, `df_usuario_id_ingreso`, 'Ingreso' as ingreso, `df_valor_cheque`, `df_saldo_cc`, `df_fecha_ingreso`, `df_num_cheque`,  'I' as tipo 
-								FROM `df_caja_chica_ingreso` 
-								WHERE df_fecha_ingreso BETWEEN NOW() - INTERVAL 30 DAY AND NOW()
-								ORDER BY df_fecha_ingreso desc) ORDER BY `df_fecha_gasto` DESC";
+        $query = "(SELECT `df_id_gasto`, `df_usuario_id`, US.df_usuario_usuario, `df_movimiento`, `df_gasto`, 
+                        `df_saldo`, `df_fecha_gasto`, `df_num_documento`, 'E' as tipo 
+                    FROM `df_caja_chica_gasto` AS  CC
+                    INNER JOIN `df_usuario` AS  US ON (CC.df_usuario_id = US.df_id_usuario)
+                    where df_fecha_gasto  BETWEEN NOW() - INTERVAL 30 DAY AND NOW()
+                    ORDER by df_fecha_gasto DESC) 
+                UNION (SELECT `df_id_ingreso_cc`, `df_usuario_id_ingreso`, USU.df_usuario_usuario, 
+                        'Ingreso' as ingreso, `df_valor_cheque`, `df_saldo_cc`, `df_fecha_ingreso`, `df_num_cheque`,  'I' as tipo 
+                    FROM `df_caja_chica_ingreso` AS  CI
+                    INNER JOIN `df_usuario` AS USU ON (CI.df_usuario_id_ingreso = USU.df_id_usuario)
+                    WHERE df_fecha_ingreso BETWEEN NOW() - INTERVAL 30 DAY AND NOW()
+                    ORDER BY df_fecha_ingreso desc) ORDER BY `df_fecha_gasto` DESC";
     
         // prepare query statement
         $stmt = $this->conn->prepare($query);
@@ -69,6 +74,21 @@ class CajaChicaGasto {
                     `df_fecha_gasto`, `df_num_documento`, df_ingreso_id 
                     FROM `df_caja_chica_gasto` 
                     WHERE df_id_gasto = ".$this->df_id_gasto;
+    
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+    
+        // execute query
+        $stmt->execute();
+    
+        return $stmt;
+    }
+
+    function readAutocomplete(){
+    
+        // select all query
+        $query = "SELECT DISTINCT `df_movimiento`
+                    FROM `df_caja_chica_gasto` ";
     
         // prepare query statement
         $stmt = $this->conn->prepare($query);

@@ -28,7 +28,7 @@ class Banco {
         $query = "SELECT `df_id_banco`, `df_fecha_banco`, `df_usuario_id_banco`, `df_tipo_movimiento`, `df_monto_banco` ,
                     `df_saldo_banco`, `df_num_documento_banco`, `df_detalle_mov_banco`, `df_modificadoBy_banco` 
                     FROM `df_banco`
-                    order by df_fecha_banco desc";
+                    order by df_id_banco desc";
     
         // prepare query statement
         $stmt = $this->conn->prepare($query);
@@ -48,6 +48,40 @@ class Banco {
                     `df_saldo_banco`, `df_num_documento_banco`, `df_detalle_mov_banco`, `df_modificadoBy_banco` 
                     FROM `df_banco`
                     WHERE df_id_banco = ".$this->df_id_banco;
+    
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+    
+        // execute query
+        $stmt->execute();
+    
+        return $stmt;
+    }
+
+    function readAutocomplete(){
+    
+        // select all query
+        $query = "SELECT DISTINCT  `df_detalle_mov_banco`
+                    FROM `df_banco`
+                    WHERE df_detalle_mov_banco LIKE '%".$this->df_detalle_mov_banco."%'
+                    and `df_tipo_movimiento` = 'Egreso'";
+    
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+    
+        // execute query
+        $stmt->execute();
+    
+        return $stmt;
+    }
+
+    function readAutocompleteIng(){
+    
+        // select all query
+        $query = "SELECT DISTINCT  `df_detalle_mov_banco`
+                    FROM `df_banco`
+                    WHERE df_detalle_mov_banco LIKE '%".$this->df_detalle_mov_banco."%'
+                    and `df_tipo_movimiento` = 'Ingreso'";
     
         // prepare query statement
         $stmt = $this->conn->prepare($query);

@@ -5,22 +5,22 @@ header("Content-Type: application/json; charset=UTF-8");
  
 // incluye la configuración de la base de datos y la conexión
 include_once '../config/database.php';
-include_once '../objects/cajaChicaGasto.php';
+include_once '../objects/retencionIR.php';
  
 // inicia la conexión a la base de datos
 $database = new Database();
 $db = $database->getConnection();
  
 // inicia el objeto
-$cajaChicaGasto = new CajaChicaGasto($db);
+$retencionIr = new RetencionIr($db);
  
 // query de lectura
-$stmt = $cajaChicaGasto->readMes();
+$stmt = $retencionIr->readAll();
 $num = $stmt->rowCount();
 
-//cajaChicaGasto array
-$cajaChicaGasto_arr=array();
-$cajaChicaGasto_arr["data"]=array();
+//retencionIr array
+$retencionIr_arr=array();
+$retencionIr_arr["data"]=array();
  
 // check if more than 0 record found
 if($num>0){ 
@@ -32,27 +32,22 @@ if($num>0){
         // this will make $row['name'] to
         // just $name only
         extract($row);
-        
+     
         //Los nombres acá son iguales a los de la clase iguales a las columnas de la BD
-        $cajaChicaGasto_item=array(
-            "df_id_gasto"=>$df_id_gasto, 
-            "df_usuario_id"=>$df_usuario_id,
-            "df_usuario_usuario"=>$df_usuario_usuario,
-            "df_movimiento"=>$df_movimiento,
-            "df_gasto"=>$df_gasto,
-            "df_saldo"=>$df_saldo,
-            "df_fecha_gasto"=>$df_fecha_gasto,
-            "df_num_documento"=>$df_num_documento,
-            "tipo"=>$tipo
+        $retencionIr_item=array(
+            "id_retencion_ir"=>$id_retencion_ir, 
+            "codigo_ret_ir"=>$codigo_ret_ir,
+            "nombre_ret_ir"=>$nombre_ret_ir,
+            "porcentaje_ret_ir"=>$porcentaje_ret_ir
         );
  
-        array_push($cajaChicaGasto_arr["data"], $cajaChicaGasto_item);
+        array_push($retencionIr_arr["data"], $retencionIr_item);
     }
  
-    echo json_encode($cajaChicaGasto_arr);
+    echo json_encode($retencionIr_arr);
 }
  
 else{
-    echo json_encode($cajaChicaGasto_arr);
+    echo json_encode($retencionIr_arr);
 }
 ?>

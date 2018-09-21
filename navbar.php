@@ -19,8 +19,8 @@
 					Administración 
 				</a>
 				<ul class="dropdown-menu">					
-					<!--<li><a href="libros_banco.php">Libros de Banco</a></li>
-					<li><a href="libros_diario.php">Libros Diario</a></li>-->
+					<!--<li><a href="libros_banco.php">Libros de Banco</a></li>-->
+					<li><a href="libro_diario.php">Libros Diario</a></li>
 					<li><a href="personal.php">Personal</a></li>
 					<li><a href="usuarios.php">Usuarios</a></li>
 				</ul>
@@ -46,6 +46,7 @@
 					<li><a href="proveedores.php">Proveedores</a></li>
 					<li><a href="caja_chica.php">Caja Chica</a></li>
 					<li><a href="banco.php">Banco</a></li>
+					<li><a href="compras.php">Compras</a></li>
 				</ul>
 			</li>
 
