@@ -60,6 +60,7 @@
 					<li><a href="guia_entrega.php">Guías de Entrega</a></li>
 					<li><a href="guia_remision.php">Guías de Remisión</a></li>
 					<li><a href="guia_recepcion.php">Guías de Recepción</a></li>
+					<li><a href="kardex.php">Kardex</a></li>
 				</ul>
 			</li>
 			<li class="<?php echo $active_reportes ?>"><a href="reportes.php"><i  class='glyphicon glyphicon-paste'></i> Reportes</a></li> 

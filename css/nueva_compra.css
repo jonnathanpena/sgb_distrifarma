@@ -127,3 +127,10 @@ table.table td .add {
     border-radius: 50px;
     line-height: 13px;
 }
+
+@media (min-width: 768px) {
+    .modal-dialog {
+        width: 800px;
+        margin: 30px auto;
+    }
+}

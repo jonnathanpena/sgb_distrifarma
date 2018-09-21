@@ -17,7 +17,23 @@
                                 </div>
                             </div>
                         </form>
-                        <div id="display_productos">
+                        <div class="table-responsive">
+                            <table class="table" id="tabla_productos">
+                                <thead>
+                                    <tr  class="info">
+                                        <th width="80">Código</th>
+                                        <th>Producto</th>
+                                        <th>Unidad</th>
+                                        <th width="80">Cantidad</th>
+                                        <th>Precio Unitario</th>
+                                        <th width="10">Agregar</th>
+                                    </tr>
+                                </thead>  
+                                <tbody></tbody> 
+                            </table>                             
+                        </div>
+                        <div id="pager" style="float: right;">
+                            <ul id="pagination" class="pagination-sm"></ul>
                         </div>
                     </div>
                 </div>
