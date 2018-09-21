@@ -46,9 +46,9 @@ $fecha = date("d/m/Y");
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="saldo" class="col-sm-3 control-label">Saldo</label>
+                            <label for="saldoCC" class="col-sm-3 control-label">Saldo</label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control" id="saldo" name="saldo" min="0.01" step="0.01" disabled>
+                                <input type="number" class="form-control" id="saldoCC" name="saldoCC" min="0.01" step="0.01" disabled>
                             </div>
                         </div>
                     </div>
