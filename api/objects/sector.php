@@ -40,7 +40,7 @@ class Sector {
                     FROM `df_sector` as sec
                     INNER JOIN `df_cliente` as cli on (sec.`df_codigo_sector` = cli.`df_sector_cod`)
                     INNER JOIN `df_factura` as fac on (fac.df_cliente_cod_fac = cli.df_id_cliente and 
-                                fac.df_edo_factura_fac = 1 and fac.df_fecha_entrega_fac = '".$this->fecha."')
+                                fac.df_edo_factura_fac = 1 and date(fac.df_fecha_entrega_fac) = '".$this->fecha."')
                     ORDER BY sec.`df_nombre_sector` ASC";
     
         // prepare query statement

@@ -66,6 +66,42 @@ class GuiaRecepcion {
     
         return $stmt;
     }
+
+    function readPendienteEnt(){
+    
+        // select all query
+        $query = "SELECT `df_num_guia_entrega`, `df_codigo_guia_ent`, `df_sector_ent`, `df_repartidor_ent`, 
+                    `df_cant_total_producto_ent`, `df_fecha_ent`, `df_creadoBy_ent`, `df_modificadoBy_ent`, 
+                    `df_guia_ent_recibido` FROM `df_guia_entrega` 
+                    WHERE `df_guia_ent_recibido` = 0 
+                    order by df_fecha_ent asc";
+    
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+    
+        // execute query
+        $stmt->execute();
+    
+        return $stmt;
+    }
+
+    function readPendienteRem(){
+    
+        // select all query
+        $query = "SELECT `df_guia_remision`, `df_codigo_rem`, `df_sector_cod_rem`, `df_vendedor_rem`, 
+                    `df_cant_total_producto_rem`, `df_fecha_remision`, `df_creadoBy_rem`, `df_modificadoBy_rem`,
+                    `df_guia_rem_recibido` FROM `df_guia_remision` 
+                    WHERE `df_guia_rem_recibido` = 0
+                    order by df_fecha_remision asc";
+    
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+    
+        // execute query
+        $stmt->execute();
+    
+        return $stmt;
+    }
     
     function readPendiente(){
     

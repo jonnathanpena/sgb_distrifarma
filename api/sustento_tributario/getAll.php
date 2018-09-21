@@ -5,22 +5,22 @@ header("Content-Type: application/json; charset=UTF-8");
  
 // incluye la configuración de la base de datos y la conexión
 include_once '../config/database.php';
-include_once '../objects/cajaChicaGasto.php';
+include_once '../objects/sustento_tributario.php';
  
 // inicia la conexión a la base de datos
 $database = new Database();
 $db = $database->getConnection();
  
 // inicia el objeto
-$cajaChicaGasto = new CajaChicaGasto($db);
+$sustento_tributario = new SustentoTributario($db);
  
 // query de lectura
-$stmt = $cajaChicaGasto->readMes();
+$stmt = $sustento_tributario->readAll();
 $num = $stmt->rowCount();
 
-//cajaChicaGasto array
-$cajaChicaGasto_arr=array();
-$cajaChicaGasto_arr["data"]=array();
+//sustento_tributario array
+$sustento_tributario_arr=array();
+$sustento_tributario_arr["data"]=array();
  
 // check if more than 0 record found
 if($num>0){ 
@@ -34,25 +34,16 @@ if($num>0){
         extract($row);
         
         //Los nombres acá son iguales a los de la clase iguales a las columnas de la BD
-        $cajaChicaGasto_item=array(
-            "df_id_gasto"=>$df_id_gasto, 
-            "df_usuario_id"=>$df_usuario_id,
-            "df_usuario_usuario"=>$df_usuario_usuario,
-            "df_movimiento"=>$df_movimiento,
-            "df_gasto"=>$df_gasto,
-            "df_saldo"=>$df_saldo,
-            "df_fecha_gasto"=>$df_fecha_gasto,
-            "df_num_documento"=>$df_num_documento,
-            "tipo"=>$tipo
+        $sustento_tributario_item=array(
+            "id_sustento"=>$id_sustento,
+            "nombre_sustento"=>$nombre_sustento
         );
  
-        array_push($cajaChicaGasto_arr["data"], $cajaChicaGasto_item);
+        array_push($sustento_tributario_arr["data"], $sustento_tributario_item);
     }
  
-    echo json_encode($cajaChicaGasto_arr);
+    
 }
  
-else{
-    echo json_encode($cajaChicaGasto_arr);
-}
+echo json_encode($sustento_tributario_arr);
 ?>

@@ -25,7 +25,10 @@ class LibroDiario {
     
         // select all query
         $query = "SELECT `df_id_libro_diario`, `df_valor_inicial_ld`, `df_fecha_ld`, `df_descipcion_ld`, 
-                    `df_ingreso_ld`, `df_egreso_ld` FROM `df_libro_diario` ORDER BY `df_fecha_ld` desc";
+                    `df_ingreso_ld`, `df_egreso_ld` 
+                    FROM `df_libro_diario` 
+                    where df_fecha_ld  BETWEEN NOW() - INTERVAL 30 DAY AND NOW()
+                    ORDER BY `df_fecha_ld` desc";
     
         // prepare query statement
         $stmt = $this->conn->prepare($query);
