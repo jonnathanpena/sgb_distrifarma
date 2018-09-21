@@ -491,7 +491,7 @@
                             <label class="control-label">Total Compra</label>                             
                         </td>
                         <td colspan="2">
-                            <input type="number" class="form-control input-sm" id="total_compra" value="0.00" disbaled>
+                            <input type="number" class="form-control input-sm" id="total_compra" value="0.00" disabled>
                         </td>
                     </tr>
                 </table>
