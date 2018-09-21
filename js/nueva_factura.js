@@ -6,6 +6,13 @@ var subtotal = 0;
 var total_iva = 0;
 var descuento = 0;
 var total = 0;
+var $pagination = $('#pagination'),
+    totalRecords = 0,
+    records = [],
+    displayRecords = [],
+    recPerPage = 10,
+    page = 1,
+    totalPages = 0;
 $(document).ready(function() {
     usuario = JSON.parse(localStorage.getItem('distrifarma_test_user'));
     if (usuario.ingreso == true) {
@@ -95,8 +102,8 @@ function buscarProductos() {
     productos = [];
     $('#consultarProductos').modal('show');
     var urlCompleta = url + 'producto/getAll.php';
-    $('#resultados .table-responsive table tbody').empty();
-    $.get(urlCompleta, function(response) {
+    $('#tabla_productos tbody').empty();
+    $.post(urlCompleta, JSON.stringify({ df_nombre_producto: $('#nombreCodigo').val() }), function(response) {
         if (response.data.length > 0) {
             $.each(response.data, function(index, row) {
                 consultarDetalleProducto(row);
@@ -104,22 +111,22 @@ function buscarProductos() {
             clearTimeout(timer);
             timer = setTimeout(function() {
                 llenarTablaProductos(productos);
-            }, 1000);
+            }, 800);
         } else {
-            $('#resultados .table-responsive table tbody').html('No existen usuarios registrados');
+            $('#tabla_productos tbody').html('No existen usuarios registrados');
         }
     });
 }
 
 function getAllProductos() {
     productos = [];
-    $('#resultados .table-responsive table tbody').empty();
+    $('#tabla_productos tbody').empty();
     clearTimeout(timer);
     timer = setTimeout(function() {
         var q = $('#nombreCodigo').val();
         var urlCompleta = url + 'producto/getAll.php';
         $.post(urlCompleta, JSON.stringify({ df_nombre_producto: q }), function(response) {
-            $('#resultados .table-responsive table tbody').empty();
+            $('#tabla_productos tbody').empty();
             if (response.data.length > 0) {
                 $.each(response.data, function(index, row) {
                     consultarDetalleProducto(row);
@@ -127,12 +134,12 @@ function getAllProductos() {
                 clearTimeout(timer);
                 timer = setTimeout(function() {
                     llenarTablaProductos(productos);
-                }, 1000);
+                }, 800);
             } else {
-                $('#resultados .table-responsive table tbody').html('No existen usuarios registrados');
+                $('#tabla_productos tbody').html('No existen usuarios registrados');
             }
         })
-    }, 1000);
+    }, 200);
 }
 
 function consultarDetalleProducto(producto) {
@@ -158,9 +165,42 @@ function consultarDetalleProducto(producto) {
 }
 
 function llenarTablaProductos(prod) {
-    console.log('productos', prod);
-    $.post('./ajax/buscar_productos.php', { data: prod }, function(response) {
-        $('#display_productos').html(response);
+    records = prod;
+    totalRecords = records.length;
+    totalPages = Math.ceil(totalRecords / recPerPage);
+    apply_pagination();
+}
+
+function apply_pagination() {
+    displayRecordsIndex = Math.max(page - 1, 0) * recPerPage;
+    endRec = (displayRecordsIndex) + recPerPage;
+    displayRecords = records.slice(displayRecordsIndex, endRec);
+    generate_table();
+    $pagination.twbsPagination({
+        totalPages: totalPages,
+        visiblePages: 6,
+        onPageClick: function(event, page) {
+            displayRecordsIndex = Math.max(page - 1, 0) * recPerPage;
+            endRec = (displayRecordsIndex) + recPerPage;
+            displayRecords = records.slice(displayRecordsIndex, endRec);
+            generate_table();
+        }
+    });
+}
+
+function generate_table() {
+    $('#tabla_productos tbody').empty();
+    var tr;
+    console.log('displayRecords', displayRecords);
+    $.each(displayRecords, function(index, row) {
+        tr = $('<tr/>');
+        tr.append('<td width="80">' + row.df_codigo_prod + ' <input type="hidden" value="' + row.df_id_producto + '" id="id_producto' + row.df_codigo_prod + '"></td>');
+        tr.append('<td>' + row.df_nombre_producto + ' <input type="hidden" value="' + row.df_id_precio + '" id="id_precio' + row.df_codigo_prod + '"> <input type="hidden" value="' + row.df_iva + '" id="id_iva' + row.df_codigo_prod + '"></td>');
+        tr.append('<td> <input type="hidden" value="' + row.df_pvt2 + '" id="precio_descuento' + row.df_codigo_prod + '"> <input type="hidden" value="' + row.df_pvt1 + '" id="precio_normal' + row.df_codigo_prod + '"> <input type="hidden" value="' + row.df_und_caja + '" id="und_caja' + row.df_codigo_prod + '">  <select class="form-control" id="unidad_' + row.df_codigo_prod + '" onchange="seleccionaUnidad(`' + row.df_codigo_prod + '`)"><option value="null">Seleccione...</option><option value="CAJA">Caja</option><option value="UND">Unidad</option></select></td>');
+        tr.append('<td width="80"><input type="number" class="form-control" id="cantidad_' + row.df_codigo_prod + '" value="1" ></td>');
+        tr.append('<td><select class="form-control" id="costo_' + row.df_codigo_prod + '"><option value="null">Seleccione...</option></select></td>');
+        tr.append('<td width="10"><span class="pull-right"><button class="btn btn-info" title="Agregar" onclick="agregar(`' + row.df_codigo_prod + '`, `' + row.df_nombre_producto + '`, `' + row.df_id_producto + '`, `' + row.df_id_precio + '`, `' + row.df_iva + '`);"><i class="fa fa-plus"></i></button></td>');
+        $('#tabla_productos tbody').append(tr);
     });
 }
 
@@ -236,7 +276,7 @@ function calcular() {
     $('table#table_productos tbody tr').each(function(a, b) {
         subtotal += $('.subtotal', b).text() * 1;
         total_iva += $('.total_iva', b).text() * 1;
-        total = subtotal + total_iva;//+= $('.total_tupla_producto', b).text() * 1;
+        total = subtotal + total_iva; //+= $('.total_tupla_producto', b).text() * 1;
     });
     $('#subtotal').html(subtotal.toFixed(2));
     $('#total_iva').html(total_iva.toFixed(2));

@@ -61,21 +61,19 @@ include("modal/consultar_productos.php");
                             <option value="null">Seleccione...</option>
                         </select>
                      </div>
-                     <label for="forma_pago" class="col-md-2 control-label">Forma de Pago</label>
+                     <label for="fecha_entrega" class="col-md-2 control-label">Fecha Entrega</label>
+                        <div class="col-md-2">
+                            <input type="date" class="form-control input-sm" id="fecha_entrega" name="fecha_entrega" required>
+                        </div>  
+                     <label for="forma_pago" class="col-md-2 control-label" style="display: none;">Forma de Pago</label>
                      <div class="col-md-2">
-                        <select name="forma_pago" id="forma_pago" class="form-control">
+                        <select name="forma_pago" id="forma_pago" class="form-control" style="display: none;">
                             <option value="EFECTIVO" selected>Efectivo</option> 
                             <option value="TRANSFERENCIA">Transferencia</option>
                             <option value="CHEQUE">Cheque</option>                                                       
                             <option value="CREDITO">Crédito</option>                                                       
                         </select>
-                     </div>                                                          
-                    </div>    
-                    <div class="form-group row">
-                        <label for="fecha_entrega" class="col-md-1 control-label">Fecha Entrega</label>
-                        <div class="col-md-2">
-                            <input type="date" class="form-control input-sm" id="fecha_entrega" name="fecha_entrega" required>
-                        </div>                                                      
+                     </div>                                                                               
                     </div>                  
                     <div class="col-md-12" style="margin-top: 20px;">
                         <div class="table-wrapper">
