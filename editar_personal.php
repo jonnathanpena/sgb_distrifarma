@@ -61,9 +61,11 @@
                      <div class="col-md-2">
                         <select name="cargo" id="cargo" class="form-control">
                             <option value="null">Seleccione...</option>
-                            <option value="Cargo1">Cargo 1</option>
-                            <option value="Cargo2">Cargo 2</option>
-                            <option value="Cargo3">Cargo 3</option>
+                            <option value="Administrador">Supervisor</option>
+                            <option value="Supervisor">Supervisor</option>
+                            <option value="Secretaria">Secretaria</option>
+                            <option value="Vendedor">Vendedor</option>
+                            <option value="Repartidor">Repartidor</option>
                         </select>
                      </div>
                      <label for="fecha_ingreso" class="col-md-1 control-label">F.Ingreso</label>
@@ -109,7 +111,7 @@
                         <input type="text" class="form-control input-sm" id="usuario" name="usuario" placeholder="usuario">
                      </div>                                                    
                    </div>
-                   <div class="form-group row">
+                   <div class="form-group row" style="display: none;">
                      <label for="perfil" class="col-md-1 control-label" id="label_perfil">Perfil</label>
                      <div class="col-md-2">
                         <select name="perfil" id="perfil" class="form-control">
