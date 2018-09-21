@@ -119,7 +119,7 @@ function detalleFacturas(fact, sector, posicion) {
 
 function eliminarSector(sector) {
     for (var i = facturas.length - 1; facturas.length > i; i--) {
-        if (i => 0) {
+        if (i > 0) {
             if (facturas[i].sector * 1 == sector) {
                 facturas.splice(facturas[i], 1);
             }
