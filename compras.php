@@ -48,8 +48,9 @@
                         <table class="table">
                             <thead>
                                 <tr class="info">
-                                    <th>Fecha</th>
+                                    <th>No.</th>
                                     <th>Usuario</th>
+                                    <th>Proveedor</th>
                                     <th class="text-center">Consumo ($)</th>
                                     <!--<th class='text-right'>Acciones</th>-->
                                 </tr>
