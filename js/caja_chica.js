@@ -39,14 +39,12 @@ function load() {
     items = [];
     caja = [];
     selectMovimientos();
-    /*var urlCompleta = url + 'cajaChicaIngreso/getAll.php';
+    var urlCompleta = url + 'banco/getAll.php';
     $.get(urlCompleta, function(response) {
         if (response.data.length > 0) {
-            ingresos = response.data;
-            estatus = true;
+            $('#saldo_banco').val(response.data[0].df_saldo_banco * 1);
         }
-        getEgresos();
-    });    */
+    });
     var urlCompleta = url + 'cajaChicaGasto/getMes.php';
     $.get(urlCompleta, function(response) {
         console.log('response ',response.data);
@@ -341,7 +339,7 @@ function insertarPersonalEnTablaIngreso(item, personalId) {
 function nuevoGasto() {
     document.getElementById("valor_egreso").max = saldo;
     $('#nuevoEgreso').modal('show');
-    $('#saldo').val(saldo);
+    $('#saldoCC').val(saldo);
     $('#usuario_egreso').html('');
     $('#usuario_egreso').append('<option value="' + usuario.df_id_usuario + '">' + usuario.df_usuario_usuario + '</option>');
 
@@ -349,7 +347,7 @@ function nuevoGasto() {
 
 function nuevoIngreso() {
     $('#nuevoIngreso').modal('show');
-    $('#saldo_ingreso').val(saldo);
+    $('#saldo_ingresoCC').val(saldo);
     $('#usuario').html('');
     $('#usuario').append('<option value="' + usuario.df_id_usuario + '">' + usuario.df_usuario_usuario + '</option>');
 }
@@ -357,13 +355,13 @@ function nuevoIngreso() {
 function calcularIngreso() {
     var ingresa = $('#valor').val() * 1;
     var aFavor = saldo + ingresa;
-    $('#saldo_ingreso').val(aFavor.toFixed(3));
+    $('#saldo_ingresoCC').val(aFavor.toFixed(3));
 }
 
 function calcularEgreso() {
     var egreso = $('#valor_egreso').val() * 1;
     var aFavor = saldo - egreso;
-    $('#saldo').val(aFavor.toFixed(3));
+    $('#saldoCC').val(aFavor.toFixed(3));
 }
 
 $('#guardar_ingreso').submit(function(event) {
@@ -380,16 +378,42 @@ $('#guardar_ingreso').submit(function(event) {
         df_usuario_id_ingreso: $('#usuario').val(),
         df_num_cheque: $('#documento').val(),
         df_valor_cheque: $('#valor').val(),
-        df_saldo_cc: $('#saldo_ingreso').val()
+        df_saldo_cc: $('#saldo_ingresoCC').val()
     };
+    var egresoBanco = {
+        df_fecha_banco: datetime,
+        df_usuario_id_banco: $('#usuario').val(),
+        df_tipo_movimiento: "Egreso",
+        df_monto_banco: $('#valor').val(),
+        df_saldo_banco: ($('#saldo_banco').val()  *1) - ($('#valor').val() * 1),
+        df_num_documento_banco: $('#documento').val(),
+        df_detalle_mov_banco: "Ingreso a Caja Chica"
+    };
+    insertEgresoBanco(egresoBanco);    
     insertIngreso(ingreso);
 });
+
+function insertEgresoBanco(egresoBanco) {
+    var urlCompleta = url + 'banco/insert.php';
+    console.log('egreso banco ', egresoBanco);
+    $.post(urlCompleta, JSON.stringify(egresoBanco), function(response) {
+        if (response != false) {
+            alertar('success', '¡Éxito!', 'Egreso de Banco registrado exitosamente');
+        } else {
+            alertar('danger', '¡Error!', 'Error al insertar, verifique que todo está bien e intente de nuevo');
+        }
+        $('#movimiento').val('');
+        $('#documento_egreso').val('');
+        $('#valor_egreso').val('');
+        $('#nuevoEgreso').modal('hide');
+    });
+}
 
 function insertIngreso(ingreso) {
     var urlCompleta = url + 'cajaChicaIngreso/insert.php';
     $.post(urlCompleta, JSON.stringify(ingreso), function(response) {
         if (response == true) {
-            alertar('success', '¡Éxito!', 'Ingreso registrado exitosamente');
+            alertar('success', '¡Éxito!', 'Ingreso Caja Chica registrado exitosamente');
         } else {
             alertar('danger', '¡Error!', 'Error al insertar, verifique que todo está bien e intente de nuevo');
         }
@@ -417,7 +441,7 @@ $('#guardar_egreso').submit(function(event) {
         df_usuario_id: $('#usuario_egreso').val(),
         df_movimiento: $('#movimiento').val(),
         df_gasto: $('#valor_egreso').val(),
-        df_saldo: $('#saldo').val(),
+        df_saldo: $('#saldoCC').val(),
         df_fecha_gasto: datetime,
         df_num_documento: $('#documento_egreso').val(),
         df_ingreso_id: ingreso_id
