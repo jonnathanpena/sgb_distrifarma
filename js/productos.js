@@ -44,6 +44,9 @@ function cargar() {
         }
         clearTimeout(timer);
         timer = setTimeout(function() {
+            productos.sort(function (a, b){
+                return (b.df_id_producto - a.df_id_producto)
+              });
             records = productos;
             totalRecords = records.length;
             totalPages = Math.ceil(totalRecords / recPerPage);

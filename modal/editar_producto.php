@@ -53,7 +53,7 @@
                         <div class="form-group">
                             <label for="editUnidad_caja" class="col-sm-3 control-label">Unidad x caja</label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control" id="editUnidad_caja" name="editUnidad_caja" min="1" step="1" disabled>
+                                <input type="number" class="form-control" id="editUnidad_caja" name="editUnidad_caja" min="1" step="1" required>
                             </div>
                         </div>
                     </div>
