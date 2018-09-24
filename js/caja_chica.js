@@ -52,7 +52,7 @@ function load() {
     $.get(urlCompleta, function(response) {
         console.log('response ',response.data);
         if (response.data.length > 0) {
-            $('#saldo_caja').val(response.data[0].df_saldo * 1);
+            $('#saldo_caja').val('$' + response.data[0].df_saldo * 1);
             saldo = response.data[0].df_saldo * 1; 
             caja = response.data;  
             valorLibro = ($('#saldo_banco').val() * 1) + saldo;
@@ -147,13 +147,13 @@ function generate_table() {
         tr.append("<td>" + row.df_usuario_usuario + "</td>");
         tr.append("<td>" + row.df_movimiento + "</td>");
         if (row.tipo == 'E') {
-            tr.append("<td class='text-center'>0.00</td>");
-            tr.append("<td class='text-center'>" + row.df_gasto + "</td>");
+            tr.append("<td class='text-center'>$ 0.00</td>");
+            tr.append("<td class='text-center'>$ " + row.df_gasto + "</td>");
         } else {
-            tr.append("<td class='text-center'>" + row.df_gasto + "</td>");
-            tr.append("<td class='text-center'>0.00</td>");
+            tr.append("<td class='text-center'>$ " + row.df_gasto + "</td>");
+            tr.append("<td class='text-center'>$ 0.00</td>");
         }
-        tr.append("<td>" + row.df_saldo + "</td>");      
+        tr.append("<td>$ " + row.df_saldo + "</td>");      
         $('#resultados .table-responsive table tbody').append(tr);
     })         
     /*cajasChicas = [];
@@ -179,13 +179,13 @@ function poblarTabla() {
         tr.append("<td>" + row.personal + "</td>");
         tr.append("<td>" + row.movimiento + "</td>");
         if (row.tipo == 'E') {
-            tr.append("<td class='text-center'>0.00</td>");
-            tr.append("<td class='text-center'>" + row.gasto + "</td>");
+            tr.append("<td class='text-center'>$ 0.00</td>");
+            tr.append("<td class='text-center'>$ " + row.gasto + "</td>");
         } else {
-            tr.append("<td class='text-center'>" + row.gasto + "</td>");
-            tr.append("<td class='text-center'>0.00</td>");
+            tr.append("<td class='text-center'>$ " + row.gasto + "</td>");
+            tr.append("<td class='text-center'>$ 0.00</td>");
         }
-        tr.append("<td class='text-center'>" + row.saldo + "</td>");
+        tr.append("<td class='text-center'>$ " + row.saldo + "</td>");
         //tr.append("<td><button class='btn btn-default pull-right' title='Detallar' onclick='detallarEgreso(" + row.df_id_gasto + ",`" + row.tipo + "`, `"+ row.df_movimiento +"`)'><i class='glyphicon glyphicon-edit'></i></button></td>");
         $('#resultados .table-responsive table tbody').append(tr);
     });    
@@ -274,9 +274,9 @@ function insertarTablaEgreso(item) {
             tr.append("<td>" + item.df_fecha_gasto.split(' ')[0] + "</td>");
             tr.append("<td>" + response.data[0].df_usuario_usuario +/*response.data[0].df_nombre_usuario + ' ' + response.data[0].df_apellido_usuario +*/ "</td>");
             tr.append("<td>" + item.df_movimiento + "</td>");
-            tr.append("<td class='text-center'>0.00</td>");
-            tr.append("<td class='text-center'>" + Number(item.df_gasto).toFixed(2) + "</td>");
-            tr.append("<td class='text-center'>" + Number(item.df_saldo).toFixed(2) + "</td>");
+            tr.append("<td class='text-center'>$ 0.00</td>");
+            tr.append("<td class='text-center'>$ " + Number(item.df_gasto).toFixed(2) + "</td>");
+            tr.append("<td class='text-center'>$ " + Number(item.df_saldo).toFixed(2) + "</td>");
             tr.append("<td><button class='btn btn-default pull-right' title='Detallar' onclick='detallar(" + item.df_id_gasto + ")'><i class='glyphicon glyphicon-edit'></i></button></td>");
             $('#resultados .table-responsive table tbody').append(tr);
         }
@@ -299,9 +299,9 @@ function insertarTablaIngreso(item) {
             tr.append("<td>" + item.df_fecha_ingreso.split(' ')[0] + "</td>");
             tr.append("<td>" + response.data[0].df_usuario_usuario +/* response.data[0].df_nombre_usuario + ' ' + response.data[0].df_apellido_usuario +*/ "</td>");
             tr.append("<td>Ingreso</td>");
-            tr.append("<td class='text-center'>" + Number(item.df_valor_cheque).toFixed(2) + "</td>");
-            tr.append("<td class='text-center'>0.00</td>");
-            tr.append("<td class='text-center'>" + Number(item.df_saldo_cc).toFixed(2) + "</td>");
+            tr.append("<td class='text-center'> $ " + Number(item.df_valor_cheque).toFixed(2) + "</td>");
+            tr.append("<td class='text-center'>$ 0.00</td>");
+            tr.append("<td class='text-center'>$ " + Number(item.df_saldo_cc).toFixed(2) + "</td>");
             tr.append("<td><button class='btn btn-default pull-right' title='Detallar' onclick='detallar(" + item.df_id_gasto + ")'><i class='glyphicon glyphicon-edit'></i></button></td>");
             $('#resultados .table-responsive table tbody').append(tr);
         }
@@ -317,9 +317,9 @@ function insertarPersonalEnTablaEgreso(item, personalId) {
         tr.append("<td>" + item.df_fecha_gasto.split(' ')[0] + "</td>");
         tr.append("<td>" + response.data[0].df_usuario_usuario + /*+ response.data[0].df_nombre_per + ' ' + response.data[0].df_apellido_per +*/ "</td>");
         tr.append("<td>" + item.df_movimiento + "</td>");
-        tr.append("<td class='text-center'>0.00</td>");
-        tr.append("<td class='text-center'>" + Number(item.df_gasto).toFixed(2) + "</td>");
-        tr.append("<td class='text-center'>" + Number(item.df_saldo).toFixed(2) + "</td>");
+        tr.append("<td class='text-center'>$ 0.00</td>");
+        tr.append("<td class='text-center'> $ " + Number(item.df_gasto).toFixed(2) + "</td>");
+        tr.append("<td class='text-center'> $ " + Number(item.df_saldo).toFixed(2) + "</td>");
         tr.append("<td><button class='btn btn-default pull-right' title='Detallar' onclick='detallar(" + item.df_id_gasto + ")'><i class='glyphicon glyphicon-edit'></i></button></td>");
         $('#resultados .table-responsive table tbody').append(tr);
     });
@@ -334,9 +334,9 @@ function insertarPersonalEnTablaIngreso(item, personalId) {
         tr.append("<td>" + item.df_fecha_ingreso.split(' ')[0] + "</td>");
         tr.append("<td>" + response.data[0].df_usuario_usuario + /*+ response.data[0].df_nombre_per + ' ' + response.data[0].df_apellido_per +*/ "</td>");
         tr.append("<td>Ingreso</td>");
-        tr.append("<td class='text-center'>" + Number(item.df_valor_cheque).toFixed(2) + "</td>");
-        tr.append("<td class='text-center'>0.00</td>");
-        tr.append("<td class='text-center'>" + Number(item.df_saldo_cc).toFixed(2) + "</td>");
+        tr.append("<td class='text-center'> $ " + Number(item.df_valor_cheque).toFixed(2) + "</td>");
+        tr.append("<td class='text-center'> $ 0.00</td>");
+        tr.append("<td class='text-center'> $ " + Number(item.df_saldo_cc).toFixed(2) + "</td>");
         tr.append("<td><button class='btn btn-default pull-right' title='Detallar' onclick='detallar(" + item.df_id_ingreso_cc + ")'><i class='glyphicon glyphicon-edit'></i></button></td>");
         $('#resultados .table-responsive table tbody').append(tr);
     });
