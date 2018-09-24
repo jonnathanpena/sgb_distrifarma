@@ -19,12 +19,13 @@
 					Administración 
 				</a>
 				<ul class="dropdown-menu">					
-					<!--<li><a href="libros_banco.php">Libros de Banco</a></li>-->
-					<li><a href="libro_diario.php">Libros Diario</a></li>
+					<!--<li><a href="libros_banco.php">Libros de Banco</a></li>-->					
 					<li><a href="personal.php">Personal</a></li>
 					<li><a href="usuarios.php">Usuarios</a></li>
 				</ul>
 			</li>
+
+			<li class="<?php echo $nueva_factura ?>"><a href="nueva_factura.php"><i  class='glyphicon glyphicon-usd'></i> Nueva Factura</a></li> 
 
 			<li class="<?php echo $active_ingresos ?> dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -47,6 +48,7 @@
 					<li><a href="caja_chica.php">Caja Chica</a></li>
 					<li><a href="banco.php">Banco</a></li>
 					<li><a href="compras.php">Compras</a></li>
+					<li><a href="libro_diario.php">Libros Diario</a></li>
 				</ul>
 			</li>
 
