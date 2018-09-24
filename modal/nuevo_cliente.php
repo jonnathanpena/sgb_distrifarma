@@ -25,7 +25,7 @@
                             <div class="col-sm-8">
                                 <input type="number" class="form-control" id="documento" name="documento" min="1" step="1" max="9999999999" onkeyup="getByRUC()">
                                 <input type="number" class="form-control" id="ruc" name="ruc" min="1" step="1" max=9999999999999 onkeyup="getByRUC()">
-                                <input type="text" class="form-control" id="pasaporte" name="pasaporte" onkeyup="getByRUC()" >
+                                <input type="text" class="form-control" id="pasaporte" name="pasaporte" onkeyup="getByRUC()">
                                 <span style="color: red;" id="span_documento">¡Cliente ya registrado!</span>
                             </div>
                         </div>

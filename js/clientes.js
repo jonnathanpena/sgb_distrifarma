@@ -271,21 +271,25 @@ $('#editarCliente').submit(function(event) {
                 break;
         }
     }
-    var datos = {
-        df_codigo_cliente: $('#editCodigo').val(),
-        df_nombre_cli: $('#editNombre').val(),
-        df_razon_social_cli: $('#editRazon_social').val(),
-        df_tipo_documento_cli: $('#editTipo_documento').val(),
-        df_documento_cli: documento,
-        df_direccion_cli: $('#editDireccion').val(),
-        df_referencia_cli: $('#editReferencia').val(),
-        df_sector_cod: $('#editSector').val(),
-        df_email_cli: $('#editEmail').val(),
-        df_telefono_cli: $('#editTelefono').val(),
-        df_celular_cli: $('#editCelular').val(),
-        df_id_cliente: $('#id').val()
-    };
-    update(datos);
+    if (documento == '') {
+        alertar('warning', '¡Alerta!', 'No debe quedar ningún campo vacío');
+    } else {
+        var datos = {
+            df_codigo_cliente: $('#editCodigo').val(),
+            df_nombre_cli: $('#editNombre').val(),
+            df_razon_social_cli: $('#editRazon_social').val(),
+            df_tipo_documento_cli: $('#editTipo_documento').val(),
+            df_documento_cli: documento,
+            df_direccion_cli: $('#editDireccion').val(),
+            df_referencia_cli: $('#editReferencia').val(),
+            df_sector_cod: $('#editSector').val(),
+            df_email_cli: $('#editEmail').val(),
+            df_telefono_cli: $('#editTelefono').val(),
+            df_celular_cli: $('#editCelular').val(),
+            df_id_cliente: $('#id').val()
+        };
+        update(datos);
+    }
 });
 
 function update(cliente) {

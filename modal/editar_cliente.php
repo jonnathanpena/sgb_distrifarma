@@ -29,8 +29,8 @@
                         <div class="form-group">
                             <label for="editDocumento" class="col-sm-3 control-label">Documento</label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control" id="editDocumento" name="editDocumento" min="1" step="1" max="9999999999">
-                                <input type="number" class="form-control" id="editRuc" name="editRuc" min="1" step="1" max=9999999999999>
+                                <input type="number" class="form-control" id="editDocumento" name="editDocumento" min="1" step="1" max="9999999999" >
+                                <input type="number" class="form-control" id="editRuc" name="editRuc" min="1" step="1" max=9999999999999 >
                                 <input type="text" class="form-control" id="editPasaporte" name="editPasaporte" >
                             </div>
                         </div>
