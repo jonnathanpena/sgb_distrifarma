@@ -8,6 +8,9 @@ var $pagination = $('#pagination'),
 var timer;
 var items = [];
 var libro = [];
+var banco = 0;
+var caja = 0;
+var valorInicial = 0;
 
 $(document).ready(function() {
     usuario = JSON.parse(localStorage.getItem('distrifarma_test_user'));
@@ -29,6 +32,7 @@ $(document).ready(function() {
 function load() {
     libro = [];
     records = [];
+    saldoInicial();
     var urlCompleta = url + 'libroDiario/getAll.php';
     $.get(urlCompleta, function(response) {
         if (response.data.length > 0) {
@@ -46,6 +50,29 @@ function load() {
             totalPages = Math.ceil(totalRecords / recPerPage);
             apply_pagination();
         }, 1000);
+    });
+}
+
+function saldoInicial(){
+    caja = 0;
+    banco = 0;
+    valorInicial = 0;
+    var urlCompleta = url + 'cajaChicaGasto/getMes.php';
+    $.get(urlCompleta, function(response) {
+        if (response.data.length > 0) {
+            caja = response.data[0].df_saldo * 1;
+        }
+    });
+    var urlCompleta = url + 'banco/getAll.php';
+    $.get(urlCompleta, function(response) {
+        if (response.data.length > 0) {
+            banco = response.data[0].df_saldo_banco * 1;
+            valorInicial = caja + banco;
+            $('#valor_libro').val(valorInicial);
+            $('#valorInicial').val(valorInicial);
+            $('#valorInicialE').val(valorInicial),
+            console.log('valor inicial',valorInicial);
+        }
     });
 }
 
@@ -87,10 +114,11 @@ function generate_table() {
         tr = $('<tr/>');
         tr.append("<td>" + fecha + "</td>");
         tr.append("<td>" + row.df_usuario_usuario + "</td>");
+        tr.append("<td>" + row.df_fuente_ld + "</td>");
         tr.append("<td>" + row.df_descipcion_ld + "</td>");
-        tr.append("<td class='text-center'> $ " + Number(row.df_valor_inicial_ld).toFixed(3) + "</td>");
-        tr.append("<td class='text-center'> $ " + Number(row.df_ingreso_ld).toFixed(3) + "</td>");
-        tr.append("<td class='text-center'> $ " + Number(row.df_egreso_ld).toFixed(3) + "</td>");        
+        tr.append("<td class='text-center'> $ " + Number(row.df_valor_inicial_ld).toFixed(2) + "</td>");
+        tr.append("<td class='text-center'> $ " + Number(row.df_ingreso_ld).toFixed(2) + "</td>");
+        tr.append("<td class='text-center'> $ " + Number(row.df_egreso_ld).toFixed(2) + "</td>");        
         //tr.append("<td><button class='btn btn-default pull-right' title='Detallar' onclick='detallar(" + row.df_id_gasto + ",`" + row.tipo + "`, `"+ row.df_movimiento +"`)'><i class='glyphicon glyphicon-edit'></i></button></td>");
         $('#resultados .table-responsive table tbody').append(tr);
     })         
@@ -115,7 +143,8 @@ $('#guardar_ingresoLD').submit(function(event) {
         (currentdate.getMonth() + 1) + "-" +
         currentdate.getDate();
     var ingreso = {
-        df_valor_inicial_ld: $('#valorInicial').val(),
+        df_fuente_ld: 'Libro Diario',
+        df_valor_inicial_ld: $('#valor_libro').val(),
         df_fecha_ld: datetime,
         df_descipcion_ld: $('#detalleLD').val(),
         df_ingreso_ld: $('#saldo_ingreso').val(),
@@ -135,8 +164,9 @@ function insertIngreso(ingreso) {
         } else {
             alertar('danger', '¡Error!', 'Error al insertar, verifique que todo está bien e intente de nuevo');
         }
+        $('#detalleLD').val('');
         $('#valorInicial').val('');
-        $('#saldo_ingreso').modal('hide');
+        $('#nuevoIngresoLD').modal('hide');
         load();
     });
 }
@@ -148,7 +178,8 @@ $('#guardar_egresoLD').submit(function(event) {
         (currentdate.getMonth() + 1) + "-" +
         currentdate.getDate();
     var egreso = {
-        df_valor_inicial_ld: $('#valorInicialE').val(),
+        df_fuente_ld: 'Libro Diario',
+        df_valor_inicial_ld: $('#valor_libro').val(),
         df_fecha_ld: datetime,
         df_descipcion_ld: $('#detalleELD').val(),
         df_ingreso_ld: 0,
@@ -168,8 +199,9 @@ function insertEgreso(egreso) {
         } else {
             alertar('danger', '¡Error!', 'Error al insertar, verifique que todo está bien e intente de nuevo');
         }
+        $('#detalleELD').val('');
         $('#valorInicialE').val('');
-        $('#saldo_egreso').modal('hide');
+        $('#nuevoEgresoLD').modal('hide');
         load();
     });
 }

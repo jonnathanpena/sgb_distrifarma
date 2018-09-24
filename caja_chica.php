@@ -56,6 +56,7 @@
                         <div class="col-md-2 pull-right"> 
                             <input type="number" id="saldo_caja" name="saldo_caja" class="form-control" readonly>        
                             <input type="hidden" id="saldo_banco" >
+                            <input type="hidden" id="valor_libro" >
                         </div>
                         <div class="col-md-3 pull-right">
                             <label class="pull-right">
