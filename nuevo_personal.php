@@ -57,6 +57,7 @@
                      <div class="col-md-2">
                         <select name="cargo" id="cargo" class="form-control">
                             <option value="null">Seleccione...</option>
+                            <option value="Administrador">Administrador</option>
                             <option value="Supervisor">Supervisor</option>
                             <option value="Secretaria">Secretaria</option>
                             <option value="Vendedor">Vendedor</option>

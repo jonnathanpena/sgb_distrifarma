@@ -111,6 +111,7 @@
                      </div>                                                    
                    </div>
                    <!--<div class="form-group row">
+                   <div class="form-group row" style="display: none;">
                      <label for="perfil" class="col-md-1 control-label" id="label_perfil">Perfil</label>
                      <div class="col-md-2">
                         <select name="perfil" id="perfil" class="form-control">
