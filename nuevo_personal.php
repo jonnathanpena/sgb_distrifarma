@@ -75,7 +75,7 @@
                   <div class="form-group row">
                      <label for="bono" class="col-md-1 control-label">Bono</label>
                      <div class="col-md-2">
-                        <input type="number" class="form-control input-sm" id="bono" name="bono" min="0" step="0.01" placeholder="Bono personal" required>
+                        <input type="number" class="form-control input-sm" id="bono" name="bono" min="0" step="0.01" placeholder="Bono personal">
                      </div>  
                      <label for="anticipo" class="col-md-1 control-label">Anticipo Personal</label>
                      <div class="col-md-2">

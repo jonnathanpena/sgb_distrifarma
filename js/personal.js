@@ -37,6 +37,9 @@ function cargar() {
     $.post(urlCompleta, JSON.stringify({ df_nombre_per: q }), function(data, status, hrx) {
         if (data.data.length > 0) {
             $('#resultados .table-responsive table tbody').html('');
+            data.data.sort(function (a, b){
+                return (b.df_id_personal - a.df_id_personal)
+            });
             records = data.data;
             totalRecords = records.length;
             totalPages = Math.ceil(totalRecords / recPerPage);

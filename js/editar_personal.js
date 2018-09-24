@@ -74,6 +74,27 @@ $('#form_modificar_personal').submit(function(event) {
         df_personal_cod_detper: personal.df_id_personal,
         df_usuario_detper: $('#usuario_id').val()
     };
+    if (detalle.df_anticipo_detper == ''){
+        detalle.df_anticipo_detper = 0;
+    }
+    if (detalle.df_bono_detper == ''){
+        detalle.df_bono_detper = 0;
+    }
+    if (detalle.df_comisiones_detper == ''){
+        detalle.df_comisiones_detper = 0;
+    }
+    if (detalle.df_decimos_detper == ''){
+        detalle.df_decimos_detper = 0;
+    }
+    if (detalle.df_descuento_detper == ''){
+        detalle.df_descuento_detper = 0;
+    }
+    if (detalle.df_tabala_comision_detper == ''){
+        detalle.df_tabala_comision_detper = 0;
+    }
+    if (detalle.df_vacaciones_detper == ''){
+        detalle.df_vacaciones_detper = 0;
+    }
     updatePersonal(personal, detalle);
 });
 
@@ -97,6 +118,7 @@ function insertDetalle(detalle) {
             var per = JSON.parse(localStorage.getItem('distrifar_personal_editar'));
             if (per.df_usuario_detper != null) {
                 crearUsuario();
+                alertar('success', '¡Éxito!', 'Personal modificado exitosamente');
             } else {
                 alertar('success', '¡Éxito!', 'Personal modificado exitosamente');
                 window.location.href = "personal.php";
@@ -123,6 +145,7 @@ function updateUsuario(user) {
     console.log('usuario modificar', user);
     $.post(urlCompleta, JSON.stringify(user), function(response) {
         if (response == true) {
+            alertar('success', '¡Éxito!', 'Personal modificado exitosamente');
             window.location.href = "personal.php";
         } else {
             alertar('danger', '¡Error!', 'Algo malo ocurrió, verifique la información e intente nuevamente');
