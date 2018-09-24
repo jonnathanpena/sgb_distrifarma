@@ -28,7 +28,7 @@ function load() {
     clearTimeout(timer);
     timer = setTimeout(function() {
         cargar();
-    }, 1000);
+    }, 2000);
 }
 
 function cargar() {
@@ -51,7 +51,7 @@ function cargar() {
             totalRecords = records.length;
             totalPages = Math.ceil(totalRecords / recPerPage);
             apply_pagination();
-        }, 1000);
+        }, 2000);
     });
 }
 
