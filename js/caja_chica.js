@@ -49,9 +49,9 @@ function load() {
     $.get(urlCompleta, function(response) {
         console.log('response ',response.data);
         if (response.data.length > 0) {
-            $('#saldo_caja').val(response.data[0].df_saldo * 1);
             saldo = response.data[0].df_saldo * 1; 
             caja = response.data;           
+            $('#saldo_caja').val(saldo.toFixed(2));
         }
         console.log(caja);
         clearTimeout(timer);
@@ -98,7 +98,7 @@ function getEgresos() {
                 saldo = ingresos[0].df_saldo_cc * 1;
             }
         }
-        $('#saldo_caja').val(saldo.toFixed(3));
+        $('#saldo_caja').val(saldo.toFixed(2));
         llenarTabla();
     });
 }
@@ -141,13 +141,13 @@ function generate_table() {
         tr.append("<td>" + row.df_usuario_usuario + "</td>");
         tr.append("<td>" + row.df_movimiento + "</td>");
         if (row.tipo == 'E') {
-            tr.append("<td class='text-center'>0.000</td>");
-            tr.append("<td class='text-center'>" + row.df_gasto + "</td>");
+            tr.append("<td class='text-center'>0.00</td>");
+            tr.append("<td class='text-center'>" + Number(row.df_gasto).toFixed(2) + "</td>");
         } else {
-            tr.append("<td class='text-center'>" + row.df_gasto + "</td>");
-            tr.append("<td class='text-center'>0.000</td>");
+            tr.append("<td class='text-center'>" + Number(row.df_gasto).toFixed(2) + "</td>");
+            tr.append("<td class='text-center'>0.00</td>");
         }
-        tr.append("<td>" + row.df_saldo + "</td>");      
+        tr.append("<td>" + Number(row.df_saldo).toFixed(2) + "</td>");      
         $('#resultados .table-responsive table tbody').append(tr);
     })         
     /*cajasChicas = [];
@@ -173,13 +173,13 @@ function poblarTabla() {
         tr.append("<td>" + row.personal + "</td>");
         tr.append("<td>" + row.movimiento + "</td>");
         if (row.tipo == 'E') {
-            tr.append("<td class='text-center'>0.000</td>");
-            tr.append("<td class='text-center'>" + row.gasto + "</td>");
+            tr.append("<td class='text-center'>0.00</td>");
+            tr.append("<td class='text-center'>" + Number(row.gasto).toFixed(2) + "</td>");
         } else {
-            tr.append("<td class='text-center'>" + row.gasto + "</td>");
-            tr.append("<td class='text-center'>0.000</td>");
+            tr.append("<td class='text-center'>" + Number(row.gasto).toFixed(2) + "</td>");
+            tr.append("<td class='text-center'>0.00</td>");
         }
-        tr.append("<td class='text-center'>" + row.saldo + "</td>");
+        tr.append("<td class='text-center'>" + Number(row.saldo).toFixed(2) + "</td>");
         //tr.append("<td><button class='btn btn-default pull-right' title='Detallar' onclick='detallarEgreso(" + row.df_id_gasto + ",`" + row.tipo + "`, `"+ row.df_movimiento +"`)'><i class='glyphicon glyphicon-edit'></i></button></td>");
         $('#resultados .table-responsive table tbody').append(tr);
     });    
@@ -203,8 +203,8 @@ function getUsuario(row) {
                     personal: response.data[0].df_usuario_usuario,//response.data[0].df_nombre_usuario + ' ' + response.data[0].df_apellido_usuario,
                     tipo: row.tipo,
                     movimiento: row.df_movimiento,
-                    gasto: Number(row.df_gasto).toFixed(3),
-                    saldo: Number(row.df_saldo).toFixed(3)
+                    gasto: Number(row.df_gasto).toFixed(2),
+                    saldo: Number(row.df_saldo).toFixed(2)
                 }
             );
         }
@@ -226,8 +226,8 @@ function getPersonal(row) {
                 personal: response.data[0].df_nombre_per + ' ' + response.data[0].df_apellido_per,
                 tipo: row.tipo,
                 movimiento: row.df_movimiento,
-                gasto: Number(row.df_gasto).toFixed(3),
-                saldo: Number(row.df_saldo).toFixed(3)
+                gasto: Number(row.df_gasto).toFixed(2),
+                saldo: Number(row.df_saldo).toFixed(2)
             }
         );        
     });
@@ -269,8 +269,8 @@ function insertarTablaEgreso(item) {
             tr.append("<td>" + response.data[0].df_usuario_usuario +/*response.data[0].df_nombre_usuario + ' ' + response.data[0].df_apellido_usuario +*/ "</td>");
             tr.append("<td>" + item.df_movimiento + "</td>");
             tr.append("<td class='text-center'>0.00</td>");
-            tr.append("<td class='text-center'>" + Number(item.df_gasto).toFixed(3) + "</td>");
-            tr.append("<td class='text-center'>" + Number(item.df_saldo).toFixed(3) + "</td>");
+            tr.append("<td class='text-center'>" + Number(item.df_gasto).toFixed(2) + "</td>");
+            tr.append("<td class='text-center'>" + Number(item.df_saldo).toFixed(2) + "</td>");
             tr.append("<td><button class='btn btn-default pull-right' title='Detallar' onclick='detallar(" + item.df_id_gasto + ")'><i class='glyphicon glyphicon-edit'></i></button></td>");
             $('#resultados .table-responsive table tbody').append(tr);
         }
@@ -293,9 +293,9 @@ function insertarTablaIngreso(item) {
             tr.append("<td>" + item.df_fecha_ingreso.split(' ')[0] + "</td>");
             tr.append("<td>" + response.data[0].df_usuario_usuario +/* response.data[0].df_nombre_usuario + ' ' + response.data[0].df_apellido_usuario +*/ "</td>");
             tr.append("<td>Ingreso</td>");
-            tr.append("<td class='text-center'>" + Number(item.df_valor_cheque).toFixed(3) + "</td>");
+            tr.append("<td class='text-center'>" + Number(item.df_valor_cheque).toFixed(2) + "</td>");
             tr.append("<td class='text-center'>0.00</td>");
-            tr.append("<td class='text-center'>" + Number(item.df_saldo_cc).toFixed(3) + "</td>");
+            tr.append("<td class='text-center'>" + Number(item.df_saldo_cc).toFixed(2) + "</td>");
             tr.append("<td><button class='btn btn-default pull-right' title='Detallar' onclick='detallar(" + item.df_id_gasto + ")'><i class='glyphicon glyphicon-edit'></i></button></td>");
             $('#resultados .table-responsive table tbody').append(tr);
         }
@@ -312,8 +312,8 @@ function insertarPersonalEnTablaEgreso(item, personalId) {
         tr.append("<td>" + response.data[0].df_usuario_usuario + /*+ response.data[0].df_nombre_per + ' ' + response.data[0].df_apellido_per +*/ "</td>");
         tr.append("<td>" + item.df_movimiento + "</td>");
         tr.append("<td class='text-center'>0.00</td>");
-        tr.append("<td class='text-center'>" + Number(item.df_gasto).toFixed(3) + "</td>");
-        tr.append("<td class='text-center'>" + Number(item.df_saldo).toFixed(3) + "</td>");
+        tr.append("<td class='text-center'>" + Number(item.df_gasto).toFixed(2) + "</td>");
+        tr.append("<td class='text-center'>" + Number(item.df_saldo).toFixed(2) + "</td>");
         tr.append("<td><button class='btn btn-default pull-right' title='Detallar' onclick='detallar(" + item.df_id_gasto + ")'><i class='glyphicon glyphicon-edit'></i></button></td>");
         $('#resultados .table-responsive table tbody').append(tr);
     });
@@ -328,9 +328,9 @@ function insertarPersonalEnTablaIngreso(item, personalId) {
         tr.append("<td>" + item.df_fecha_ingreso.split(' ')[0] + "</td>");
         tr.append("<td>" + response.data[0].df_usuario_usuario + /*+ response.data[0].df_nombre_per + ' ' + response.data[0].df_apellido_per +*/ "</td>");
         tr.append("<td>Ingreso</td>");
-        tr.append("<td class='text-center'>" + Number(item.df_valor_cheque).toFixed(3) + "</td>");
+        tr.append("<td class='text-center'>" + Number(item.df_valor_cheque).toFixed(2) + "</td>");
         tr.append("<td class='text-center'>0.00</td>");
-        tr.append("<td class='text-center'>" + Number(item.df_saldo_cc).toFixed(3) + "</td>");
+        tr.append("<td class='text-center'>" + Number(item.df_saldo_cc).toFixed(2) + "</td>");
         tr.append("<td><button class='btn btn-default pull-right' title='Detallar' onclick='detallar(" + item.df_id_ingreso_cc + ")'><i class='glyphicon glyphicon-edit'></i></button></td>");
         $('#resultados .table-responsive table tbody').append(tr);
     });
@@ -355,13 +355,13 @@ function nuevoIngreso() {
 function calcularIngreso() {
     var ingresa = $('#valor').val() * 1;
     var aFavor = saldo + ingresa;
-    $('#saldo_ingresoCC').val(aFavor.toFixed(3));
+    $('#saldo_ingresoCC').val(aFavor.toFixed(2));
 }
 
 function calcularEgreso() {
     var egreso = $('#valor_egreso').val() * 1;
     var aFavor = saldo - egreso;
-    $('#saldoCC').val(aFavor.toFixed(3));
+    $('#saldoCC').val(aFavor.toFixed(2));
 }
 
 $('#guardar_ingreso').submit(function(event) {
