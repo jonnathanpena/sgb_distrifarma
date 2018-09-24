@@ -12,7 +12,7 @@
                         <div class="form-group">
                             <label for="codigop" class="col-sm-3 control-label">Código</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="codigop" name="codigop" autofocus required> 
+                                <input type="text" class="form-control" id="codigop" value="PRO-" name="codigop" autofocus required> 
                             </div>
                         </div>
                         <div class="form-group">
