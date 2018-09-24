@@ -37,7 +37,7 @@
                         <div class="form-group">
                             <label for="editTelefono" class="col-sm-3 control-label">Teléfono</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="editTelefono" name="editTelefono" required>
+                                <input type="text" class="form-control" id="editTelefono" name="editTelefono">
                             </div>
                         </div>
                         <div class="form-group">
