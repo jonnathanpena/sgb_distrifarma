@@ -272,7 +272,7 @@ function insertarTablaEgreso(item) {
             tr = $('<tr/>');
             tr.append("<td>" + item.df_id_gasto + "</td>");
             tr.append("<td>" + item.df_fecha_gasto.split(' ')[0] + "</td>");
-            tr.append("<td>" + response.data[0].df_usuario_usuario +/*response.data[0].df_nombre_usuario + ' ' + response.data[0].df_apellido_usuario +*/ "</td>");
+            tr.append("<td>" + response.data[0].df_usuario_usuario + "</td>");
             tr.append("<td>" + item.df_movimiento + "</td>");
             tr.append("<td class='text-center'>$ 0.00</td>");
             tr.append("<td class='text-center'>$ " + Number(item.df_gasto).toFixed(2) + "</td>");
