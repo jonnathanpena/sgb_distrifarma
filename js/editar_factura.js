@@ -244,7 +244,7 @@ function getCliente() {
 var acciones = '<a class="delete" title="Eliminar" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>';
 var precio = 10;
 
-function agregar(codigo, producto, id_producto, id_precio, iva) {
+/*function agregar(codigo, producto, id_producto, id_precio, iva) {
     var cantidad = $('#cantidad_' + codigo).val();
     var precio = $('#costo_' + codigo).val();
     var unidad = $('#unidad_' + codigo).val();
@@ -275,7 +275,7 @@ function agregar(codigo, producto, id_producto, id_precio, iva) {
         $('[data-toggle="tooltip"]').tooltip();
     }
     calcular();
-}
+}*/
 
 $(document).on("click", "table#table_productos tbody td a.delete", function() {
     $(this).parents("tr").remove();
@@ -289,16 +289,15 @@ function calcular() {
     $('table#table_productos tbody tr').each(function(a, b) {
         subtotal += $('.subtotal', b).text() * 1;
         total_iva += $('.total_iva', b).text() * 1;
-        total += $('.total_tupla_producto', b).text() * 1;
     });
+    total = subtotal + total_iva;
     $('#subtotal').html(subtotal.toFixed(2));
     $('#total_iva').html(total_iva.toFixed(2));
     $('#descuento').html(descuento.toFixed(2))
     $('#total').html(total.toFixed(2));
 }
 
-$('#form_modificar_factura').submit(function(event) {
-    event.preventDefault();
+function modificar() {
     factura.df_cliente_cod_fac = $('#cliente_id').val();
     factura.df_personal_cod_fac = $('#personal').val();
     factura.df_sector_cod_fac = $('#sector').val();
@@ -310,7 +309,7 @@ $('#form_modificar_factura').submit(function(event) {
     factura.df_fecha_entrega_fac = $('#fecha_entrega').val();
     factura.df_num_factura = id;
     validarInsercion(factura);
-});
+};
 
 function validarInsercion(factura) {
     var seguir = true;
@@ -464,16 +463,16 @@ function consultarProductosFactura(facturaId) {
             var row = '<tr>' +
                 '<td class="id_producto" style="display: none;">' + row.df_id_producto + '</td>' +
                 '<td class="id_precio" style="display: none;">' + row.df_prod_precio_detfac + '</td>' +
-                '<td class="iva" style="display: none;">' + row.df_iva_detfac + '</td>' +
-                '<td class="subtotal" style="display: none;">' + subtotal_tabla + '</td>' +
-                '<td class="total_iva" style="display: none;">' + total_iva_tabla + '</td>' +
+                '<td class="iva" style="display: none;">' + Number(row.df_iva_detfac).toFixed(2) + '</td>' +
+                '<td class="subtotal" style="display: none;">' + Number(subtotal_tabla).toFixed(2) + '</td>' +
+                '<td class="total_iva" style="display: none;">' + Number(total_iva_tabla).toFixed(2) + '</td>' +
                 '<td class="unidad_caja" style="display: none;">' + row.df_cant_x_und_detfac + '</td>' +
                 '<td width="100" class="codigo">' + row.df_codigo_prod + '</td>' +
                 '<td class="producto">' + row.df_nombre_producto + '</td>' +
                 '<td width="100" class="unidad">' + row.df_nombre_und_detfac + '</td>' +
                 '<td width="100" class="cantidad">' + row.df_cantidad_detfac + '</td>' +
-                '<td width="100" class="precio_unitario">' + row.df_precio_prod_detfac + '</td>' +
-                '<td width="100" class="total_tupla_producto">' + total_tupla + '</td>' +
+                '<td width="100" class="precio_unitario">' + Number(row.df_precio_prod_detfac).toFixed(2) + '</td>' +
+                '<td width="100" class="total_tupla_producto">' + Number(subtotal_tabla).toFixed(2) + '</td>' +
                 '<td width="100">' + acciones + '</td>' +
                 '</tr>';
             $('#table_productos tbody').append(row);
@@ -481,4 +480,109 @@ function consultarProductosFactura(facturaId) {
         });
         calcular();
     });
+}
+
+var keyPress = 0;
+
+$('#codigo_producto').keyup(function(e) {
+    if (e.which == 13 && keyPress == 0) {
+        var urlCompleta = url + 'producto/getByCodigoFactura.php';
+        var codigo = $('#codigo_producto').val();
+        $.post(urlCompleta, JSON.stringify({ codigo: codigo }), function(response) {
+            if (response.data.length > 0) {
+                keyPress++;
+                producto = response.data[0];
+                poblarConProductoConsultado(response.data[0]);
+            } else {
+                alertar('warning', '¡Alerta!', 'No existe producto asignado al código digitado');
+                keyPress = 0;
+                limpiarLineaProducto();
+            }
+        });
+    } else if (e.which == 13 && keyPress == 1) {
+        keyPress++;
+        $("#cantidad_producto").val('');
+        $("#cantidad_producto").focus();
+    } else if (e.which != 13) {
+        keyPress = 0;
+    }
+});
+
+function limpiarLineaProducto() {
+    $('#codigo_producto').val('');
+    $('#nombre_producto').val('');
+    $('#unidad_producto').val('CAJA');
+    $('#cantidad_producto').val('1');
+    $('#precio_unitario_producto').empty();
+    $('#precio_unitario_producto').append('<option value="null">Seleccione...</option>');
+    $("#codigo_producto").focus();
+}
+
+function poblarConProductoConsultado(prod) {
+    $('#nombre_producto').val(prod.df_nombre_producto);
+    $('#cantidad_producto').val('1');
+    $('#precio_unitario_producto').empty();
+    $('#precio_unitario_producto').append('<option value="' + prod.df_pvt1 + '" selected>Normal $' + prod.df_pvt1 + '</option>');
+    $('#precio_unitario_producto').append('<option value="' + prod.df_pvt2 + '">Descuento $' + prod.df_pvt2 + '</option>');
+}
+
+function seleccionaUnidad() {
+    var und_caja = producto.df_und_caja * 1;
+    var precio_normal = producto.df_pvt1 * 1;
+    var precio_descuento = producto.df_pvt2 * 1;
+    var normal = 0;
+    var descuento = 0;
+    if ($('#unidad_producto').val() == 'CAJA') {
+        normal = precio_normal;
+        descuento = precio_descuento;
+    } else if ($('#unidad_producto').val() == 'UND') {
+        normal = precio_normal / und_caja;
+        normal = normal.toFixed(2);
+        descuento = precio_descuento / und_caja;
+        descuento = descuento.toFixed(2);
+    }
+    $('#precio_unitario_producto').empty();
+    $('#precio_unitario_producto').append('<option value="' + normal + '" selected>Normal $' + normal + '</option>');
+    $('#precio_unitario_producto').append('<option value="' + descuento + '">Descuento $' + descuento + '</option>');
+}
+
+$('#cantidad_producto').keyup(function(e) {
+    if (e.which == 13) {
+        agregar();
+    }
+});
+
+function agregar() {
+    var cantidad = $('#cantidad_producto').val() * 1;
+    var precio = $('#precio_unitario_producto').val() * 1;
+    var unidad = $('#unidad_producto').val();
+    var unidad_caja = producto.df_und_caja * 1;
+    var iva = producto.df_valor_impuesto / 100;
+    if (precio == 'null' || cantidad < 1) {
+        alert('Debe escoger valores reales');
+    } else {
+        var subtotal_tabla = cantidad * precio;
+        var total_iva_tabla = subtotal_tabla * iva;
+        var total_tupla = subtotal_tabla;
+        total_tupla = total_tupla.toFixed(2);
+        var row = '<tr>' +
+            '<td class="id_producto" style="display: none;">' + producto.df_id_producto + '</td>' +
+            '<td class="id_precio" style="display: none;">' + producto.df_id_precio + '</td>' +
+            '<td class="iva" style="display: none;">' + iva + '</td>' +
+            '<td class="subtotal" style="display: none;">' + subtotal_tabla + '</td>' +
+            '<td class="total_iva" style="display: none;">' + Number(total_iva_tabla).toFixed(2) + '</td>' +
+            '<td class="unidad_caja" style="display: none;">' + unidad_caja + '</td>' +
+            '<td width="100" class="codigo">' + producto.df_codigo_prod + '</td>' +
+            '<td class="producto">' + producto.df_nombre_producto + '</td>' +
+            '<td width="100" class="unidad">' + unidad + '</td>' +
+            '<td width="100" class="cantidad">' + cantidad + '</td>' +
+            '<td width="100" class="precio_unitario">' + precio + '</td>' +
+            '<td width="100" class="total_tupla_producto">' + total_tupla + '</td>' +
+            '<td width="100">' + acciones + '</td>' +
+            '</tr>';
+        $('#table_productos tbody').append(row);
+        $('[data-toggle="tooltip"]').tooltip();
+    }
+    calcular();
+    limpiarLineaProducto();
 }

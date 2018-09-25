@@ -74,18 +74,39 @@ include("modal/consultar_productos.php");
                             <option value="CREDITO">Crédito</option>                                                       
                         </select>
                      </div>                                                                               
-                    </div>                  
+                  </div>    
+                    <div class="form-group row producto" style="margin-top: 20px;">
+                        <label for="cdigo_producto" class="col-md-1 control-label">Código</label>
+                        <div class="col-md-2">
+                            <input type="text" class="form-control input-sm" id="codigo_producto" name="codigo_producto" placeholder="Código producto" autofocus>
+                        </div>
+                        <label for="cdigo_producto" class="col-md-2 control-label">Producto</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control input-sm" placeholder="Producto" id='nombre_producto' disabled>
+                        </div>
+                        <label for="cdigo_producto" class="col-md-1 control-label">Unidad</label>
+                        <div class="col-md-2">
+                            <select name="unidad_producto" id="unidad_producto" class="form-control" onchange="seleccionaUnidad()">
+                                <option value="CAJA" selected>Caja</option>
+                                <option value="UND">Unidad</option>
+                            </select>
+                        </div>
+                        <label for="cdigo_producto" class="col-md-1 control-label">Cant</label>
+                        <div class="col-md-2">
+                            <input type="number" class="form-control input-sm" id="cantidad_producto" name="cantidad_producto" value="1">
+                        </div>
+                        <label for="cdigo_producto" class="col-md-2 control-label">Precio Unitario</label>
+                        <div class="col-md-2">
+                            <select name="precio_unitario_producto" id="precio_unitario_producto" class="form-control">
+                                <option value="null">Seleccione...</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-success" onclick="agregar()"><i class="glyphicon glyphicon-plus"></i></button>
+                        </div>
+                    </div>              
                     <div class="col-md-12" style="margin-top: 20px;">
                         <div class="table-wrapper">
-                            <div class="table-title">
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <button type="button" class="btn btn-success add-new-producto" onclick="buscarProductos()">
-                                            <i class="fa fa-plus"></i> Agregar
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
                             <table id="table_productos" class="table table-bordered">
                                 <thead>
                                     <tr>
@@ -129,7 +150,7 @@ include("modal/consultar_productos.php");
                             <a href="facturas.php"  class="btn btn-danger">
                                 <span class="glyphicon glyphicon-remove"></span> Cancelar
                             </a>
-                            <button type="submit" class="btn btn-success" id="btn-guardar">
+                            <button type="button" class="btn btn-success" id="btn-guardar" onclick="guardar()">
                                 <span class="glyphicon glyphicon-floppy-disk"></span> Guardar
                             </button>
                         </div>

@@ -128,6 +128,12 @@ table.table td .add {
     line-height: 13px;
 }
 
+div.producto {
+    background: #5bc0de;
+    padding: 20px 0px;
+    color: #fff;
+}
+
 @media (min-width: 768px) {
     .modal-dialog {
         width: 800px;

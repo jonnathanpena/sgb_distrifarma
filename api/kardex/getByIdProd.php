@@ -8,28 +8,27 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
  
 // incluye la configuración de la base de datos y la conexión
 include_once '../config/database.php';
-include_once '../objects/libroDiario.php';
+include_once '../objects/kardex.php';
  
 // inicia la conexión a la base de datos
 $database = new Database();
 $db = $database->getConnection();
  
 // inicia el objeto
-$libroDiario = new LibroDiario($db);
+$kardex = new Kardex($db);
 
 $data = json_decode(file_get_contents('php://input'), true);
 
 $info = array($data);
- 
-$libroDiario->df_fecha_ini= $info[0]["df_fecha_ini"];
-$libroDiario->df_fecha_fin= $info[0]["df_fecha_fin"];
+
+$kardex->df_producto_cod_kar= $info[0]["df_producto_cod_kar"];
 // query de lectura
-$stmt = $libroDiario->readByFecha();
+$stmt = $kardex->readByIdProd();
 $num = $stmt->rowCount();
 
-//libroDiario array
-$libroDiario_arr=array();
-$libroDiario_arr["data"]=array();
+//kardex array
+$kardex_arr=array();
+$kardex_arr["data"]=array();
  
 // check if more than 0 record found
 if($num>0){ 
@@ -43,23 +42,27 @@ if($num>0){
         extract($row);
         
         //Los nombres acá son iguales a los de la clase iguales a las columnas de la BD
-        $libroDiario_item=array(
-            "df_id_libro_diario"=>$df_id_libro_diario, 
-            "df_valor_inicial_ld"=>$df_valor_inicial_ld,
-            "df_fecha_ld"=>$df_fecha_ld,
-            "df_descipcion_ld"=>$df_descipcion_ld,
-            "df_ingreso_ld"=>$df_ingreso_ld,
-            "df_egreso_ld"=>$df_egreso_ld,
-            "df_usuario_id_ld"=>$df_usuario_id_ld
+        $kardex_item=array(
+            "df_kardex_id"=>$df_kardex_id, 
+            "df_kardex_codigo"=>$df_kardex_codigo,
+            "df_fecha_kar"=>$df_fecha_kar,
+            "df_producto_cod_kar"=>$df_producto_cod_kar,
+            "df_producto"=>$df_producto,
+            "df_factura_kar"=>$df_factura_kar,
+            "df_ingresa_kar"=>$df_ingresa_kar,
+            "df_egresa_kar"=>$df_egresa_kar,
+            "df_existencia_kar"=>$df_existencia_kar,
+            "df_creadoBy_kar"=>$df_creadoBy_kar,
+            "df_edo_kardex"=>$df_edo_kardex
         );
  
-        array_push($libroDiario_arr["data"], $libroDiario_item);
+        array_push($kardex_arr["data"], $kardex_item);
     }
  
-    echo json_encode($libroDiario_arr);
+    echo json_encode($kardex_arr);
 }
  
 else{
-    echo json_encode($libroDiario_arr);
+    echo json_encode($kardex_arr);
 }
 ?>

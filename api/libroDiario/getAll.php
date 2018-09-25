@@ -40,7 +40,8 @@ if($num>0){
             "df_fecha_ld"=>$df_fecha_ld,
             "df_descipcion_ld"=>$df_descipcion_ld,
             "df_ingreso_ld"=>$df_ingreso_ld,
-            "df_egreso_ld"=>$df_egreso_ld
+            "df_egreso_ld"=>$df_egreso_ld,
+            "df_usuario_id_ld"=>$df_usuario_id_ld
         );
  
         array_push($libroDiario_arr["data"], $libroDiario_item);

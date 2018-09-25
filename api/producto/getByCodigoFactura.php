@@ -8,28 +8,28 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
  
 // incluye la configuración de la base de datos y la conexión
 include_once '../config/database.php';
-include_once '../objects/libroDiario.php';
+include_once '../objects/producto.php';
  
 // inicia la conexión a la base de datos
 $database = new Database();
 $db = $database->getConnection();
  
 // inicia el objeto
-$libroDiario = new LibroDiario($db);
+$producto = new Producto($db);
 
+// get posted data
 $data = json_decode(file_get_contents('php://input'), true);
 
 $info = array($data);
- 
-$libroDiario->df_fecha_ini= $info[0]["df_fecha_ini"];
-$libroDiario->df_fecha_fin= $info[0]["df_fecha_fin"];
+
+$producto->codigo= $info[0]["codigo"];
 // query de lectura
-$stmt = $libroDiario->readByFecha();
+$stmt = $producto->readByCodigoFactura();
 $num = $stmt->rowCount();
 
-//libroDiario array
-$libroDiario_arr=array();
-$libroDiario_arr["data"]=array();
+//producto array
+$producto_arr=array();
+$producto_arr["data"]=array();
  
 // check if more than 0 record found
 if($num>0){ 
@@ -43,23 +43,30 @@ if($num>0){
         extract($row);
         
         //Los nombres acá son iguales a los de la clase iguales a las columnas de la BD
-        $libroDiario_item=array(
-            "df_id_libro_diario"=>$df_id_libro_diario, 
-            "df_valor_inicial_ld"=>$df_valor_inicial_ld,
-            "df_fecha_ld"=>$df_fecha_ld,
-            "df_descipcion_ld"=>$df_descipcion_ld,
-            "df_ingreso_ld"=>$df_ingreso_ld,
-            "df_egreso_ld"=>$df_egreso_ld,
-            "df_usuario_id_ld"=>$df_usuario_id_ld
+        $producto_item=array(
+            "df_id_producto"=>$df_id_producto, 
+            "df_nombre_producto"=>$df_nombre_producto,
+            "df_codigo_prod"=>$df_codigo_prod,
+            "df_id_precio"=>$df_id_precio,
+            "df_producto_id"=>$df_producto_id,
+            "df_ppp"=>$df_ppp,
+            "df_pvt1"=>$df_pvt1,
+            "df_pvt2"=>$df_pvt2,
+            "df_pvp"=>$df_pvp,
+            "df_iva"=>$df_iva,
+            "df_min_sugerido"=>$df_min_sugerido,
+            "df_und_caja"=>$df_und_caja,
+            "df_utilidad"=>$df_utilidad,
+            "df_valor_impuesto"=>$df_valor_impuesto
         );
  
-        array_push($libroDiario_arr["data"], $libroDiario_item);
+        array_push($producto_arr["data"], $producto_item);
     }
  
-    echo json_encode($libroDiario_arr);
+    echo json_encode($producto_arr);
 }
  
 else{
-    echo json_encode($libroDiario_arr);
+    echo json_encode($producto_arr);
 }
 ?>
