@@ -30,19 +30,19 @@ $fecha = date("d/m/Y");
                         <div class="form-group">
                             <label for="detalleLD" class="col-sm-3 control-label">Detalle</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="detalleLD" name="detalleLD" value="Cobro" disabled>                        
+                                <input type="text" class="form-control" id="detalleLD" name="detalleLD" placeholder="Detalle" required>                        
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="valorInicial" class="col-sm-3 control-label">Valor Inicial</label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control" id="valorInicial" name="valorInicial" min="0" step="0.01" required>
+                                <input type="number" class="form-control" id="valorInicial" name="valorInicial" min="0" step="0.01" disabled>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="saldo_ingreso" class="col-sm-3 control-label">Ingreso</label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control" id="saldo_ingreso" name="saldo_ingreso" min="0" step="0.01" required>
+                                <input type="number" class="form-control" id="saldo_ingreso" name="saldo_ingreso" placeholder="Ingreso" min="0" step="0.01" required>
                             </div>
                         </div>
                     </div>

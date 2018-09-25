@@ -30,7 +30,7 @@
                     </button>
                     <button type='button' class="btn btn-info" onclick="nuevoIngreso()">
                         <span class="glyphicon glyphicon-plus" ></span> 
-                        Nueva Ingreso
+                        Nuevo Ingreso
                     </button>                    
                 </div>
                 <h4><i class='glyphicon glyphicon-shopping-cart'></i> Caja Chica</h4>
@@ -54,8 +54,9 @@
 					</div>
                     <div class="for-group row">
                         <div class="col-md-2 pull-right"> 
-                            <input type="number" id="saldo_caja" name="saldo_caja" class="form-control" readonly>        
+                            <input type="text" id="saldo_caja" name="saldo_caja" class="form-control" readonly>        
                             <input type="hidden" id="saldo_banco" >
+                            <input type="hidden" id="valor_libro" >
                         </div>
                         <div class="col-md-3 pull-right">
                             <label class="pull-right">

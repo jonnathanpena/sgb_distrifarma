@@ -24,7 +24,7 @@
     <div class="container">
         <div class="panel panel-info">
             <div class="panel-heading">
-                <div class="btn-group pull-right">
+                <!--<div class="btn-group pull-right">
                     <button type='button' class="btn btn-default" onclick="nuevoEgreso()">
                         <span class="glyphicon glyphicon-minus" ></span> 
                         Nuevo Egreso
@@ -33,7 +33,7 @@
                         <span class="glyphicon glyphicon-plus" ></span> 
                         Nuevo Ingreso
                     </button>                    
-                </div>
+                </div>-->
                 <h4><i class='glyphicon glyphicon-book'></i> Libro Diario</h4>
             </div>
             <div class="panel-body">
@@ -48,6 +48,7 @@
                         <div class="col-md-3">
                             <button type="button" class="btn btn-default" onclick='load();' style="display: none;">
                                 <span class="glyphicon glyphicon-search" ></span> Buscar
+                                <input type="hidden" id="valor_libro" >
                             </button>
                             <span id="loader"></span>
                         </div>
@@ -70,6 +71,7 @@
                                 <tr class="info">
                                     <th>Fecha</th>
                                     <th>Usuario</th>
+                                    <th>Fuente</th>
                                     <th>Detalle</th>
                                     <th class="text-center">Valor Inicial ($)</th>
                                     <th class="text-center">Ingreso ($)</th>
