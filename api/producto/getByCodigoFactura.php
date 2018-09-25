@@ -57,7 +57,8 @@ if($num>0){
             "df_min_sugerido"=>$df_min_sugerido,
             "df_und_caja"=>$df_und_caja,
             "df_utilidad"=>$df_utilidad,
-            "df_valor_impuesto"=>$df_valor_impuesto
+            "df_valor_impuesto"=>$df_valor_impuesto, 
+            "df_cant_bodega"=>$df_cant_bodega * 1
         );
  
         array_push($producto_arr["data"], $producto_item);

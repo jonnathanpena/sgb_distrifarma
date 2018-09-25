@@ -105,9 +105,33 @@ class Inventario {
             return $this->conn->lastInsertId();
         }else{
             return false;
-        }   
+        }           
+    }
+
+    // modificar inventario
+    function update(){
+    
+        // query to update record
+        $query = "UPDATE `df_inventario` SET 
+                    `df_cant_bodega`= ".$this->df_cant_bodega.",
+                    `df_cant_transito`= ".$this->df_cant_transito.",
+                    `df_producto`= '".$this->df_producto."',
+                    `df_ppp_ind`= ".$this->df_ppp_ind.",
+                    `df_pvt_ind`= ".$this->df_pvt_ind.",
+                    `df_ppp_total`= ".$this->df_ppp_total.",
+                    `df_pvt_total`= ".$this->df_pvt_total.",
+                    `df_minimo_sug`= ".$this->df_minimo_sug.",
+                    `df_und_caja`= ".$this->df_und_caja.",
+                    `df_bodega`= ".$this->df_bodega." 
+                    WHERE `df_id_inventario` = ".$this->df_id_inventario;
+        // prepara la sentencia del query
+        $stmt = $this->conn->prepare($query);    
         
-        
+        if($stmt->execute()){
+            return $this->conn->lastInsertId();
+        }else{
+            return false;
+        }           
     }
 
 }

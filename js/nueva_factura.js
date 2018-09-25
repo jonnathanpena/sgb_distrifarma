@@ -360,20 +360,25 @@ function insertarFactura(factura) {
             var nombre_unidad = $('.unidad', b).text();
             var unidad_caja = $('.unidad_caja', b).text();
             var cant_x_und = 0;
+            var nombre_producto = $('.producto', b).text();
+            var cant_bodega = $('.cant_bodega', b).text() * 1;
             if (nombre_unidad == 'UND') {
                 cant_x_und = cantidad;
             } else {
                 cant_x_und = unidad_caja * cantidad;
             }
-            insertDetalle(id_factura, id_precio, precio, cantidad, valor_sin_iva, iva, total_tupla, nombre_unidad, cant_x_und);
+            insertDetalle(id_factura, id_precio, precio, cantidad, valor_sin_iva, iva, total_tupla, nombre_unidad, cant_x_und, nombre_producto, cant_bodega);
         });
-        insertarHistorialFactura(id_factura);
-        alertar('success', '¡Éxito!', 'Factura # ' + id_factura + 'generada exitosamente');
-        limpiar();
+        clearTimeout(timer);
+        timer = setTimeout(function() {
+            insertarHistorialFactura(id_factura);
+            alertar('success', '¡Éxito!', 'Factura # ' + id_factura + 'generada exitosamente');
+            limpiar();
+        }, 2000);
     });
 }
 
-function insertDetalle(id, id_precio, precio, cantidad, valor_sin_iva, iva, total, nombre_unidad, cant_x_und) {
+function insertDetalle(id, id_precio, precio, cantidad, valor_sin_iva, iva, total, nombre_unidad, cant_x_und, nombre_producto, cant_bodega) {
     var urlCompleta = url + 'detalleFactura/insert.php';
     var detalle = {
         df_num_factura_detfac: id,
@@ -387,7 +392,74 @@ function insertDetalle(id, id_precio, precio, cantidad, valor_sin_iva, iva, tota
         df_cant_x_und_detfac: cant_x_und,
         df_edo_entrega_prod_detfac: 1
     }
-    $.post(urlCompleta, JSON.stringify(detalle), function(response) {});
+    $.post(urlCompleta, JSON.stringify(detalle), function(response) {
+        getIdKardex(detalle, nombre_producto, cant_bodega);
+        getInventario(detalle, cant_bodega);
+    });
+}
+
+function getInventario(detalle, cant_bodega) {
+    var urlCompleta = url + 'inventario/getByIdProd.php';
+    $.post(urlCompleta, JSON.stringify({ df_producto: detalle.df_prod_precio_detfac }), function(response) {
+        var inventario = response.data[0];
+        inventario.df_cant_bodega = cant_bodega;
+        updateInventario(inventario);
+    })
+}
+
+function updateInventario(inventario) {
+    var urlCompleta = url + 'inventario/update.php';
+    $.post(urlCompleta, JSON.stringify(inventario), function(response) {});
+}
+
+function getIdKardex(detalle, nombre_producto, cant_bodega) {
+    currentdate = new Date();
+    datetime = currentdate.getFullYear() + "-" +
+        (currentdate.getMonth() + 1) + "-" +
+        currentdate.getDate() + " " +
+        currentdate.getHours() + ":" +
+        currentdate.getMinutes() + ":" +
+        currentdate.getSeconds();
+    var urlCompleta = url + 'kardex/insert.php';
+    var kardex = {
+        df_kardex_codigo: '',
+        df_fecha_kar: datetime,
+        df_producto_cod_kar: detalle.df_prod_precio_detfac,
+        df_producto: nombre_producto,
+        df_factura_kar: detalle.df_num_factura_detfac,
+        df_ingresa_kar: 0,
+        df_egresa_kar: detalle.df_cantidad_detfac,
+        df_existencia_kar: cant_bodega,
+        df_creadoBy_kar: $('#usuario').val(),
+        df_edo_kardex: 2
+    }
+    var urlCompleta = url + 'kardex/getIdMax.php';
+    $.get(urlCompleta, function(response) {
+        console.log('kardex id', response.data);
+        if (response.data.length > 0) {
+            var codigo_kardex = response.data[0].df_kardex_id * 1;
+            if (codigo_kardex > 0) {
+                codigo_kardex = codigo_kardex + 1;
+                if (codigo_kardex > 0 && codigo_kardex < 10) {
+                    kardex.df_kardex_codigo = 'KAR-00' + codigo_kardex;
+                } else if (codigo_kardex > 9 && codigo_kardex < 100) {
+                    kardex.df_kardex_codigo = 'KAR-0' + codigo_kardex;
+                } else if (codigo_kardex > 99) {
+                    kardex.df_kardex_codigo = 'KAR-' + codigo_kardex;
+                }
+            } else {
+                kardex.df_kardex_codigo = 'KAR-001';
+            }
+        } else {
+            kardex.df_kardex_codigo = 'KAR-001';
+        }
+        insertKardex(kardex);
+    })
+}
+
+function insertKardex(kardex) {
+    var urlCompleta = url + 'kardex/insert.php';
+    $.post(urlCompleta, JSON.stringify(kardex), function(response) {});
 }
 
 function insertarHistorialFactura(facturaId) {
@@ -446,6 +518,7 @@ function limpiar() {
 }*/
 
 var keyPress = 0;
+var producto_max = 0;
 
 $('#codigo_producto').keyup(function(e) {
     if (e.which == 13 && keyPress == 0) {
@@ -453,12 +526,21 @@ $('#codigo_producto').keyup(function(e) {
         var codigo = $('#codigo_producto').val();
         $.post(urlCompleta, JSON.stringify({ codigo: codigo }), function(response) {
             if (response.data.length > 0) {
-                keyPress++;
-                producto = response.data[0];
-                poblarConProductoConsultado(response.data[0]);
+                if (response.data[0].df_cant_bodega > 0) {
+                    keyPress++;
+                    producto = response.data[0];
+                    producto_max = producto.df_cant_bodega;
+                    poblarConProductoConsultado(response.data[0]);
+                } else {
+                    alertar('warning', '¡Alerta!', 'Cantidad insuficiente en bodega');
+                    keyPress = 0;
+                    producto_max = 0;
+                    limpiarLineaProducto();
+                }
             } else {
                 alertar('warning', '¡Alerta!', 'No existe producto asignado al código digitado');
                 keyPress = 0;
+                producto_max = 0;
                 limpiarLineaProducto();
             }
         });
@@ -468,10 +550,12 @@ $('#codigo_producto').keyup(function(e) {
         $("#cantidad_producto").focus();
     } else if (e.which != 13) {
         keyPress = 0;
+        producto_max = 0;
     }
 });
 
 function limpiarLineaProducto() {
+    producto_max = 0;
     $('#codigo_producto').val('');
     $('#nombre_producto').val('');
     $('#unidad_producto').val('CAJA');
@@ -517,35 +601,41 @@ $('#cantidad_producto').keyup(function(e) {
 
 function agregar() {
     var cantidad = $('#cantidad_producto').val() * 1;
-    var precio = $('#precio_unitario_producto').val() * 1;
-    var unidad = $('#unidad_producto').val();
-    var unidad_caja = producto.df_und_caja * 1;
-    var iva = producto.df_valor_impuesto / 100;
-    if (precio == 'null' || cantidad < 1) {
-        alert('Debe escoger valores reales');
+    if (cantidad > producto_max) {
+        alertar('danger', '¡Alerta!', 'No puede vender más de ' + producto_max);
     } else {
-        var subtotal_tabla = cantidad * precio;
-        var total_iva_tabla = subtotal_tabla * iva;
-        var total_tupla = subtotal_tabla;
-        total_tupla = total_tupla.toFixed(2);
-        var row = '<tr>' +
-            '<td class="id_producto" style="display: none;">' + producto.df_id_producto + '</td>' +
-            '<td class="id_precio" style="display: none;">' + producto.df_id_precio + '</td>' +
-            '<td class="iva" style="display: none;">' + iva + '</td>' +
-            '<td class="subtotal" style="display: none;">' + subtotal_tabla + '</td>' +
-            '<td class="total_iva" style="display: none;">' + Number(total_iva_tabla).toFixed(2) + '</td>' +
-            '<td class="unidad_caja" style="display: none;">' + unidad_caja + '</td>' +
-            '<td width="100" class="codigo">' + producto.df_codigo_prod + '</td>' +
-            '<td class="producto">' + producto.df_nombre_producto + '</td>' +
-            '<td width="100" class="unidad">' + unidad + '</td>' +
-            '<td width="100" class="cantidad">' + cantidad + '</td>' +
-            '<td width="100" class="precio_unitario">' + precio + '</td>' +
-            '<td width="100" class="total_tupla_producto">' + total_tupla + '</td>' +
-            '<td width="100">' + acciones + '</td>' +
-            '</tr>';
-        $('#table_productos tbody').append(row);
-        $('[data-toggle="tooltip"]').tooltip();
+        var precio = $('#precio_unitario_producto').val() * 1;
+        var unidad = $('#unidad_producto').val();
+        var unidad_caja = producto.df_und_caja * 1;
+        var iva = producto.df_valor_impuesto / 100;
+        if (precio == 'null' || cantidad < 1) {
+            alert('Debe escoger valores reales');
+        } else {
+            var subtotal_tabla = cantidad * precio;
+            var total_iva_tabla = subtotal_tabla * iva;
+            var total_tupla = subtotal_tabla;
+            var cant_bodega = producto.df_cant_bodega - cantidad;
+            total_tupla = total_tupla.toFixed(2);
+            var row = '<tr>' +
+                '<td class="id_producto" style="display: none;">' + producto.df_id_producto + '</td>' +
+                '<td class="id_precio" style="display: none;">' + producto.df_id_precio + '</td>' +
+                '<td class="cant_bodega" style="display: none;">' + cant_bodega + '</td>' +
+                '<td class="iva" style="display: none;">' + iva + '</td>' +
+                '<td class="subtotal" style="display: none;">' + subtotal_tabla + '</td>' +
+                '<td class="total_iva" style="display: none;">' + Number(total_iva_tabla).toFixed(2) + '</td>' +
+                '<td class="unidad_caja" style="display: none;">' + unidad_caja + '</td>' +
+                '<td width="100" class="codigo">' + producto.df_codigo_prod + '</td>' +
+                '<td class="producto">' + producto.df_nombre_producto + '</td>' +
+                '<td width="100" class="unidad">' + unidad + '</td>' +
+                '<td width="100" class="cantidad">' + cantidad + '</td>' +
+                '<td width="100" class="precio_unitario">' + precio + '</td>' +
+                '<td width="100" class="total_tupla_producto">' + total_tupla + '</td>' +
+                '<td width="100">' + acciones + '</td>' +
+                '</tr>';
+            $('#table_productos tbody').append(row);
+            $('[data-toggle="tooltip"]').tooltip();
+        }
+        calcular();
+        limpiarLineaProducto();
     }
-    calcular();
-    limpiarLineaProducto();
 }
