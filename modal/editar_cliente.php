@@ -43,7 +43,7 @@
                         <div class="form-group">
                             <label for="editRazon_social" class="col-sm-3 control-label">Razón Social</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="editRazon_social" name="editRazon_social" required>
+                                <input type="text" class="form-control" id="editRazon_social" name="editRazon_social">
                             </div>
                         </div>
                         <div class="form-group">
@@ -68,19 +68,19 @@
                         <div class="form-group">
                             <label for="editEmail" class="col-sm-3 control-label">Email</label>
                             <div class="col-sm-8">
-                                <input type="email" class="form-control" id="editEmail" name="editEmail" required>
+                                <input type="email" class="form-control" id="editEmail" name="editEmail" >
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="editTelefono" class="col-sm-3 control-label">Teléfono</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="editTelefono" name="editTelefono" required>
+                                <input type="text" class="form-control" id="editTelefono" name="editTelefono" >
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="editCelular" class="col-sm-3 control-label">Celular</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="editCelular" name="editCelular" required>
+                                <input type="text" class="form-control" id="editCelular" name="editCelular" >
                                 <input type="hidden" class="form-control" id="id">
                             </div>
                         </div>
