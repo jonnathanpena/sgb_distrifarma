@@ -23,7 +23,7 @@ $(document).ready(function() {
     } else {
         window.location.href = 'login.php';
     }
-    load();
+    //load();
 });
 
 function load() {

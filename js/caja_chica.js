@@ -272,7 +272,7 @@ function insertarTablaEgreso(item) {
             tr = $('<tr/>');
             tr.append("<td>" + item.df_id_gasto + "</td>");
             tr.append("<td>" + item.df_fecha_gasto.split(' ')[0] + "</td>");
-            tr.append("<td>" + response.data[0].df_usuario_usuario +/*response.data[0].df_nombre_usuario + ' ' + response.data[0].df_apellido_usuario +*/ "</td>");
+            tr.append("<td>" + response.data[0].df_usuario_usuario +/response.data[0].df_nombre_usuario + ' ' + response.data[0].df_apellido_usuario +/ "</td>");
             tr.append("<td>" + item.df_movimiento + "</td>");
             tr.append("<td class='text-center'>$ 0.00</td>");
             tr.append("<td class='text-center'>$ " + Number(item.df_gasto).toFixed(2) + "</td>");
@@ -315,7 +315,7 @@ function insertarPersonalEnTablaEgreso(item, personalId) {
         tr = $('<tr/>');
         tr.append("<td>" + item.df_id_gasto + "</td>");
         tr.append("<td>" + item.df_fecha_gasto.split(' ')[0] + "</td>");
-        tr.append("<td>" + response.data[0].df_usuario_usuario + /*+ response.data[0].df_nombre_per + ' ' + response.data[0].df_apellido_per +*/ "</td>");
+        tr.append("<td>" + response.data[0].df_usuario_usuario + /+ response.data[0].df_nombre_per + ' ' + response.data[0].df_apellido_per +/ "</td>");
         tr.append("<td>" + item.df_movimiento + "</td>");
         tr.append("<td class='text-center'>$ 0.00</td>");
         tr.append("<td class='text-center'> $ " + Number(item.df_gasto).toFixed(2) + "</td>");
@@ -332,7 +332,7 @@ function insertarPersonalEnTablaIngreso(item, personalId) {
         tr = $('<tr/>');
         tr.append("<td>" + item.df_id_ingreso_cc + "</td>");
         tr.append("<td>" + item.df_fecha_ingreso.split(' ')[0] + "</td>");
-        tr.append("<td>" + response.data[0].df_usuario_usuario + /*+ response.data[0].df_nombre_per + ' ' + response.data[0].df_apellido_per +*/ "</td>");
+        tr.append("<td>" + response.data[0].df_usuario_usuario + /+ response.data[0].df_nombre_per + ' ' + response.data[0].df_apellido_per +/ "</td>");
         tr.append("<td>Ingreso</td>");
         tr.append("<td class='text-center'> $ " + Number(item.df_valor_cheque).toFixed(2) + "</td>");
         tr.append("<td class='text-center'> $ 0.00</td>");
