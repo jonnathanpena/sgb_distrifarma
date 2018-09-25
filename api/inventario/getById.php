@@ -8,28 +8,28 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
  
 // incluye la configuración de la base de datos y la conexión
 include_once '../config/database.php';
-include_once '../objects/libroDiario.php';
+include_once '../objects/inventario.php';
  
 // inicia la conexión a la base de datos
 $database = new Database();
 $db = $database->getConnection();
  
 // inicia el objeto
-$libroDiario = new LibroDiario($db);
+$inventario = new Inventario($db);
 
 $data = json_decode(file_get_contents('php://input'), true);
 
 $info = array($data);
+
+$inventario->df_id_inventario= $info[0]["df_id_inventario"];
  
-$libroDiario->df_fecha_ini= $info[0]["df_fecha_ini"];
-$libroDiario->df_fecha_fin= $info[0]["df_fecha_fin"];
 // query de lectura
-$stmt = $libroDiario->readByFecha();
+$stmt = $inventario->readById();
 $num = $stmt->rowCount();
 
-//libroDiario array
-$libroDiario_arr=array();
-$libroDiario_arr["data"]=array();
+//inventario array
+$inventario_arr=array();
+$inventario_arr["data"]=array();
  
 // check if more than 0 record found
 if($num>0){ 
@@ -43,23 +43,27 @@ if($num>0){
         extract($row);
         
         //Los nombres acá son iguales a los de la clase iguales a las columnas de la BD
-        $libroDiario_item=array(
-            "df_id_libro_diario"=>$df_id_libro_diario, 
-            "df_valor_inicial_ld"=>$df_valor_inicial_ld,
-            "df_fecha_ld"=>$df_fecha_ld,
-            "df_descipcion_ld"=>$df_descipcion_ld,
-            "df_ingreso_ld"=>$df_ingreso_ld,
-            "df_egreso_ld"=>$df_egreso_ld,
-            "df_usuario_id_ld"=>$df_usuario_id_ld
+        $inventario_item=array(
+            "df_id_inventario"=>$df_id_inventario, 
+            "df_cant_bodega"=>$df_cant_bodega,
+            "df_cant_transito"=>$df_cant_transito,
+            "df_producto"=>$df_producto,
+            "df_ppp_ind"=>$df_ppp_ind,
+            "df_pvt_ind"=>$df_pvt_ind,
+            "df_ppp_total"=>$df_ppp_total,
+            "df_pvt_total"=>$df_pvt_total,
+            "df_minimo_sug"=>$df_minimo_sug,
+            "df_und_caja"=>$df_und_caja,
+            "df_bodega"=>$df_bodega
         );
  
-        array_push($libroDiario_arr["data"], $libroDiario_item);
+        array_push($inventario_arr["data"], $inventario_item);
     }
  
-    echo json_encode($libroDiario_arr);
+    echo json_encode($inventario_arr);
 }
  
 else{
-    echo json_encode($libroDiario_arr);
+    echo json_encode($inventario_arr);
 }
 ?>

@@ -48,7 +48,8 @@ class Cliente {
                     `df_celular_cli` FROM `df_cliente` 
                     WHERE `df_nombre_cli` like '%".$this->df_nombre_cli."%' 
                     OR `df_razon_social_cli` like '%".$this->df_nombre_cli."%' 
-                    OR `df_documento_cli` like '%".$this->df_nombre_cli."%'";
+                    OR `df_documento_cli` like '%".$this->df_nombre_cli."%'
+                    ORDER BY df_id_cliente DESC";
     
         // prepare query statement
         $stmt = $this->conn->prepare($query);
