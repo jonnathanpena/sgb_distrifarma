@@ -38,7 +38,7 @@
                         <div class="form-group">
                             <label for="razon_social" class="col-sm-3 control-label">Razón Social</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="razon_social" name="razon_social" required>
+                                <input type="text" class="form-control" id="razon_social" name="razon_social" >
                             </div>
                         </div>
                         <div class="form-group">
@@ -69,13 +69,13 @@
                         <div class="form-group">
                             <label for="telefono" class="col-sm-3 control-label">Teléfono</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="telefono" name="telefono" required>
+                                <input type="text" class="form-control" id="telefono" name="telefono" >
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="celular" class="col-sm-3 control-label">Celular</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="celular" name="celular" required>
+                                <input type="text" class="form-control" id="celular" name="celular" >
                             </div>
                         </div>
                     </div>
