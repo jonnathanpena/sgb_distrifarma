@@ -112,13 +112,13 @@ function selectMaxID(personal) {
             insert(personal);
         } else {
             if (data.data[0].df_id_personal > 0 && data.data[0].df_id_personal < 10) {
-                personal.df_codigo_personal = 'PER-00' + data.data[0].df_id_personal;
+                personal.df_codigo_personal = 'PER-00' + ((data.data[0].df_id_personal * 1) + 1);
                 insert(personal);
             } else if (data.data[0].df_id_personal > 9 && data.data[0].df_id_personal < 100) {
-                personal.df_codigo_personal = 'PER-0' + data.data[0].df_id_personal;
+                personal.df_codigo_personal = 'PER-0' + ((data.data[0].df_id_personal * 1) + 1);
                 insert(personal);
             } else if (data.data[0].df_id_personal > 99) {
-                personal.df_codigo_personal = 'PER-' + data.data[0].df_id_personal;
+                personal.df_codigo_personal = 'PER-' + ((data.data[0].df_id_personal * 1) + 1);
                 insert(personal);
             }
         }
