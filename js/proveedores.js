@@ -1,3 +1,12 @@
+var $pagination = $('#pagination'),
+    totalRecords = 0,
+    records = [],
+    displayRecords = [],
+    recPerPage = 10,
+    page = 1,
+    totalPages = 0;
+var timer;
+var items = [];
 var usuario = '';
 var timer;
 
@@ -24,15 +33,42 @@ function load() {
     }, 1000);
 }
 
+function apply_pagination() {
+    displayRecordsIndex = Math.max(page - 1, 0) * recPerPage;
+    endRec = (displayRecordsIndex) + recPerPage;
+    displayRecords = records.slice(displayRecordsIndex, endRec);
+    generate_table();
+    $pagination.twbsPagination({
+        totalPages: totalPages,
+        visiblePages: 6,
+        onPageClick: function(event, page) {
+            displayRecordsIndex = Math.max(page - 1, 0) * recPerPage;
+            endRec = (displayRecordsIndex) + recPerPage;
+            displayRecords = records.slice(displayRecordsIndex, endRec);
+            generate_table();
+        }
+    });
+}
+
+function generate_table() {
+    $('#resultados .table-responsive table tbody').empty();
+    $.each(displayRecords, function(index, row) {
+        $('#resultados .table-responsive table tbody').append('<tr> <td>' + row.df_codigo_proveedor + '</td> <td>' + row.df_documento_prov + '</td> <td>' + row.df_nombre_empresa + '</td> <td>' + row.df_tlf_empresa + '</td> <td>' + row.df_nombre_contacto + '</td> <td>' + row.df_tlf_contacto + '</td> <td><span class="pull-right"><a href="#" class="btn btn-default" title="Detallar" onclick="detallar(`' + row.df_codigo_proveedor + '`, `' + row.df_documento_prov + '` )"><i class="glyphicon glyphicon-edit"></i></a></span></td> </tr>');
+    });       
+}
+
 function cargar() {
     var q = $('#q').val();
     $('#resultados .table-responsive table tbody').html('Cargando...');
     $.post(url + 'proveedor/getAll.php', JSON.stringify({ df_nombre_empresa: q }), function(data, status, hrx) {
         if (data.data.length > 0) {
-            $('#resultados .table-responsive table tbody').html('');
-            $.each(data.data, function(index, row) {
-                $('#resultados .table-responsive table tbody').append('<tr> <td>' + row.df_codigo_proveedor + '</td> <td>' + row.df_documento_prov + '</td> <td>' + row.df_nombre_empresa + '</td> <td>' + row.df_tlf_empresa + '</td> <td>' + row.df_nombre_contacto + '</td> <td>' + row.df_tlf_contacto + '</td> <td><span class="pull-right"><a href="#" class="btn btn-default" title="Detallar" onclick="detallar(`' + row.df_codigo_proveedor + '`, `' + row.df_documento_prov + '` )"><i class="glyphicon glyphicon-edit"></i></a></span></td> </tr>');
-            })
+            data.data.sort(function (a, b){
+                return (b.df_id_proveedor - a.df_id_proveedor)
+              });
+            records = data.data;
+            totalRecords = records.length;
+            totalPages = Math.ceil(totalRecords / recPerPage);
+            apply_pagination();
         } else {
             $('#resultados .table-responsive table tbody').html('No se encontró ningún resultado');
         }
@@ -59,13 +95,13 @@ function insertar(proveedor) {
         if (data.data[0].df_id_proveedor == null) {
             codigo = 'PROV-' + '001';
         } else if (data.data[0].df_id_proveedor > 0 && data.data[0].df_id_proveedor < 10) {
-            codigo = 'PROV-' + '00' + data.data[0].df_id_proveedor;
+            codigo = 'PROV-' + '00' + ((data.data[0].df_id_proveedor * 1) + 1);
         } else if (data.data[0].df_id_proveedor > 9 && data.data[0].df_id_proveedor < 100) {
-            codigo = 'PROV-' + '0' + data.data[0].df_id_proveedor;
+            codigo = 'PROV-' + '0' + ((data.data[0].df_id_proveedor * 1) + 1);
         } else if (data.data[0].df_id_proveedor > 99 && data.data[0].df_id_proveedor < 1000) {
-            codigo = 'PROV-' + data.data[0].df_id_proveedor;
+            codigo = 'PROV-' + ((data.data[0].df_id_proveedor * 1) + 1);
         }
-        proveedor.df_codigo_proveedor = codigo;
+        proveedor.df_codigo_proveedor = codigo;                
         var urlCompleta = url + 'proveedor/insert.php';
         console.log('proveedor', proveedor);
         $.post(urlCompleta, JSON.stringify(proveedor), function(datos, status, xhr) {

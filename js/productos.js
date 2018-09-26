@@ -154,7 +154,7 @@ $('#guardar_producto').submit(function(event) {
         df_und_caja: $('#unidad_caja').val(),
         df_utilidad: 0
     };
-    if (producto.df_codigo_prod == ''){
+    if (producto.df_codigo_prod == '' || producto.df_codigo_prod == 'PRO-'){
         getMaxId(producto, productoPrecio);
     } else {
         insertProducto(producto, productoPrecio);
@@ -168,11 +168,11 @@ function getMaxId(producto, productoPrecio) {
         if (response.data[0].df_id_producto == null) {
             codigo = 'PRO-001';
         } else if (response.data[0].df_id_producto > 0 && response.data[0].df_id_producto < 10) {
-            codigo = 'PRO-00' + response.data[0].df_id_producto;
+            codigo = 'PRO-00' + ((response.data[0].df_id_producto * 1) + 1);
         } else if (response.data[0].df_id_producto > 9 && response.data[0].df_id_producto < 100) {
-            codigo = 'PRO-0' + response.data[0].df_id_producto;
+            codigo = 'PRO-0' + ((response.data[0].df_id_producto * 1) + 1);
         } else if (response.data[0].df_id_producto > 99) {
-            codigo = 'PRO-' + response.data[0].df_id_producto;
+            codigo = 'PRO-' + ((response.data[0].df_id_producto * 1) + 1);
         }
         producto.df_codigo_prod = codigo;
         insertProducto(producto, productoPrecio);

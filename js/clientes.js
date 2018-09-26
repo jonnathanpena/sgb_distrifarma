@@ -156,11 +156,11 @@ function getCodigo(documento) {
         } else {
             var codigo = "";
             if (data.data[0].df_id_cliente >= 0 && data.data[0].df_id_cliente < 10) {
-                codigo = 'CLI-00' + data.data[0].df_id_cliente;
+                codigo = 'CLI-00' + ((data.data[0].df_id_cliente * 1) + 1);
             } else if (data.data[0].df_id_cliente > 9 && data.data[0].df_id_cliente < 100) {
-                codigo = 'CLI-0' + data.data[0].df_id_cliente;
+                codigo = 'CLI-0' + ((data.data[0].df_id_cliente * 1 ) + 1);
             } else if (data.data[0].df_id_cliente > 99) {
-                codigo = 'CLI-' + data.data[0].df_id_cliente;
+                codigo = 'CLI-' + ((data.data[0].df_id_cliente * 1) + 1);
             }
             insertar(documento, codigo);
         }

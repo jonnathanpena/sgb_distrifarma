@@ -43,13 +43,13 @@
                         <div class="form-group">
                             <label for="editNombre_contacto" class="col-sm-3 control-label">Nombre Contacto</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="editNombre_contacto" name="editNombre_contacto" required>
+                                <input type="text" class="form-control" id="editNombre_contacto" name="editNombre_contacto">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="editTelefono_contacto" class="col-sm-3 control-label">Teléfono Contacto</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="editTelefono_contacto" name="editTelefono_contacto" required>
+                                <input type="text" class="form-control" id="editTelefono_contacto" name="editTelefono_contacto">
                             </div>
                         </div>
                     </div>

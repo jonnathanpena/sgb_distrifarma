@@ -37,13 +37,13 @@
                         <div class="form-group">
                             <label for="nombre_contacto" class="col-sm-3 control-label">Nombre Contacto</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="nombre_contacto" name="nombre_contacto" required>
+                                <input type="text" class="form-control" id="nombre_contacto" name="nombre_contacto">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="telefono_contacto" class="col-sm-3 control-label">Teléfono Contacto</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="telefono_contacto" name="telefono_contacto" required>
+                                <input type="text" class="form-control" id="telefono_contacto" name="telefono_contacto">
                             </div>
                         </div>
                     </div>

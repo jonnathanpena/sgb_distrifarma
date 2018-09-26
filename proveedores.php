@@ -62,6 +62,9 @@ include("modal/editar_proveedor.php");
                         <tbody></tbody>
                     </table>
                 </div>
+                <div id="pager" style="float: right;">
+                        <ul id="pagination" class="pagination-sm"></ul>
+                </div>
             </div>
         </div>
     </div>
