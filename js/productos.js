@@ -119,9 +119,25 @@ function getIva(producto) {
     });
 }
 
-function nuevoProducto() {
+function nuevoProducto() {    
     $('#iva').empty();
     $('#nuevoProducto').modal('show');
+    $('#codigop').append();
+    var urlCompleta = url + 'producto/getIdMax.php';
+    $.get(urlCompleta, function(response) {
+        var codigo = '';
+        if (response.data[0].df_id_producto == null) {
+            codigo = 'PRO-001';
+        } else if (response.data[0].df_id_producto > 0 && response.data[0].df_id_producto < 10) {
+            codigo = 'PRO-00' + ((response.data[0].df_id_producto * 1) + 1);
+        } else if (response.data[0].df_id_producto > 9 && response.data[0].df_id_producto < 100) {
+            codigo = 'PRO-0' + ((response.data[0].df_id_producto * 1) + 1);
+        } else if (response.data[0].df_id_producto > 99) {
+            codigo = 'PRO-' + ((response.data[0].df_id_producto * 1) + 1);
+        }
+        console.log('MaxId ', codigo);
+        $('#codigop').val(codigo);
+    });
     var urlCompleta = url + 'productoPrecio/getAllImpuesto.php';
     $.get(urlCompleta, function(response) {
         var tr;

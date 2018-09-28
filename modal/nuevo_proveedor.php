@@ -10,40 +10,40 @@
                 <form class="form-horizontal" method="post" id="guardar_proveedor" name="guardar_proveedor">
                     <div id="resultados_ajax"></div>
                         <div class="form-group">
-                            <label for="ruc" class="col-sm-3 control-label">RUC</label>
+                            <label for="ruc" class="col-sm-3 control-label">RUC<span class="obligatorio">*</span></label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control" id="ruc" name="ruc" min="1" step="1" onkeyup="consultarRUC()" required>
+                                <input type="number" class="form-control" id="ruc" name="ruc" min="1" step="1" onkeyup="consultarRUC()" placeholder="RUC" required>
                                 <span style="color: red;" id="span_ruc">¡Proveedor ya registrado!</span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="nombre" class="col-sm-3 control-label">Nombre</label>
+                            <label for="nombre" class="col-sm-3 control-label">Nombre<span class="obligatorio">*</span></label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="nombre" name="nombre" required>
+                                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" required>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="direccion" class="col-sm-3 control-label">Dirección</label>
+                            <label for="direccion" class="col-sm-3 control-label">Dirección<span class="obligatorio">*</span></label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="direccion" name="direccion" required>
+                                <input type="text" class="form-control" id="direccion" name="direccion" placeholder="Dirección" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="telefono" class="col-sm-3 control-label">Teléfono</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="telefono" name="telefono">
+                                <input type="text" class="form-control" id="telefono" name="telefono" placeholder="Teléfono">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="nombre_contacto" class="col-sm-3 control-label">Nombre Contacto</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="nombre_contacto" name="nombre_contacto">
+                                <input type="text" class="form-control" id="nombre_contacto" name="nombre_contacto" placeholder="Nombre Contacto">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="telefono_contacto" class="col-sm-3 control-label">Teléfono Contacto</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="telefono_contacto" name="telefono_contacto">
+                                <input type="text" class="form-control" id="telefono_contacto" name="telefono_contacto" placeholder="Teléfono Contacto">
                             </div>
                         </div>
                     </div>

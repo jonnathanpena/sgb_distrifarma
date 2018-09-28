@@ -10,7 +10,7 @@
                 <form class="form-horizontal" id="guardar_usuario" name="guardar_usuario">
                     <div id="resultados_ajax"></div>
                         <div class="form-group">
-                            <label for="tipo_documento" class="col-sm-3 control-label">Tipo Documento</label>
+                            <label for="tipo_documento" class="col-sm-3 control-label">Tipo Documento<span class="obligatorio">*</span></label>
                             <div class="col-sm-8">
                                 <select name="tipo_documento" id="tipo_documento" class="form-control" required>
                                     <option value="null">Seleccione...</option>
@@ -20,40 +20,40 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="documento" class="col-sm-3 control-label">Documento</label>
+                            <label for="documento" class="col-sm-3 control-label">Documento<span class="obligatorio">*</span></label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control" id="documento" name="documento" min="1" step="1" max="9999999999" onkeyup="getByDocumento()">
-                                <input type="text" class="form-control" id="pasaporte" name="pasaporte" onkeyup="getByDocumento()" >
+                                <input type="number" class="form-control" id="documento" placeholder="Documento" name="documento" min="1" step="1" max="9999999999" onkeyup="getByDocumento()">
+                                <input type="text" class="form-control" id="pasaporte" placeholder="Documento" name="pasaporte" onkeyup="getByDocumento()" >
                                 <span style="color: red;" id="span_documento">¡Documento ya registrado!</span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="nombre" class="col-sm-3 control-label">Nombre</label>
+                            <label for="nombre" class="col-sm-3 control-label">Nombre<span class="obligatorio">*</span></label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="nombre" name="nombre" required>
+                                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" required>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="apellido" class="col-sm-3 control-label">Apellido</label>
+                            <label for="apellido" class="col-sm-3 control-label">Apellido<span class="obligatorio">*</span></label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="apellido" name="apellido" required>
+                                <input type="text" class="form-control" id="apellido" name="apellido" placeholder="Apellido" required>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="usuario" class="col-sm-3 control-label">Usuario</label>
+                            <label for="usuario" class="col-sm-3 control-label">Usuario<span class="obligatorio">*</span></label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="usuario" name="usuario" onkeyup="getByUsuario()" required>
+                                <input type="text" class="form-control" id="usuario" name="usuario" onkeyup="getByUsuario()" placeholder="Usuario" required>
                                 <span style="color: red;" id="span_usuario">¡Usuario ya registrado!</span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="email" class="col-sm-3 control-label">Email</label>
                             <div class="col-sm-8">
-                                <input type="email" class="form-control" id="email" name="email" >
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Email">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="perfil" class="col-sm-3 control-label">Perfil</label>
+                            <label for="perfil" class="col-sm-3 control-label">Perfil<span class="obligatorio">*</span></label>
                             <div class="col-sm-8">
                                 <select name="perfil" id="perfil" class="form-control">
                                     <option value="null">Seleccione...</option>
@@ -64,15 +64,15 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="clave" class="col-sm-3 control-label">Contraseña</label>
+                            <label for="clave" class="col-sm-3 control-label">Contraseña<span class="obligatorio">*</span></label>
                             <div class="col-sm-8">
-                                <input type="password" class="form-control" id="clave" name="clave" >
+                                <input type="password" class="form-control" id="clave" name="clave" placeholder="Contraseña">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="confirme" class="col-sm-3 control-label">Repetir Contraseña</label>
+                            <label for="confirme" class="col-sm-3 control-label">Repetir Contraseña<span class="obligatorio">*</span></label>
                             <div class="col-sm-8">
-                                <input type="password" class="form-control" id="confirme" name="confirme" >
+                                <input type="password" class="form-control" id="confirme" name="confirme" placeholder="Repetir Contraseña">
                             </div>
                         </div>
                     </div>

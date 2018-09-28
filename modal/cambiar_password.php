@@ -10,15 +10,15 @@
                 <form class="form-horizontal" id="modificar_clave" name="modificar_clave">
                     <div id="resultados_ajax"></div>
                         <div class="form-group">
-                            <label for="editarClave" class="col-sm-3 control-label">Nueva clave</label>
+                            <label for="editarClave" class="col-sm-3 control-label">Nueva clave<span class="obligatorio">*</span></label>
                             <div class="col-sm-8">
-                                <input type="password" class="form-control" id="editaClave" name="editaClave" required>
+                                <input type="password" class="form-control" id="editaClave" name="editaClave" placeholder="Nueva Clave" required>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="editarConfirme" class="col-sm-3 control-label">Repita clave</label>
+                            <label for="editarConfirme" class="col-sm-3 control-label">Confirmar clave<span class="obligatorio">*</span></label>
                             <div class="col-sm-8">
-                                <input type="password" class="form-control" id="editarConfirme" name="editarConfirme" required>
+                                <input type="password" class="form-control" id="editarConfirme" name="editarConfirme" placeholder="Confirmar Clave" required>
                             </div>
                         </div>                        
                     </div>
