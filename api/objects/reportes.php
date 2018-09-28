@@ -239,6 +239,62 @@ function readByVentaSector(){
     return $stmt;
     }
 
+
+    //reportes CLIENTE POR COMPRA ULTIMOS 30 DIAS
+    function readByClienteCompra(){
+    
+    // select all query
+    $query = "SELECT COUNT(fac.`df_num_factura`) PERIOCIDAD , fac.`df_cliente_cod_fac`, 
+                UPPER(cli.`df_nombre_cli`), fac.`df_personal_cod_fac`, UPPER(per.`df_nombre_per`), 
+                UPPER(per.`df_apellido_per`), fac.`df_sector_cod_fac`, sec.df_nombre_sector, 
+                SUM(fac.`df_subtotal_fac`) VALOR_COMPRA_SIN_IVA, SUM(fac.`df_valor_total_fac`) VALOR_TOTAL_COMPRA
+            FROM `df_factura` AS fac
+            INNER JOIN `df_cliente` AS cli ON (cli.`df_id_cliente` = fac.`df_cliente_cod_fac`)
+            INNER JOIN `df_sector` as sec ON (sec.df_codigo_sector = cli.df_sector_cod and 
+                cli.`df_id_cliente` = fac.`df_cliente_cod_fac`)
+            INNER JOIN `df_personal` AS per ON (per.df_id_personal = fac.`df_personal_cod_fac`)
+            WHERE  ((df_fecha_fac BETWEEN NOW() - INTERVAL 30 DAY AND NOW()) OR 
+                (`df_fecha_entrega_fac` BETWEEN NOW() - INTERVAL 30 DAY AND NOW())) AND 
+                `df_edo_factura_fac` IN (2,4)
+            GROUP BY df_cliente_cod_fac, df_sector_cod_fac, df_personal_cod_fac
+            ORDER BY VALOR_COMPRA_SIN_IVA DESC";
+    // prepare query statement
+    $stmt = $this->conn->prepare($query);
+
+    // execute query
+    $stmt->execute();
+
+    return $stmt;
+    }
+
+    //reportes CLIENTE POR COMPRA ULTIMOS 30 DIAS
+   /* function readByClienteCompra(){
+    
+    // select all query
+    $query = "SELECT DISTINCT  fac.`df_cliente_cod_fac`, fac.df_fecha_fac ,  UPPER(cli.`df_nombre_cli`), fac.`df_personal_cod_fac`, UPPER(per.`df_nombre_per`), UPPER(per.`df_apellido_per`), fac.`df_sector_cod_fac`, sec.df_nombre_sector, SUM(fac.`df_subtotal_fac`) VALOR_COMPRA_SIN_IVA, SUM(fac.`df_valor_total_fac`) VALOR_TOTAL_COMPRA
+FROM `df_factura` AS fac
+INNER JOIN `df_cliente` AS cli ON (cli.`df_id_cliente` = fac.`df_cliente_cod_fac`)
+INNER JOIN `df_sector` as sec ON (sec.df_codigo_sector = cli.df_sector_cod and cli.`df_id_cliente` = fac.`df_cliente_cod_fac`)
+INNER JOIN `df_personal` AS per ON (per.df_id_personal = fac.`df_personal_cod_fac`)
+WHERE  ((fac.df_fecha_fac < NOW() - INTERVAL 30 DAY) OR 
+	(fac.`df_fecha_entrega_fac` < NOW() - INTERVAL 30 DAY)) AND fac.`df_edo_factura_fac` IN (2,4)
+    AND fac.`df_cliente_cod_fac` NOT IN (SELECT DISTINCT `df_cliente_cod_fac`
+FROM `df_factura` 
+WHERE  ((df_fecha_fac BETWEEN NOW() - INTERVAL 30 DAY AND NOW()) OR 
+                (`df_fecha_entrega_fac` BETWEEN NOW() - INTERVAL 30 DAY AND NOW())) AND 
+                `df_edo_factura_fac` IN (2,4))
+
+GROUP BY df_cliente_cod_fac, df_sector_cod_fac, df_personal_cod_fac
+ORDER BY fac.df_fecha_fac  DESC";
+    // prepare query statement
+    $stmt = $this->conn->prepare($query);
+
+    // execute query
+    $stmt->execute();
+
+    return $stmt;
+    }**
+
     /* 
     function readByEntregaSector(){
     

@@ -14,6 +14,7 @@ class LibroDiario {
     public $df_descipcion_ld;
     public $df_ingreso_ld;
     public $df_egreso_ld;
+    public $df_fuente_ld;
 
     //constructor con base de datos como conexión
     public function __construct($db){
@@ -24,7 +25,7 @@ class LibroDiario {
     function read(){
     
         // select all query
-        $query = "SELECT `df_id_libro_diario`, `df_valor_inicial_ld`, `df_fecha_ld`, `df_descipcion_ld`, 
+        $query = "SELECT `df_id_libro_diario`, `df_fuente_ld`, `df_valor_inicial_ld`, `df_fecha_ld`, `df_descipcion_ld`, 
                     `df_ingreso_ld`, `df_egreso_ld`, df_usuario_id_ld 
                     FROM `df_libro_diario` 
                     where df_fecha_ld  BETWEEN NOW() - INTERVAL 30 DAY AND NOW()
@@ -43,10 +44,10 @@ class LibroDiario {
     function readById(){
     
         // select all query
-        $query = "SELECT `df_id_libro_diario`, `df_valor_inicial_ld`, `df_fecha_ld`, `df_descipcion_ld`, 
+        $query = "SELECT `df_id_libro_diario`, `df_fuente_ld`, `df_valor_inicial_ld`, `df_fecha_ld`, `df_descipcion_ld`, 
                 `df_ingreso_ld`, `df_egreso_ld`, df_usuario_id_ld FROM `df_libro_diario` 
                 WHERE `df_id_libro_diario` =".$this->df_id_libro_diario."
-                ORDER BY `df_fecha_ld` desc";
+                ORDER BY `df_id_libro_diario` desc";
 
         // prepare query statement
         $stmt = $this->conn->prepare($query);
@@ -60,7 +61,7 @@ class LibroDiario {
     function readByFecha(){
     
         // select all query
-        $query = "SELECT `df_id_libro_diario`, `df_valor_inicial_ld`, `df_fecha_ld`, `df_descipcion_ld`, 
+        $query = "SELECT `df_id_libro_diario`, `df_fuente_ld`, `df_valor_inicial_ld`, `df_fecha_ld`, `df_descipcion_ld`, 
                     `df_ingreso_ld`, `df_egreso_ld`, df_usuario_id_ld FROM `df_libro_diario` 
                     WHERE `df_fecha_ld` >='".$this->df_fecha_ini."' and df_fecha_ld <= '".$this->df_fecha_fin."'";
     
@@ -77,8 +78,9 @@ class LibroDiario {
     function insert(){
     
         // query to insert record
-        $query = "INSERT INTO `df_libro_diario`(`df_valor_inicial_ld`, `df_fecha_ld`, `df_descipcion_ld`, 
+        $query = "INSERT INTO `df_libro_diario`(`df_fuente_ld`, `df_valor_inicial_ld`, `df_fecha_ld`, `df_descipcion_ld`, 
                     `df_ingreso_ld`, `df_egreso_ld`, df_usuario_id_ld) VALUES (
+                        '".$this->df_fuente_ld."',
                         ".$this->df_valor_inicial_ld.",
                         '".$this->df_fecha_ld."',
                         '".$this->df_descipcion_ld."',

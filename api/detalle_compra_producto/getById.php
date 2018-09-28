@@ -8,27 +8,30 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
  
 // incluye la configuración de la base de datos y la conexión
 include_once '../config/database.php';
-include_once '../objects/libroDiario.php';
+include_once '../objects/detalle_compra_producto.php';
  
 // inicia la conexión a la base de datos
 $database = new Database();
 $db = $database->getConnection();
  
 // inicia el objeto
-$libroDiario = new LibroDiario($db);
+$detalle_compra_producto = new DetalleCompraProducto($db);
 
+// get posted data
 $data = json_decode(file_get_contents('php://input'), true);
 
 $info = array($data);
+ 
+// configura los valores recibidos en post de la app
+$detalle_compra_producto->id_dcp = $info[0]["id_dcp"];
 
-$libroDiario->df_id_libro_diario= $info[0]["df_id_libro_diario"];
 // query de lectura
-$stmt = $libroDiario->readById();
+$stmt = $detalle_compra_producto->readById();
 $num = $stmt->rowCount();
 
-//libroDiario array
-$libroDiario_arr=array();
-$libroDiario_arr["data"]=array();
+// detalle_compra_producto array
+$detalle_compra_producto_arr=array();
+$detalle_compra_producto_arr["data"]=array();
  
 // check if more than 0 record found
 if($num>0){ 
@@ -40,26 +43,22 @@ if($num>0){
         // this will make $row['name'] to
         // just $name only
         extract($row);
-        
-        //Los nombres acá son iguales a los de la clase iguales a las columnas de la BD
-        $libroDiario_item=array(
-            "df_id_libro_diario"=>$df_id_libro_diario, 
-            "df_fuente_ld"=>$df_id_lidf_fuente_ldbro_diario, 
-            "df_valor_inicial_ld"=>$df_valor_inicial_ld,
-            "df_fecha_ld"=>$df_fecha_ld,
-            "df_descipcion_ld"=>$df_descipcion_ld,
-            "df_ingreso_ld"=>$df_ingreso_ld,
-            "df_egreso_ld"=>$df_egreso_ld,
-            "df_usuario_id_ld"=>$df_usuario_id_ld
+ 
+        $detalle_compra_producto_item=array(
+            "id_dcp"=>$id_dcp, 
+            "compra_id"=>$compra_id, 
+            "codigo_dcp"=>$codigo_dcp, 
+            "cantidad_dcp"=>$cantidad_dcp, 
+            "precio_unitario_dcp"=>$precio_unitario_dcp, 
+            "total_dcp"=>$total_dcp
         );
  
-        array_push($libroDiario_arr["data"], $libroDiario_item);
+        array_push($detalle_compra_producto_arr["data"], $detalle_compra_producto_item);
     }
  
-    echo json_encode($libroDiario_arr);
+    
 }
  
-else{
-    echo json_encode($libroDiario_arr);
-}
+echo json_encode($detalle_compra_producto_arr);
+
 ?>

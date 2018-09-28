@@ -35,7 +35,7 @@ if($num>0){
         
         //Los nombres acá son iguales a los de la clase iguales a las columnas de la BD
         $kardex_item=array(
-            "df_kardex_id"=>$df_kardex_id * 1
+            "df_kardex_id"=>$df_kardex_id
         );
  
         array_push($kardex_arr["data"], $kardex_item);
