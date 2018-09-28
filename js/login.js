@@ -16,6 +16,7 @@ $('#form-login').submit(function(event) {
         df_usuario_usuario: $('#user_name').val()
     };
     $.post(urlCompleta, JSON.stringify(datos), function(data, status, hrx) {
+        console.log('Login API', data.data[0]);
         if (data.data.length > 0) {
             data.data[0].ingreso = true;
             localStorage.setItem('distrifarma_test_user', JSON.stringify(data.data[0]));
