@@ -16,7 +16,7 @@ function timerIncrement() {
         window.location.href = 'login.php';
     }
 }
-var url = 'api/';
+var url = 'api/'; //'www.proconty.com/API/distrifar/'; 
 var usuario = "";
 
 function alertar(tipo, titulo, mensaje) {
