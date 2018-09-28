@@ -31,13 +31,13 @@ function load() {
     clearTimeout(timer);
     timer = setTimeout(function() {
         cargar();
-    }, 3000);
+    }, 1000);
 }
 
 function cargar() {
-    $('#resultados .table-responsive table tbody').html('Cargando...');
     var urlCompleta = url + 'usuario/getAll.php';
     var q = $('#q').val();
+    $('#resultados .table-responsive table tbody').html('Cargando...');
     $.post(urlCompleta, JSON.stringify({ df_nombre_usuario: q }), function(data, status, xhr) {
         if (data.data.length > 0) {
             $('#resultados .table-responsive table tbody').html('');
@@ -50,7 +50,7 @@ function cargar() {
                 }
             })
         } else {
-            $('#resultados .table-responsive table tbody').html('No se encontró ningín resultado');
+            $('#resultados .table-responsive table tbody').html('No se encontró ningún resultado');
         }
     });
 }

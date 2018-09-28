@@ -42,6 +42,7 @@ function load() {
             $('#valor_libro').val(response.data[0].df_saldo * 1);
         }
     });
+    $('#resultados .table-responsive table tbody').html('Cargando...');
     var urlCompleta = url + 'banco/getAll.php';
     $.get(urlCompleta, function(response) {
         if (response.data.length > 0) {
@@ -53,17 +54,19 @@ function load() {
             $.each(response.data, function(index, row) {
                 getUsuario(row);
             })
+            clearTimeout(timer);
+            timer = setTimeout(function() {
+                bancos.sort(function (a, b){
+                  return (b.df_id_banco - a.df_id_banco)
+                });
+                records = bancos;
+                totalRecords = records.length;
+                totalPages = Math.ceil(totalRecords / recPerPage);
+                apply_pagination();
+            }, 1000);
+        } else {
+            $('#resultados .table-responsive table tbody').html('No se encontró ningún resultado');
         }
-        clearTimeout(timer);
-        timer = setTimeout(function() {
-            bancos.sort(function (a, b){
-              return (b.df_id_banco - a.df_id_banco)
-            });
-            records = bancos;
-            totalRecords = records.length;
-            totalPages = Math.ceil(totalRecords / recPerPage);
-            apply_pagination();
-        }, 1000);
     });
 }
 

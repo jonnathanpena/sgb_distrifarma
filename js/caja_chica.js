@@ -50,6 +50,7 @@ function load() {
             banco = response.data[0].df_saldo_banco * 1;
         }
     });
+    $('#resultados .table-responsive table tbody').html('Cargando...');
     var urlCompleta = url + 'cajaChicaGasto/getMes.php';
     $.get(urlCompleta, function(response) {
         console.log('response ',response.data);
@@ -60,27 +61,30 @@ function load() {
             valorLibro = ($('#saldo_banco').val() * 1) + saldo;
             $('#valor_libro').val(valorLibro);
             console.log('valor inicial',valorLibro);
+            
+            console.log(caja);
+            clearTimeout(timer);
+            timer = setTimeout(function() {
+            /* caja.sort(function (a, b){
+                return (a.df_fecha_gasto - b.df_fecha_gasto)
+                });*/
+                caja.sort(function(a,b) {
+                    if (a.df_fecha_gasto > b.df_fecha_gasto){
+                        return -1;
+                    }
+                    if (a.df_fecha_gasto < b.df_fecha_gasto){
+                        return 1;
+                    }
+                    return 0;
+                });
+                records = caja;
+                totalRecords = records.length;
+                totalPages = Math.ceil(totalRecords / recPerPage);
+                apply_pagination();
+            }, 1000);
+        } else {
+            $('#resultados .table-responsive table tbody').html('No se encontró ningín resultado');
         }
-        console.log(caja);
-        clearTimeout(timer);
-        timer = setTimeout(function() {
-           /* caja.sort(function (a, b){
-              return (a.df_fecha_gasto - b.df_fecha_gasto)
-            });*/
-            caja.sort(function(a,b) {
-                if (a.df_fecha_gasto > b.df_fecha_gasto){
-                    return -1;
-                }
-                if (a.df_fecha_gasto < b.df_fecha_gasto){
-                    return 1;
-                }
-                return 0;
-            });
-            records = caja;
-            totalRecords = records.length;
-            totalPages = Math.ceil(totalRecords / recPerPage);
-            apply_pagination();
-        }, 1000);
     });
 }
 
