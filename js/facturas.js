@@ -44,9 +44,9 @@ function cargar() {
             });
             clearTimeout(timer);
             timer = setTimeout(function() {
-                facts.sort(function (a, b){
+                facts.sort(function(a, b) {
                     return (b.df_num_factura - a.df_num_factura)
-                  });
+                });
                 records = facts;
                 totalRecords = records.length;
                 totalPages = Math.ceil(totalRecords / recPerPage);
@@ -67,8 +67,9 @@ function generate_table() {
         var iva = Number(factura.df_iva_fac).toFixed(2);
         var total_factura = Number(factura.df_valor_total_fac).toFixed(2);
         var tr;
+        var fecha_fact = factura.df_fecha_fac.split(' ')[0];
         tr = $('<tr/>');
-        tr.append("<td>" + factura.df_fecha_fac + "</td>");
+        tr.append("<td>" + fecha_fact + "</td>");
         tr.append("<td>" + factura.df_num_factura + "</td>");
         tr.append("<td>" + factura.df_razon_social_cli + "</td>");
         tr.append("<td>" + factura.df_forma_pago_fac + "</td>");

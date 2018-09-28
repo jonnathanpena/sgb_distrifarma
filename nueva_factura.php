@@ -40,28 +40,30 @@ include("modal/consultar_productos.php");
                      <div class="col-md-2">
                         <input type="text" class="form-control input-sm" id="fecha" name="fecha" value="<?php echo $fecha; ?>" readonly>
                      </div>
-                     <label for="personal" class="col-md-1 control-label">Vendedor</label>
-                     <div class="col-md-2">
+                     <label for="personal" class="col-md-2 control-label">Vendedor <span class="obligatorio">*</span></label>
+                     <div class="col-md-4">
                         <select name="personal" id="personal" class="form-control"></select>
-                     </div>
-                     <label for="documento_cliente" class="col-md-1 control-label">Documento Cliente</label>
-                     <div class="col-md-2">
+                     </div>                     
+                  </div>
+                  <div class="form-group row">
+                    <label for="documento_cliente" class="col-md-2 control-label">Documento Cliente <span class="obligatorio">*</span></label>
+                     <div class="col-md-4">
                         <input type="text" class="form-control input-sm" id="documento_cliente" name="documento_cliente" placeholder="Documento Cliente" onclick="consultarCliente()" style="cursor: pointer;" readonly>
                         <input type="hidden" id="cliente_id" >
                      </div>
-                  </div>
-                  <div class="form-group row">
-                    <label for="nombre_cliente" class="col-md-1 control-label">Nombre Cliente</label>
-                     <div class="col-md-2">
-                        <input type="text" class="form-control input-sm" id="nombre_cliente" name="nombre_cliente" readonly>
-                     </div>
-                     <label for="sector" class="col-md-1 control-label">Sector</label>
-                     <div class="col-md-2">
+                    <label for="nombre_cliente" class="col-md-2 control-label">Nombre Cliente</label>
+                     <div class="col-md-4">
+                        <input type="text" class="form-control input-sm" id="nombre_cliente" name="nombre_cliente" placeholder="Nombre Cliente" readonly>
+                     </div>                                                                                                                      
+                  </div>   
+                  <div classs="form-group row">
+                    <label for="sector" class="col-md-1 control-label">Sector</label>
+                     <div class="col-md-3">
                         <select name="sector" id="sector" class="form-control" disabled>
                             <option value="null">Seleccione...</option>
                         </select>
-                     </div>
-                     <label for="fecha_entrega" class="col-md-2 control-label">Fecha Entrega</label>
+                     </div> 
+                    <label for="fecha_entrega" class="col-md-2 control-label">Fecha Entrega <span class="obligatorio">*</span></label>
                         <div class="col-md-2">
                             <input type="date" class="form-control input-sm" id="fecha_entrega" name="fecha_entrega" required>
                         </div>  
@@ -73,9 +75,11 @@ include("modal/consultar_productos.php");
                             <option value="CHEQUE">Cheque</option>                                                       
                             <option value="CREDITO">Crédito</option>                                                       
                         </select>
-                     </div>                                                                               
-                  </div>    
-                    <div class="form-group row producto" style="margin-top: 20px;">
+                     </div>  
+                  </div>
+                    <div class="form-group row" style="margin-top: 20px;">                                               
+                    </div>    
+                    <div class="form-group row producto">
                         <label for="cdigo_producto" class="col-md-1 control-label">Código</label>
                         <div class="col-md-2">
                             <input type="text" class="form-control input-sm" id="codigo_producto" name="codigo_producto" placeholder="Código producto" autofocus>
@@ -90,7 +94,7 @@ include("modal/consultar_productos.php");
                                 <option value="CAJA" selected>Caja</option>
                                 <option value="UND">Unidad</option>
                             </select>
-                        </div>
+                        </div> 
                         <label for="cdigo_producto" class="col-md-1 control-label">Cant</label>
                         <div class="col-md-2">
                             <input type="number" class="form-control input-sm" id="cantidad_producto" name="cantidad_producto" value="1">
@@ -104,7 +108,7 @@ include("modal/consultar_productos.php");
                         <div class="col-md-2">
                             <button type="button" class="btn btn-success" onclick="agregar()"><i class="glyphicon glyphicon-plus"></i></button>
                         </div>
-                    </div>              
+                    </div>          
                     <div class="col-md-12" style="margin-top: 20px;">
                         <div class="table-wrapper">
                             <table id="table_productos" class="table table-bordered">
