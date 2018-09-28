@@ -27,6 +27,8 @@ $(document).ready(function() {
 });
 
 function load() {
+    $('#guardar_proveedor').attr('disabled', false);
+    $('#modificar_proveedor').attr('disabled', false);
     clearTimeout(timer);
     timer = setTimeout(function() {
         cargar();
@@ -76,6 +78,7 @@ function cargar() {
 }
 
 $('#guardar_proveedor').submit(function(event) {
+    $('#guardar_proveedor').attr('disabled', true);
     event.preventDefault();
     var data = {
         df_codigo_proveedor: "",
@@ -107,6 +110,7 @@ function insertar(proveedor) {
         $.post(urlCompleta, JSON.stringify(proveedor), function(datos, status, xhr) {
             if (datos == false) {
                 alertar('danger', '¡Error!', 'Por favor intente de nuevo, si persiste, contacte al administrador del sistema');
+                $('#guardar_proveedor').attr('disabled', false);
             } else {
                 alertar('success', '¡Éxito!', '¡Proveedor insertado exitosamente!');
             }
@@ -141,6 +145,7 @@ function detallar(codigo, documento) {
 }
 
 $('#modificar_proveedor').submit(function(event) {
+    $('#modificar_proveedor').attr('disabled', true);
     event.preventDefault();
     var data = {
         df_codigo_proveedor: $('#codigo').val(),
@@ -162,6 +167,7 @@ function modificar(proveedor) {
             alertar('success', '¡Éxito!', '¡Proveedor insertado exitosamente!');
         } else {
             alertar('danger', '¡Error!', 'Por favor intente de nuevo, si persiste, contacte al administrador del sistema');
+            $('#modificar_proveedor').attr('disabled', false);
         }
         $('#editarProveedor').modal('hide');
         load();

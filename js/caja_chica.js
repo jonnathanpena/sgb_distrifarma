@@ -32,7 +32,9 @@ var estatus = false;
 var currentdate;
 var datetime;
 
-function load() {    
+function load() {
+    $('#guardar_ingreso').attr('disabled', false);    
+    $('#guardar_egreso').attr('disabled', false);
     ingresos = [];
     egresos = [];
     saldo = 0;
@@ -371,6 +373,7 @@ function calcularEgreso() {
 }
 
 $('#guardar_ingreso').submit(function(event) {
+    $('#guardar_ingreso').attr('disabled', true);
     event.preventDefault();
     currentdate = new Date();
     datetime = currentdate.getFullYear() + "-" +
@@ -475,6 +478,7 @@ function insertIngreso(ingreso) {
 }
 
 $('#guardar_egreso').submit(function(event) {
+    $('#guardar_egreso').attr('disabled', true);
     event.preventDefault();
     currentdate = new Date();
     datetime = currentdate.getFullYear() + "-" +

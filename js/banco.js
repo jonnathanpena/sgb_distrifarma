@@ -30,6 +30,8 @@ $(document).ready(function() {
 });
 
 function load() {
+    $('#guardar_egreso').attr('disabled', false);
+    $('#guardar_ingreso').attr('disabled', false);
     bancos = [];
     records = [];
     selectDetalles();
@@ -142,6 +144,7 @@ function calcularEgreso() {
 }
 
 $('#guardar_egreso').submit(function(event) {
+    $('#guardar_egreso').attr('disabled', true);
     event.preventDefault();
     if ($('#fecha_egreso').val() == '') {
         alertar('warning','¡Advertencia!','Todos los campos son obligtorios');
@@ -209,6 +212,7 @@ function insertEgreso(egreso) {
 }
 
 $('#guardar_ingreso').submit(function(event) {
+    $('#guardar_ingreso').attr('disabled', true);
     event.preventDefault();
     if ($('#fecha').val() == '') {
         alertar('warning','¡Advertencia!','Todos los campos son obligtorios');

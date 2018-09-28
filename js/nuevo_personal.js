@@ -32,6 +32,7 @@ $('#toggle-usuario').change(function() {
 });
 
 $('#form_nuevo_personal').submit(function(event) {
+    $('#form_nuevo_personal').attr('disabled', true);
     event.preventDefault();
     var tipo_documento = $('#tipo_documento').val();
     var cargo = $('#cargo').val();
@@ -71,18 +72,23 @@ $('#form_nuevo_personal').submit(function(event) {
                                     });
                                 } else {
                                     alertar('warning', '¡Alerta!', 'Todos los campos son obligatorios');
+                                    $('#form_nuevo_personal').attr('disabled', false);
                                 }
                             } else {
                                 alertar('warning', '¡Alerta!', 'Las claves no coinciden');
+                                $('#form_nuevo_personal').attr('disabled', false);
                             }
                         } else {
                             alertar('warning', '¡Alerta!', 'Todos los campos son obligatorios');
+                            $('#form_nuevo_personal').attr('disabled', false);
                         }
                     } else {
                         alertar('warning', '¡Alerta!', 'Todos los campos son obligatorios');
+                        $('#form_nuevo_personal').attr('disabled', false);
                     }
                 } else {
                     alertar('warning', '¡Alerta!', 'Todos los campos son obligatorios');
+                    $('#form_nuevo_personal').attr('disabled', false);
                 }
             } else {
                 selectMaxID({
@@ -98,9 +104,11 @@ $('#form_nuevo_personal').submit(function(event) {
             }
         } else {
             alertar('warning', '¡Alerta!', 'Todos los campos son obligatorios');
+            $('#form_nuevo_personal').attr('disabled', false);
         }
     } else {
         alertar('warning', '¡Alerta!', 'Todos los campos son obligatorios');
+        $('#form_nuevo_personal').attr('disabled', false);
     }
 });
 
@@ -131,6 +139,7 @@ function insert(personal) {
     $.post(urlCompleta, JSON.stringify(personal), function(data, status, hrx) {
         if (data == false) {
             alertar('danger', '¡Error!', 'Algo ocurrió mal, verifique la información, y por favor, vuelva a intentar');
+            $('#form_nuevo_personal').attr('disabled', false);
         } else {
             var es_usuario = $('#toggle-usuario').prop('checked');
             if (es_usuario == true) {
@@ -193,6 +202,7 @@ function insertDetalle(detalle) {
             alertar('danger', '¡Error!', 'Algo ocurrió mal, verifique la información e intente de nuevo');
         } else {
             alertar('success', '¡Éxito!', 'Personal agregado exitosamente');
+            $('#form_nuevo_personal').attr('disabled', false);
             cancelar();
         }
     });

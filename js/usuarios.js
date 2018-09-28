@@ -26,6 +26,7 @@ $(document).ready(function() {
 });
 
 function load() {
+    $('#guardar_usuario').attr('disabled', false);
     usuario = [];
     clearTimeout(timer);
     timer = setTimeout(function() {
@@ -64,6 +65,7 @@ function desplegarPersonal(personal) {
 }
 
 $('#guardar_usuario').submit(function(event) {
+    $('#guardar_usuario').attr('disabled', true);
     event.preventDefault();
     var data = {
         df_tipo_documento_usuario: $('#tipo_documento').val(),
@@ -78,6 +80,7 @@ $('#guardar_usuario').submit(function(event) {
     if (data.df_clave_usuario != $('#confirme').val()) {
         $('#clave').val("");
         $('#confirme').val("");
+        $('#guardar_usuario').attr('disabled', false);
         alert('Las claves no coinciden');
     } else {
         if (data.df_tipo_documento_usuario != 'null') {
@@ -90,9 +93,11 @@ $('#guardar_usuario').submit(function(event) {
                 insertar(data);
             } else {
                 alert('Todos los campos son obligatorios');
+                $('#guardar_usuario').attr('disabled', false);
             }
         } else {
             alert('Todos los campos son obligatorios');
+            $('#guardar_usuario').attr('disabled', false);
         }
     }
 });
@@ -161,6 +166,7 @@ $('#toggle-activo').change(function() {
 })
 
 function editar() {
+    $('#guardar_usuario').attr('disabled', true);
     var datos = {
         df_tipo_documento_usuario: $('#editTipo_documento').val(),
         df_nombre_usuario: $('#editNombre').val(),
@@ -172,8 +178,9 @@ function editar() {
         df_tipo_usuario: $('#editPerfil').val(),
         df_id_usuario: $('#editId').val()
     };
-    if (datos.df_tipo_documento_usuario == 'null' || datos.df_tipo_usuario == 'null') {
+    if (datos.df_tipo_documento_usuario == 'null' || datos.df_tipo_usuario == 'null' || datos.df_usuario_usuario == '') {
         alertar('warning', '¡Alerta!', 'Debe llenar todos los campos');
+        $('#guardar_usuario').attr('disabled', false);
     } else {
         if ($('#editTipo_documento').val() == 'Cedula') {
             datos.df_documento_usuario = $('#editDocumento').val();
@@ -238,10 +245,12 @@ function modalCambioClave(id) {
 }
 
 $('#modificar_clave').submit(function(event) {
+    $('#guardar_usuario').attr('disabled', true);
     event.preventDefault();
     user.df_clave_usuario = $('#editaClave').val();
     if ($('#editaClave').val() != $('#editarConfirme').val()) {
         alertar('warning', '¡Error!', 'Las claves no coinciden');
+        $('#guardar_usuario').attr('disabled', false);
     } else {
         modificarClave(user);
     }

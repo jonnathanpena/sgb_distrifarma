@@ -25,6 +25,8 @@ $(document).ready(function() {
 });
 
 function load() {
+    $('#guardar_producto').attr('disabled', false);
+    $('#modificar_producto').attr('disabled', false);
     clearTimeout(timer);
     timer = setTimeout(function() {
         cargar();
@@ -154,6 +156,7 @@ function nuevoProducto() {
 }
 
 $('#guardar_producto').submit(function(event) {
+    $('#guardar_producto').attr('disabled', true);
     event.preventDefault();
     var producto = {
         df_nombre_producto: $('#nombre').val(),
@@ -278,6 +281,7 @@ function getIvasDetalle(producto) {
 }
 
 $('#modificar_producto').submit(function(event) {
+    $('#modificar_producto').attr('disabled', true);
     event.preventDefault();
     var producto = {
         df_nombre_producto: $('#editNombre').val(),
