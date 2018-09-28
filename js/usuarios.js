@@ -30,7 +30,7 @@ function load() {
     clearTimeout(timer);
     timer = setTimeout(function() {
         cargar();
-    }, 1000);
+    }, 3000);
 }
 
 function cargar() {

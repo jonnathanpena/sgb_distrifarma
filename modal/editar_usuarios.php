@@ -10,7 +10,7 @@
                 <form class="form-horizontal" id="modificar_usuario" name="modificar_usuario">
                     <input type="hidden" id="id">
                     <div class="form-group">
-                        <label for="editTipo_documento" class="col-sm-3 control-label">Tipo Documento</label>
+                        <label for="editTipo_documento" class="col-sm-3 control-label">Tipo Documento<span class="obligatorio">*</span></label>
                         <div class="col-sm-8">
                             <select name="editTipo_documento" id="editTipo_documento" class="form-control" required>
                                 <option value="null">Seleccione...</option>
@@ -20,38 +20,38 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="editDocumento" class="col-sm-3 control-label">Documento</label>
+                        <label for="editDocumento" class="col-sm-3 control-label">Documento<span class="obligatorio">*</span></label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" id="editDocumento" name="editDocumento" min="1" step="1" max="9999999999">
-                            <input type="text" class="form-control" id="editPasaporte" name="editPasaporte">
+                            <input type="number" class="form-control" id="editDocumento" name="editDocumento" min="1" step="1" max="9999999999" placeholder="Documento">
+                            <input type="text" class="form-control" id="editPasaporte" name="editPasaporte" placeholder="Documento">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="editNombre" class="col-sm-3 control-label">Nombre</label>
+                        <label for="editNombre" class="col-sm-3 control-label">Nombre<span class="obligatorio">*</span></label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="editNombre" name="editNombre" required>
+                            <input type="text" class="form-control" id="editNombre" name="editNombre" placeholder="Nombre" required>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="editApellido" class="col-sm-3 control-label">Apellido</label>
+                        <label for="editApellido" class="col-sm-3 control-label">Apellido<span class="obligatorio">*</span></label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="editApellido" name="editApellido" required>
+                            <input type="text" class="form-control" id="editApellido" name="editApellido" placeholder="Apellido" required>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="editUsuario" class="col-sm-3 control-label">Usuario</label>
+                        <label for="editUsuario" class="col-sm-3 control-label">Usuario<span class="obligatorio">*</span></label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="editUsuario" name="editUsuario" required>
+                            <input type="text" class="form-control" id="editUsuario" name="editUsuario" placeholder="Usuario" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="editMail" class="col-sm-3 control-label">Email</label>
                         <div class="col-sm-8">
-                            <input type="editMail" class="form-control" id="editMail" name="editMail" >
+                            <input type="editMail" class="form-control" id="editMail" name="editMail" placeholder="Email" >
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="editPerfil" class="col-sm-3 control-label">Perfil</label>
+                        <label for="editPerfil" class="col-sm-3 control-label">Perfil<span class="obligatorio">*</span></label>
                         <div class="col-sm-8">
                             <select name="editPerfil" id="editPerfil" class="form-control">
                                 <option value="null">Seleccione...</option>
