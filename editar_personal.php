@@ -6,7 +6,8 @@
    $active_guias = "";
    $active_bodega = "";
    $active_reportes = "";
-   $title="Nuevo Personal | SGB";   
+   $active_reportes_usuarios = "";
+   $title="Modificar Personal | SGB";   
 ?>
 <!DOCTYPE html>
 <html lang="en">

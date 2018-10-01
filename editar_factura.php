@@ -1,12 +1,13 @@
 <?php
    $active_administracion = "";
-   $active_facturas = "active";
+   $active_facturas = "";
    $active_ingresos = "active";
    $active_egresos = "";
    $active_guias = "";
    $active_bodega = "";
    $active_reportes = "";
-   $title="Editar Factura | SGB";  
+   $active_reportes_usuarios = "";
+   $title="Modificar Factura | SGB";  
    $fecha = Date('d/m/Y');
 ?>
 <!DOCTYPE html>
@@ -22,7 +23,7 @@
       <div class="container">
          <div class="panel panel-info">
             <div class="panel-heading">
-               <h4><i class='glyphicon glyphicon-edit'></i> Nueva Factura</h4>
+               <h4><i class='glyphicon glyphicon-edit'></i> Modificar Factura</h4>
             </div>
             <div class="panel-body">
 <?php

@@ -6,6 +6,7 @@
     $active_guias = "";
     $active_bodega = "active";
     $active_reportes = "";
+    $active_reportes_usuarios = "";
 	$title="Productos | SGB";
 ?>
 <!DOCTYPE html>
