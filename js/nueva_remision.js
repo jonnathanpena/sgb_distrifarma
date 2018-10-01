@@ -35,7 +35,7 @@ function load() {
     $('#usuario').append('<option value="' + usuario.df_id_usuario + '" selected>' + usuario.df_usuario_usuario + '</option>');
     $('#personal').empty();
     $('#cantidad').val('');
-    $('#valor').val('');
+    $('#valor').val('0');
     $('#sector').val('null');
     consultarPersonal();
     getSectores();
@@ -109,8 +109,7 @@ function getSectores() {
 }
 
 
-$('#form_nueva_guia').submit(function(event) {
-    event.preventDefault();
+$('#btn-guardar').click(function(event) {
     currentdate = new Date();
     datetime = currentdate.getFullYear() + "-" +
         (currentdate.getMonth() + 1) + "-" +
@@ -238,6 +237,7 @@ function getAllProductos() {
         var q = $('#nombreCodigo').val();
         var urlCompleta = url + 'producto/getAll.php';
         $.post(urlCompleta, JSON.stringify({ df_nombre_producto: q }), function(response) {
+            console.log('productos', response.data);
             $('#resultados .table-responsive table tbody').empty();
             console.log('respuesta buscar producto', response);
             if (response.data.length > 0) {
@@ -246,6 +246,7 @@ function getAllProductos() {
                 });
                 clearTimeout(timer);
                 timer = setTimeout(function() {
+                    consonle.log('llenar tabla', productos);
                     llenarTablaProductos(productos);
                 }, 1000);
             } else {
@@ -259,6 +260,7 @@ function consultarDetalleProducto(producto) {
     var urlCompleta = url + 'productoPrecio/getByProducto.php';
     var tr;
     $.post(urlCompleta, JSON.stringify({ df_producto_id: producto.df_id_producto }), function(data) {
+        console.log('detalle producto', data);
         urlCompleta = url + 'productoPrecio/getById.php';
         $.post(urlCompleta, JSON.stringify({ df_id_precio: data.data[0].df_id_precio }), function(response) {
             producto.df_id_producto = producto.df_id_producto * 1;
@@ -326,11 +328,21 @@ function calcular() {
     subtotal = 0;
     total_iva = 0;
     total = 0;
+    var cantidadProductos = 0;
     $('table#table_productos tbody tr').each(function(a, b) {
+        var tipo = $('.unidad', b).text();
+        if (tipo == 'UND') {
+            cantidadProductos += $('.cantidad', b).text() * 1;
+        } else if (tipo == 'CAJA') {
+            var cant = $('.cantidad', b).text() * 1;
+            var totalCaja = $('.unidad_caja', b).text() * 1;
+            cantidadProductos += cant * totalCaja;
+        }
         subtotal += $('.subtotal', b).text() * 1;
         total_iva += $('.total_iva', b).text() * 1;
         total += $('.total_tupla_producto', b).text() * 1;
     });
+    $('#cantidad').val(cantidadProductos);
     $('#subtotal').html(subtotal.toFixed(2));
     $('#total_iva').html(total_iva.toFixed(2));
     $('#descuento').html(descuento.toFixed(2))
@@ -339,16 +351,16 @@ function calcular() {
 
 $(document).on("click", "table#table_productos tbody td a.delete", function() {
     $(this).parents("tr").remove();
-    calcularCantidad()
+    calcular();
 });
 
-function calcularCantidad() {
+/*function calcularCantidad() {
     var cantidad = 0;
     $('table#table_productos tbody tr').each(function(a, b) {
         cantidad += $('.cantidad', b).text() * 1;
     });
     $('#cantidad').val(cantidad);
-}
+}*/
 
 function seleccionaUnidad(codigo) {
     var und_caja = $('#und_caja' + codigo).val();
@@ -425,4 +437,148 @@ function limpiar() {
     $('#cantidad').val('0');
     $('#valor').val('0.00');
     $('#table_productos tbody').empty();
+}
+
+var keyPress = 0;
+var producto_max = 0;
+
+$('#codigo_producto').keyup(function(e) {
+    if (e.which == 13 && keyPress == 0) {
+        var urlCompleta = url + 'producto/getByCodigoFactura.php';
+        var codigo = $('#codigo_producto').val();
+        $.post(urlCompleta, JSON.stringify({ codigo: codigo }), function(response) {
+            if (response.data.length > 0) {
+                if (response.data[0].df_cant_bodega > 0) {
+                    keyPress++;
+                    producto = response.data[0];
+                    producto_max = producto.df_cant_bodega;
+                    poblarConProductoConsultado(response.data[0]);
+                } else {
+                    alertar('warning', '¡Alerta!', 'Cantidad insuficiente en bodega');
+                    keyPress = 0;
+                    producto_max = 0;
+                    limpiarLineaProducto();
+                }
+            } else {
+                alertar('warning', '¡Alerta!', 'No existe producto asignado al código digitado');
+                keyPress = 0;
+                producto_max = 0;
+                limpiarLineaProducto();
+            }
+        });
+    } else if (e.which == 13 && keyPress == 1) {
+        keyPress++;
+        $("#cantidad_producto").val('');
+        $("#cantidad_producto").focus();
+    } else if (e.which != 13) {
+        keyPress = 0;
+        producto_max = 0;
+    }
+});
+
+function limpiarLineaProducto() {
+    producto_max = 0;
+    $('#codigo_producto').val('');
+    $('#nombre_producto').val('');
+    $('#unidad_producto').val('CAJA');
+    $('#cantidad_producto').val('1');
+    $('#precio_unitario_producto').empty();
+    $('#precio_unitario_producto').append('<option value="null">Seleccione...</option>');
+    $("#codigo_producto").focus();
+}
+
+function poblarConProductoConsultado(prod) {
+    $('#nombre_producto').val(prod.df_nombre_producto);
+    $('#cantidad_producto').val('1');
+    $('#precio_unitario_producto').empty();
+    $('#precio_unitario_producto').append('<option value="' + prod.df_pvt1 + '" selected>Normal $' + prod.df_pvt1 + '</option>');
+    $('#precio_unitario_producto').append('<option value="' + prod.df_pvt2 + '">Descuento $' + prod.df_pvt2 + '</option>');
+}
+
+function seleccionaUnidad() {
+    var und_caja = producto.df_und_caja * 1;
+    var precio_normal = producto.df_pvt1 * 1;
+    var precio_descuento = producto.df_pvt2 * 1;
+    var normal = 0;
+    var descuento = 0;
+    if ($('#unidad_producto').val() == 'CAJA') {
+        normal = precio_normal;
+        descuento = precio_descuento;
+    } else if ($('#unidad_producto').val() == 'UND') {
+        normal = precio_normal / und_caja;
+        normal = normal.toFixed(2);
+        descuento = precio_descuento / und_caja;
+        descuento = descuento.toFixed(2);
+    }
+    $('#precio_unitario_producto').empty();
+    $('#precio_unitario_producto').append('<option value="' + normal + '" selected>Normal $' + normal + '</option>');
+    $('#precio_unitario_producto').append('<option value="' + descuento + '">Descuento $' + descuento + '</option>');
+}
+
+$('#cantidad_producto').keyup(function(e) {
+    if (e.which == 13) {
+        agregar();
+    }
+});
+
+function agregar() {
+    var cantidad = $('#cantidad_producto').val() * 1;
+    if (cantidad > producto_max) {
+        alertar('danger', '¡Alerta!', 'No puede vender más de ' + producto_max);
+    } else {
+        var precio = $('#precio_unitario_producto').val() * 1;
+        var unidad = $('#unidad_producto').val();
+        var unidad_caja = producto.df_und_caja * 1;
+        var iva = producto.df_valor_impuesto / 100;
+        var idPrecio = $('#')
+        if (precio == 'null' || cantidad < 1) {
+            alert('Debe escoger valores reales');
+        } else {
+            var subtotal_tabla = cantidad * precio;
+            var total_iva_tabla = subtotal_tabla * iva;
+            var total_tupla = subtotal_tabla;
+            var cant_bodega = producto.df_cant_bodega - cantidad;
+            total_tupla = total_tupla.toFixed(2);
+            conseguirDuplicados(unidad, producto.df_id_precio, producto, cant_bodega, iva, subtotal_tabla, total_iva_tabla, unidad_caja, cantidad, precio, total_tupla)
+        }
+        calcular();
+        limpiarLineaProducto();
+    }
+}
+
+function conseguirDuplicados(tipo, idPrecio, producto, cant_bodega, iva, subtotal_tabla, total_iva_tabla, unidad_caja, cantidad, precio, total_tupla) {
+    $('table#table_productos tbody tr').each(function(a, b) {
+        var tipo_unidad = $('.unidad', b).text();
+        var id_precio = $('.id_precio', b).text() * 1;
+        var cantidad_vieja = $('.cantidad', b).text() * 1;
+        idPrecio = idPrecio * 1;
+        if (idPrecio == id_precio) {
+            if (tipo == tipo_unidad) {
+                cantidad = cantidad * 1;
+                cantidad = cantidad + cantidad_vieja;
+                subtotal_tabla = Number($('.subtotal', b).text()) + Number(subtotal_tabla);
+                total_iva_tabla = Number($('.total_iva', b).text()) + Number(total_iva_tabla);
+                total_tupla = Number(total_tupla) + Number($('.total_tupla_producto', b).text());
+                $(this).remove();
+            }
+        }
+    });
+    var row = '<tr>' +
+        '<td class="id_producto" style="display: none;">' + producto.df_id_producto + '</td>' +
+        '<td class="id_precio" style="display: none;">' + producto.df_id_precio + '</td>' +
+        '<td class="cant_bodega" style="display: none;">' + cant_bodega + '</td>' +
+        '<td class="iva" style="display: none;">' + iva + '</td>' +
+        '<td class="subtotal" style="display: none;">' + subtotal_tabla + '</td>' +
+        '<td class="total_iva" style="display: none;">' + Number(total_iva_tabla).toFixed(2) + '</td>' +
+        '<td class="unidad_caja" style="display: none;">' + unidad_caja + '</td>' +
+        '<td width="100" class="codigo">' + producto.df_codigo_prod + '</td>' +
+        '<td class="producto">' + producto.df_nombre_producto + '</td>' +
+        '<td width="100" class="unidad">' + tipo + '</td>' +
+        '<td width="100" class="cantidad">' + cantidad + '</td>' +
+        '<td width="100" class="precio_unitario">' + precio + '</td>' +
+        '<td width="100" class="total_tupla_producto">' + Number(total_tupla).toFixed(2) + '</td>' +
+        '<td width="100">' + acciones + '</td>' +
+        '</tr>';
+    $('#table_productos tbody').append(row);
+    $('[data-toggle="tooltip"]').tooltip();
 }
