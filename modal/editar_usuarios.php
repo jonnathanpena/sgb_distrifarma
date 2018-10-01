@@ -55,8 +55,9 @@
                         <div class="col-sm-8">
                             <select name="editPerfil" id="editPerfil" class="form-control">
                                 <option value="null">Seleccione...</option>
-                                <option value="Administrador">Adminitrador</option>
-                                <option value="Funcionario">Funcionario</option>
+                                <option value="Administrador">Administrador</option>
+                                <option value="Supervisor">Supervisor</option>
+                                <option value="Ventas">Ventas</option>
                             </select>
                         </div>
 					</div>

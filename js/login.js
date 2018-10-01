@@ -1,9 +1,7 @@
 $(document).ready(function() {
     usuario = JSON.parse(localStorage.getItem('distrifarma_test_user'));
-    console.log('usuario', usuario);
-    if (usuario.ingreso == true) {
-        window.location.href = "facturas.php";
-    }
+    usuario.ingreso = false;
+    localStorage.setItem('distrifarma_test_user', JSON.stringify(usuario));
 });
 
 $('#form-login').submit(function(event) {
@@ -28,7 +26,7 @@ $('#form-login').submit(function(event) {
                     /*$('#alerta-container').show('slow');
                     $('#alerta-mensaje').html('Las claves no coinciden, intente nuevamente!');*/
                 } else {
-                    window.location.href = "usuarios.php";
+                    window.location.href = "nueva_factura.php";
                 }
                 $('#user_password').val("");
                 $('#user_name').val();

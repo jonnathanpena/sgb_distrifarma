@@ -5,7 +5,8 @@
     $active_egresos = "";
     $active_guias = "";
     $active_bodega = "";
-    $active_reportes = "";
+	$active_reportes = "";
+	$active_reportes_usuarios = "";
 	$title="Usuarios | SGB";
 ?>
 

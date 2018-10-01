@@ -13,11 +13,17 @@ $(document).ready(function() {
     if (usuario.ingreso == true) {
         $('#pasaporte').hide();
         if (usuario.df_tipo_usuario == 'Administrador') {
-            $('#administrador').show('');
-            $('#ventas').hide('');
-        } else {
-            $('#administrador').hide('');
-            $('#ventas').show('');
+            $('#Administrador').show('');
+            $('#Supervisor').hide('');
+            $('#Ventas').hide('');
+        } else if (usuario.df_tipo_usuario == 'Supervisor') {
+            $('#Administrador').hide('');
+            $('#Supervisor').show('');
+            $('#Ventas').hide('');
+        } else if (usuario.df_tipo_usuario == 'Ventas') {
+            $('#Administrador').hide('');
+            $('#Supervisor').hide('');
+            $('#Ventas').show('');
         }
     } else {
         window.location.href = "login.php";
@@ -32,7 +38,9 @@ var estatus = false;
 var currentdate;
 var datetime;
 
-function load() {    
+function load() {
+    $('#guardar_ingreso').attr('disabled', false);    
+    $('#guardar_egreso').attr('disabled', false);
     ingresos = [];
     egresos = [];
     saldo = 0;
@@ -48,6 +56,7 @@ function load() {
             banco = response.data[0].df_saldo_banco * 1;
         }
     });
+    $('#resultados .table-responsive table tbody').html('Cargando...');
     var urlCompleta = url + 'cajaChicaGasto/getMes.php';
     $.get(urlCompleta, function(response) {
         console.log('response ',response.data);
@@ -58,27 +67,30 @@ function load() {
             valorLibro = ($('#saldo_banco').val() * 1) + saldo;
             $('#valor_libro').val(valorLibro);
             console.log('valor inicial',valorLibro);
+            
+            console.log(caja);
+            clearTimeout(timer);
+            timer = setTimeout(function() {
+            /* caja.sort(function (a, b){
+                return (a.df_fecha_gasto - b.df_fecha_gasto)
+                });*/
+                caja.sort(function(a,b) {
+                    if (a.df_fecha_gasto > b.df_fecha_gasto){
+                        return -1;
+                    }
+                    if (a.df_fecha_gasto < b.df_fecha_gasto){
+                        return 1;
+                    }
+                    return 0;
+                });
+                records = caja;
+                totalRecords = records.length;
+                totalPages = Math.ceil(totalRecords / recPerPage);
+                apply_pagination();
+            }, 1000);
+        } else {
+            $('#resultados .table-responsive table tbody').html('No se encontró ningín resultado');
         }
-        console.log(caja);
-        clearTimeout(timer);
-        timer = setTimeout(function() {
-           /* caja.sort(function (a, b){
-              return (a.df_fecha_gasto - b.df_fecha_gasto)
-            });*/
-            caja.sort(function(a,b) {
-                if (a.df_fecha_gasto > b.df_fecha_gasto){
-                    return -1;
-                }
-                if (a.df_fecha_gasto < b.df_fecha_gasto){
-                    return 1;
-                }
-                return 0;
-            });
-            records = caja;
-            totalRecords = records.length;
-            totalPages = Math.ceil(totalRecords / recPerPage);
-            apply_pagination();
-        }, 1000);
     });
 }
 
@@ -371,6 +383,7 @@ function calcularEgreso() {
 }
 
 $('#guardar_ingreso').submit(function(event) {
+    $('#guardar_ingreso').attr('disabled', true);
     event.preventDefault();
     currentdate = new Date();
     datetime = currentdate.getFullYear() + "-" +
@@ -475,6 +488,7 @@ function insertIngreso(ingreso) {
 }
 
 $('#guardar_egreso').submit(function(event) {
+    $('#guardar_egreso').attr('disabled', true);
     event.preventDefault();
     currentdate = new Date();
     datetime = currentdate.getFullYear() + "-" +

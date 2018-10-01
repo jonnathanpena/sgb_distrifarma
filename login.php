@@ -39,6 +39,7 @@ date_default_timezone_set('America/Bogota');
 
 	<script src="js/lib/jquery/dist/jquery-3.1.1.min.js"></script>
 	<script src="js/lib/jquery.toaster.js"></script>
+    <script type="text/javascript" src="js/lib/flash.min.js"></script>
 	<script type="text/javascript" src="js/config.js"></script>	
 	<script type="text/javascript" src="js/login.js"></script>	
 </body>

@@ -13,12 +13,19 @@ var datetime;
 $(document).ready(function() {
     usuario = JSON.parse(localStorage.getItem('distrifarma_test_user'));
     if (usuario.ingreso == true) {
+        $('#pasaporte').hide();
         if (usuario.df_tipo_usuario == 'Administrador') {
-            $('#administrador').show('');
-            $('#ventas').hide('');
-        } else {
-            $('#administrador').hide('');
-            $('#ventas').show('');
+            $('#Administrador').show('');
+            $('#Supervisor').hide('');
+            $('#Ventas').hide('');
+        } else if (usuario.df_tipo_usuario == 'Supervisor') {
+            $('#Administrador').hide('');
+            $('#Supervisor').show('');
+            $('#Ventas').hide('');
+        } else if (usuario.df_tipo_usuario == 'Ventas') {
+            $('#Administrador').hide('');
+            $('#Supervisor').hide('');
+            $('#Ventas').show('');
         }
     } else {
         window.location.href = "login.php";
@@ -35,8 +42,9 @@ function load() {
 
 function cargar() {
     guias = [];
-    $('#resultados .table-responsive table tbody').empty();
+//    $('#resultados .table-responsive table tbody').empty();
     var q = $('#q').val();
+    $('#resultados .table-responsive table tbody').html('Cargando...');
     var urlCompleta = url + 'guiaRemision/getAll.php';
     $.post(urlCompleta, JSON.stringify({ df_codigo_rem: q }), function(response) {
         $.each(response.data, function(index, row) {

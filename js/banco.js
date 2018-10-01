@@ -17,11 +17,17 @@ $(document).ready(function() {
     if (usuario.ingreso == true) {
         $('#pasaporte').hide();
         if (usuario.df_tipo_usuario == 'Administrador') {
-            $('#administrador').show('');
-            $('#ventas').hide('');
-        } else {
-            $('#administrador').hide('');
-            $('#ventas').show('');
+            $('#Administrador').show('');
+            $('#Supervisor').hide('');
+            $('#Ventas').hide('');
+        } else if (usuario.df_tipo_usuario == 'Supervisor') {
+            $('#Administrador').hide('');
+            $('#Supervisor').show('');
+            $('#Ventas').hide('');
+        } else if (usuario.df_tipo_usuario == 'Ventas') {
+            $('#Administrador').hide('');
+            $('#Supervisor').hide('');
+            $('#Ventas').show('');
         }
     } else {
         window.location.href = 'login.php';
@@ -30,6 +36,8 @@ $(document).ready(function() {
 });
 
 function load() {
+    $('#guardar_egreso').attr('disabled', false);
+    $('#guardar_ingreso').attr('disabled', false);
     bancos = [];
     records = [];
     selectDetalles();
@@ -40,6 +48,7 @@ function load() {
             $('#valor_libro').val(response.data[0].df_saldo * 1);
         }
     });
+    $('#resultados .table-responsive table tbody').html('Cargando...');
     var urlCompleta = url + 'banco/getAll.php';
     $.get(urlCompleta, function(response) {
         if (response.data.length > 0) {
@@ -51,17 +60,19 @@ function load() {
             $.each(response.data, function(index, row) {
                 getUsuario(row);
             })
+            clearTimeout(timer);
+            timer = setTimeout(function() {
+                bancos.sort(function (a, b){
+                  return (b.df_id_banco - a.df_id_banco)
+                });
+                records = bancos;
+                totalRecords = records.length;
+                totalPages = Math.ceil(totalRecords / recPerPage);
+                apply_pagination();
+            }, 1000);
+        } else {
+            $('#resultados .table-responsive table tbody').html('No se encontró ningún resultado');
         }
-        clearTimeout(timer);
-        timer = setTimeout(function() {
-            bancos.sort(function (a, b){
-              return (b.df_id_banco - a.df_id_banco)
-            });
-            records = bancos;
-            totalRecords = records.length;
-            totalPages = Math.ceil(totalRecords / recPerPage);
-            apply_pagination();
-        }, 1000);
     });
 }
 
@@ -142,6 +153,7 @@ function calcularEgreso() {
 }
 
 $('#guardar_egreso').submit(function(event) {
+    $('#guardar_egreso').attr('disabled', true);
     event.preventDefault();
     if ($('#fecha_egreso').val() == '') {
         alertar('warning','¡Advertencia!','Todos los campos son obligtorios');
@@ -209,6 +221,7 @@ function insertEgreso(egreso) {
 }
 
 $('#guardar_ingreso').submit(function(event) {
+    $('#guardar_ingreso').attr('disabled', true);
     event.preventDefault();
     if ($('#fecha').val() == '') {
         alertar('warning','¡Advertencia!','Todos los campos son obligtorios');

@@ -5,8 +5,8 @@
     $active_egresos = "";
     $active_guias = "";
     $active_bodega = "";
-    $active_reportes = "active";
-	$active_reportes_usuarios = "";
+    $active_reportes = "";
+	$active_reportes_usuarios = "active";
 	$title="Reportes | SGB";
 ?>
 <!DOCTYPE html>
@@ -30,7 +30,7 @@
                     <div class="col-md-2">
                         <select onchange="seleccionaTipoReporte()" id="selec-tipo-reporte" class="form-control">
 							<option value="null">Seleccione...</option>
-							<option value="banco">Banco</option>
+							<option value="banco">Guías</option>
 						</select>
                     </div>
                     <div class="col-md-3">
@@ -63,6 +63,6 @@
 include("footer.php");
 ?>
 <script type="text/javascript" src="js/config.js"></script>
-<script type="text/javascript" src="js/reportes.js"></script>
+<script type="text/javascript" src="js/reportes_usuarios.js"></script>
 </body>
 </html>

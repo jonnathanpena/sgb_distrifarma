@@ -1,12 +1,19 @@
 $(document).ready(function() {
     usuario = JSON.parse(localStorage.getItem('distrifarma_test_user'));
     if (usuario.ingreso == true) {
+        $('#pasaporte').hide();
         if (usuario.df_tipo_usuario == 'Administrador') {
-            $('#administrador').show('');
-            $('#ventas').hide('');
-        } else {
-            $('#administrador').hide('');
-            $('#ventas').show('');
+            $('#Administrador').show('');
+            $('#Supervisor').hide('');
+            $('#Ventas').hide('');
+        } else if (usuario.df_tipo_usuario == 'Supervisor') {
+            $('#Administrador').hide('');
+            $('#Supervisor').show('');
+            $('#Ventas').hide('');
+        } else if (usuario.df_tipo_usuario == 'Ventas') {
+            $('#Administrador').hide('');
+            $('#Supervisor').hide('');
+            $('#Ventas').show('');
         }
     } else {
         window.location.href = "login.php";
@@ -49,6 +56,7 @@ function load() {
 }
 
 $('#form_modificar_personal').submit(function(event) {
+    $('#form_modificar_personal').attr('disabled', true);
     event.preventDefault();
     var personal = {
         df_tipo_documento_per: $('#tipo_documento').val(),
@@ -105,6 +113,7 @@ function updatePersonal(personal, detalle) {
             insertDetalle(detalle);
         } else {
             alertar('danger', '¡Error!', 'Algo malo ocurrió, verifique la información e intente nuevamente');
+            $('#form_modificar_personal').attr('disabled', false);
         }
     });
 }
@@ -114,6 +123,7 @@ function insertDetalle(detalle) {
     $.post(urlCompleta, JSON.stringify(detalle), function(data, status, hrx) {
         if (data == false) {
             alertar('danger', '¡Error!', 'Algo malo ocurrió, verifique la información e intente nuevamente');
+            $('#form_modificar_personal').attr('disabled', false);
         } else {
             var per = JSON.parse(localStorage.getItem('distrifar_personal_editar'));
             if (per.df_usuario_detper != null) {
@@ -121,6 +131,7 @@ function insertDetalle(detalle) {
                 alertar('success', '¡Éxito!', 'Personal modificado exitosamente');
             } else {
                 alertar('success', '¡Éxito!', 'Personal modificado exitosamente');
+                $('#form_modificar_personal').attr('disabled', false);
                 window.location.href = "personal.php";
             }
         }

@@ -17,11 +17,17 @@ $(document).ready(function() {
     if (usuario.ingreso == true) {
         $('#pasaporte').hide();
         if (usuario.df_tipo_usuario == 'Administrador') {
-            $('#administrador').show('');
-            $('#ventas').hide('');
-        } else {
-            $('#administrador').hide('');
-            $('#ventas').show('');
+            $('#Administrador').show('');
+            $('#Supervisor').hide('');
+            $('#Ventas').hide('');
+        } else if (usuario.df_tipo_usuario == 'Supervisor') {
+            $('#Administrador').hide('');
+            $('#Supervisor').show('');
+            $('#Ventas').hide('');
+        } else if (usuario.df_tipo_usuario == 'Ventas') {
+            $('#Administrador').hide('');
+            $('#Supervisor').hide('');
+            $('#Ventas').show('');
         }
     } else {
         window.location.href = 'login.php';
@@ -33,23 +39,26 @@ function load() {
     libro = [];
     records = [];
     saldoInicial();
+    $('#resultados .table-responsive table tbody').html('Cargando...');
     var urlCompleta = url + 'libroDiario/getAll.php';
     $.get(urlCompleta, function(response) {
         if (response.data.length > 0) {
             $.each(response.data, function(index, row) {
                 getUsuario(row);
             })
+            clearTimeout(timer);
+            timer = setTimeout(function() {
+                libro.sort(function (a, b){
+                  return (b.df_id_libro_diario - a.df_id_libro_diario)
+                });
+                records = libro;
+                totalRecords = records.length;
+                totalPages = Math.ceil(totalRecords / recPerPage);
+                apply_pagination();
+            }, 1000);
+        } else {
+            $('#resultados .table-responsive table tbody').html('No se encontró ningún resultado');
         }
-        clearTimeout(timer);
-        timer = setTimeout(function() {
-            libro.sort(function (a, b){
-              return (b.df_id_libro_diario - a.df_id_libro_diario)
-            });
-            records = libro;
-            totalRecords = records.length;
-            totalPages = Math.ceil(totalRecords / recPerPage);
-            apply_pagination();
-        }, 1000);
     });
 }
 

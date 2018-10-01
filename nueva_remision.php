@@ -2,9 +2,10 @@
    $active_administracion = "";
    $active_ingresos = "";
    $active_egresos = "";
-   $active_guias = "";
-   $active_bodega = "active";
+   $active_guias = "active";
+   $active_bodega = "";
    $active_reportes = "";
+   $active_reportes_usuarios = "";
    $title="Nueva Guía Remisión | SGB";  
    $fecha = Date('d/m/Y');
 ?>
