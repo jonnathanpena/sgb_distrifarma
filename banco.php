@@ -6,6 +6,7 @@
     $active_guias = "";
     $active_bodega = "";
     $active_reportes = "";
+    $active_reportes_usuarios = "";
 	$title="Banco | SGB";
 ?>
 
@@ -56,6 +57,7 @@
                     <div class="for-group row">
                         <div class="col-md-2 pull-right"> 
                             <input type="text" id="saldo_banco" name="saldo_banco" class="form-control" readonly>        
+                            <input type="hidden" id="valor_libro" >
                         </div>
                         <div class="col-md-3 pull-right">
                             <label class="pull-right">

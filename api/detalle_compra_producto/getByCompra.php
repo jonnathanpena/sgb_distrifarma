@@ -8,14 +8,14 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
  
 // incluye la configuración de la base de datos y la conexión
 include_once '../config/database.php';
-include_once '../objects/sustento_tributario.php';
+include_once '../objects/detalle_compra_producto.php';
  
 // inicia la conexión a la base de datos
 $database = new Database();
 $db = $database->getConnection();
  
 // inicia el objeto
-$sustento_tributario = new SustentoTributario($db);
+$detalle_compra_producto = new DetalleCompraProducto($db);
 
 // get posted data
 $data = json_decode(file_get_contents('php://input'), true);
@@ -23,15 +23,15 @@ $data = json_decode(file_get_contents('php://input'), true);
 $info = array($data);
  
 // configura los valores recibidos en post de la app
-$sustento_tributario->sustento_id = $info[0]["sustento_id"];
+$detalle_compra_producto->compra_id = $info[0]["compra_id"];
 
 // query de lectura
-$stmt = $sustento_tributario->readTiposComprobantesBySustento();
+$stmt = $detalle_compra_producto->readByCompra();
 $num = $stmt->rowCount();
 
-// sustento_tributario array
-$sustento_tributario_arr=array();
-$sustento_tributario_arr["data"]=array();
+// detalle_compra_producto array
+$detalle_compra_producto_arr=array();
+$detalle_compra_producto_arr["data"]=array();
  
 // check if more than 0 record found
 if($num>0){ 
@@ -44,21 +44,21 @@ if($num>0){
         // just $name only
         extract($row);
  
-        $sustento_tributario_item=array(
-            "id_dsco" => $id_dsc,
-            "sustento_id" => $sustento_id,
-            "id_sustento" => $id_sustento,
-            "nombre_sustento" => $nombre_sustento,
-            "comprobante_id" => $comprobante_id,
-            "nombre_tipocomprobante" => $nombre_tipocomprobante
+        $detalle_compra_producto_item=array(
+            "id_dcp"=>$id_dcp, 
+            "compra_id"=>$compra_id, 
+            "codigo_dcp"=>$codigo_dcp, 
+            "cantidad_dcp"=>$cantidad_dcp, 
+            "precio_unitario_dcp"=>$precio_unitario_dcp, 
+            "total_dcp"=>$total_dcp
         );
  
-        array_push($sustento_tributario_arr["data"], $sustento_tributario_item);
+        array_push($detalle_compra_producto_arr["data"], $detalle_compra_producto_item);
     }
  
     
 }
  
-echo json_encode($sustento_tributario_arr);
+echo json_encode($detalle_compra_producto_arr);
 
 ?>

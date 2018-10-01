@@ -25,6 +25,7 @@ $info = array($data);
 // configura los valores recibidos en post de la app
 $detalle_pago_compra->compra_id = $info[0]["compra_id"];
 $detalle_pago_compra->metodo_pago_id = $info[0]["metodo_pago_id"];
+$detalle_pago_compra->egreso_id = $info[0]["egreso_id"];
 $detalle_pago_compra->banco_emisor = $info[0]["banco_emisor"];
 $detalle_pago_compra->banco_receptor = $info[0]["banco_receptor"];
 $detalle_pago_compra->codigo = $info[0]["codigo"];

@@ -10,17 +10,24 @@ var items = [];
 var bancos = [];
 var saldo = 0;
 var detalles = [];
+var libro = 0;
 
 $(document).ready(function() {
     usuario = JSON.parse(localStorage.getItem('distrifarma_test_user'));
     if (usuario.ingreso == true) {
         $('#pasaporte').hide();
         if (usuario.df_tipo_usuario == 'Administrador') {
-            $('#administrador').show('');
-            $('#ventas').hide('');
-        } else {
-            $('#administrador').hide('');
-            $('#ventas').show('');
+            $('#Administrador').show('');
+            $('#Supervisor').hide('');
+            $('#Ventas').hide('');
+        } else if (usuario.df_tipo_usuario == 'Supervisor') {
+            $('#Administrador').hide('');
+            $('#Supervisor').show('');
+            $('#Ventas').hide('');
+        } else if (usuario.df_tipo_usuario == 'Ventas') {
+            $('#Administrador').hide('');
+            $('#Supervisor').hide('');
+            $('#Ventas').show('');
         }
     } else {
         window.location.href = 'login.php';
@@ -29,29 +36,43 @@ $(document).ready(function() {
 });
 
 function load() {
+    $('#guardar_egreso').attr('disabled', false);
+    $('#guardar_ingreso').attr('disabled', false);
     bancos = [];
     records = [];
     selectDetalles();
     selectDetallesIngreso();
+    var urlCompleta = url + 'cajaChicaGasto/getMes.php';
+    $.get(urlCompleta, function(response) {
+        if (response.data.length > 0) {
+            $('#valor_libro').val(response.data[0].df_saldo * 1);
+        }
+    });
+    $('#resultados .table-responsive table tbody').html('Cargando...');
     var urlCompleta = url + 'banco/getAll.php';
     $.get(urlCompleta, function(response) {
         if (response.data.length > 0) {
             $('#saldo_banco').val('$' + response.data[0].df_saldo_banco);
             saldo = response.data[0].df_saldo_banco * 1;
+            libro =  ($('#valor_libro').val() * 1) + saldo; 
+            $('#valor_libro').val(libro);
+            console.log('valor inicial',libro);
             $.each(response.data, function(index, row) {
                 getUsuario(row);
             })
+            clearTimeout(timer);
+            timer = setTimeout(function() {
+                bancos.sort(function (a, b){
+                  return (b.df_id_banco - a.df_id_banco)
+                });
+                records = bancos;
+                totalRecords = records.length;
+                totalPages = Math.ceil(totalRecords / recPerPage);
+                apply_pagination();
+            }, 1000);
+        } else {
+            $('#resultados .table-responsive table tbody').html('No se encontró ningún resultado');
         }
-        clearTimeout(timer);
-        timer = setTimeout(function() {
-            bancos.sort(function (a, b){
-              return (b.df_id_banco - a.df_id_banco)
-            });
-            records = bancos;
-            totalRecords = records.length;
-            totalPages = Math.ceil(totalRecords / recPerPage);
-            apply_pagination();
-        }, 1000);
     });
 }
 
@@ -122,22 +143,30 @@ function nuevoIngreso() {
 function calcularIngreso() {
     var ingresa = $('#valor').val() * 1;
     var aFavor = saldo + ingresa;
-    $('#saldo_ingreso').val(aFavor.toFixed(3));
+    $('#saldo_ingreso').val(aFavor.toFixed(2));
 }
 
 function calcularEgreso() {
     var egreso = $('#valor_egreso').val() * 1;
     var aFavor = saldo - egreso;
-    $('#saldo').val(aFavor.toFixed(3));
+    $('#saldo').val(aFavor.toFixed(2));
 }
 
 $('#guardar_egreso').submit(function(event) {
+    $('#guardar_egreso').attr('disabled', true);
     event.preventDefault();
     if ($('#fecha_egreso').val() == '') {
         alertar('warning','¡Advertencia!','Todos los campos son obligtorios');
     } else {
     var f = $('#fecha_egreso').val();
     var datetime = f + ' 00:00:00';
+    currentdate = new Date();
+    var datelibro = currentdate.getFullYear() + "-" +
+        (currentdate.getMonth() + 1) + "-" +
+        currentdate.getDate() + " " +
+        currentdate.getHours() + ":" +
+        currentdate.getMinutes() + ":" +
+        currentdate.getSeconds();
 
     var egreso = {
         df_fecha_banco: datetime,
@@ -148,9 +177,31 @@ $('#guardar_egreso').submit(function(event) {
         df_num_documento_banco: $('#documento_egreso').val(),
         df_detalle_mov_banco: $('#movimiento').val()
     };
+    var egresoLibro = {
+        df_fuente_ld: 'Banco',
+        df_valor_inicial_ld: $('#valor_libro').val(),
+        df_fecha_ld: datelibro,
+        df_descipcion_ld: $('#movimiento').val(),
+        df_ingreso_ld: 0,
+        df_egreso_ld: $('#valor_egreso').val(),
+        df_usuario_id_ld: $('#usuario_egreso').val(),
+    };
+    insertEgresoLibro(egresoLibro);
     insertEgreso(egreso);
     }
 });
+
+function insertEgresoLibro(egresoLibro){
+    var urlCompleta = url + 'libroDiario/insert.php';
+    console.log('insert egreso de BANCO en libro diario');
+    $.post(urlCompleta, JSON.stringify(egresoLibro), function(response) {
+        if (response != false) {
+            alertar('success', '¡Éxito!', 'Egreso de Banco en Libro Diario registrado exitosamente');
+        } else {
+            alertar('danger', '¡Error!', 'Error al insertar, verifique que todo está bien e intente de nuevo');
+        }
+    });
+}
 
 function insertEgreso(egreso) {
     var urlCompleta = url + 'banco/insert.php';
@@ -170,12 +221,20 @@ function insertEgreso(egreso) {
 }
 
 $('#guardar_ingreso').submit(function(event) {
+    $('#guardar_ingreso').attr('disabled', true);
     event.preventDefault();
     if ($('#fecha').val() == '') {
         alertar('warning','¡Advertencia!','Todos los campos son obligtorios');
     } else {
     var f = $('#fecha').val();
     var datetime = f + ' 00:00:00';
+    currentdate = new Date();
+    var datelibro = currentdate.getFullYear() + "-" +
+        (currentdate.getMonth() + 1) + "-" +
+        currentdate.getDate() + " " +
+        currentdate.getHours() + ":" +
+        currentdate.getMinutes() + ":" +
+        currentdate.getSeconds();
 
     var ingreso = {
         df_fecha_banco: datetime,
@@ -186,9 +245,31 @@ $('#guardar_ingreso').submit(function(event) {
         df_num_documento_banco: $('#documento').val(),
         df_detalle_mov_banco: $('#detalle').val()
     };
+    var ingresoLibro = {
+        df_fuente_ld: 'Banco',
+        df_valor_inicial_ld: $('#valor_libro').val(),
+        df_fecha_ld: datelibro,
+        df_descipcion_ld:$('#detalle').val(),
+        df_ingreso_ld: $('#valor').val(),
+        df_egreso_ld: 0,
+        df_usuario_id_ld: $('#usuario').val()
+    };
+    insertIngresoLibro(ingresoLibro);
     insertIngreso(ingreso);
     }
 });
+
+function insertIngresoLibro(ingresoLibro){
+    var urlCompleta = url + 'libroDiario/insert.php';
+    console.log('insert ingreso de CC en libro diario');
+    $.post(urlCompleta, JSON.stringify(ingresoLibro), function(response) {
+        if (response != false) {
+            alertar('success', '¡Éxito!', 'Ingreso de Caja Chica en Libro Diario registrado exitosamente');
+        } else {
+            alertar('danger', '¡Error!', 'Error al insertar, verifique que todo está bien e intente de nuevo');
+        }
+    });
+}
 
 function insertIngreso(ingreso) {
     var urlCompleta = url + 'banco/insert.php';

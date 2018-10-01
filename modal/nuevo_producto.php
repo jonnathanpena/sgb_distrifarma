@@ -12,43 +12,43 @@
                         <div class="form-group">
                             <label for="codigop" class="col-sm-3 control-label">Código</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="codigop" name="codigop" autofocus required> 
+                                <input type="text" class="form-control" id="codigop" value="PRO-" name="codigop" placeholder="Código" autofocus disabled> 
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="nombre" class="col-sm-3 control-label">Nombre</label>
+                            <label for="nombre" class="col-sm-3 control-label">Nombre<span class="obligatorio">*</span></label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="nombre" name="nombre" autofocus required> 
+                                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" autofocus required> 
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="pvt1" class="col-sm-3 control-label">Normal x Caja</label>
+                            <label for="pvt1" class="col-sm-3 control-label">Normal x Caja<span class="obligatorio">*</span></label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control" id="pvt1" name="pvt1" min="0.01" step="0.01" required>
+                                <input type="number" class="form-control" id="pvt1" name="pvt1" min="0.01" step="0.01" placeholder="Precio Normal x Caja" required>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="pvt2" class="col-sm-3 control-label">Descuento x Caja</label>
+                            <label for="pvt2" class="col-sm-3 control-label">Descuento x Caja<span class="obligatorio">*</span></label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control" id="pvt2" name="pvt2" min="0.01" step="0.01" required>
+                                <input type="number" class="form-control" id="pvt2" name="pvt2" min="0.01" step="0.01" placeholder="Precio Descuento x Caja" required>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="pvp" class="col-sm-3 control-label">PVP</label>
+                            <label for="pvp" class="col-sm-3 control-label">PVP<span class="obligatorio">*</span></label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control" id="pvp" name="pvp" min="0.01" step="0.01" required>
+                                <input type="number" class="form-control" id="pvp" name="pvp" min="0.01" step="0.01" placeholder="PVP" required>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="iva" class="col-sm-3 control-label">IVA</label>
+                            <label for="iva" class="col-sm-3 control-label">IVA<span class="obligatorio">*</span></label>
                             <div class="col-sm-8">
                                 <select name="iva" id="iva" class="form-control"></select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="unidad_caja" class="col-sm-3 control-label">Unidad x caja</label>
+                            <label for="unidad_caja" class="col-sm-3 control-label">Unidad x caja<span class="obligatorio">*</span></label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control" id="unidad_caja" name="unidad_caja" min="1" step="1" required>
+                                <input type="number" class="form-control" id="unidad_caja" name="unidad_caja" min="1" step="1" placeholder="Unidades x caja" required>
                             </div>
                         </div>
                     </div>

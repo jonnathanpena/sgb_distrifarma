@@ -23,6 +23,7 @@ $data = json_decode(file_get_contents('php://input'), true);
 $info = array($data);
 
 // configura los valores recibidos en post de la app
+$libroDiario->df_fuente_ld= $info[0]["df_fuente_ld"];
 $libroDiario->df_valor_inicial_ld= $info[0]["df_valor_inicial_ld"];
 $libroDiario->df_fecha_ld= $info[0]["df_fecha_ld"];
 $libroDiario->df_descipcion_ld= $info[0]["df_descipcion_ld"];

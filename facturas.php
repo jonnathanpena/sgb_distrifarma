@@ -6,7 +6,8 @@
     $active_guias = "";
     $active_bodega = "";
     $active_reportes = "";
-	$title="Facturas | SGB";
+    $active_reportes_usuarios = "";
+    $title="Facturas | SGB";
 ?>
 <!DOCTYPE html>
 <html lang="en">

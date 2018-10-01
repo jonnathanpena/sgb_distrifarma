@@ -1,11 +1,12 @@
 <?php
    $active_administracion = "";
    $active_facturas = "active";
-   $active_ingresos = "active";
+   $active_ingresos = "";
    $active_egresos = "";
    $active_guias = "";
    $active_bodega = "";
    $active_reportes = "";
+   $active_reportes_usuarios = "";
    $title="Nueva Factura | SGB";  
    $fecha = Date('d/m/Y');
 ?>

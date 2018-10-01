@@ -28,27 +28,27 @@ $fecha = date("d/m/Y");
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="movimiento" class="col-sm-3 control-label">Detalle</label>
+                            <label for="movimiento" class="col-sm-3 control-label">Detalle<span class="obligatorio">*</span></label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="movimiento" name="movimiento" required>
+                                <input type="text" class="form-control" id="movimiento" name="movimiento" placeholder="Detalle" required>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="documento_egreso" class="col-sm-3 control-label">Número documento</label>
+                            <label for="documento_egreso" class="col-sm-3 control-label">Número documento<span class="obligatorio">*</span></label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="documento_egreso" name="documento_egreso">
+                                <input type="text" class="form-control" id="documento_egreso" name="documento_egreso" placeholder="Número documento">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="valor_egreso" class="col-sm-3 control-label">Valor</label>
+                            <label for="valor_egreso" class="col-sm-3 control-label">Valor<span class="obligatorio">*</span></label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control" id="valor_egreso" name="valor_egreso" min="0.01" step="0.01" onkeyup="calcularEgreso()" required>
+                                <input type="number" class="form-control" id="valor_egreso" name="valor_egreso" placeholder="Valor" min="0.01" step="0.01" onkeyup="calcularEgreso()" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="saldoCC" class="col-sm-3 control-label">Saldo</label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control" id="saldoCC" name="saldoCC" min="0.01" step="0.01" disabled>
+                                <input type="number" class="form-control" id="saldoCC" name="saldoCC" placeholder="Saldo" min="0.01" step="0.01" disabled>
                             </div>
                         </div>
                     </div>

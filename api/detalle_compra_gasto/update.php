@@ -8,34 +8,34 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
  
 // incluye la configuración de la base de datos y la conexión
 include_once '../config/database.php';
-include_once '../objects/detalleCompraProducto.php';
+include_once '../objects/detalle_compra_gasto.php';
  
 // inicia la conexión a la base de datos
 $database = new Database();
 $db = $database->getConnection();
  
 // inicia el objeto
-$detalleCompraProducto = new DetalleCompraProducto($db);
+$detalle_compra_gasto = new DetalleCompraGasto($db);
  
 // get posted data
 $data = json_decode(file_get_contents('php://input'), true);
 
 $info = array($data);
-
+ 
 // configura los valores recibidos en post de la app
-$detalleCompraProducto->compra_id= $info[0]["compra_id"];
-$detalleCompraProducto->producto_id= $info[0]["producto_id"];
-$detalleCompraProducto->cantidad_dcp= $info[0]["cantidad_dcp"];
-$detalleCompraProducto->precio_unitario_dcp= $info[0]["precio_unitario_dcp"];
-$detalleCompraProducto->iva_dcp= $info[0]["iva_dcp"];
-$detalleCompraProducto->subtotal_dcp= $info[0]["subtotal_dcp"];
+$detalle_compra_gasto->cuenta_dcg = $info[0]["cuenta_dcg"];
+$detalle_compra_gasto->subtotal_civa_dcg = $info[0]["subtotal_civa_dcg"];
+$detalle_compra_gasto->subtotal_siva_dcg = $info[0]["subtotal_siva_dcg"];
+$detalle_compra_gasto->subtotal_iva_cero_dcg = $info[0]["subtotal_iva_cero_dcg"];
+$detalle_compra_gasto->total_dcg = $info[0]["total_dcg"];
+$detalle_compra_gasto->id_dcg = $info[0]["id_dcg"];
 
-// insert detalleCompraProducto
-$response = $detalleCompraProducto->insert();
-
+// modificar detalle_compra_gasto
+$response = $detalle_compra_gasto->update();
 if($response == true){
     echo json_encode(true); 
 }else{
+    // Error en caso de que no se pueda modificar
     echo json_encode(false); 
 }
 ?>
