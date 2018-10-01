@@ -41,33 +41,35 @@ include("modal/consultar_productos.php");
                      <div class="col-md-2">
                         <input type="text" class="form-control input-sm" id="fecha" name="fecha" readonly>
                      </div>
-                     <label for="personal" class="col-md-1 control-label">Vendedor</label>
-                     <div class="col-md-2">
+                     <label for="personal" class="col-md-2 control-label">Vendedor <span class="obligatorio">*</span></label>
+                     <div class="col-md-4">
                         <select name="personal" id="personal" class="form-control"></select>
-                     </div>
-                     <label for="documento_cliente" class="col-md-1 control-label">Documento Cliente</label>
-                     <div class="col-md-2">
+                     </div>                     
+                  </div>
+                  <div class="form-group row">
+                    <label for="documento_cliente" class="col-md-2 control-label">Documento Cliente <span class="obligatorio">*</span></label>
+                     <div class="col-md-3">
                         <input type="text" class="form-control input-sm" id="documento_cliente" name="documento_cliente" placeholder="Documento Cliente" onclick="consultarCliente()" style="cursor: pointer;" readonly>
                         <input type="hidden" id="cliente_id" >
                      </div>
-                  </div>
-                  <div class="form-group row">
-                    <label for="nombre_cliente" class="col-md-1 control-label">Nombre Cliente</label>
-                     <div class="col-md-2">
+                    <label for="nombre_cliente" class="col-md-2 control-label">Nombre Cliente</label>
+                     <div class="col-md-5">
                         <input type="text" class="form-control input-sm" id="nombre_cliente" name="nombre_cliente" readonly>
-                     </div>
-                     <label for="sector" class="col-md-1 control-label">Sector</label>
-                     <div class="col-md-2">
-                        <select name="sector" id="sector" class="form-control">
-                            <option value="null">Seleccione...</option>
-                        </select>
-                        <input type="hidden" id="forma_pago">
-                     </div> 
-                     <label for="fecha_entrega" class="col-md-2 control-label">Fecha Entrega</label>
+                     </div>                                                                                                 
+                    </div> 
+                    <div class="form-group row">
+                        <label for="sector" class="col-md-1 control-label">Sector</label>
+                        <div class="col-md-4">
+                            <select name="sector" id="sector" class="form-control" disabled>
+                                <option value="null">Seleccione...</option>
+                            </select>
+                            <input type="hidden" id="forma_pago">
+                        </div> 
+                        <label for="fecha_entrega" class="col-md-2 control-label">Fecha Entrega <span class="obligatorio">*</span></label>
                         <div class="col-md-2">
                             <input type="date" class="form-control input-sm" id="fecha_entrega" name="fecha_entrega" required>
-                        </div>                                                         
-                    </div> 
+                        </div>  
+                    </div>
                     <div class="form-group row producto" style="margin-top: 20px;">
                         <label for="cdigo_producto" class="col-md-1 control-label">Código</label>
                         <div class="col-md-2">
