@@ -11,12 +11,19 @@ var productos = [];
 $(document).ready(function() {
     usuario = JSON.parse(localStorage.getItem('distrifarma_test_user'));
     if (usuario.ingreso == true) {
+        $('#pasaporte').hide();
         if (usuario.df_tipo_usuario == 'Administrador') {
-            $('#administrador').show('');
-            $('#ventas').hide('');
-        } else {
-            $('#administrador').hide('');
-            $('#ventas').show('');
+            $('#Administrador').show('');
+            $('#Supervisor').hide('');
+            $('#Ventas').hide('');
+        } else if (usuario.df_tipo_usuario == 'Supervisor') {
+            $('#Administrador').hide('');
+            $('#Supervisor').show('');
+            $('#Ventas').hide('');
+        } else if (usuario.df_tipo_usuario == 'Ventas') {
+            $('#Administrador').hide('');
+            $('#Supervisor').hide('');
+            $('#Ventas').show('');
         }
     } else {
         window.location.href = "login.php";
@@ -25,6 +32,8 @@ $(document).ready(function() {
 });
 
 function load() {
+    $('#guardar_producto').attr('disabled', false);
+    $('#modificar_producto').attr('disabled', false);
     clearTimeout(timer);
     timer = setTimeout(function() {
         cargar();
@@ -33,7 +42,8 @@ function load() {
 
 function cargar() {
     productos = [];
-    $('#resultados .table-responsive table tbody').empty();
+    $('#resultados .table-responsive table tbody').html('Cargando...');
+    //$('#resultados .table-responsive table tbody').empty();
     var urlCompleta = url + 'producto/getAll.php';
     var q = $('#q').val();
     $.post(urlCompleta, JSON.stringify({ df_nombre_producto: q }), function(response) {
@@ -41,17 +51,19 @@ function cargar() {
             $.each(response.data, function(index, row) {
                 getProductoPrecio(row);
             });
+            clearTimeout(timer);
+            timer = setTimeout(function() {
+                productos.sort(function (a, b){
+                    return (b.df_id_producto - a.df_id_producto)
+                  });
+                records = productos;
+                totalRecords = records.length;
+                totalPages = Math.ceil(totalRecords / recPerPage);
+                apply_pagination();
+            }, 3000);
+        } else {
+            $('#resultados .table-responsive table tbody').html('No se encontró ningún resultado');
         }
-        clearTimeout(timer);
-        timer = setTimeout(function() {
-            productos.sort(function (a, b){
-                return (b.df_id_producto - a.df_id_producto)
-              });
-            records = productos;
-            totalRecords = records.length;
-            totalPages = Math.ceil(totalRecords / recPerPage);
-            apply_pagination();
-        }, 2000);
     });
 }
 
@@ -154,6 +166,7 @@ function nuevoProducto() {
 }
 
 $('#guardar_producto').submit(function(event) {
+    $('#guardar_producto').attr('disabled', true);
     event.preventDefault();
     var producto = {
         df_nombre_producto: $('#nombre').val(),
@@ -278,6 +291,7 @@ function getIvasDetalle(producto) {
 }
 
 $('#modificar_producto').submit(function(event) {
+    $('#modificar_producto').attr('disabled', true);
     event.preventDefault();
     var producto = {
         df_nombre_producto: $('#editNombre').val(),

@@ -12,12 +12,19 @@ $(document).ready(function() {
     $('#ruc').hide();
     $('#pasaporte').hide();
     if (usuario.ingreso == true) {
+        $('#pasaporte').hide();
         if (usuario.df_tipo_usuario == 'Administrador') {
-            $('#administrador').show('');
-            $('#ventas').hide('');
-        } else {
-            $('#administrador').hide('');
-            $('#ventas').show('');
+            $('#Administrador').show('');
+            $('#Supervisor').hide('');
+            $('#Ventas').hide('');
+        } else if (usuario.df_tipo_usuario == 'Supervisor') {
+            $('#Administrador').hide('');
+            $('#Supervisor').show('');
+            $('#Ventas').hide('');
+        } else if (usuario.df_tipo_usuario == 'Ventas') {
+            $('#Administrador').hide('');
+            $('#Supervisor').hide('');
+            $('#Ventas').show('');
         }
     } else {
         window.location.href = "login.php";
@@ -26,6 +33,8 @@ $(document).ready(function() {
 });
 
 function load() {
+    $('#guardar_cliente').attr('disabled', false);
+    $('#editarCliente').attr('disabled', false);
     clearTimeout(timer);
     timer = setTimeout(function() {
         cargar();
@@ -82,10 +91,12 @@ function generate_table() {
 }
 
 $('#guardar_cliente').submit(function(event) {
+    $('#guardar_cliente').attr('disabled', true);
     event.preventDefault();
     var documento = "";
     if ($('#tipo_documento').val() == 'null' || $('#sector').val() == 'null') {
         alertar('warning', '¡Alerta!', 'Tipo de documento y sector son campos obligatorios');
+        $('#guardar_cliente').attr('disabled', false);
     } else {
         switch ($('#tipo_documento').val()) {
             case 'Cedula':
@@ -102,6 +113,7 @@ $('#guardar_cliente').submit(function(event) {
         }
         if (documento == '') {
             alertar('warning', '¡Alerta!', 'No debe quedar ningún campo vacío');
+            $('#guardar_cliente').attr('disabled', false);
         } else {
             getCodigo(documento);
         }
@@ -252,10 +264,12 @@ $('#editTipo_documento').change(function() {
 });
 
 $('#editarCliente').submit(function(event) {
+    $('#editarCliente').attr('disabled', true);
     event.preventDefault();
     var documento = '';
     if ($('#editTipo_documento').val() == 'null' || $('#editSector').val() == 'null') {
         alertar('warning', '¡Alerta!', 'Ningún campo debe quedar vacío');
+        $('#editarCliente').attr('disabled', false);
     } else {
         switch ($('#editTipo_documento').val()) {
             case 'Cedula':
@@ -273,6 +287,7 @@ $('#editarCliente').submit(function(event) {
     }
     if (documento == '') {
         alertar('warning', '¡Alerta!', 'No debe quedar ningún campo vacío');
+        $('#editarCliente').attr('disabled', false);
     } else {
         var datos = {
             df_codigo_cliente: $('#editCodigo').val(),

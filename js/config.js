@@ -13,14 +13,26 @@ $(document).ready(function() { //Increment the idle time counter every minute.
 function timerIncrement() {
     idleTime = idleTime + 1;
     if (idleTime > 9) { // 20 minutes
+        usuario = JSON.parse(localStorage.getItem('distrifarma_test_user'));
+        usuario.ingreso = false;
+        localStorage.setItem('distrifarma_test_user', JSON.stringify(usuario));
         window.location.href = 'login.php';
     }
 }
-var url = 'api/'; //'www.proconty.com/API/distrifar/'; 
+var url = 'http://www.proconty.com/API/distrifar/'; //'http://www.proconty.com/API/distrifar/'; 
 var usuario = "";
 
 function alertar(tipo, titulo, mensaje) {
-    $.toaster({ priority: tipo, title: titulo, message: mensaje });
+   // $.toaster({ priority: tipo, title: titulo, message: mensaje, timeout: 7000, autohide: false });
+   var opciones = {
+    'bgColor': '#5cb85c', 'ftColor': 'white', 'vPosition': 'top', 'hPosition': 'right', 'fadeIn': 400, 'fadeOut': 400, 'clickable': true, 'autohide': false, 'duration': 4000 
+   };
+   if (tipo == 'warning'){
+       opciones.bgColor = '#f0ad4e';
+   } else if (tipo == 'danger'){
+       opciones.bgColor = '#d9534f';
+   }
+   flash(titulo + ' - ' + mensaje, opciones);    
 }
 
 $('#logout').click(function() {
