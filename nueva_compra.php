@@ -280,6 +280,42 @@
 
                         <div class="tab-content">
                             <div id="productos" class="tab-pane fade in active">
+                                <div class="form-group row producto">
+                                    <label for="cdigo_producto" class="col-md-1 control-label">Código</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control input-sm" id="codigo_producto" name="codigo_producto" placeholder="Código" autofocus>
+                                    </div>
+                                    <label for="cdigo_producto" class="col-md-1 control-label">Producto</label>
+                                    <div class="col-md-3">
+                                        <input type="text" class="form-control input-sm" placeholder="Producto" id='nombre_producto' disabled>
+                                    </div>
+                                    <label for="cdigo_producto" class="col-md-1 control-label">Cant</label>
+                                    <div class="col-md-1">
+                                        <input type="number" class="form-control input-sm" id="cantidad_producto" name="cantidad_producto" value="1">
+                                    </div>
+                                    <label for="cdigo_producto" class="col-md-1 control-label">P. Unit.</label>
+                                    <div class="col-md-2">
+                                        <input type="number" class="form-control input-sm" id="precio_unitario_producto" name="precio_unitario_producto" value="0.01" step="0.01">
+                                    </div>
+                                    <label for="iva_producto" class="col-md-1 control-label">IVA</label>
+                                    <div class="col-md-2">
+                                        <select id="iva_producto" name="iva_producto" class="form-control input-sm">
+                                            <option value="0.12" selected>12%</option>
+                                            <option value="0">0%</option>
+                                        </select>
+                                    </div>
+                                    <label for="cdigo_producto" class="col-md-1 control-label">Bonificación</label>
+                                    <div class="col-md-1">
+                                        <input type="number" class="form-control input-sm" id="bonificacion_producto" name="bonificacion_producto" value="0" step="1">
+                                    </div>
+                                    <label for="cdigo_producto" class="col-md-1 control-label">Descuento</label>
+                                    <div class="col-md-1">
+                                        <input type="number" class="form-control input-sm" id="descuento_producto" name="descuento_producto" placeholder="%" step="0.01">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button type="button" class="btn btn-success" onclick="agregar()"><i class="glyphicon glyphicon-plus"></i></button>
+                                    </div>
+                                </div>   
                                 <div class="table-wrapper">
                                     <div class="table-title">
                                         <div class="row">
@@ -295,9 +331,11 @@
                                             <tr>
                                                 <th width="120">Código</th>
                                                 <th>Producto</th>
+                                                <th width="100">Bonificación</th>
                                                 <th width="100">Cantidad</th>
                                                 <th width="100">P.Unitario $</th>
                                                 <th width="100">IVA $</th>
+                                                <th width="120">Descuento($)</th>
                                                 <th width="100">Subtotal $</th>
                                                 <th>Acciones</th>
                                             </tr>
@@ -475,7 +513,7 @@
                             <input type="number" class="form-control input-sm" id="intereses" value="0.000">
                         </td>
                         <td>
-                            <label class="control-label">Bonificación</label>
+                            <label class="control-label">Descuento (%)</label>
                         </td>
                         <td>
                             <input type="number" class="form-control input-sm" id="bonificacion" value="0.000">
