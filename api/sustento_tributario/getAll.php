@@ -5,22 +5,22 @@ header("Content-Type: application/json; charset=UTF-8");
  
 // incluye la configuración de la base de datos y la conexión
 include_once '../config/database.php';
-include_once '../objects/kardex.php';
+include_once '../objects/sustento_tributario.php';
  
 // inicia la conexión a la base de datos
 $database = new Database();
 $db = $database->getConnection();
  
 // inicia el objeto
-$kardex = new Kardex($db);
+$sustento_tributario = new SustentoTributario($db);
  
 // query de lectura
-$stmt = $kardex->readIdMax();
+$stmt = $sustento_tributario->readAll();
 $num = $stmt->rowCount();
 
-//kardex array
-$kardex_arr=array();
-$kardex_arr["data"]=array();
+//sustento_tributario array
+$sustento_tributario_arr=array();
+$sustento_tributario_arr["data"]=array();
  
 // check if more than 0 record found
 if($num>0){ 
@@ -34,17 +34,16 @@ if($num>0){
         extract($row);
         
         //Los nombres acá son iguales a los de la clase iguales a las columnas de la BD
-        $kardex_item=array(
-            "df_kardex_id"=>$df_kardex_id * 1
+        $sustento_tributario_item=array(
+            "id_sustento"=>$id_sustento,
+            "nombre_sustento"=>$nombre_sustento
         );
  
-        array_push($kardex_arr["data"], $kardex_item);
+        array_push($sustento_tributario_arr["data"], $sustento_tributario_item);
     }
  
-    echo json_encode($kardex_arr);
+    
 }
  
-else{
-    echo json_encode($kardex_arr);
-}
+echo json_encode($sustento_tributario_arr);
 ?>

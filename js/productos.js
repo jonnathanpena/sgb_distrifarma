@@ -53,9 +53,9 @@ function cargar() {
             });
             clearTimeout(timer);
             timer = setTimeout(function() {
-                productos.sort(function (a, b){
+                productos.sort(function(a, b) {
                     return (b.df_id_producto - a.df_id_producto)
-                  });
+                });
                 records = productos;
                 totalRecords = records.length;
                 totalPages = Math.ceil(totalRecords / recPerPage);
@@ -131,7 +131,7 @@ function getIva(producto) {
     });
 }
 
-function nuevoProducto() {    
+function nuevoProducto() {
     $('#iva').empty();
     $('#nuevoProducto').modal('show');
     $('#codigop').append();
@@ -183,7 +183,7 @@ $('#guardar_producto').submit(function(event) {
         df_und_caja: $('#unidad_caja').val(),
         df_utilidad: 0
     };
-    if (producto.df_codigo_prod == '' || producto.df_codigo_prod == 'PRO-'){
+    if (producto.df_codigo_prod == '' || producto.df_codigo_prod == 'PRO-') {
         getMaxId(producto, productoPrecio);
     } else {
         insertProducto(producto, productoPrecio);
@@ -222,6 +222,7 @@ function insertProducto(producto, productoPrecio) {
 
 function insertPrecioProducto(productoPrecio) {
     var urlCompleta = url + 'productoPrecio/insert.php';
+    consultarInventario(productoPrecio);
     $.post(urlCompleta, JSON.stringify(productoPrecio), function(response) {
         if (response == true) {
             alertar('success', '¡Éxito!', 'Producto insertado exitosamente');
@@ -251,7 +252,7 @@ function detallar(id) {
 }
 
 function getProductoPrecioDetalle(producto) {
-    console.log('producto: ',producto);
+    console.log('producto: ', producto);
     var urlCompleta = url + 'productoPrecio/getByProducto.php';
     $.post(urlCompleta, JSON.stringify({ df_producto_id: producto.df_id_producto }), function(response) {
         producto.df_id_precio = response.data[0].df_id_precio;
@@ -328,4 +329,30 @@ function updatePrecio() {
         $('#editarProducto').modal('hide');
         load();
     });
+}
+
+function consultarInventario(producto) {
+    var urlCompleta = url + 'inventario/getByIdProd.php';
+    $.post(urlCompleta, JSON.stringify({ df_producto: producto.df_producto_id }), function(response) {
+        if (response.data.length == 0) {
+            insertInventario(producto);
+        }
+    });
+}
+
+function insertInventario(producto) {
+    var urlCompleta = url + 'inventario/insert.php';
+    var inventario = {
+        df_cant_bodega: 0,
+        df_cant_transito: 0,
+        df_producto: producto.df_producto_id,
+        df_ppp_ind: 0,
+        df_pvt_ind: 0,
+        df_ppp_total: 0,
+        df_pvt_total: 0,
+        df_minimo_sug: 0,
+        df_und_caja: producto.df_und_caja,
+        df_bodega: 1
+    };
+    $.post(urlCompleta, JSON.stringify(inventario), function(response) {});
 }

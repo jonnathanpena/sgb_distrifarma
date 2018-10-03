@@ -47,7 +47,7 @@ class LibroDiario {
         $query = "SELECT `df_id_libro_diario`, `df_fuente_ld`, `df_valor_inicial_ld`, `df_fecha_ld`, `df_descipcion_ld`, 
                 `df_ingreso_ld`, `df_egreso_ld`, df_usuario_id_ld FROM `df_libro_diario` 
                 WHERE `df_id_libro_diario` =".$this->df_id_libro_diario."
-                ORDER BY `df_id_libro_diario` desc";
+                ORDER BY `df_fecha_ld` desc";
 
         // prepare query statement
         $stmt = $this->conn->prepare($query);

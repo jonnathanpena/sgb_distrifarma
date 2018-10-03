@@ -57,7 +57,7 @@ class Kardex {
     
         // select all query
         $query = "SELECT max(`df_kardex_id`) as df_kardex_id 
-                    FROM `df_kardex` WHERE `df_kardex_id` = ".$this->df_kardex_id;
+                    FROM `df_kardex`";
     
         // prepare query statement
         $stmt = $this->conn->prepare($query);

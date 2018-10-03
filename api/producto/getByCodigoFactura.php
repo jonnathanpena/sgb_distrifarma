@@ -8,28 +8,28 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
  
 // incluye la configuración de la base de datos y la conexión
 include_once '../config/database.php';
-include_once '../objects/reportes.php';
+include_once '../objects/producto.php';
  
 // inicia la conexión a la base de datos
 $database = new Database();
 $db = $database->getConnection();
  
 // inicia el objeto
-$reportes = new Reportes($db);
+$producto = new Producto($db);
 
+// get posted data
 $data = json_decode(file_get_contents('php://input'), true);
 
 $info = array($data);
- 
-$reportes->df_fecha_ini= $info[0]["df_fecha_ini"];
-$reportes->df_fecha_fin= $info[0]["df_fecha_fin"];
+
+$producto->codigo= $info[0]["codigo"];
 // query de lectura
-$stmt = $reportes->readByVentaSector();
+$stmt = $producto->readByCodigoFactura();
 $num = $stmt->rowCount();
 
-//reportes array
-$reportes_arr=array();
-$reportes_arr["data"]=array();
+//producto array
+$producto_arr=array();
+$producto_arr["data"]=array();
  
 // check if more than 0 record found
 if($num>0){ 
@@ -41,26 +41,33 @@ if($num>0){
         // this will make $row['name'] to
         // just $name only
         extract($row);
-
+        
         //Los nombres acá son iguales a los de la clase iguales a las columnas de la BD
-        $reportes_item=array(
-            "SECTOR"=>$df_nombre_sector,
-            "COUNT_FACTURA"=>number_format($COUNT_FACTURA,1) , 
-            //"df_personal_cod_fac"=>$df_personal_cod_fac,
-            "NOMBRE"=>$df_nombre_per,
-            "APELLIDO"=> $df_apellido_per,
-            "CARGO"=>$df_cargo_per,
-            "VALOR_VENDIDO"=>number_format($VALOR_VENDIDO,3),
-            "VALOR_ANULADO"=>number_format($VALOR_ANULADO,3)
+        $producto_item=array(
+            "df_id_producto"=>$df_id_producto, 
+            "df_nombre_producto"=>$df_nombre_producto,
+            "df_codigo_prod"=>$df_codigo_prod,
+            "df_id_precio"=>$df_id_precio,
+            "df_producto_id"=>$df_producto_id,
+            "df_ppp"=>$df_ppp,
+            "df_pvt1"=>$df_pvt1,
+            "df_pvt2"=>$df_pvt2,
+            "df_pvp"=>$df_pvp,
+            "df_iva"=>$df_iva,
+            "df_min_sugerido"=>$df_min_sugerido,
+            "df_und_caja"=>$df_und_caja,
+            "df_utilidad"=>$df_utilidad,
+            "df_valor_impuesto"=>$df_valor_impuesto, 
+            "df_cant_bodega"=>$df_cant_bodega * 1
         );
  
-        array_push($reportes_arr["data"], $reportes_item);
+        array_push($producto_arr["data"], $producto_item);
     }
  
-    echo json_encode($reportes_arr);
+    echo json_encode($producto_arr);
 }
  
 else{
-    echo json_encode($reportes_arr);
+    echo json_encode($producto_arr);
 }
 ?>

@@ -8,28 +8,30 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
  
 // incluye la configuración de la base de datos y la conexión
 include_once '../config/database.php';
-include_once '../objects/reportes.php';
+include_once '../objects/sustento_tributario.php';
  
 // inicia la conexión a la base de datos
 $database = new Database();
 $db = $database->getConnection();
  
 // inicia el objeto
-$reportes = new Reportes($db);
+$sustento_tributario = new SustentoTributario($db);
 
+// get posted data
 $data = json_decode(file_get_contents('php://input'), true);
 
 $info = array($data);
  
-$reportes->df_fecha_ini= $info[0]["df_fecha_ini"];
-$reportes->df_fecha_fin= $info[0]["df_fecha_fin"];
+// configura los valores recibidos en post de la app
+$sustento_tributario->sustento_id = $info[0]["sustento_id"];
+
 // query de lectura
-$stmt = $reportes->readByVentaSector();
+$stmt = $sustento_tributario->readTiposComprobantesBySustento();
 $num = $stmt->rowCount();
 
-//reportes array
-$reportes_arr=array();
-$reportes_arr["data"]=array();
+// sustento_tributario array
+$sustento_tributario_arr=array();
+$sustento_tributario_arr["data"]=array();
  
 // check if more than 0 record found
 if($num>0){ 
@@ -41,26 +43,22 @@ if($num>0){
         // this will make $row['name'] to
         // just $name only
         extract($row);
-
-        //Los nombres acá son iguales a los de la clase iguales a las columnas de la BD
-        $reportes_item=array(
-            "SECTOR"=>$df_nombre_sector,
-            "COUNT_FACTURA"=>number_format($COUNT_FACTURA,1) , 
-            //"df_personal_cod_fac"=>$df_personal_cod_fac,
-            "NOMBRE"=>$df_nombre_per,
-            "APELLIDO"=> $df_apellido_per,
-            "CARGO"=>$df_cargo_per,
-            "VALOR_VENDIDO"=>number_format($VALOR_VENDIDO,3),
-            "VALOR_ANULADO"=>number_format($VALOR_ANULADO,3)
+ 
+        $sustento_tributario_item=array(
+            "id_dsco" => $id_dsc,
+            "sustento_id" => $sustento_id,
+            "id_sustento" => $id_sustento,
+            "nombre_sustento" => $nombre_sustento,
+            "comprobante_id" => $comprobante_id,
+            "nombre_tipocomprobante" => $nombre_tipocomprobante
         );
  
-        array_push($reportes_arr["data"], $reportes_item);
+        array_push($sustento_tributario_arr["data"], $sustento_tributario_item);
     }
  
-    echo json_encode($reportes_arr);
+    
 }
  
-else{
-    echo json_encode($reportes_arr);
-}
+echo json_encode($sustento_tributario_arr);
+
 ?>
