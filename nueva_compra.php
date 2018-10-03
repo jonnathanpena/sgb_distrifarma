@@ -317,15 +317,6 @@
                                     </div>
                                 </div>   
                                 <div class="table-wrapper">
-                                    <div class="table-title">
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <button type="button" class="btn btn-success add-new-producto" onclick="consultarProductosAgregar()">
-                                                    <i class="fa fa-plus"></i> Agregar
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
                                     <table id="table_productos" class="table table-bordered">
                                         <thead>
                                             <tr>
