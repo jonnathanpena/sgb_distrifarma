@@ -47,12 +47,15 @@ if($num>0){
             "df_id_detrem"=>$df_id_detrem, 
 			"df_guia_remision_detrem"=>$df_guia_remision_detrem,
 			"df_producto_precio_detrem"=>$df_producto_precio_detrem, 
-             "df_cant_producto_detrem"=>$df_cant_producto_detrem,
-             "df_nombre_und_detrem"=>$df_nombre_und_detrem,
-             "df_cant_x_und_detrem"=>$df_cant_x_und_detrem,
-             "df_valor_sin_iva_detrem"=>$df_valor_sin_iva_detrem,
-             "df_iva_detrem"=>$df_iva_detrem,
-             "df_valor_total_detrem"=>$df_valor_total_detrem
+            "df_cant_producto_detrem"=>$df_cant_producto_detrem,
+            "df_nombre_und_detrem"=>$df_nombre_und_detrem,
+            "df_cant_x_und_detrem"=>$df_cant_x_und_detrem,
+            "df_valor_sin_iva_detrem"=>$df_valor_sin_iva_detrem,
+            "df_iva_detrem"=>$df_iva_detrem,
+            "df_valor_total_detrem"=>$df_valor_total_detrem,
+            "df_id_producto"=>$df_id_producto,
+            "df_codigo_prod"=>$df_codigo_prod,
+            "df_nombre_producto"=>$df_nombre_producto
         );
  
         array_push($detalleRemision_arr["data"], $detalleRemision_item);
