@@ -16,6 +16,10 @@ class DetalleRemision {
     public $df_iva_detrem;
     public $df_valor_total_detrem;
     public $df_producto_precio_detrem;
+
+    public $df_id_producto;
+    public $df_codigo_prod;
+    public $df_nombre_producto;
     
     //constructor con base de datos como conexión
     public function __construct($db){
@@ -44,11 +48,13 @@ class DetalleRemision {
     function readById(){
     
         // select all query
-        $query = "SELECT `df_id_detrem`, `df_guia_remision_detrem`, `df_producto_precio_detrem`, 
-                    `df_cant_producto_detrem`, `df_nombre_und_detrem`, `df_cant_x_und_detrem`, 
-                    `df_valor_sin_iva_detrem`, `df_iva_detrem`, `df_valor_total_detrem` 
-                    FROM `df_detalle_remision`
-                    WHERE df_guia_remision_detrem = ".$this->df_guia_remision_detrem;
+        $query = "SELECT drem.`df_id_detrem`, drem.`df_guia_remision_detrem`, drem.`df_producto_precio_detrem`, drem.`df_cant_producto_detrem`, 
+                    drem.`df_nombre_und_detrem`, drem.`df_cant_x_und_detrem`, drem.`df_valor_sin_iva_detrem`, drem.`df_iva_detrem`, drem.`df_valor_total_detrem`, 
+                    prod.`df_codigo_prod`, prod.`df_nombre_producto`, prod.`df_id_producto`
+                    FROM `df_detalle_remision` as drem
+                    JOIN `df_producto_precio` as pp ON (drem.`df_producto_precio_detrem` = pp.`df_id_precio`)
+                    JOIN `df_producto` as prod ON (pp.`df_producto_id` = prod.`df_id_producto`)
+                    WHERE drem.`df_guia_remision_detrem` = ".$this->df_guia_remision_detrem;
     
         // prepare query statement
         $stmt = $this->conn->prepare($query);

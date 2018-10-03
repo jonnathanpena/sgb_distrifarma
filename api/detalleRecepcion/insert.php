@@ -28,6 +28,7 @@ $detalleRecepcion->df_factura_rec= $info[0]["df_factura_rec"];
 $detalleRecepcion->df_cant_producto_detrec= $info[0]["df_cant_producto_detrec"];
 $detalleRecepcion->df_producto_cod_detrec= $info[0]["df_producto_cod_detrec"];
 $detalleRecepcion->df_nueva_fecha= $info[0]["df_nueva_fecha"];
+$detalleRecepcion->df_detalleRemision_detrec= $info[0]["df_detalleRemision_detrec"];
 $detalleRecepcion->df_edo_prod_fact_detrec= $info[0]["df_edo_prod_fact_detrec"];
 
 // insert detalleRecepcion
