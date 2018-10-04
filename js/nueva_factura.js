@@ -326,11 +326,6 @@ function validarInsercion(factura) {
         seguir = false;
         return;
     }
-    if (factura.df_iva_fac == 0) {
-        alertar('warning', '¡Alerta!', 'Los valores no pueden estar en cero');
-        seguir = false;
-        return;
-    }
     if (factura.df_valor_total_fac == 0) {
         alertar('warning', '¡Alerta!', 'Los valores no pueden estar en cero');
         seguir = false;

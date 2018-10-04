@@ -52,9 +52,9 @@ function cargar() {
             $.each(response.data, function(index, row) {
                 consultarVendedor(row);
             });
-            learTimeout(timer);
+            clearTimeout(timer);
             timer = setTimeout(function() {
-                guias.sort(function (a, b){
+                guias.sort(function(a, b) {
                     return (b.df_guia_recepcion - a.df_guia_recepcion)
                 });
                 records = guias;
@@ -64,8 +64,7 @@ function cargar() {
             }, 2000);
         } else {
             $('#resultados .table-responsive table tbody').html('No se encontró ningún resultado');
-        }     
-        c
+        }
     })
 }
 

@@ -175,10 +175,10 @@ class GuiaRecepcion {
                         ".$this->df_descuento_rec.",
                         ".$this->df_diferencia_rec.",
                         ".$this->df_remision_rec.",
-                        ".$this->df_entrega_rec."
+                        ".$this->df_entrega_rec.",
                         ".$this->df_num_guia.",
                         ".$this->df_creadoBy_rec.",
-                        null
+                        ".$this->df_creadoBy_rec."
                     )";
 
         // prepara la sentencia del query
