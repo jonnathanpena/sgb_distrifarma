@@ -155,12 +155,12 @@ function seleccionarFactura(numFactura) {
         var contador = 0;
         var seguir = true;
         $.each(seleccionadas, function(index, row) {
-            if (seguir){
+            if (seguir) {
                 if (row.df_num_factura == numFactura) {
                     seguir = false;
                     seleccionadas.splice(contador, 1);
                 }
-            }            
+            }
             contador++;
         });
         $('#table_productos tbody').html('<p><img src="./img/ajax-loader.gif"> Cargando...</p>');
@@ -186,7 +186,7 @@ function seleccionarFactura(numFactura) {
     $('#facturas').val(seleccionadas.length);
 }
 
-function poblarDetalles() {    
+function poblarDetalles() {
     var temp = [];
     $('#table_productos tbody').empty();
     $.each(seleccionadas, function(index, row) {
@@ -198,7 +198,7 @@ function poblarDetalles() {
                 cantidad: row.detalles[i].df_cantidad_detfac,
                 factura: row.detalles[i].df_id_factura_detfac,
                 sector: row.sector,
-                numFactura: row.df_num_factura        
+                numFactura: row.df_num_factura
             });
         }
         clearTimeout(timer);
@@ -356,3 +356,12 @@ function limpiar() {
     $('#factura').val('1');
     $('#table_productos tbody').empty();
 }
+
+$('#personal').change(function() {
+    $('#cantidad').val('0');
+    $('#facturas').val('0');
+    $('#table_sectores tbody').empty();
+    $('#table_facturas tbody').empty();
+    facturas = [];
+    seleccionadas = [];
+});
