@@ -53,14 +53,14 @@ function cargar() {
             });
             clearTimeout(timer);
             timer = setTimeout(function() {
-                productos.sort(function (a, b){
+                productos.sort(function(a, b) {
                     return (b.df_id_producto - a.df_id_producto)
-                  });
+                });
                 records = productos;
                 totalRecords = records.length;
                 totalPages = Math.ceil(totalRecords / recPerPage);
                 apply_pagination();
-            }, 3000);
+            }, 30000);
         } else {
             $('#resultados .table-responsive table tbody').html('No se encontró ningún resultado');
         }
@@ -131,7 +131,7 @@ function getIva(producto) {
     });
 }
 
-function nuevoProducto() {    
+function nuevoProducto() {
     $('#iva').empty();
     $('#nuevoProducto').modal('show');
     $('#codigop').append();
@@ -183,7 +183,7 @@ $('#guardar_producto').submit(function(event) {
         df_und_caja: $('#unidad_caja').val(),
         df_utilidad: 0
     };
-    if (producto.df_codigo_prod == '' || producto.df_codigo_prod == 'PRO-'){
+    if (producto.df_codigo_prod == '' || producto.df_codigo_prod == 'PRO-') {
         getMaxId(producto, productoPrecio);
     } else {
         insertProducto(producto, productoPrecio);
@@ -251,7 +251,7 @@ function detallar(id) {
 }
 
 function getProductoPrecioDetalle(producto) {
-    console.log('producto: ',producto);
+    console.log('producto: ', producto);
     var urlCompleta = url + 'productoPrecio/getByProducto.php';
     $.post(urlCompleta, JSON.stringify({ df_producto_id: producto.df_id_producto }), function(response) {
         producto.df_id_precio = response.data[0].df_id_precio;

@@ -10,6 +10,8 @@ var timer;
 var currentdate, datetime;
 var guiaRemision = {};
 var guiaEntrega = {};
+var detallesEntrega = [];
+var detalleFactura = [];
 
 $(document).ready(function() {
     usuario = JSON.parse(localStorage.getItem('distrifarma_test_user'));
@@ -69,33 +71,30 @@ function cambioTipoGuia() {
         alertar('warning', '¡Alerta!', 'Debe escoger un tipo de guía válido');
         $('#seleccionGuiaEntrega').hide('slow');
     } else if (tipo == 'Entrega') {
-        $('#seleccionGuiaEntrega').show('slow');
-        $('#seleccionGuiaRemision').hide('slow');
-        $('.num_guia_ent').show('slow');
-        $('.num_guia_rem').hide('slow');
         getEntregaPendiente();
     } else if (tipo == 'Remision') {
-        $('#seleccionGuiaEntrega').hide('slow');
-        $('#seleccionGuiaRemision').show('slow');
-        $('.num_guia_ent').hide('slow');
-        $('.num_guia_rem').show('slow');
         getRemisionPendiente();
     }
 }
 
 function getEntregaPendiente() {
+    getSectores();
+    getPersonal();
     var urlCompleta = url + 'guiaRecepcion/getPendienteEntrega.php';
-    $('#num_gui_ent').empty();
-    $('#num_gui_ent').append('<option value="null">Selecccione...</option>');
-    $('#repartidor').empty();
-    $('#repartidor').append('<option value="null">Selecccione...</option>');
+    $('#num_guia_entrega').empty();
+    $('#num_guia_entrega').append('<option value="null">Selecccione...</option>');
     $.get(urlCompleta, function(response) {
         console.log('entregapendiente', response);
         if (response.data.length > 0) {
             guiasEntrega = response.data;
+            $('#seleccionGuiaEntrega').show('slow');
+            $('#seleccionGuiaRemision').hide('slow');
+            $('.num_guia_ent').show('slow');
+            $('.num_guia_rem').hide('slow');
+            guiasEntrega = response.data;
             $.each(guiasEntrega, function(index, row) {
                 var option = '<option value="' + row.df_num_guia_entrega + '">' + row.df_codigo_guia_ent + '</option>';
-                $('#num_gui_ent').append(option);
+                $('#num_guia_entrega').append(option);
             });
         } else {
             alertar('warning', '¡Alerta!', 'No existe ninguna guía pendiente');
@@ -109,6 +108,10 @@ function getRemisionPendiente() {
     $.get(urlCompleta, function(response) {
         guiasRemision = response.data;
         if (guiasRemision.length > 0) {
+            $('#seleccionGuiaEntrega').hide('slow');
+            $('#seleccionGuiaRemision').show('slow');
+            $('.num_guia_ent').hide('slow');
+            $('.num_guia_rem').show('slow');
             $('#num_guia_remision').append('<option value="null">Seleccione...</option>');
             $.each(guiasRemision, function(index, row) {
                 var opcion = '<option value="' + row.df_guia_remision + '">' + row.df_codigo_rem + '</option>';
@@ -116,33 +119,40 @@ function getRemisionPendiente() {
             });
         } else {
             alertar('warning', '¡Alerta!', 'No existen guías de remisión pendientes');
+            $('#tipo_guia').val('null');
+            $('#seleccionGuiaEntrega').hide('slow');
+            $('#seleccionGuiaRemision').hide('slow');
+            $('.num_guia_ent').hide('slow');
+            $('.num_guia_rem').hide('slow');
         }
     });
 }
 
-function cambioNumGuiaEntrega() {
-    var urlCompleta = url + ''
-}
-
 function getSectores() {
     $('#sector_remision').empty();
+    $('#sector_entrega').empty();
     var urlCompleta = url + 'sector/getAll.php';
     $.get(urlCompleta, function(response) {
         $.each(response.data, function(index, row) {
             $('#sector_remision').append('<option value="' + row.df_codigo_sector + '">' + row.df_nombre_sector + '</option>');
+            $('#sector_entrega').append('<option value="' + row.df_codigo_sector + '">' + row.df_nombre_sector + '</option>');
         });
     });
 }
 
 function getPersonal() {
     $('#vendedor_remision').empty();
+    $('#repartidor_entrega').empty();
     var urlCompleta = url + 'personal/getAll.php';
     $.get(urlCompleta, function(response) {
         $.each(response.data, function(index, row) {
             $('#vendedor_remision').append('<option value="' + row.df_id_personal + '">' + row.df_nombre_per + ' ' + row.df_apellido_per + '</option>');
+            $('#repartidor_entrega').append('<option value="' + row.df_id_personal + '">' + row.df_nombre_per + ' ' + row.df_apellido_per + '</option>');
         });
     });
-    getRemision();
+    if ($('#tipo_guia').val() == 'Remision') {
+        getRemision();
+    }
 }
 
 function cambioNumGuiaRemision() {
@@ -293,6 +303,7 @@ function insertRemision(recepcion) {
         if (response == false || response == false) {
             alertar('danger', '¡Error!', 'Verifique su conexión a internet, e intente nuevamente');
         } else {
+            updateRemision();
             generarDetalleGuia(response);
         }
     });
@@ -349,4 +360,286 @@ function insertDetelle(detalle) {
     });
 }
 
-function comenzarInsertarEntrega() {}
+function cambioNumGuiaEntrega() {
+    detalleFactura = [];
+    var id_entrega = $('#num_guia_entrega').val();
+    $.each(guiasEntrega, function(index, row) {
+        if (row.df_num_guia_entrega == id_entrega) {
+            guiaEntrega = row;
+        }
+    });
+    console.log('guia entrega', guiaEntrega);
+    $('#sector_entrega').val(guiaEntrega.df_sector_ent);
+    $('#repartidor_entrega').val(guiaEntrega.df_repartidor_ent);
+    $('#fecha_entrega').val(guiaEntrega.df_fecha_ent.split(' ')[0]);
+    getDetalleEntrega();
+}
+
+function getDetalleEntrega() {
+    var urlCompleta = url + 'detalleEntrega/getById.php';
+    $('#table_guias tbody').empty();
+    $.post(urlCompleta, JSON.stringify({ df_guia_entrega: guiaEntrega.df_num_guia_entrega }), function(response) {
+        detallesEntrega = response.data;
+        console.log('detalles entrega', detallesEntrega);
+        var factura = "";
+        $.each(response.data, function(index, row) {
+            var tr = $('<tr/>');
+            if (factura != row.df_num_factura_detent) {
+                factura = row.df_num_factura_detent;
+                getDetalleFactura(factura);
+                tr.append('<td width="120" class="factura">' + factura + '</td>');
+                tr.append('<td class="estado"><select id="estado-' + factura + '" class="form-control" onchange="cambiaEstado(`' + factura + '`)"><option value="2">ENTREGADO</option><option value="4">MODIFICADA</option><option value="6">REASIGNADA</option><option value="5">ANULADA</option></select></td>');
+                tr.append('<td width="180" class="nueva_fecha"><input type="date" class="form-control" id="nueva-fecha-' + factura + '"></td>');
+                tr.append('<td class="forma-pago"><select id="forma-pago-' + factura + '" class="form-control" onchange="cambioFormaPago(`' + factura + '`)"><option value="EFECTIVO">EFECTIVO</option><option value="CHEQUE">CHEQUE</option><option value="TRANSFERENCIA">TRANSFERENCIA</option><option value="CREDITO">CRÉDITO</option></select></td>');
+                $('#table_guias tbody').append(tr);
+            }
+        });
+        clearTimeout(timer);
+        timer = setTimeout(function() {
+            calcularCostos();
+        }, 3000);
+    });
+}
+
+function getDetalleFactura(fact) {
+    var urlCompleta = url + 'detalleFactura/getById.php';
+    $.post(urlCompleta, JSON.stringify({ df_num_factura_detfac: fact }), function(response) {
+        console.log('response detalle', response);
+        $.each(response.data, function(index, row) {
+            detalleFactura.push(row);
+        });
+    });
+    console.log('detalle factura', detalleFactura);
+}
+
+var modificados = [];
+
+function cambiaEstado(fact) {
+    modificados = [];
+    $('#display_productos tbody').empty();
+    if ($('#estado-' + fact).val() == 4) {
+        $.each(detalleFactura, function(index, row) {
+            if (row.df_num_factura_detfac == fact) {
+                var tr = $('<tr/>');
+                tr.append('<td class="id" style="display: none;"><input type="text" id="id-' + row.df_id_factura_detfac + '" value="' + row.df_id_factura_detfac + '"></td>');
+                tr.append('<td style="display: none;"><input type="text" id="antes-' + row.df_id_factura_detfac + '" value="' + row.df_cantidad_detfac + '"></td>');
+                tr.append('<td>' + row.df_codigo_prod + '</td>');
+                tr.append('<td>' + row.df_nombre_producto + '</td>');
+                tr.append('<td style="text-align: right;">' + row.df_nombre_und_detfac + '</td>');
+                tr.append('<td><input type="number" class="form-control" id="vendidos-' + row.df_id_factura_detfac + '" value="' + row.df_cantidad_detfac + '" onkeyup="cambiaVendidos(`' + row.df_id_factura_detfac + '`)" ></td>');
+                tr.append('<td><input type="number" class="form-control" id="devueltos-' + row.df_id_factura_detfac + '" value="0" disabled ></td>');
+                $('#display_productos tbody').append(tr);
+            }
+        });
+        $('#modificacionRecepcion').modal('show');
+    }
+}
+
+function cambiaVendidos(id) {
+    var antes = $('#antes-' + id).val() * 1;
+    var ahora = $('#vendidos-' + id).val() * 1;
+    if (ahora < antes) {
+        var resta = antes - ahora;
+        $('#devueltos-' + id).val(resta);
+        for (var i = 0; i < detalleFactura.length; i++) {
+            if (detalleFactura[i].df_id_factura_detfac == id) {
+                modificados.push({
+                    cantidad: ahora,
+                    resta: resta,
+                    id: detalleFactura[i].df_id_factura_detfac
+                });
+            };
+        };
+    } else {
+        $('#vendidos-' + id).val(antes);
+        $('#devueltos-' + id).val('0');
+    }
+    clearTimeout(timer);
+    timer = setTimeout(function() {
+        calcularCostos();
+    }, 1000);
+}
+
+function gardaModificacion() {
+    $.each(modificados, function(i, r) {
+        for (var i = 0; i < detalleFactura.length; i++) {
+            if (r.id == detalleFactura[i].df_id_factura_detfac) {
+                detalleFactura[i].df_cant_x_und_detfac = r.cantidad;
+                var tr = $('<tr/>');
+                tr.append('<td>' + r.resta + '</td>');
+                tr.append('<td>' + detalleFactura[i].df_nombre_und_detfac + '</td>');
+                tr.append('<td>' + detalleFactura[i].df_nombre_producto + '</td>');
+                $('#table_resumen_productos tbody').append(tr);
+            }
+        }
+    });
+    $('#modificacionRecepcion').modal('hide');
+
+}
+
+function calcularCostos() {
+    var valor_recaudado = 0;
+    var valor_efectivo = Number($('#valor_efectivo_entrega').val()).toFixed(2);
+    var valor_cheque = Number($('#valor_cheque_entrega').val()).toFixed(2);
+    var valor_retenciones = Number($('#valor_retenciones_entrega').val()).toFixed(2);
+    var valor_descuento = Number($('#valor_descuento_entrega').val()).toFixed(2);
+    var diferencia = 0;
+    $.each(detalleFactura, function(index, row) {
+        var iva = row.df_iva_detfac * 1;
+        var precio_unitario = row.df_precio_prod_detfac * 1;
+        var cantidad = row.df_cantidad_detfac * 1;
+        var subtotal = precio_unitario * cantidad;
+        var total_iva = subtotal * iva * 1;
+        var total_tupla = subtotal + total_iva;
+        valor_recaudado += total_tupla;
+    });
+    $('#valor_recaudado_entrega').val(Number(valor_recaudado).toFixed(2));
+    var resto = Number(valor_efectivo) + Number(valor_cheque) + Number(valor_retenciones) + Number(valor_descuento);
+    diferencia = Number(valor_recaudado - resto).toFixed(2);
+    $('#diferencia_entrega').val(diferencia);
+}
+
+function restarEntrega() {
+    var valor_recaudado = $('#valor_recaudado_entrega').val() * 1;
+    var valor_efectivo = $('#valor_efectivo_entrega').val() * 1;
+    var valor_cheque = $('#valor_cheque_entrega').val() * 1;
+    var valor_retenciones = $('#valor_retenciones_entrega').val() * 1;
+    var valor_descuento = $('#valor_descuento_entrega').val() * 1;
+    var diferencia = valor_recaudado - valor_efectivo - valor_cheque - valor_retenciones - valor_descuento;
+    console.log('diferencia', diferencia.toFixed(2));
+    if (diferencia.toFixed(2) == -0) {
+        diferencia = 0;
+    }
+    $('#diferencia_entrega').val(Number(diferencia).toFixed(2));
+}
+
+function comenzarInsertarEntrega() {
+    var diferencia = $('#diferencia_entrega').val() * 1;
+    if (diferencia != 0) {
+        alertar('warning', '¡Alerta!', 'Diferencia debe estar en cero');
+    } else {
+        validarInsercionEntrega();
+    }
+}
+
+function validarInsercionEntrega() {
+    $.each(detalleFactura, function(index, row) {
+        if ($('#estado-' + row.df_num_factura_detfac).val() == 6 && $('#nueva-fecha-' + row.df_num_factura_detfac).val() == '') {
+            alertar('danger', '¡Error!', 'Las facturas reasignadas no tienen nueva fecha de entrega');
+            return;
+        }
+        currentdate = new Date();
+        datetime = currentdate.getFullYear() + "-" +
+            (currentdate.getMonth() + 1) + "-" +
+            currentdate.getDate() + " " +
+            currentdate.getHours() + ":" +
+            currentdate.getMinutes() + ":" +
+            currentdate.getSeconds();
+        var recepcion = {
+            df_codigo_guia_rec: $('#num_guia_entrega option:selected').text(),
+            df_fecha_recepcion: datetime,
+            df_repartidor_rec: $('#repartidor_entrega').val(),
+            df_valor_recaudado: $('#valor_recaudado_entrega').val(),
+            df_valor_efectivo: $('#valor_efectivo_entrega').val(),
+            df_valor_cheque: $('#valor_cheque_entrega').val(),
+            df_retenciones: $('#valor_retenciones_entrega').val(),
+            df_descuento_rec: $('#valor_descuento_entrega').val(),
+            df_diferencia_rec: $('#diferencia_entrega').val(),
+            df_remision_rec: 0,
+            df_entrega_rec: 1,
+            df_num_guia: $('#num_guia_entrega').val(),
+            df_creadoBy_rec: $('#usuario').val()
+        };
+        insertEntrega(recepcion);
+    });
+}
+
+function insertEntrega(recepcion) {
+    var urlCompleta = url + 'guiaRecepcion/insert.php';
+    console.log('entrega', recepcion);
+    $.post(urlCompleta, JSON.stringify(recepcion), function(response) {
+        console.log('response insert entrega', response);
+        if (response == false || response == false) {
+            alertar('danger', '¡Error!', 'Verifique su conexión a internet, e intente nuevamente');
+        } else {
+            updateEntrega();
+            generarDetalleGuiaEntrega(response);
+        }
+    });
+}
+
+function updateEntrega() {
+    var urlCompleta = url + 'guiaEntrega/update.php';
+    guiaEntrega.df_modificadoBy_ent = $('#usuario').val();
+    guiaEntrega.df_guia_ent_recibido = 1;
+    $.post(urlCompleta, JSON.stringify(guiaEntrega), function(response) {
+        console.log('update', response);
+    });
+}
+
+function generarDetalleGuiaEntrega(id) {
+    var inserto = true;
+    $.each(detalleFactura, function(index, row) {
+        var factura = '';
+        if (row.df_num_factura_detfac != factura) {
+            factura = row.df_num_factura_detfac;
+            var nueva_fecha;
+            if ($('#estado-' + row.df_num_factura_detfac).val() == 6) {
+                nueva_fecha = $('#nueva-fecha-' + row.df_num_factura_detfac).val();
+            } else {
+                nueva_fecha = '';
+            }
+            var detalle = {
+                df_guia_recepcion_detrec: id,
+                df_factura_rec: row.df_num_factura_detfac,
+                df_cant_producto_detrec: 0,
+                df_producto_cod_detrec: 0,
+                df_nueva_fecha: nueva_fecha,
+                df_detalleRemision_detrec: '',
+                df_edo_prod_fact_detrec: $('#estado-' + row.df_num_factura_detfac).val()
+            };
+            var estado = $('#estado-' + row.df_num_factura_detfac).val() * 1;
+            if (estado == 4) {
+                estado = 2;
+            }
+            var forma_pago = $('#forma-pago-' + row.df_num_factura_detfac).val();
+            buscarParaModificarFactura(factura, estado, forma_pago, nueva_fecha);
+            var respuesta = insertDetelle(detalle);
+            if (respuesta == false) {
+                inserto = false;
+            }
+        }
+    });
+    clearTimeout(timer);
+    setTimeout(function() {
+        if (inserto == true) {
+            alertar('success', '¡Éxito!', 'Guía registrada exitosamente');
+        } else {
+            alertar('danger', '¡Error!', 'Compruebe su conexión a internet e intente nuevamente');
+        }
+        $('#tipo_guia').val('null');
+        $('#seleccionGuiaEntrega').hide('slow');
+        $('#seleccionGuiaRemision').hide('slow');
+        $('.num_guia_ent').hide('slow');
+        $('.num_guia_rem').hide('slow');
+    }, 3000);
+}
+
+function buscarParaModificarFactura(fact, estado, forma_pago, fecha_entrega) {
+    var urlCompleta = url + 'factura/getById.php';
+    $.post(urlCompleta, JSON.stringify({ df_num_factura: fact }), function(response) {
+        response.data[0].df_forma_pago_fac = forma_pago;
+        response.data[0].df_edo_factura_fac = estado;
+        if (fecha_entrega = !'') {
+            response.data[0].df_fecha_entrega_fac = fecha_entrega;
+        }
+        updateFactura(response.data[0]);
+    });
+}
+
+function updateFactura(factura) {
+    var urlCompleta = url + 'factura/update.php';
+    $.post(urlCompleta, JSON.stringify(factura), function(response) {
+        console.log('factura modificada', response);
+    });
+}

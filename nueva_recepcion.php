@@ -25,6 +25,9 @@
                <h4><i class='glyphicon glyphicon-edit'></i> Nueva Guía de Recepción</h4>
             </div>
             <div class="panel-body">
+<?php
+	include("modal/modificar_recepcion.php");
+?>
                <form class="form-horizontal" role="form" id="form_nueva_guia">
                   <div class="form-group row">
                      <label for="usuario" class="col-md-1 control-label">Usuario</label>
@@ -135,65 +138,34 @@
                     </div>
                   </div>
                   <div class="form-group row" id="seleccionGuiaEntrega">
+                    <div class="form-group row">
+                        <label for="fecha_entrega" class="col-md-2 control-label">Fecha Entrega</label>
+                        <div class="col-md-2">
+                            <input type="date" id="fecha_entrega" class="form-control" disabled>
+                        </div>
+                        <label for="sector_entrega" class="col-md-1 control-label">Sector</label>
+                        <div class="col-md-2">
+                            <select name="sector_entrega" id="sector_entrega" class="form-control" disabled>
+                            </select>
+                        </div>
+                        <label for="repartidor_entrega" class="col-md-1 control-label">Repartidor</label>
+                        <div class="col-md-4">
+                            <select name="repartidor_entrega" id="repartidor_entrega" class="form-control" disabled>
+                            </select>
+                        </div>
+                    </div>
                     <div class="col-md-8 col-sm-12 col-xs-12" style="margin-top: 20px;">
                         <div class="table-wrapper">
                             <table id="table_guias" class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th width="300"> No. Factura</th>
-                                        <th colSpan="4" class="text-center;" width="120">Acción</th>
-                                        <th>Nueva Fecha</th>
-                                        <th colSpan="4" class="text-center;">Forma Pago</th>
+                                        <th width="120"> No. Factura</th>
+                                        <th>Acción</th>
+                                        <th width="180">Nueva Fecha</th>
+                                        <th>Forma Pago</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td width="150"> No. Factura</td>
-                                        <td width="30">
-                                            <label for="check">
-                                                <input type="checkbox"> 1
-                                            </label>  
-                                        </td>
-                                        <td width="30">
-                                            <label for="check">
-                                                <input type="checkbox"> 2
-                                            </label>  
-                                        </td>
-                                        <td width="30">
-                                            <label for="check">
-                                                <input type="checkbox"> 3
-                                            </label>  
-                                        </td>
-                                        <td width="30">
-                                            <label for="check">
-                                                <input type="checkbox"> 4
-                                            </label>  
-                                        </td>
-                                        <td>
-                                            <input type="date" class="form-control">
-                                        </td>
-                                        <td>
-                                            <label for="check">
-                                                <input type="checkbox"> A
-                                            </label>                                            
-                                        </td>
-                                        <td>
-                                            <label for="check">
-                                                <input type="checkbox"> B
-                                            </label>  
-                                        </td>
-                                        <td>
-                                            <label for="check">
-                                                <input type="checkbox"> C
-                                            </label>  
-                                        </td>
-                                        <td>
-                                            <label for="check">
-                                                <input type="checkbox"> D
-                                            </label>  
-                                        </td>
-                                    </tr>
-                                </tbody>
+                                <tbody></tbody>
                             </table>
                         </div>
                     </div> 
@@ -202,7 +174,8 @@
                             <table id="table_resumen_productos" class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th width="50"> Cantidad</th>
+                                        <th width="50"> Cant</th>
+                                        <th width="80"> Unidad</th>
                                         <th>Producto</th>
                                     </tr>
                                 </thead>
@@ -217,37 +190,37 @@
                                 <tr>
                                     <td class='text-right' colspan=5>VALOR RECAUDAD</td>
                                     <td class='text-right' colspan=1>
-                                        <input type="number" class="form-control" id="valor_recaudado" step="0.01" value="0.00" readonly>
+                                        <input type="number" class="form-control" id="valor_recaudado_entrega" step="0.01" value="0.00" readonly>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class='text-right' colspan=5>VALOR EN EFECTIVO</td>
                                     <td class='text-right' colspan=1>
-                                        <input type="number" class="form-control" id="valor_efectivo" value="0.00" step="0.01">
+                                        <input type="number" class="form-control" id="valor_efectivo_entrega" value="0.00" step="0.01" onkeyup="restarEntrega()">
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class='text-right' colspan=5>VALOR EN CHEQUE</td>
                                     <td class='text-right' colspan=1>
-                                        <input type="number" class="form-control" id="valor_cheque" step="0.01" value="0.00">
+                                        <input type="number" class="form-control" id="valor_cheque_entrega" step="0.01" value="0.00" onkeyup="restarEntrega()">
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class='text-right' colspan=5>RETENCIONES</td>
                                     <td class='text-right' colspan=1>
-                                        <input type="number" class="form-control" id="valor_retenciones" step="0.01" value="0.00">
+                                        <input type="number" class="form-control" id="valor_retenciones_entrega" step="0.01" value="0.00" onkeyup="restarEntrega()">
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class='text-right' colspan=5>DESCUENTO</td>
                                     <td class='text-right' colspan=1>
-                                        <input type="number" class="form-control" id="valor_descuento" step="0.01" value="0.00">
+                                        <input type="number" class="form-control" id="valor_descuento_entrega" step="0.01" value="0.00" onkeyup="restarEntrega()">
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class='text-right' colspan=5>DIFERENCIA</td>
                                     <td class='text-right' colspan=1>
-                                        <input type="number" class="form-control" id="diferencia" step="0.01" value="0.00" readonly>
+                                        <input type="number" class="form-control" id="diferencia_entrega" step="0.01" value="0.00" readonly>
                                     </td>
                                 </tr>
                             </table>
