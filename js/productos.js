@@ -37,19 +37,22 @@ function load() {
     clearTimeout(timer);
     timer = setTimeout(function() {
         cargar();
-    }, 2000);
+    }, 500);
 }
 
 function cargar() {
     productos = [];
     $('#resultados .table-responsive table tbody').html('Cargando...');
     //$('#resultados .table-responsive table tbody').empty();
-    var urlCompleta = url + 'producto/getAll.php';
+   //    var urlCompleta = url + 'producto/getAll.php';
+    var urlCompleta = url + 'producto/getAlls.php';
     var q = $('#q').val();
-    $.post(urlCompleta, JSON.stringify({ df_nombre_producto: q }), function(response) {
+    $.post(urlCompleta, JSON.stringify({ df_codigo_prod: q, df_nombre_producto: q }), function(response) {
         if (response.data.length > 0) {
             $.each(response.data, function(index, row) {
-                getProductoPrecio(row);
+                //getProductoPrecio(row);
+                productos = response.data;
+                console.log(productos);
             });
             clearTimeout(timer);
             timer = setTimeout(function() {
@@ -60,7 +63,7 @@ function cargar() {
                 totalRecords = records.length;
                 totalPages = Math.ceil(totalRecords / recPerPage);
                 apply_pagination();
-            }, 3000);
+            }, 500);
         } else {
             $('#resultados .table-responsive table tbody').html('No se encontró ningún resultado');
         }
