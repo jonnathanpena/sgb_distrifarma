@@ -5,7 +5,10 @@ var $pagination = $('#pagination'),
     recPerPage = 10,
     page = 1,
     totalPages = 0,
-    timer;
+    timer,
+    producto = {},
+    current,
+    datetime;
 
 $(document).ready(function() {
     usuario = JSON.parse(localStorage.getItem('distrifarma_test_user'));
@@ -515,9 +518,16 @@ function initTablaCuotas() {
 }
 
 $('#btn-comprar').click(function() {
+    var currentdate = new Date();
+    datetime = currentdate.getFullYear() + "-" +
+        (currentdate.getMonth() + 1) + "-" +
+        currentdate.getDate() + " " +
+        currentdate.getHours() + ":" +
+        currentdate.getMinutes() + ":" +
+        currentdate.getSeconds();
     var compra = {
         usuario_id: $('#usuario').val(),
-        fecha_compra: 'null',
+        fecha_compra: datetime,
         proveedor_id: $('#proveedor').val(),
         detalle_sustento_comprobante_id: $('#tipo_comprobante').val(),
         serie_compra: $('#serie').val(),
@@ -542,9 +552,9 @@ $('#btn-comprar').click(function() {
         imp_verde_compra: $('#imp_verde').val(),
         iva_compra: $('#total_iva').val(),
         otros_compra: $('#total_otros').val(),
-        interes_compra: $('#intereses').val(),
-        bonificacion_compra: $('#bonificacion').val(),
-        total_compra: $('#total_compra').val(),
+        interes_compra: Number(Number($('#intereses').val()) / 100).toFixed(2),
+        bonificacion_compra: Number(Number($('#bonificacion').val()) / 100).toFixed(2),
+        total_compra: Number($('#total_compra').val()).toFixed(3)
     };
     validarCampos(compra);
 });
@@ -556,10 +566,6 @@ function validarCampos(compra) {
     }
     if (compra.detalle_sustento_comprobante_id == 'null') {
         alertar('warning', '¡Alerta!', 'Debes escoger un tipo de comprobante');
-        return;
-    }
-    if (compra.descripcion_compra == '') {
-        alertar('warning', '¡Alerta!', 'El campo descripción es obligatorio');
         return;
     }
     if (compra.condiciones_compra == 'null') {
@@ -653,7 +659,22 @@ function validarCampos(compra) {
             return;
         }
     }
+    getKardexId();
     insert(compra);
+}
+
+var kardex_max = 0;
+var kardex_cod = '';
+
+function getKardexId() {
+    var urlCompleta = url + 'kardex/getIdMax.php';
+    $.get(urlCompleta, function(response) {
+        if (response.data.length > 0) {
+            if (response.data[0].df_kardex_id != null || response.data[0].df_kardex_id != 'null') {
+                kardex_max = response.data[0].df_kardex_id * 1;
+            }
+        }
+    });
 }
 
 function insert(compra) {
@@ -678,14 +699,19 @@ function getDataProductoTable(id) {
         var precio_unitario_dcp = $('.precio', b).text() * 1;
         var iva_dcp = $('.iva', b).text() * 1;
         var subtotal_dcp = $('.total_tupla', b).text() * 1;
+        var bonificacion = Number($('.bonificacion', b).text());
+        var descuento = Number($('.total_descuento', b).text()).toFixed(3);
         var detalle = {
             compra_id: compra_id,
             producto_id: producto_id,
             cantidad_dcp: cantidad_dcp,
             precio_unitario_dcp: precio_unitario_dcp,
             iva_dcp: iva_dcp,
-            subtotal_dcp: subtotal_dcp
+            subtotal_dcp: subtotal_dcp,
+            bonificacion_dcp: bonificacion,
+            descuento_dcp: descuento
         }
+        consultarInventario(id, detalle, $('.producto', b).text());
         if (insertDetalleCompraProducto(detalle) == false) {
             exito = false;
         }
@@ -698,6 +724,60 @@ function getDataProductoTable(id) {
             alertar('danger', '¡Error!', 'Algo malo ocurrió, por favor verifique e intente de nuevo');
         }
     }, 2000)
+}
+
+function consultarInventario(id, detalle, nombre_producto) {
+    var urlCompleta = url + 'inventario/getByIdProd.php';
+    $.post(urlCompleta, JSON.stringify({ df_producto: detalle.producto_id }), function(response) {
+        if (response.data.length > 0) {
+            var inventario = response.data[0];
+            var bodega_anterior = inventario.df_cant_bodega * 1;
+            var nueva_cantidad = detalle.cantidad_dcp * inventario.df_und_caja;
+            var nueva_bonificacion = detalle.bonificacion_dcp * inventario.df_und_caja;
+            inventario.df_cant_bodega = Number(bodega_anterior + nueva_cantidad + nueva_bonificacion);
+            updateInventario(id, inventario, nombre_producto, detalle.cantidad_dcp);
+        } else {
+            alertar('danger', '¡Error!', 'Compruebe su conexión a internet e intente nuevamente');
+        }
+    });
+}
+
+function updateInventario(id, inventario, nombre_producto, cantidad) {
+    insertKardex(inventario, id, nombre_producto, cantidad);
+    urlCompleta = url + 'inventario/update.php';
+    $.post(urlCompleta, JSON.stringify(inventario), function(response) {});
+}
+
+function insertKardex(inventario, id, nombre_producto, cantidad) {
+    var currentdate = new Date();
+    datetime = currentdate.getFullYear() + "-" +
+        (currentdate.getMonth() + 1) + "-" +
+        currentdate.getDate() + " " +
+        currentdate.getHours() + ":" +
+        currentdate.getMinutes() + ":" +
+        currentdate.getSeconds();
+    kardex_max = kardex_max + 1;
+    if (kardex_max > 0 && kardex_max < 10) {
+        kardex_cod = 'KAR-00' + kardex_max;
+    } else if (kardex_max > 9 && kardex_max < 100) {
+        kardex_cod = 'KAR-0' + kardex_max;
+    } else if (kardex_max > 99) {
+        kardex_cod = 'KAR-' + kardex_max;
+    }
+    var kardex = {
+        df_kardex_codigo: kardex_cod,
+        df_fecha_kar: datetime,
+        df_producto_cod_kar: inventario.df_producto,
+        df_producto: nombre_producto,
+        df_factura_kar: id,
+        df_ingresa_kar: cantidad * 1,
+        df_egresa_kar: 0,
+        df_existencia_kar: inventario.df_cant_bodega,
+        df_creadoBy_kar: $('#usuario').val(),
+        df_edo_kardex: 2
+    };
+    var urlCompleta = url + 'kardex/insert.php';
+    $.post(urlCompleta, JSON.stringify(kardex), function(response) {});
 }
 
 function insertDetalleCompraProducto(data) {
@@ -812,3 +892,118 @@ function insertPago(pago) {
         }, 2000);
     });
 }
+
+var keyPress = 0;
+
+$('#codigo_producto').keyup(function(e) {
+    if (e.which == 13 && keyPress == 0) {
+        var urlCompleta = url + 'producto/getByCodigoFactura.php';
+        var codigo = $('#codigo_producto').val();
+        $.post(urlCompleta, JSON.stringify({ codigo: codigo }), function(response) {
+            if (response.data.length > 0) {
+                keyPress++;
+                producto = response.data[0];
+                console.log('producto', producto);
+                poblarConProductoConsultado(response.data[0]);
+            } else {
+                alertar('warning', '¡Alerta!', 'No existe producto asignado al código digitado');
+                keyPress = 0;
+                limpiarLineaProducto();
+            }
+        });
+    } else if (e.which == 13 && keyPress > 0) {
+        keyPress++;
+        $("#cantidad_producto").val('');
+        $("#cantidad_producto").focus();
+    } else if (e.which != 13) {
+        keyPress = 0;
+    }
+});
+
+function limpiarLineaProducto() {
+    $('#codigo_producto').val('');
+    $('#nombre_producto').val('');
+    $('#cantidad_producto').val('1');
+    $('#precio_unitario_producto').val('0.00');
+    $('#iva_producto').val('0.12');
+    $('#bonificacion_producto').val('0');
+    $('#descuento_producto').val('');
+    $("#codigo_producto").focus();
+}
+
+function poblarConProductoConsultado(prod) {
+    $('#nombre_producto').val(prod.df_nombre_producto);
+    $('#cantidad_producto').val('1');
+    $('#precio_unitario_producto').empty();
+    $('#precio_unitario_producto').append('<option value="' + prod.df_pvt1 + '" selected>Normal $' + prod.df_pvt1 + '</option>');
+    $('#precio_unitario_producto').append('<option value="' + prod.df_pvt2 + '">Descuento $' + prod.df_pvt2 + '</option>');
+}
+
+$('#cantidad_producto').keyup(function(e) {
+    if (e.which == 13) {
+        $('#precio_unitario_producto').focus();
+        $('#precio_unitario_producto').val('');
+    }
+});
+
+$('#precio_unitario_producto').keyup(function(e) {
+    if (e.which == 13) {
+        $('#bonificacion_producto').focus();
+        $('#bonificacion_producto').val('');
+    }
+});
+
+$('#bonificacion_producto').keyup(function(e) {
+    if (e.which == 13) {
+        $('#descuento_producto').focus();
+        $('#descuento_producto').val('');
+    }
+});
+
+$('#descuento_producto').keyup(function(e) {
+    if (e.which == 13) {
+        agregar();
+    }
+});
+
+function agregar() {
+    var descuento = Number(Number($('#descuento_producto').val()) / 100).toFixed(2);
+    var accion = '<a class="delete" title="Eliminar" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>';
+    var cantidad = $('#cantidad_producto').val() * 1;
+    var precio = Number($('#precio_unitario_producto').val()).toFixed(3);
+    var iva = $('#iva_producto').val() * 1;
+    iva = Number(iva * precio * cantidad).toFixed(3);
+    var total_tupla = Number(precio * cantidad).toFixed(3);
+    var total_descuento = Number(descuento * total_tupla).toFixed(3);
+    total_tupla = Number(total_tupla - total_descuento).toFixed(3);
+    var tr = $('<tr/>');
+    tr.append('<td class="id_producto" style="display:none;">' + producto.df_id_producto + '</td>');
+    tr.append('<td class="codigo" width="150">' + producto.df_codigo_prod + '</td>');
+    tr.append('<td class="producto">' + producto.df_nombre_producto + '</td>');
+    tr.append('<td class="bonificacion" width="100">' + Number($('#bonificacion_producto').val()) + '</td>');
+    tr.append('<td class="cantidad" width="100">' + cantidad + '</td>');
+    tr.append('<td class="precio" width="100">' + precio + '</td>');
+    tr.append('<td class="iva" width="100">' + iva + '</td>');
+    tr.append('<td class="descuento" style="display: none;">' + descuento + '</td>');
+    tr.append('<td class="total_descuento" width="100">' + total_descuento + '</td>');
+    tr.append('<td class="total_tupla" width="100">' + total_tupla + '</td>');
+    tr.append('<td>' + accion + '</td>');
+    $('#table_productos').append(tr);
+    calcularResultados();
+    limpiarLineaProducto();
+
+}
+
+$('#bonificacion').keyup(function(e) {
+    var descuento = Number($('#bonificacion').val()).toFixed(3);
+    if ($('#bonificacion').val() == '') {
+        descuento = 0.00;
+        $('#total_compra').val($('#total_st_con_iva').val());
+        return;
+    }
+    descuento = Number(descuento / 100);
+    var total_pagar = Number($('#total_compra').val()).toFixed(3);
+    total_descuento = Number(total_pagar * descuento).toFixed(3);
+    total_descuento = Number(total_pagar - total_descuento).toFixed(3);
+    $('#total_compra').val(total_descuento);
+});

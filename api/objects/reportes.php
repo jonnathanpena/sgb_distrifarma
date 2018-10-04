@@ -59,7 +59,7 @@ class Reportes {
         // select all query
         $query = "SELECT `df_id_libro_diario`, `df_valor_inicial_ld`, `df_fecha_ld`, `df_descipcion_ld`, 
                     `df_ingreso_ld`, `df_egreso_ld` FROM `df_libro_diario` 
-                    WHERE `df_fecha_ld` >='".$this->df_fecha_ini."' and df_fecha_ld <= '".$this->df_fecha_fin."'
+                    WHERE date(`df_fecha_ld`) >='".$this->df_fecha_ini."' and date(df_fecha_ld) <= '".$this->df_fecha_fin."'
                     ORDER BY df_fecha_ld asc";
       // prepare query statement
       $stmt = $this->conn->prepare($query);
@@ -70,24 +70,6 @@ class Reportes {
       return $stmt;
   }
 
-  //reportes por fecha totales libro diario
-  function readByTotalLDiario(){
-    
-    // select all query
-    $query = "SELECT sum(`df_ingreso_ld`) as total_ingreso, sum(`df_egreso_ld`) as total_egreso, 
-                (sum(`df_ingreso_ld`)-sum(`df_egreso_ld`)) as existencia
-            FROM `df_libro_diario` 
-            WHERE `df_fecha_ld` >='".$this->df_fecha_ini."' and df_fecha_ld <= '".$this->df_fecha_fin."'
-            ORDER BY df_fecha_ld asc";
-    // prepare query statement
-    $stmt = $this->conn->prepare($query);
-
-    // execute query
-    $stmt->execute();
-
-    return $stmt;
-    }
-
 //reportes por fecha caja chica
 function readByCajaChica(){
     
@@ -97,15 +79,15 @@ function readByCajaChica(){
                 FROM `df_caja_chica_gasto` cg
                 INNER JOIN `df_usuario` usu ON (usu.df_id_usuario = cg.`df_usuario_id`)
                 where date(cg.df_fecha_gasto)  BETWEEN '".$this->df_fecha_ini."' AND '".$this->df_fecha_fin."'
-                ORDER by cg.df_fecha_gasto DESC) 
+                ORDER by cg.df_fecha_gasto ASC) 
             UNION (SELECT ci.`df_id_ingreso_cc`, ci.`df_usuario_id_ingreso`, us.`df_usuario_usuario`, 
                 'Ingreso' as ingreso, ci.`df_valor_cheque`, ci.`df_saldo_cc`, ci.`df_fecha_ingreso`, 
                 ci.`df_num_cheque`,  'I' as tipo 
                 FROM `df_caja_chica_ingreso` ci
                 INNER JOIN `df_usuario` us ON (us.df_id_usuario = ci.`df_usuario_id_ingreso`)
                 WHERE date(ci.df_fecha_ingreso) BETWEEN '".$this->df_fecha_ini."' AND '".$this->df_fecha_fin."'
-                ORDER BY ci.df_fecha_ingreso desc) 
-            ORDER BY `df_fecha_gasto` DESC";
+                ORDER BY ci.df_fecha_ingreso ASC) 
+            ORDER BY `df_fecha_gasto` ASC";
     // prepare query statement
     $stmt = $this->conn->prepare($query);
 
@@ -157,8 +139,7 @@ function readByVentaVendedor(){
                     or (date(fa.`df_fecha_entrega_fac`)  > '".$this->df_fecha_fin."' and (fa.`df_edo_factura_fac` IN (1,2,4,5) ))) ) 
                         AS VALOR_ANULADO
                 FROM `df_factura` as fac
-                INNER JOIN `df_personal` AS per on (fac.`df_personal_cod_fac` = per.`df_id_personal` 
-                         AND per.`df_cargo_per` LIKE '%Vendedor%')
+                INNER JOIN `df_personal` AS per on (fac.`df_personal_cod_fac` = per.`df_id_personal`)
                 WHERE (date(fac.df_fecha_fac) >='".$this->df_fecha_ini."' and date(fac.df_fecha_fac) <='".$this->df_fecha_fin."') 
                         or (date(fac.`df_fecha_entrega_fac`) >='".$this->df_fecha_ini."' 
                         and date(fac.`df_fecha_entrega_fac`)  <='".$this->df_fecha_fin."') 
@@ -222,8 +203,8 @@ function readByVentaSector(){
                 GROUP BY fa.`df_personal_cod_fac`, fa.`df_sector_cod_fac`) AS VALOR_ANULADO,
                 sec.`df_nombre_sector`
             FROM `df_factura` as fac
-            INNER JOIN `df_personal` AS per on (fac.`df_personal_cod_fac` = per.`df_id_personal`  
-                AND per.`df_cargo_per` LIKE '%Vendedor%')
+            INNER JOIN `df_personal` AS per on (fac.`df_personal_cod_fac` = per.`df_id_personal`)
+               -- AND per.`df_cargo_per` LIKE '%Vendedor%')
             INNER JOIN `df_sector` sec ON (sec.`df_codigo_sector` = fac.`df_sector_cod_fac`)
             WHERE (date(fac.df_fecha_fac) >='".$this->df_fecha_ini."' and date(fac.df_fecha_fac) <='".$this->df_fecha_fin."') 
                 or (date(fac.`df_fecha_entrega_fac`) >='".$this->df_fecha_ini."' and 
