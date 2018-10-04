@@ -569,11 +569,15 @@ function insertEntrega(recepcion) {
 }
 
 function updateEntrega() {
-    var urlCompleta = url + 'guiaEntrega/update.php';
-    guiaEntrega.df_modificadoBy_ent = $('#usuario').val();
-    guiaEntrega.df_guia_ent_recibido = 1;
-    $.post(urlCompleta, JSON.stringify(guiaEntrega), function(response) {
-        console.log('update', response);
+    var urlCompleta = url + 'guiaEntrega/getById.php';
+    $.post(urlCompleta, JSON.stringify({ df_num_guia_entrega: guiaEntrega.df_num_guia_entrega }), function(response) {
+        guiaEntrega = response.data[0];
+        urlCompleta = url + 'guiaEntrega/update.php';
+        guiaEntrega.df_modificadoBy_ent = $('#usuario').val();
+        guiaEntrega.df_guia_ent_recibido = 1;
+        $.post(urlCompleta, JSON.stringify(guiaEntrega), function(resp) {
+            console.log('update', resp);
+        });
     });
 }
 
@@ -617,12 +621,15 @@ function generarDetalleGuiaEntrega(id) {
         } else {
             alertar('danger', '¡Error!', 'Compruebe su conexión a internet e intente nuevamente');
         }
-        $('#tipo_guia').val('null');
-        $('#seleccionGuiaEntrega').hide('slow');
-        $('#seleccionGuiaRemision').hide('slow');
-        $('.num_guia_ent').hide('slow');
-        $('.num_guia_rem').hide('slow');
+        recargar();
     }, 3000);
+}
+
+function recargar() {
+    clearTimeout(timer);
+    timer = setTimeout(function() {
+        window.location.reload();
+    }, 2000);
 }
 
 function buscarParaModificarFactura(fact, estado, forma_pago, fecha_entrega) {
