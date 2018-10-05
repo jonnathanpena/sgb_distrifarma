@@ -1,6 +1,8 @@
 var productos = [];
 var timer;
 var saldo = 0;
+var libro = 0;
+var banco = 0;
 var egresos = [];
 var ingresos = [];
 var subtotal = 0;
@@ -67,6 +69,24 @@ function getCajaChica() {
         }
         getEgresos();
     });
+    var urlCompleta = url + 'cajaChicaGasto/getMes.php';
+    $.get(urlCompleta, function(response) {
+        if (response.data.length > 0) {
+            $('#saldo_caja').val(response.data[0].df_saldo * 1);
+            saldo = response.data[0].df_saldo * 1;
+        }
+    });
+    $('#valor').prop('max', saldo);
+    var urlCompleta = url + 'banco/getAll.php';
+    $.get(urlCompleta, function(response) {
+        if (response.data.length > 0) {
+            $('#saldo_banco').val('$' + response.data[0].df_saldo_banco);
+            banco = response.data[0].df_saldo_banco * 1;
+            libro =   saldo + banco; 
+            $('#valor_libro').val(libro);
+            console.log('libro diario', libro);
+        }
+    });
 }
 
 function getEgresos() {
@@ -125,7 +145,7 @@ $('#btn-guardar').click(function(event) {
         df_cant_total_producto_rem: $('#cantidad').val(),
         df_valor_efectivo_rem: $('#valor').val(),
         df_creadoBy_rem: $('#usuario').val()
-    };
+    };    
     validarInsert(guia);
 });
 
@@ -199,13 +219,35 @@ function guardarGasto(guia) {
         df_num_documento: 'Guía Remision #' + guia.df_codigo_rem,
         df_ingreso_id: ingresos[0].df_id_ingreso_cc
     };
+    var egresoLibro = {
+        df_fuente_ld: 'Caja Chica',
+        df_valor_inicial_ld: $('#valor_libro').val(),
+        df_fecha_ld: datetime,
+        df_descipcion_ld: 'Guía Remision #' + guia.df_codigo_rem,
+        df_ingreso_ld: 0,
+        df_egreso_ld: value,
+        df_usuario_id_ld: $('#usuario').val()
+    };
     insertGasto(gasto);
+    insertEgresoLibro(egresoLibro);
 }
 
 function insertGasto(gasto) {
     var urlCompleta = url + 'cajaChicaGasto/insert.php';
     $.post(urlCompleta, JSON.stringify(gasto), function(response) {
         console.log('response insert gasto', response);
+    });
+}
+
+function insertEgresoLibro(egresoLibro){
+    var urlCompleta = url + 'libroDiario/insert.php';
+    console.log('insert egreso de Caja en libro diario');
+    $.post(urlCompleta, JSON.stringify(egresoLibro), function(response) {
+        if (response != false) {
+            alertar('success', '¡Éxito!', 'Egreso de Caja Chica en Libro Diario registrado exitosamente');
+        } else {
+            alertar('danger', '¡Error!', 'Error al insertar en Libro Diario, verifique que todo está bien e intente de nuevo');
+        }
     });
 }
 
