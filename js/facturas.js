@@ -78,7 +78,7 @@ function generate_table() {
         tr = $('<tr/>');
         tr.append("<td>" + fecha_fact + "</td>");
         tr.append("<td>" + factura.df_num_factura + "</td>");
-        tr.append("<td>" + factura.df_razon_social_cli + "</td>");
+        tr.append("<td>" + factura.df_nombre_cli + "</td>");
         tr.append("<td>" + factura.df_forma_pago_fac + "</td>");
         tr.append("<td>$" + subtotal + "</td>");
         tr.append("<td>$" + descuentos + "</td>");
@@ -109,7 +109,7 @@ function apply_pagination() {
 function getCliente(factura) {
     var urlCompleta = url + 'cliente/getById.php';
     $.post(urlCompleta, JSON.stringify({ df_id_cliente: factura.df_cliente_cod_fac }), function(response) {
-        factura.df_razon_social_cli = response.data[0].df_razon_social_cli;
+        factura.df_nombre_cli = response.data[0].df_nombre_cli;
         facts.push(factura);
     });
 }
