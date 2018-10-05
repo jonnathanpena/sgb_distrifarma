@@ -59,6 +59,7 @@
 									<th>Documento</th>
 									<th>Nombre</th>
 									<th>Razón Social</th>
+									<th>Dirección</th>
 									<th class='text-right'>Acciones</th>
 								</tr>
 							</thead>

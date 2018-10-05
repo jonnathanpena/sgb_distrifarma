@@ -56,6 +56,13 @@ include("modal/consultar_productos.php");
                      <div class="col-md-4">
                         <input type="text" class="form-control input-sm" id="nombre_cliente" name="nombre_cliente" placeholder="Nombre Cliente" readonly>
                      </div>                                                                                                                      
+                  </div>  
+                  <div class="form-group row">
+                    <label for="direccion_cliente" class="col-md-2 control-label">Direccion Cliente <span class="obligatorio">*</span></label>
+                     <div class="col-md-10">
+                        <input type="text" class="form-control input-sm" id="direccion_cliente" name="direccion_cliente" placeholder="Dirección Cliente" readonly>
+                        <input type="hidden" id="cliente_id" >
+                     </div>                                                                                                                     
                   </div>   
                   <div classs="form-group row">
                     <label for="sector" class="col-md-1 control-label">Sector</label>
