@@ -61,7 +61,8 @@ class Compra {
                     JOIN `df_proveedor` as prov ON (comp.`proveedor_id` = prov.`df_id_proveedor`)
                     JOIN `df_usuario` as usu ON (comp.`usuario_id` = usu.`df_id_usuario`)
                     WHERE prov.`df_nombre_empresa` LIKE '%".$this->df_nombre_empresa."%'
-                    OR usu.`df_usuario_usuario` LIKE '%".$this->df_nombre_empresa."%' ";
+                    OR usu.`df_usuario_usuario` LIKE '%".$this->df_nombre_empresa."%' 
+                    ORDER BY comp.`id_compra` DESC";
     
         // prepare query statement
         $stmt = $this->conn->prepare($query);
