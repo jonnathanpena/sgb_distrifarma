@@ -1,12 +1,19 @@
 $(document).ready(function() {
     usuario = JSON.parse(localStorage.getItem('distrifarma_test_user'));
     if (usuario.ingreso == true) {
+        $('#pasaporte').hide();
         if (usuario.df_tipo_usuario == 'Administrador') {
-            $('#administrador').show('');
-            $('#ventas').hide('');
-        } else {
-            $('#administrador').hide('');
-            $('#ventas').show('');
+            $('#Administrador').show('');
+            $('#Supervisor').hide('');
+            $('#Ventas').hide('');
+        } else if (usuario.df_tipo_usuario == 'Supervisor') {
+            $('#Administrador').hide('');
+            $('#Supervisor').show('');
+            $('#Ventas').hide('');
+        } else if (usuario.df_tipo_usuario == 'Ventas') {
+            $('#Administrador').hide('');
+            $('#Supervisor').hide('');
+            $('#Ventas').show('');
         }
     } else {
         window.location.href = "login.php";
@@ -49,6 +56,7 @@ function load() {
 }
 
 $('#form_modificar_personal').submit(function(event) {
+    $('#form_modificar_personal').attr('disabled', true);
     event.preventDefault();
     var personal = {
         df_tipo_documento_per: $('#tipo_documento').val(),
@@ -74,6 +82,27 @@ $('#form_modificar_personal').submit(function(event) {
         df_personal_cod_detper: personal.df_id_personal,
         df_usuario_detper: $('#usuario_id').val()
     };
+    if (detalle.df_anticipo_detper == ''){
+        detalle.df_anticipo_detper = 0;
+    }
+    if (detalle.df_bono_detper == ''){
+        detalle.df_bono_detper = 0;
+    }
+    if (detalle.df_comisiones_detper == ''){
+        detalle.df_comisiones_detper = 0;
+    }
+    if (detalle.df_decimos_detper == ''){
+        detalle.df_decimos_detper = 0;
+    }
+    if (detalle.df_descuento_detper == ''){
+        detalle.df_descuento_detper = 0;
+    }
+    if (detalle.df_tabala_comision_detper == ''){
+        detalle.df_tabala_comision_detper = 0;
+    }
+    if (detalle.df_vacaciones_detper == ''){
+        detalle.df_vacaciones_detper = 0;
+    }
     updatePersonal(personal, detalle);
 });
 
@@ -84,6 +113,7 @@ function updatePersonal(personal, detalle) {
             insertDetalle(detalle);
         } else {
             alertar('danger', '¡Error!', 'Algo malo ocurrió, verifique la información e intente nuevamente');
+            $('#form_modificar_personal').attr('disabled', false);
         }
     });
 }
@@ -93,12 +123,15 @@ function insertDetalle(detalle) {
     $.post(urlCompleta, JSON.stringify(detalle), function(data, status, hrx) {
         if (data == false) {
             alertar('danger', '¡Error!', 'Algo malo ocurrió, verifique la información e intente nuevamente');
+            $('#form_modificar_personal').attr('disabled', false);
         } else {
             var per = JSON.parse(localStorage.getItem('distrifar_personal_editar'));
             if (per.df_usuario_detper != null) {
                 crearUsuario();
+                alertar('success', '¡Éxito!', 'Personal modificado exitosamente');
             } else {
                 alertar('success', '¡Éxito!', 'Personal modificado exitosamente');
+                $('#form_modificar_personal').attr('disabled', false);
                 window.location.href = "personal.php";
             }
         }
@@ -123,6 +156,7 @@ function updateUsuario(user) {
     console.log('usuario modificar', user);
     $.post(urlCompleta, JSON.stringify(user), function(response) {
         if (response == true) {
+            alertar('success', '¡Éxito!', 'Personal modificado exitosamente');
             window.location.href = "personal.php";
         } else {
             alertar('danger', '¡Error!', 'Algo malo ocurrió, verifique la información e intente nuevamente');

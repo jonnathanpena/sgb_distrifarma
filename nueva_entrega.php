@@ -2,9 +2,10 @@
    $active_administracion = "";
    $active_ingresos = "";
    $active_egresos = "";
-   $active_guias = "";
-   $active_bodega = "active";
+   $active_guias = "active";
+   $active_bodega = "";
    $active_reportes = "";
+   $active_reportes_usuarios = "";
    $title="Nueva Guía Entrega | SGB";  
    $fecha = Date('d/m/Y');
 ?>
@@ -71,35 +72,37 @@ include("modal/consultar_productos_entrega.php");
                         </div>
                    </div>   
                    <div class="col-md-8" style="margin-top: 20px;">
-                        <div class="table-wrapper">
-                            <table id="table_facturas" class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th width="40"></th>
-                                        <th>Nº Factura</th>
-                                        <th width="80">Subtotal</th>
-                                        <th width="60">IVA</th>
-                                        <th width="60">Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
+                        <div class="col-md-12">
+                            <div class="table-wrapper">
+                                <table id="table_facturas" class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th width="40"></th>
+                                            <th>Nº Factura</th>
+                                            <th width="80">Subtotal</th>
+                                            <th width="60">IVA</th>
+                                            <th width="60">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div> 
+                        <div class="col-md-12" style="margin-top: 20px;">
+                            <div class="table-wrapper">
+                                <table id="table_productos" class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Código</th>
+                                            <th>Producto</th>
+                                            <th>Cantidad</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
                         </div>
-                   </div>                   
-                    <div class="col-md-12" style="margin-top: 20px;">
-                        <div class="table-wrapper">
-                            <table id="table_productos" class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Código</th>
-                                        <th>Producto</th>
-                                        <th>Cantidad</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
-                        </div>
-                    </div>
+                   </div>
                     <div class="col-md-12">
                         <div class="pull-right">
                             <a href="guia_entrega.php"  class="btn btn-danger">

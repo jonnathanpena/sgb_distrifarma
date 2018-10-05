@@ -66,6 +66,42 @@ class GuiaRecepcion {
     
         return $stmt;
     }
+
+    function readPendienteEnt(){
+    
+        // select all query
+        $query = "SELECT `df_num_guia_entrega`, `df_codigo_guia_ent`, `df_sector_ent`, `df_repartidor_ent`, 
+                    `df_cant_total_producto_ent`, `df_fecha_ent`, `df_creadoBy_ent`, `df_modificadoBy_ent`, 
+                    `df_guia_ent_recibido` FROM `df_guia_entrega` 
+                    WHERE `df_guia_ent_recibido` = 0 
+                    order by df_fecha_ent asc";
+    
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+    
+        // execute query
+        $stmt->execute();
+    
+        return $stmt;
+    }
+
+    function readPendienteRem(){
+    
+        // select all query
+        $query = "SELECT `df_guia_remision`, `df_codigo_rem`, `df_sector_cod_rem`, `df_vendedor_rem`, 
+                    `df_cant_total_producto_rem`, `df_fecha_remision`, `df_creadoBy_rem`, `df_modificadoBy_rem`,
+                    `df_guia_rem_recibido` FROM `df_guia_remision` 
+                    WHERE `df_guia_rem_recibido` = 0
+                    order by df_fecha_remision asc";
+    
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+    
+        // execute query
+        $stmt->execute();
+    
+        return $stmt;
+    }
     
     function readPendiente(){
     
@@ -126,25 +162,24 @@ class GuiaRecepcion {
     function insert(){
     
         // query to insert record
-        $query = "INSERT INTO `df_guia_recepcion`(`df_codigo_guia_rec`, 	`df_fecha_recepcion`, `df_repartidor_rec`, 
-					`df_valor_recaudado`, `df_valor_efectivo`, `df_valor_cheque`, `df_retenciones`, `df_descuento_rec`, 
-					`df_diferencia_rec`, `df_remision_rec`, `df_entrega_rec`, `df_num_guia`, `df_creadoBy_rec`, 
-					`df_modificadoBy_rec`, `df_edo_factura_rec`) 	VALUES (
-						'".$this->df_codigo_guia_rec."',
-						'".$this->df_fecha_recepcion."',
-						".$this->df_repartidor_rec.",
-						".$this->df_valor_recaudado.",
-						".$this->df_valor_efectivo.",
-						".$this->df_valor_cheque.",
-						".$this->df_retenciones.",
-						".$this->df_descuento_rec.",
-						".$this->df_diferencia_rec.",
-						".$this->df_remision_rec.", 
-						".$this->df_entrega_rec.",
-						".$this->df_num_guia.",
-						".$this->df_creadoBy_rec.",
-						0,
-						".$this->df_edo_factura_rec.")";
+        $query = "INSERT INTO `df_guia_recepcion`(`df_codigo_guia_rec`, `df_fecha_recepcion`, `df_repartidor_rec`, `df_valor_recaudado`, 
+                    `df_valor_efectivo`, `df_valor_cheque`, `df_retenciones`, `df_descuento_rec`, `df_diferencia_rec`, `df_remision_rec`, 
+                    `df_entrega_rec`, `df_num_guia`, `df_creadoBy_rec`, `df_modificadoBy_rec`) VALUES (
+                        '".$this->df_codigo_guia_rec."',
+                        '".$this->df_fecha_recepcion."',
+                        ".$this->df_repartidor_rec.",
+                        ".$this->df_valor_recaudado.",
+                        ".$this->df_valor_efectivo.",
+                        ".$this->df_valor_cheque.",
+                        ".$this->df_retenciones.",
+                        ".$this->df_descuento_rec.",
+                        ".$this->df_diferencia_rec.",
+                        ".$this->df_remision_rec.",
+                        ".$this->df_entrega_rec.",
+                        ".$this->df_num_guia.",
+                        ".$this->df_creadoBy_rec.",
+                        ".$this->df_creadoBy_rec."
+                    )";
 
         // prepara la sentencia del query
         $stmt = $this->conn->prepare($query);    

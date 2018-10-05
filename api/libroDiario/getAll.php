@@ -36,11 +36,13 @@ if($num>0){
         //Los nombres acá son iguales a los de la clase iguales a las columnas de la BD
         $libroDiario_item=array(
             "df_id_libro_diario"=>$df_id_libro_diario, 
+            "df_fuente_ld"=>$df_fuente_ld, 
             "df_valor_inicial_ld"=>$df_valor_inicial_ld,
             "df_fecha_ld"=>$df_fecha_ld,
             "df_descipcion_ld"=>$df_descipcion_ld,
             "df_ingreso_ld"=>$df_ingreso_ld,
-            "df_egreso_ld"=>$df_egreso_ld
+            "df_egreso_ld"=>$df_egreso_ld,
+            "df_usuario_id_ld"=>$df_usuario_id_ld
         );
  
         array_push($libroDiario_arr["data"], $libroDiario_item);

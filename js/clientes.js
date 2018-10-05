@@ -12,12 +12,19 @@ $(document).ready(function() {
     $('#ruc').hide();
     $('#pasaporte').hide();
     if (usuario.ingreso == true) {
+        $('#pasaporte').hide();
         if (usuario.df_tipo_usuario == 'Administrador') {
-            $('#administrador').show('');
-            $('#ventas').hide('');
-        } else {
-            $('#administrador').hide('');
-            $('#ventas').show('');
+            $('#Administrador').show('');
+            $('#Supervisor').hide('');
+            $('#Ventas').hide('');
+        } else if (usuario.df_tipo_usuario == 'Supervisor') {
+            $('#Administrador').hide('');
+            $('#Supervisor').show('');
+            $('#Ventas').hide('');
+        } else if (usuario.df_tipo_usuario == 'Ventas') {
+            $('#Administrador').hide('');
+            $('#Supervisor').hide('');
+            $('#Ventas').show('');
         }
     } else {
         window.location.href = "login.php";
@@ -26,10 +33,13 @@ $(document).ready(function() {
 });
 
 function load() {
+    $('#guardar_cliente').attr('disabled', false);
+    $('#editarCliente').attr('disabled', false);
     clearTimeout(timer);
     timer = setTimeout(function() {
         cargar();
     }, 1000);
+    consultarSectores();
 }
 
 function cargar() {
@@ -39,6 +49,9 @@ function cargar() {
     $.post(urlCompleta, JSON.stringify({ df_nombre_cli: q }), function(data, status, xhr) {
         if (data.data.length > 0) {
             $('#resultados .table-responsive table tbody').html('');
+            data.data.sort(function (a, b){
+                return (b.df_id_cliente - a.df_id_cliente)
+              });
             records = data.data;
             totalRecords = records.length;
             totalPages = Math.ceil(totalRecords / recPerPage);
@@ -73,15 +86,17 @@ function generate_table() {
     $('#resultados .table-responsive table tbody').empty();
     var tr;
     $.each(displayRecords, function(index, row) {
-        $('#resultados .table-responsive table tbody').append('<tr><td>' + row.df_codigo_cliente + '</td><td>' + row.df_tipo_documento_cli + '</td><td>' + row.df_documento_cli + '</td><td>' + row.df_nombre_cli + '</td><td>' + row.df_razon_social_cli + '</td><td>' + '<span class="pull-right"><a href="#" class="btn btn-default" title="Detallar" onclick="detallar(`' + row.df_id_cliente + '`)"><i class="glyphicon glyphicon-edit"></i> </a></span></td></tr>');
+        $('#resultados .table-responsive table tbody').append('<tr><td>' + row.df_codigo_cliente + '</td><td>' + row.df_tipo_documento_cli + '</td><td>' + row.df_documento_cli + '</td><td>' + row.df_nombre_cli + '</td><td>' + row.df_razon_social_cli + '</td><td>'  + row.df_direccion_cli + '</td><td>' + '<span class="pull-right"><a href="#" class="btn btn-default" title="Detallar" onclick="detallar(`' + row.df_id_cliente + '`)"><i class="glyphicon glyphicon-edit"></i> </a></span></td></tr>');
     });
 }
 
 $('#guardar_cliente').submit(function(event) {
+    $('#guardar_cliente').attr('disabled', true);
     event.preventDefault();
     var documento = "";
     if ($('#tipo_documento').val() == 'null' || $('#sector').val() == 'null') {
         alertar('warning', '¡Alerta!', 'Tipo de documento y sector son campos obligatorios');
+        $('#guardar_cliente').attr('disabled', false);
     } else {
         switch ($('#tipo_documento').val()) {
             case 'Cedula':
@@ -98,6 +113,7 @@ $('#guardar_cliente').submit(function(event) {
         }
         if (documento == '') {
             alertar('warning', '¡Alerta!', 'No debe quedar ningún campo vacío');
+            $('#guardar_cliente').attr('disabled', false);
         } else {
             getCodigo(documento);
         }
@@ -152,11 +168,11 @@ function getCodigo(documento) {
         } else {
             var codigo = "";
             if (data.data[0].df_id_cliente >= 0 && data.data[0].df_id_cliente < 10) {
-                codigo = 'CLI-00' + data.data[0].df_id_cliente;
+                codigo = 'CLI-00' + ((data.data[0].df_id_cliente * 1) + 1);
             } else if (data.data[0].df_id_cliente > 9 && data.data[0].df_id_cliente < 100) {
-                codigo = 'CLI-0' + data.data[0].df_id_cliente;
+                codigo = 'CLI-0' + ((data.data[0].df_id_cliente * 1 ) + 1);
             } else if (data.data[0].df_id_cliente > 99) {
-                codigo = 'CLI-' + data.data[0].df_id_cliente;
+                codigo = 'CLI-' + ((data.data[0].df_id_cliente * 1) + 1);
             }
             insertar(documento, codigo);
         }
@@ -194,6 +210,7 @@ $('#tipo_documento').change(function() {
 function detallar(id) {
     var urlCompleta = url + 'cliente/getById.php';
     $.post(urlCompleta, JSON.stringify({ df_id_cliente: id }), function(data, status, hrx) {
+        console.log('Detalle de Cliente para editar: ',data);
         $('#editTipo_documento').val(data.data[0].df_tipo_documento_cli);
         $('#editDocumento').val(data.data[0].df_documento_cli);
         $('#editRuc').val(data.data[0].df_documento_cli);
@@ -247,10 +264,12 @@ $('#editTipo_documento').change(function() {
 });
 
 $('#editarCliente').submit(function(event) {
+    $('#editarCliente').attr('disabled', true);
     event.preventDefault();
     var documento = '';
     if ($('#editTipo_documento').val() == 'null' || $('#editSector').val() == 'null') {
         alertar('warning', '¡Alerta!', 'Ningún campo debe quedar vacío');
+        $('#editarCliente').attr('disabled', false);
     } else {
         switch ($('#editTipo_documento').val()) {
             case 'Cedula':
@@ -266,21 +285,26 @@ $('#editarCliente').submit(function(event) {
                 break;
         }
     }
-    var datos = {
-        df_codigo_cliente: $('#editCodigo').val(),
-        df_nombre_cli: $('#editNombre').val(),
-        df_razon_social_cli: $('#editRazon_social').val(),
-        df_tipo_documento_cli: $('#editTipo_documento').val(),
-        df_documento_cli: documento,
-        df_direccion_cli: $('#editDireccion').val(),
-        df_referencia_cli: $('#editReferencia').val(),
-        df_sector_cod: $('#editSector').val(),
-        df_email_cli: $('#editEmail').val(),
-        df_telefono_cli: $('#editTelefono').val(),
-        df_celular_cli: $('#editCelular').val(),
-        df_id_cliente: $('#id').val()
-    };
-    update(datos);
+    if (documento == '') {
+        alertar('warning', '¡Alerta!', 'No debe quedar ningún campo vacío');
+        $('#editarCliente').attr('disabled', false);
+    } else {
+        var datos = {
+            df_codigo_cliente: $('#editCodigo').val(),
+            df_nombre_cli: $('#editNombre').val(),
+            df_razon_social_cli: $('#editRazon_social').val(),
+            df_tipo_documento_cli: $('#editTipo_documento').val(),
+            df_documento_cli: documento,
+            df_direccion_cli: $('#editDireccion').val(),
+            df_referencia_cli: $('#editReferencia').val(),
+            df_sector_cod: $('#editSector').val(),
+            df_email_cli: $('#editEmail').val(),
+            df_telefono_cli: $('#editTelefono').val(),
+            df_celular_cli: $('#editCelular').val(),
+            df_id_cliente: $('#id').val()
+        };
+        update(datos);
+    }
 });
 
 function update(cliente) {
@@ -298,6 +322,7 @@ function update(cliente) {
 
 function nuevoCliente() {
     $('#span_documento').hide('slow');
+    consultarSectores();
 }
 
 function getByRUC() {
@@ -339,4 +364,22 @@ function getByRUC() {
             });
         }
     }, 100);
+}
+
+function consultarSectores() {
+    var urlCompleta = url + 'sector/getAll.php';
+    $('#sector').empty();
+    $('#sector').append('<option value="null">Seleccione...</option>');
+    $.get(urlCompleta, function(response) {
+        $.each(response.data, function(index, row){
+            $('#sector').append('<option value="'+ row.df_codigo_sector +'">'+ row.df_nombre_sector +'</option>');
+        });
+    });
+    $('#editSector').empty();
+    $('#editSector').append('<option value="null">Seleccione...</option>');
+    $.get(urlCompleta, function(response) {
+        $.each(response.data, function(index, row){
+            $('#editSector').append('<option value="'+ row.df_codigo_sector +'">'+ row.df_nombre_sector +'</option>');
+        });
+    });
 }

@@ -11,12 +11,19 @@ var productos = [];
 $(document).ready(function() {
     usuario = JSON.parse(localStorage.getItem('distrifarma_test_user'));
     if (usuario.ingreso == true) {
+        $('#pasaporte').hide();
         if (usuario.df_tipo_usuario == 'Administrador') {
-            $('#administrador').show('');
-            $('#ventas').hide('');
-        } else {
-            $('#administrador').hide('');
-            $('#ventas').show('');
+            $('#Administrador').show('');
+            $('#Supervisor').hide('');
+            $('#Ventas').hide('');
+        } else if (usuario.df_tipo_usuario == 'Supervisor') {
+            $('#Administrador').hide('');
+            $('#Supervisor').show('');
+            $('#Ventas').hide('');
+        } else if (usuario.df_tipo_usuario == 'Ventas') {
+            $('#Administrador').hide('');
+            $('#Supervisor').hide('');
+            $('#Ventas').show('');
         }
     } else {
         window.location.href = "login.php";
@@ -25,30 +32,41 @@ $(document).ready(function() {
 });
 
 function load() {
+    $('#guardar_producto').attr('disabled', false);
+    $('#modificar_producto').attr('disabled', false);
     clearTimeout(timer);
     timer = setTimeout(function() {
         cargar();
-    }, 1000);
+    }, 500);
 }
 
 function cargar() {
     productos = [];
-    $('#resultados .table-responsive table tbody').empty();
-    var urlCompleta = url + 'producto/getAll.php';
+    $('#resultados .table-responsive table tbody').html('Cargando...');
+    //$('#resultados .table-responsive table tbody').empty();
+   //    var urlCompleta = url + 'producto/getAll.php';
+    var urlCompleta = url + 'producto/getAlls.php';
     var q = $('#q').val();
-    $.post(urlCompleta, JSON.stringify({ df_nombre_producto: q }), function(response) {
+    $.post(urlCompleta, JSON.stringify({ df_codigo_prod: q, df_nombre_producto: q }), function(response) {
         if (response.data.length > 0) {
             $.each(response.data, function(index, row) {
-                getProductoPrecio(row);
+                //getProductoPrecio(row);
+                productos = response.data;
+                console.log(productos);
             });
+            clearTimeout(timer);
+            timer = setTimeout(function() {
+                productos.sort(function(a, b) {
+                    return (b.df_id_producto - a.df_id_producto)
+                });
+                records = productos;
+                totalRecords = records.length;
+                totalPages = Math.ceil(totalRecords / recPerPage);
+                apply_pagination();
+            }, 500);
+        } else {
+            $('#resultados .table-responsive table tbody').html('No se encontró ningún resultado');
         }
-        clearTimeout(timer);
-        timer = setTimeout(function() {
-            records = productos;
-            totalRecords = records.length;
-            totalPages = Math.ceil(totalRecords / recPerPage);
-            apply_pagination();
-        }, 1000);
     });
 }
 
@@ -59,14 +77,14 @@ function generate_table() {
         tr = $('<tr/>');
         tr.append("<td>" + displayRecords[i].df_codigo_prod + "</td>");
         tr.append("<td>" + displayRecords[i].df_nombre_producto + "</td>");
-        tr.append("<td class='text-center'>" + displayRecords[i].df_ppp + "</td>");
+        //tr.append("<td class='text-center'>" + displayRecords[i].df_ppp + "</td>");
         tr.append("<td class='text-center'>" + displayRecords[i].df_pvt1 + "</td>");
         tr.append("<td class='text-center'>" + displayRecords[i].df_pvt2 + "</td>");
         tr.append("<td class='text-center'>" + displayRecords[i].df_pvp + "</td>");
         tr.append("<td class='text-center'>" + displayRecords[i].df_valor_impuesto + "%</td>");
-        tr.append("<td class='text-center'>" + displayRecords[i].df_min_sugerido + "</td>");
+        //tr.append("<td class='text-center'>" + displayRecords[i].df_min_sugerido + "</td>");
         tr.append("<td class='text-center'>" + displayRecords[i].df_und_caja + "</td>");
-        tr.append("<td class='text-center'>" + displayRecords[i].df_utilidad + "</td>");
+        //tr.append("<td class='text-center'>" + displayRecords[i].df_utilidad + "</td>");
         tr.append("<td><button class='btn btn-default pull-right' title='Detallar' onclick='detallar(" + displayRecords[i].df_id_producto + ")'><i class='glyphicon glyphicon-edit'></i></button></td>");
         $('#resultados .table-responsive table tbody').append(tr);
     }
@@ -119,6 +137,22 @@ function getIva(producto) {
 function nuevoProducto() {
     $('#iva').empty();
     $('#nuevoProducto').modal('show');
+    $('#codigop').append();
+    var urlCompleta = url + 'producto/getIdMax.php';
+    $.get(urlCompleta, function(response) {
+        var codigo = '';
+        if (response.data[0].df_id_producto == null) {
+            codigo = 'PRO-001';
+        } else if (response.data[0].df_id_producto > 0 && response.data[0].df_id_producto < 10) {
+            codigo = 'PRO-00' + ((response.data[0].df_id_producto * 1) + 1);
+        } else if (response.data[0].df_id_producto > 9 && response.data[0].df_id_producto < 100) {
+            codigo = 'PRO-0' + ((response.data[0].df_id_producto * 1) + 1);
+        } else if (response.data[0].df_id_producto > 99) {
+            codigo = 'PRO-' + ((response.data[0].df_id_producto * 1) + 1);
+        }
+        console.log('MaxId ', codigo);
+        $('#codigop').val(codigo);
+    });
     var urlCompleta = url + 'productoPrecio/getAllImpuesto.php';
     $.get(urlCompleta, function(response) {
         var tr;
@@ -135,23 +169,28 @@ function nuevoProducto() {
 }
 
 $('#guardar_producto').submit(function(event) {
+    $('#guardar_producto').attr('disabled', true);
     event.preventDefault();
     var producto = {
         df_nombre_producto: $('#nombre').val(),
-        df_codigo_prod: ''
+        df_codigo_prod: $('#codigop').val()
     };
     var productoPrecio = {
         df_producto_id: '',
-        df_ppp: $('#ppp').val(),
+        df_ppp: 0,
         df_pvt1: $('#pvt1').val(),
         df_pvt2: $('#pvt2').val(),
         df_pvp: $('#pvp').val(),
         df_iva: $('#iva').val(),
-        df_min_sugerido: $('#min').val(),
+        df_min_sugerido: 0,
         df_und_caja: $('#unidad_caja').val(),
-        df_utilidad: $('#utilidad').val()
+        df_utilidad: 0
     };
-    getMaxId(producto, productoPrecio);
+    if (producto.df_codigo_prod == '' || producto.df_codigo_prod == 'PRO-') {
+        getMaxId(producto, productoPrecio);
+    } else {
+        insertProducto(producto, productoPrecio);
+    }
 });
 
 function getMaxId(producto, productoPrecio) {
@@ -161,11 +200,11 @@ function getMaxId(producto, productoPrecio) {
         if (response.data[0].df_id_producto == null) {
             codigo = 'PRO-001';
         } else if (response.data[0].df_id_producto > 0 && response.data[0].df_id_producto < 10) {
-            codigo = 'PRO-00' + response.data[0].df_id_producto;
+            codigo = 'PRO-00' + ((response.data[0].df_id_producto * 1) + 1);
         } else if (response.data[0].df_id_producto > 9 && response.data[0].df_id_producto < 100) {
-            codigo = 'PRO-0' + response.data[0].df_id_producto;
+            codigo = 'PRO-0' + ((response.data[0].df_id_producto * 1) + 1);
         } else if (response.data[0].df_id_producto > 99) {
-            codigo = 'PRO-' + response.data[0].df_id_producto;
+            codigo = 'PRO-' + ((response.data[0].df_id_producto * 1) + 1);
         }
         producto.df_codigo_prod = codigo;
         insertProducto(producto, productoPrecio);
@@ -186,12 +225,14 @@ function insertProducto(producto, productoPrecio) {
 
 function insertPrecioProducto(productoPrecio) {
     var urlCompleta = url + 'productoPrecio/insert.php';
+    consultarInventario(productoPrecio);
     $.post(urlCompleta, JSON.stringify(productoPrecio), function(response) {
         if (response == true) {
             alertar('success', '¡Éxito!', 'Producto insertado exitosamente');
         } else {
             alertar('danger', '¡Error!', 'Error al insertar, verifique que todo está bien e intente de nuevo');
         }
+        $('#codigop').val('');
         $('#nombre').val('');
         $('#ppp').val('');
         $('#pvt1').val('');
@@ -214,6 +255,7 @@ function detallar(id) {
 }
 
 function getProductoPrecioDetalle(producto) {
+    console.log('producto: ', producto);
     var urlCompleta = url + 'productoPrecio/getByProducto.php';
     $.post(urlCompleta, JSON.stringify({ df_producto_id: producto.df_id_producto }), function(response) {
         producto.df_id_precio = response.data[0].df_id_precio;
@@ -231,7 +273,9 @@ function getProductoPrecioDetalle(producto) {
 
 function getIvasDetalle(producto) {
     var urlCompleta = url + 'productoPrecio/getAllImpuesto.php';
+    $('#editIva').empty();
     $.get(urlCompleta, function(response) {
+        console.log('detallar: ', response);
         $.each(response.data, function(index, row) {
             $('#editIva').append('<option value="' + row.df_id_impuesto + '">' + row.df_nombre_impuesto + ' - ' + row.df_valor_impuesto + '</option>')
         });
@@ -252,6 +296,7 @@ function getIvasDetalle(producto) {
 }
 
 $('#modificar_producto').submit(function(event) {
+    $('#modificar_producto').attr('disabled', true);
     event.preventDefault();
     var producto = {
         df_nombre_producto: $('#editNombre').val(),
@@ -286,6 +331,32 @@ function updatePrecio() {
             alertar('danger', '¡Error!', 'Ocurrió un error, por favor, intenta nuevamente');
         }
         $('#editarProducto').modal('hide');
-        location.reload();
+        load();
     });
+}
+
+function consultarInventario(producto) {
+    var urlCompleta = url + 'inventario/getByIdProd.php';
+    $.post(urlCompleta, JSON.stringify({ df_producto: producto.df_producto_id }), function(response) {
+        if (response.data.length == 0) {
+            insertInventario(producto);
+        }
+    });
+}
+
+function insertInventario(producto) {
+    var urlCompleta = url + 'inventario/insert.php';
+    var inventario = {
+        df_cant_bodega: 0,
+        df_cant_transito: 0,
+        df_producto: producto.df_producto_id,
+        df_ppp_ind: 0,
+        df_pvt_ind: 0,
+        df_ppp_total: 0,
+        df_pvt_total: 0,
+        df_minimo_sug: 0,
+        df_und_caja: producto.df_und_caja,
+        df_bodega: 1
+    };
+    $.post(urlCompleta, JSON.stringify(inventario), function(response) {});
 }

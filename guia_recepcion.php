@@ -3,9 +3,10 @@
     $active_facturas = "";
     $active_ingresos = "";
     $active_egresos = "";
-    $active_guias = "";
-    $active_bodega = "active";
+    $active_guias = "active";
+    $active_bodega = "";
     $active_reportes = "";
+    $active_reportes_usuarios = "";
 	$title="Guía Recepción | SGB";
 ?>
 <!DOCTYPE html>
@@ -25,7 +26,7 @@
                     <span class="glyphicon glyphicon-plus" ></span> Nueva Guía
                 </a>
 			</div>
-			<h4><i class='glyphicon glyphicon-search'></i> Buscar Guía</h4>
+			<h4><i class='glyphicon glyphicon-search'></i> Buscar Guía Recepción</h4>
 		</div>	
 		<div class="panel-body">
             <form class="form-horizontal" role="form" id="datos_remision">

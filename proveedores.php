@@ -6,7 +6,8 @@
     $active_guias = "";
     $active_bodega = "";
     $active_reportes = "";
-	$title="Proveedores | SGB";
+    $active_reportes_usuarios = "";
+    $title="Proveedores | SGB";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -61,6 +62,9 @@ include("modal/editar_proveedor.php");
                         </thead>
                         <tbody></tbody>
                     </table>
+                </div>
+                <div id="pager" style="float: right;">
+                        <ul id="pagination" class="pagination-sm"></ul>
                 </div>
             </div>
         </div>

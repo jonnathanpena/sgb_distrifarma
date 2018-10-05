@@ -75,7 +75,8 @@ class Personal {
                     `df_documento_per`, `df_correo_per`, `df_codigo_personal`, `df_activo_per` 
                     FROM `df_personal` 
                     WHERE `df_nombre_per` like '%".$this->df_nombre_per."%' 
-                    OR `df_documento_per` like '%".$this->df_nombre_per."%'";
+                    OR `df_documento_per` like '%".$this->df_nombre_per."%'
+                    order by df_id_personal desc";
         // prepare query statement
         $stmt = $this->conn->prepare($query);
     

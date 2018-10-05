@@ -6,6 +6,7 @@
     $active_guias = "";
     $active_bodega = "";
     $active_reportes = "";
+    $active_reportes_usuarios = "";
 	$title="Caja Chica | SGB";
 ?>
 
@@ -13,6 +14,8 @@
 <html lang="en">
   <head>
     <?php include("head.php");?>
+    <link rel="stylesheet" href="libraries/autocomplete/easy-autocomplete.min.css"> 
+    <link rel="stylesheet" href="libraries/autocomplete/easy-autocomplete.themes.min.css">
   </head>
   <body>
 <?php
@@ -28,7 +31,7 @@
                     </button>
                     <button type='button' class="btn btn-info" onclick="nuevoIngreso()">
                         <span class="glyphicon glyphicon-plus" ></span> 
-                        Nueva Ingreso
+                        Nuevo Ingreso
                     </button>                    
                 </div>
                 <h4><i class='glyphicon glyphicon-shopping-cart'></i> Caja Chica</h4>
@@ -52,7 +55,9 @@
 					</div>
                     <div class="for-group row">
                         <div class="col-md-2 pull-right"> 
-                            <input type="number" id="saldo_caja" name="saldo_caja" class="form-control" readonly>        
+                            <input type="text" id="saldo_caja" name="saldo_caja" class="form-control" readonly>        
+                            <input type="hidden" id="saldo_banco" >
+                            <input type="hidden" id="valor_libro" >
                         </div>
                         <div class="col-md-3 pull-right">
                             <label class="pull-right">
@@ -89,6 +94,7 @@
 <?php
     include("footer.php");
 ?>
+    <script src="libraries/autocomplete/jquery.easy-autocomplete.min.js"></script>
     <script type="text/javascript" src="js/config.js"></script>
     <script type="text/javascript" src="js/caja_chica.js"></script>
     </body>

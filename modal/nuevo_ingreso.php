@@ -28,21 +28,21 @@ $fecha = date("d/m/Y");
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="documento" class="col-sm-3 control-label">Número documento</label>
+                            <label for="documento" class="col-sm-3 control-label">Número documento<span class="obligatorio">*</span></label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="documento" name="documento" required>
+                                <input type="text" class="form-control" id="documento" name="documento" placeholder="Número documento" required>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="valor" class="col-sm-3 control-label">Valor</label>
+                            <label for="valor" class="col-sm-3 control-label">Valor<span class="obligatorio">*</span></label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control" id="valor" name="valor" min="0.01" step="0.01" onkeyup="calcularIngreso()" required>
+                                <input type="number" class="form-control" id="valor" name="valor" placeholder="Valor" min="0.01" step="0.01" onkeyup="calcularIngreso()" required>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="saldo" class="col-sm-3 control-label">Saldo</label>
+                            <label for="saldo_ingresoCC" class="col-sm-3 control-label">Saldo</label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control" id="saldo_ingreso" name="saldo_ingreso" min="0.01" step="0.01" disabled>
+                                <input type="number" class="form-control" id="saldo_ingresoCC" name="saldo_ingresoCC" min="0" step="0.01" disabled>
                             </div>
                         </div>
                     </div>

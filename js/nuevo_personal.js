@@ -2,12 +2,19 @@ $(document).ready(function() {
     usuario = JSON.parse(localStorage.getItem('distrifarma_test_user'));
     $('.usuario').hide('slow');
     if (usuario.ingreso == true) {
+        $('#pasaporte').hide();
         if (usuario.df_tipo_usuario == 'Administrador') {
-            $('#administrador').show('');
-            $('#ventas').hide('');
-        } else {
-            $('#administrador').hide('');
-            $('#ventas').show('');
+            $('#Administrador').show('');
+            $('#Supervisor').hide('');
+            $('#Ventas').hide('');
+        } else if (usuario.df_tipo_usuario == 'Supervisor') {
+            $('#Administrador').hide('');
+            $('#Supervisor').show('');
+            $('#Ventas').hide('');
+        } else if (usuario.df_tipo_usuario == 'Ventas') {
+            $('#Administrador').hide('');
+            $('#Supervisor').hide('');
+            $('#Ventas').show('');
         }
     } else {
         window.location.href = "login.php";
@@ -21,9 +28,10 @@ function load() {
 
 $('#toggle-usuario').change(function() {
     var valor = $(this).prop('checked');
+    var cargo = $('#cargo').val();
     if (valor == true) {
         $('.usuario').show('slow');
-        $('#es_usuario').val('1');
+        $('#es_usuario').val('1');        
     } else {
         $('.usuario').hide('slow');
         $('#es_usuario').val('0');
@@ -31,6 +39,7 @@ $('#toggle-usuario').change(function() {
 });
 
 $('#form_nuevo_personal').submit(function(event) {
+    $('#form_nuevo_personal').attr('disabled', true);
     event.preventDefault();
     var tipo_documento = $('#tipo_documento').val();
     var cargo = $('#cargo').val();
@@ -46,6 +55,17 @@ $('#form_nuevo_personal').submit(function(event) {
                     if (clave.length > 0) {
                         if (confirme.length > 0) {
                             if (confirme == clave) {
+                                if( cargo == 'Supervisor' || cargo == 'Secretaria'){
+                                    $('#perfil').val('Supervisor');
+                                    var perfil = $('#perfil').val();
+                                    console.log('Cargo', $('#cargo').val());
+                                    console.log('Perfil', $('#perfil').val());
+                                } else if ( cargo == 'Vendedor' || cargo == 'Repartidor'){
+                                    $('#perfil').val('Ventas');
+                                    var perfil = $('#perfil').val();
+                                    console.log('Cargo', $('#cargo').val());
+                                    console.log('Perfil', $('#perfil').val());
+                                }
                                 if (perfil != 'null') {
                                     selectMaxID({
                                         df_tipo_documento_per: $('#tipo_documento').val(),
@@ -59,18 +79,23 @@ $('#form_nuevo_personal').submit(function(event) {
                                     });
                                 } else {
                                     alertar('warning', '¡Alerta!', 'Todos los campos son obligatorios');
+                                    $('#form_nuevo_personal').attr('disabled', false);
                                 }
                             } else {
                                 alertar('warning', '¡Alerta!', 'Las claves no coinciden');
+                                $('#form_nuevo_personal').attr('disabled', false);
                             }
                         } else {
                             alertar('warning', '¡Alerta!', 'Todos los campos son obligatorios');
+                            $('#form_nuevo_personal').attr('disabled', false);
                         }
                     } else {
                         alertar('warning', '¡Alerta!', 'Todos los campos son obligatorios');
+                        $('#form_nuevo_personal').attr('disabled', false);
                     }
                 } else {
                     alertar('warning', '¡Alerta!', 'Todos los campos son obligatorios');
+                    $('#form_nuevo_personal').attr('disabled', false);
                 }
             } else {
                 selectMaxID({
@@ -86,9 +111,11 @@ $('#form_nuevo_personal').submit(function(event) {
             }
         } else {
             alertar('warning', '¡Alerta!', 'Todos los campos son obligatorios');
+            $('#form_nuevo_personal').attr('disabled', false);
         }
     } else {
         alertar('warning', '¡Alerta!', 'Todos los campos son obligatorios');
+        $('#form_nuevo_personal').attr('disabled', false);
     }
 });
 
@@ -100,13 +127,13 @@ function selectMaxID(personal) {
             insert(personal);
         } else {
             if (data.data[0].df_id_personal > 0 && data.data[0].df_id_personal < 10) {
-                personal.df_codigo_personal = 'PER-00' + data.data[0].df_id_personal;
+                personal.df_codigo_personal = 'PER-00' + ((data.data[0].df_id_personal * 1) + 1);
                 insert(personal);
             } else if (data.data[0].df_id_personal > 9 && data.data[0].df_id_personal < 100) {
-                personal.df_codigo_personal = 'PER-0' + data.data[0].df_id_personal;
+                personal.df_codigo_personal = 'PER-0' + ((data.data[0].df_id_personal * 1) + 1);
                 insert(personal);
             } else if (data.data[0].df_id_personal > 99) {
-                personal.df_codigo_personal = 'PER-' + data.data[0].df_id_personal;
+                personal.df_codigo_personal = 'PER-' + ((data.data[0].df_id_personal * 1) + 1);
                 insert(personal);
             }
         }
@@ -119,6 +146,7 @@ function insert(personal) {
     $.post(urlCompleta, JSON.stringify(personal), function(data, status, hrx) {
         if (data == false) {
             alertar('danger', '¡Error!', 'Algo ocurrió mal, verifique la información, y por favor, vuelva a intentar');
+            $('#form_nuevo_personal').attr('disabled', false);
         } else {
             var es_usuario = $('#toggle-usuario').prop('checked');
             if (es_usuario == true) {
@@ -181,6 +209,7 @@ function insertDetalle(detalle) {
             alertar('danger', '¡Error!', 'Algo ocurrió mal, verifique la información e intente de nuevo');
         } else {
             alertar('success', '¡Éxito!', 'Personal agregado exitosamente');
+            $('#form_nuevo_personal').attr('disabled', false);
             cancelar();
         }
     });

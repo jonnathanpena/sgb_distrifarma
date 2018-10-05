@@ -18,57 +18,42 @@
                         <div class="form-group">
                             <label for="editNombre" class="col-sm-3 control-label">Nombre</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="editNombre" name="editNombre" autofocus required> 
+                                <input type="text" class="form-control" id="editNombre" name="editNombre" placeholder="Nombre" autofocus disabled> 
                                 <input type="hidden" class="form-control" id="id" >
                                 <input type="hidden" class="form-control" id="id_precio" >
+                                <input type="hidden" class="form-control" id="editPpp" >
+                                <input type="hidden" class="form-control" id="editMin" >
+                                <input type="hidden" class="form-control" id="editUtilidad" >
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="editPpp" class="col-sm-3 control-label">PPP</label>
+                            <label for="editPvt1" class="col-sm-3 control-label">Normal x Caja<span class="obligatorio">*</span></label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control" id="editPpp" name="editPpp" min="0.01" step="0.01" required>
+                                <input type="number" class="form-control" id="editPvt1" name="editPvt1" min="0.01" step="0.01" placeholder="Precio Normal x Caja" required>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="editPvt1" class="col-sm-3 control-label">PVT1</label>
+                            <label for="editPvt2" class="col-sm-3 control-label">Descuento x Caja<span class="obligatorio">*</span></label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control" id="editPvt1" name="editPvt1" min="0.01" step="0.01" required>
+                                <input type="number" class="form-control" id="editPvt2" name="editPvt2" min="0.01" step="0.01" placeholder="Precio Descuento x Caja" required>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="editPvt2" class="col-sm-3 control-label">PVT2</label>
+                            <label for="editPvp" class="col-sm-3 control-label">PVP<span class="obligatorio">*</span></label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control" id="editPvt2" name="editPvt2" min="0.01" step="0.01" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="editPvp" class="col-sm-3 control-label">PVP</label>
-                            <div class="col-sm-8">
-                                <input type="number" class="form-control" id="editPvp" name="editPvp" min="0.01" step="0.01" required>
+                                <input type="number" class="form-control" id="editPvp" name="editPvp" min="0.01" step="0.01" placeholder="PVP" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="editIva" class="col-sm-3 control-label">IVA</label>
                             <div class="col-sm-8">
-                                <select name="editIva" id="editIva" class="form-control"></select>
+                                <select name="editIva" id="editIva" class="form-control" required></select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="editMin" class="col-sm-3 control-label">Min Sugerido</label>
+                            <label for="editUnidad_caja" class="col-sm-3 control-label">Unidad x caja<span class="obligatorio">*</span></label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control" id="editMin" name="editMin" min="1" step="1" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="editUnidad_caja" class="col-sm-3 control-label">Unidad x caja</label>
-                            <div class="col-sm-8">
-                                <input type="number" class="form-control" id="editUnidad_caja" name="editUnidad_caja" min="1" step="1" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="editUtilidad" class="col-sm-3 control-label">Utilidad</label>
-                            <div class="col-sm-8">
-                                <input type="number" class="form-control" id="editUtilidad" name="editUtilidad" min="0.01" step="0.01" required>
+                                <input type="number" class="form-control" id="editUnidad_caja" name="editUnidad_caja" min="1" step="1" placeholder="Unidad x Caja" required>
                             </div>
                         </div>
                     </div>

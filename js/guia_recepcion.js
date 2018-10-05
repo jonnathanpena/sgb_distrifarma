@@ -13,12 +13,19 @@ var datetime;
 $(document).ready(function() {
     usuario = JSON.parse(localStorage.getItem('distrifarma_test_user'));
     if (usuario.ingreso == true) {
+        $('#pasaporte').hide();
         if (usuario.df_tipo_usuario == 'Administrador') {
-            $('#administrador').show('');
-            $('#ventas').hide('');
-        } else {
-            $('#administrador').hide('');
-            $('#ventas').show('');
+            $('#Administrador').show('');
+            $('#Supervisor').hide('');
+            $('#Ventas').hide('');
+        } else if (usuario.df_tipo_usuario == 'Supervisor') {
+            $('#Administrador').hide('');
+            $('#Supervisor').show('');
+            $('#Ventas').hide('');
+        } else if (usuario.df_tipo_usuario == 'Ventas') {
+            $('#Administrador').hide('');
+            $('#Supervisor').hide('');
+            $('#Ventas').show('');
         }
     } else {
         window.location.href = "login.php";
@@ -35,21 +42,29 @@ function load() {
 
 function cargar() {
     guias = [];
-    $('#resultados .table-responsive table tbody').empty();
+    $('#resultados .table-responsive table tbody').html('Cargando...');
+    //$('#resultados .table-responsive table tbody').empty();
     var q = $('#q').val();
     var urlCompleta = url + 'guiaRecepcion/getAll.php';
     $.post(urlCompleta, JSON.stringify({ df_codigo_guia_rec: q }), function(response) {
-        console.log('guias', response.data);
-        $.each(response.data, function(index, row) {
-            consultarVendedor(row);
-        });
-        clearTimeout(timer);
-        timer = setTimeout(function() {
-            records = guias;
-            totalRecords = records.length;
-            totalPages = Math.ceil(totalRecords / recPerPage);
-            apply_pagination();
-        }, 2000);
+        if (response.data.length > 0) {
+            console.log('guias', response.data);
+            $.each(response.data, function(index, row) {
+                consultarVendedor(row);
+            });
+            clearTimeout(timer);
+            timer = setTimeout(function() {
+                guias.sort(function(a, b) {
+                    return (b.df_guia_recepcion - a.df_guia_recepcion)
+                });
+                records = guias;
+                totalRecords = records.length;
+                totalPages = Math.ceil(totalRecords / recPerPage);
+                apply_pagination();
+            }, 2000);
+        } else {
+            $('#resultados .table-responsive table tbody').html('No se encontró ningún resultado');
+        }
     })
 }
 

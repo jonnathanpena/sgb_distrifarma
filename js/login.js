@@ -1,9 +1,7 @@
 $(document).ready(function() {
     usuario = JSON.parse(localStorage.getItem('distrifarma_test_user'));
-    console.log('usuario', usuario);
-    if (usuario.ingreso == true) {
-        window.location.href = "facturas.php";
-    }
+    usuario.ingreso = false;
+    localStorage.setItem('distrifarma_test_user', JSON.stringify(usuario));
 });
 
 $('#form-login').submit(function(event) {
@@ -16,6 +14,7 @@ $('#form-login').submit(function(event) {
         df_usuario_usuario: $('#user_name').val()
     };
     $.post(urlCompleta, JSON.stringify(datos), function(data, status, hrx) {
+        console.log('Login API', data.data[0]);
         if (data.data.length > 0) {
             data.data[0].ingreso = true;
             localStorage.setItem('distrifarma_test_user', JSON.stringify(data.data[0]));
@@ -27,7 +26,7 @@ $('#form-login').submit(function(event) {
                     /*$('#alerta-container').show('slow');
                     $('#alerta-mensaje').html('Las claves no coinciden, intente nuevamente!');*/
                 } else {
-                    window.location.href = "usuarios.php";
+                    window.location.href = "nueva_factura.php";
                 }
                 $('#user_password').val("");
                 $('#user_name').val();

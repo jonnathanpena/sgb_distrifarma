@@ -37,6 +37,7 @@ if($num>0){
         $cajaChicaGasto_item=array(
             "df_id_gasto"=>$df_id_gasto, 
             "df_usuario_id"=>$df_usuario_id,
+            "df_usuario_usuario"=>$df_usuario_usuario,
             "df_movimiento"=>$df_movimiento,
             "df_gasto"=>$df_gasto,
             "df_saldo"=>$df_saldo,

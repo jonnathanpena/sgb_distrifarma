@@ -13,6 +13,7 @@ class DetalleRecepcion {
 	public $df_producto_cod_detrec;
     public $df_nueva_fecha;
     public $df_edo_prod_fact_detrec;
+    public $df_detalleRemision_detrec;
     
     //constructor con base de datos como conexión
     public function __construct($db){
@@ -59,15 +60,17 @@ class DetalleRecepcion {
     function insert(){
     
         // query to insert record
-        $query = "INSERT INTO `df_detalle_recepcion`(`df_guia_recepcion_detrec`, `df_factura_rec`, 
-							`df_cant_producto_detrec`, `df_producto_cod_detrec`, `df_nueva_fecha`,
-                            `df_edo_prod_fact_detrec`) VALUES (
-							".$this->df_guia_recepcion_detrec.",
-							".$this->df_factura_rec.",
-							".$this->df_cant_producto_detrec.",
-							".$this->df_producto_cod_detrec.",
-                            '".$this->df_nueva_fecha."',
-                            ".$this->df_edo_prod_fact_detrec.")";
+        $query = "INSERT INTO `df_detalle_recepcion`(`df_guia_recepcion_detrec`, `df_factura_rec`, `df_cant_producto_detrec`, `df_producto_cod_detrec`, 
+                    `df_nueva_fecha`, `df_detalleRemision_detrec`, `df_edo_prod_fact_detrec`) 
+                    VALUES (
+                        ".$this->df_guia_recepcion_detrec.",
+                        ".$this->df_factura_rec.",
+                        ".$this->df_cant_producto_detrec.",
+                        ".$this->df_producto_cod_detrec.",
+                        '".$this->df_nueva_fecha."',
+                        '".$this->df_detalleRemision_detrec."',
+                        ".$this->df_edo_prod_fact_detrec."
+                    )";
 
         // prepara la sentencia del query
         $stmt = $this->conn->prepare($query);    

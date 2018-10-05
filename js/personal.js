@@ -10,12 +10,19 @@ var $pagination = $('#pagination'),
 $(document).ready(function() {
     usuario = JSON.parse(localStorage.getItem('distrifarma_test_user'));
     if (usuario.ingreso == true) {
+        $('#pasaporte').hide();
         if (usuario.df_tipo_usuario == 'Administrador') {
-            $('#administrador').show('');
-            $('#ventas').hide('');
-        } else {
-            $('#administrador').hide('');
-            $('#ventas').show('');
+            $('#Administrador').show('');
+            $('#Supervisor').hide('');
+            $('#Ventas').hide('');
+        } else if (usuario.df_tipo_usuario == 'Supervisor') {
+            $('#Administrador').hide('');
+            $('#Supervisor').show('');
+            $('#Ventas').hide('');
+        } else if (usuario.df_tipo_usuario == 'Ventas') {
+            $('#Administrador').hide('');
+            $('#Supervisor').hide('');
+            $('#Ventas').show('');
         }
     } else {
         window.location.href = "login.php";
@@ -37,6 +44,9 @@ function cargar() {
     $.post(urlCompleta, JSON.stringify({ df_nombre_per: q }), function(data, status, hrx) {
         if (data.data.length > 0) {
             $('#resultados .table-responsive table tbody').html('');
+            data.data.sort(function (a, b){
+                return (b.df_id_personal - a.df_id_personal)
+            });
             records = data.data;
             totalRecords = records.length;
             totalPages = Math.ceil(totalRecords / recPerPage);

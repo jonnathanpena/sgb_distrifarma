@@ -44,14 +44,14 @@ if($num>0){
 
         //Los nombres acá son iguales a los de la clase iguales a las columnas de la BD
         $reportes_item=array(
-            "COUNT_FACTURA"=>$COUNT_FACTURA, 
-            "df_personal_cod_fac"=>$df_personal_cod_fac,
-            "df_nombre_per"=>$df_nombre_per,
-            "df_apellido_per"=>$df_apellido_per,
-            "df_cargo_per"=>$df_cargo_per,
-            "VALOR_VENDIDO"=>$VALOR_VENDIDO,
-            "VALOR_ANULADO"=>$VALOR_ANULADO,
-            "df_nombre_sector"=>$df_nombre_sector
+            "SECTOR"=>$df_nombre_sector,
+            "COUNT_FACTURA"=>number_format($COUNT_FACTURA,1) , 
+            //"df_personal_cod_fac"=>$df_personal_cod_fac,
+            "NOMBRE"=>$df_nombre_per,
+            "APELLIDO"=> $df_apellido_per,
+            "CARGO"=>$df_cargo_per,
+            "VALOR_VENDIDO"=>number_format($VALOR_VENDIDO,3),
+            "VALOR_ANULADO"=>number_format($VALOR_ANULADO,3)
         );
  
         array_push($reportes_arr["data"], $reportes_item);

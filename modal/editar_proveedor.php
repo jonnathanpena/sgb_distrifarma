@@ -17,39 +17,39 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="editRuc" class="col-sm-3 control-label">RUC</label>
+                            <label for="editRuc" class="col-sm-3 control-label">RUC<span class="obligatorio">*</span></label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control" id="editRuc" name="editRuc" min="1" step="1" required>
+                                <input type="number" class="form-control" id="editRuc" name="editRuc" min="1" step="1" placeholder="RUC" required>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="editNombre" class="col-sm-3 control-label">Nombre</label>
+                            <label for="editNombre" class="col-sm-3 control-label">Nombre<span class="obligatorio">*</span></label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="editNombre" name="editNombre" required>
+                                <input type="text" class="form-control" id="editNombre" name="editNombre" placeholder="Nombre" required>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="editDireccion" class="col-sm-3 control-label">Dirección</label>
+                            <label for="editDireccion" class="col-sm-3 control-label">Dirección<span class="obligatorio">*</span></label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="editDireccion" name="editDireccion" required>
+                                <input type="text" class="form-control" id="editDireccion" name="editDireccion" placeholder="Dirección" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="editTelefono" class="col-sm-3 control-label">Teléfono</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="editTelefono" name="editTelefono" required>
+                                <input type="text" class="form-control" id="editTelefono" name="editTelefono" placeholder="Teléfono">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="editNombre_contacto" class="col-sm-3 control-label">Nombre Contacto</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="editNombre_contacto" name="editNombre_contacto" required>
+                                <input type="text" class="form-control" id="editNombre_contacto" name="editNombre_contacto" placeholder="Nombre Contacto">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="editTelefono_contacto" class="col-sm-3 control-label">Teléfono Contacto</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="editTelefono_contacto" name="editTelefono_contacto" required>
+                                <input type="text" class="form-control" id="editTelefono_contacto" name="editTelefono_contacto" placeholder="Teléfono Contacto">
                             </div>
                         </div>
                     </div>

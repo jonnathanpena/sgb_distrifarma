@@ -1,12 +1,13 @@
 <?php
    $active_administracion = "";
-   $active_facturas = "active";
+   $active_facturas = "";
    $active_ingresos = "active";
    $active_egresos = "";
    $active_guias = "";
    $active_bodega = "";
    $active_reportes = "";
-   $title="Editar Factura | SGB";  
+   $active_reportes_usuarios = "";
+   $title="Modificar Factura | SGB";  
    $fecha = Date('d/m/Y');
 ?>
 <!DOCTYPE html>
@@ -22,7 +23,7 @@
       <div class="container">
          <div class="panel panel-info">
             <div class="panel-heading">
-               <h4><i class='glyphicon glyphicon-edit'></i> Nueva Factura</h4>
+               <h4><i class='glyphicon glyphicon-edit'></i> Modificar Factura</h4>
             </div>
             <div class="panel-body">
 <?php
@@ -40,53 +41,67 @@ include("modal/consultar_productos.php");
                      <div class="col-md-2">
                         <input type="text" class="form-control input-sm" id="fecha" name="fecha" readonly>
                      </div>
-                     <label for="personal" class="col-md-1 control-label">Vendedor</label>
-                     <div class="col-md-2">
+                     <label for="personal" class="col-md-2 control-label">Vendedor <span class="obligatorio">*</span></label>
+                     <div class="col-md-4">
                         <select name="personal" id="personal" class="form-control"></select>
-                     </div>
-                     <label for="documento_cliente" class="col-md-1 control-label">Documento Cliente</label>
-                     <div class="col-md-2">
+                     </div>                     
+                  </div>
+                  <div class="form-group row">
+                    <label for="documento_cliente" class="col-md-2 control-label">Documento Cliente <span class="obligatorio">*</span></label>
+                     <div class="col-md-3">
                         <input type="text" class="form-control input-sm" id="documento_cliente" name="documento_cliente" placeholder="Documento Cliente" onclick="consultarCliente()" style="cursor: pointer;" readonly>
                         <input type="hidden" id="cliente_id" >
                      </div>
-                  </div>
-                  <div class="form-group row">
-                    <label for="nombre_cliente" class="col-md-1 control-label">Nombre Cliente</label>
-                     <div class="col-md-2">
+                    <label for="nombre_cliente" class="col-md-2 control-label">Nombre Cliente</label>
+                     <div class="col-md-5">
                         <input type="text" class="form-control input-sm" id="nombre_cliente" name="nombre_cliente" readonly>
-                     </div>
-                     <label for="sector" class="col-md-1 control-label">Sector</label>
-                     <div class="col-md-2">
-                        <select name="sector" id="sector" class="form-control">
-                            <option value="null">Seleccione...</option>
-                        </select>
-                     </div>
-                     <label for="forma_pago" class="col-md-2 control-label">Forma de Pago</label>
-                     <div class="col-md-2">
-                        <select name="forma_pago" id="forma_pago" class="form-control">
-                            <option value="EFECTIVO" selected>Efectivo</option> 
-                            <option value="TRANSFERENCIA">Transferencia</option>
-                            <option value="CHEQUE">Cheque</option>                                                       
-                        </select>
-                     </div>                                                          
-                    </div>    
+                     </div>                                                                                                 
+                    </div> 
                     <div class="form-group row">
-                        <label for="fecha_entrega" class="col-md-1 control-label">Fecha Entrega</label>
+                        <label for="sector" class="col-md-1 control-label">Sector</label>
+                        <div class="col-md-4">
+                            <select name="sector" id="sector" class="form-control" disabled>
+                                <option value="null">Seleccione...</option>
+                            </select>
+                            <input type="hidden" id="forma_pago">
+                        </div> 
+                        <label for="fecha_entrega" class="col-md-2 control-label">Fecha Entrega <span class="obligatorio">*</span></label>
                         <div class="col-md-2">
                             <input type="date" class="form-control input-sm" id="fecha_entrega" name="fecha_entrega" required>
-                        </div>                                                      
-                    </div>                  
+                        </div>  
+                    </div>
+                    <div class="form-group row producto" style="margin-top: 20px;">
+                        <label for="cdigo_producto" class="col-md-1 control-label">Código</label>
+                        <div class="col-md-2">
+                            <input type="text" class="form-control input-sm" id="codigo_producto" name="codigo_producto" placeholder="Código producto" autofocus>
+                        </div>
+                        <label for="cdigo_producto" class="col-md-2 control-label">Producto</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control input-sm" placeholder="Producto" id='nombre_producto' disabled>
+                        </div>
+                        <label for="cdigo_producto" class="col-md-1 control-label">Unidad</label>
+                        <div class="col-md-2">
+                            <select name="unidad_producto" id="unidad_producto" class="form-control" onchange="seleccionaUnidad()">
+                                <option value="CAJA" selected>Caja</option>
+                                <option value="UND">Unidad</option>
+                            </select>
+                        </div>
+                        <label for="cdigo_producto" class="col-md-1 control-label">Cant</label>
+                        <div class="col-md-2">
+                            <input type="number" class="form-control input-sm" id="cantidad_producto" name="cantidad_producto" value="1">
+                        </div>
+                        <label for="cdigo_producto" class="col-md-2 control-label">Precio Unitario</label>
+                        <div class="col-md-2">
+                            <select name="precio_unitario_producto" id="precio_unitario_producto" class="form-control">
+                                <option value="null">Seleccione...</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-success" onclick="agregar()"><i class="glyphicon glyphicon-plus"></i></button>
+                        </div>
+                    </div>                 
                     <div class="col-md-12" style="margin-top: 20px;">
                         <div class="table-wrapper">
-                            <div class="table-title">
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <button type="button" class="btn btn-success add-new-producto" onclick="buscarProductos()">
-                                            <i class="fa fa-plus"></i> Agregar
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
                             <table id="table_productos" class="table table-bordered">
                                 <thead>
                                     <tr>
@@ -130,7 +145,7 @@ include("modal/consultar_productos.php");
                             <a href="facturas.php"  class="btn btn-danger">
                                 <span class="glyphicon glyphicon-remove"></span> Cancelar
                             </a>
-                            <button type="submit" class="btn btn-success" id="btn-guardar">
+                            <button type="button" class="btn btn-success" id="btn-guardar" onclick="modificar()">
                                 <span class="glyphicon glyphicon-floppy-disk"></span> Guardar
                             </button>
                         </div>

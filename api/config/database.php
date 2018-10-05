@@ -6,9 +6,9 @@ class Database{
  
     // specify your own database credentials
     private $host = "localhost";
-    private $db_name = "proco389_distrifarma";
-    private $username = "proco389_dfarma";
-    private $password = "Distrifarma2018";
+    private $db_name = "proco389_sgi_demo";
+    private $username = "proco389_sgidemo";
+    private $password = "Demo2018";
     public $conn;
  
     // get the database connection

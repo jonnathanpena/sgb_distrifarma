@@ -6,7 +6,8 @@
     $active_guias = "";
     $active_bodega = "";
     $active_reportes = "";
-	$title="Clientes | SGB";
+    $active_reportes_usuarios = "";
+    $title="Clientes | SGB";
 ?>
 
 <!DOCTYPE html>
@@ -58,6 +59,7 @@
 									<th>Documento</th>
 									<th>Nombre</th>
 									<th>Razón Social</th>
+									<th>Dirección</th>
 									<th class='text-right'>Acciones</th>
 								</tr>
 							</thead>

@@ -6,12 +6,19 @@ var seleccionadas = [];
 $(document).ready(function() {
     usuario = JSON.parse(localStorage.getItem('distrifarma_test_user'));
     if (usuario.ingreso == true) {
+        $('#pasaporte').hide();
         if (usuario.df_tipo_usuario == 'Administrador') {
-            $('#administrador').show('');
-            $('#ventas').hide('');
-        } else {
-            $('#administrador').hide('');
-            $('#ventas').show('');
+            $('#Administrador').show('');
+            $('#Supervisor').hide('');
+            $('#Ventas').hide('');
+        } else if (usuario.df_tipo_usuario == 'Supervisor') {
+            $('#Administrador').hide('');
+            $('#Supervisor').show('');
+            $('#Ventas').hide('');
+        } else if (usuario.df_tipo_usuario == 'Ventas') {
+            $('#Administrador').hide('');
+            $('#Supervisor').hide('');
+            $('#Ventas').show('');
         }
     } else {
         window.location.href = "login.php";
@@ -113,12 +120,13 @@ function detalleFacturas(fact, sector, posicion) {
             facturas.splice(facturas[posicion], 1);
         }
         llenarTablaFacturas();
+        console.log('facturas', facturas);
     });
 }
 
 function eliminarSector(sector) {
     for (var i = facturas.length - 1; facturas.length > i; i--) {
-        if (i => 0) {
+        if (i > 0) {
             if (facturas[i].sector * 1 == sector) {
                 facturas.splice(facturas[i], 1);
             }
@@ -145,12 +153,17 @@ function seleccionarFactura(numFactura) {
     if ($('#check_factura_' + numFactura).prop('checked') == true) {
         $('#check_factura_' + numFactura).prop('checked', false);
         var contador = 0;
-        $.each(facturas, function(index, row) {
-            if (row.df_num_factura == numFactura) {
-                seleccionadas.splice(contador, 1);
+        var seguir = true;
+        $.each(seleccionadas, function(index, row) {
+            if (seguir) {
+                if (row.df_num_factura == numFactura) {
+                    seguir = false;
+                    seleccionadas.splice(contador, 1);
+                }
             }
             contador++;
         });
+        $('#table_productos tbody').html('<p><img src="./img/ajax-loader.gif"> Cargando...</p>');
         clearTimeout(timer);
         timer = setTimeout(function() {
             poblarDetalles();
@@ -158,10 +171,13 @@ function seleccionarFactura(numFactura) {
     } else if ($('#check_factura_' + numFactura).prop('checked') == false) {
         $('#check_factura_' + numFactura).prop('checked', true);
         $.each(facturas, function(index, row) {
+            console.log('else row.df_num_factura: ', row.df_num_factura);
+            console.log('else numFactura: ', numFactura);
             if (row.df_num_factura == numFactura) {
                 seleccionadas.push(row);
             }
         });
+        $('#table_productos tbody').html('<p><img src="./img/ajax-loader.gif"> Cargando...</p>');
         clearTimeout(timer);
         timer = setTimeout(function() {
             poblarDetalles();
@@ -171,8 +187,8 @@ function seleccionarFactura(numFactura) {
 }
 
 function poblarDetalles() {
-    $('#table_productos tbody').empty();
     var temp = [];
+    $('#table_productos tbody').empty();
     $.each(seleccionadas, function(index, row) {
         for (var i = 0; i < row.detalles.length; i++) {
             temp.push({
@@ -196,6 +212,7 @@ function generateTablaDetalles(temp) {
     console.log('temp', temp);
     var totalProductos = 0;
     var posicion = 0;
+    $('#table_productos tbody').empty();
     $.each(temp, function(index, row) {
         /*
                 for (var i = 0; i < temp.length; i++) {
@@ -218,6 +235,9 @@ function generateTablaDetalles(temp) {
         $('#table_productos tbody').append(tr);
         $('#cantidad').val(totalProductos);
     });
+    if (temp.length == 0) {
+        $('#cantidad').val('0');
+    }
 }
 
 $('#form_nueva_guia').submit(function(event) {
@@ -336,3 +356,12 @@ function limpiar() {
     $('#factura').val('1');
     $('#table_productos tbody').empty();
 }
+
+$('#personal').change(function() {
+    $('#cantidad').val('0');
+    $('#facturas').val('0');
+    $('#table_sectores tbody').empty();
+    $('#table_facturas tbody').empty();
+    facturas = [];
+    seleccionadas = [];
+});

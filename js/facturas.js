@@ -11,12 +11,19 @@ var facts = [];
 $(document).ready(function() {
     usuario = JSON.parse(localStorage.getItem('distrifarma_test_user'));
     if (usuario.ingreso == true) {
+        $('#pasaporte').hide();
         if (usuario.df_tipo_usuario == 'Administrador') {
-            $('#administrador').show('');
-            $('#ventas').hide('');
-        } else {
-            $('#administrador').hide('');
-            $('#ventas').show('');
+            $('#Administrador').show('');
+            $('#Supervisor').hide('');
+            $('#Ventas').hide('');
+        } else if (usuario.df_tipo_usuario == 'Supervisor') {
+            $('#Administrador').hide('');
+            $('#Supervisor').show('');
+            $('#Ventas').hide('');
+        } else if (usuario.df_tipo_usuario == 'Ventas') {
+            $('#Administrador').hide('');
+            $('#Supervisor').hide('');
+            $('#Ventas').show('');
         }
     } else {
         window.location.href = "login.php";
@@ -44,6 +51,9 @@ function cargar() {
             });
             clearTimeout(timer);
             timer = setTimeout(function() {
+                facts.sort(function(a, b) {
+                    return (b.df_num_factura - a.df_num_factura)
+                });
                 records = facts;
                 totalRecords = records.length;
                 totalPages = Math.ceil(totalRecords / recPerPage);
@@ -64,10 +74,11 @@ function generate_table() {
         var iva = Number(factura.df_iva_fac).toFixed(2);
         var total_factura = Number(factura.df_valor_total_fac).toFixed(2);
         var tr;
+        var fecha_fact = factura.df_fecha_fac.split(' ')[0];
         tr = $('<tr/>');
-        tr.append("<td>" + factura.df_fecha_fac + "</td>");
+        tr.append("<td>" + fecha_fact + "</td>");
         tr.append("<td>" + factura.df_num_factura + "</td>");
-        tr.append("<td>" + factura.df_razon_social_cli + "</td>");
+        tr.append("<td>" + factura.df_nombre_cli + "</td>");
         tr.append("<td>" + factura.df_forma_pago_fac + "</td>");
         tr.append("<td>$" + subtotal + "</td>");
         tr.append("<td>$" + descuentos + "</td>");
@@ -98,7 +109,7 @@ function apply_pagination() {
 function getCliente(factura) {
     var urlCompleta = url + 'cliente/getById.php';
     $.post(urlCompleta, JSON.stringify({ df_id_cliente: factura.df_cliente_cod_fac }), function(response) {
-        factura.df_razon_social_cli = response.data[0].df_razon_social_cli;
+        factura.df_nombre_cli = response.data[0].df_nombre_cli;
         facts.push(factura);
     });
 }

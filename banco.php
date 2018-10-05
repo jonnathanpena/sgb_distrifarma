@@ -6,6 +6,7 @@
     $active_guias = "";
     $active_bodega = "";
     $active_reportes = "";
+    $active_reportes_usuarios = "";
 	$title="Banco | SGB";
 ?>
 
@@ -14,6 +15,8 @@
   <head>
     <?php include("head.php");?>
     <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" href="libraries/autocomplete/easy-autocomplete.min.css"> 
+    <link rel="stylesheet" href="libraries/autocomplete/easy-autocomplete.themes.min.css">
   </head>
   <body>
 <?php
@@ -54,6 +57,7 @@
                     <div class="for-group row">
                         <div class="col-md-2 pull-right"> 
                             <input type="text" id="saldo_banco" name="saldo_banco" class="form-control" readonly>        
+                            <input type="hidden" id="valor_libro" >
                         </div>
                         <div class="col-md-3 pull-right">
                             <label class="pull-right">
@@ -67,6 +71,7 @@
                         <table class="table">
                             <thead>
                                 <tr class="info">
+                                    <th>#</th>
                                     <th>Fecha</th>
                                     <th>Usuario</th>
                                     <th>Movimiento</th>
@@ -91,10 +96,9 @@
 <?php
     include("footer.php");
 ?>
+    <script src="libraries/autocomplete/jquery.easy-autocomplete.min.js"></script>
     <script type="text/javascript" src="js/config.js"></script>
     <script type="text/javascript" src="js/banco.js"></script>
-    <script type="text/javascript" src="js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
-    <script type="text/javascript" src="js/bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>
     </body>
 </html>
 

@@ -74,6 +74,7 @@
 <?php
     include("footer.php");
 ?>
+    <script type="text/javascript" src="js/config.js"></script>
     <script type="text/javascript" src="js/nueva_caja_chica.js"></script>
     </body>
 </html>
