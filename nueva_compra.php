@@ -110,12 +110,10 @@
                     <label class="col-md-2 control-label">Forma de Pago</label>
                     <div class="col-md-2">
                         <select class='form-control input-sm' id="condiciones" name="condiciones">
-                            <option value="1" selected>Efectivo</option>
-                            <option value="2">Transferencia bancaria</option>
-                            <option value="3">Tarjeta de Crédito/Débito</option>
-                            <option value="4">Cheque</option>
-                            <option value="5">Pago electrónico</option>
-                            <option value="6">Crédito</option>
+                            <option value="3" selected>Efectivo</option>
+                            <option value="1">Cheque</option>
+                            <option value="2">Transferencia bancaria</option>                            
+                            <option value="4">Crédito</option>
                         </select>                         
                     </div>
                     <div class="col-md-1">

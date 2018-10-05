@@ -44,7 +44,7 @@ class DetallePagoCompra {
     // insertar un detalle compra gasto
     function insert(){
 
-        if ($this->metodo_pago_id === 1) {
+        if ($this->metodo_pago_id === 3) {
             // query to insert record
             $query = "INSERT INTO `detalle_pagos_compra`(`compra_id`, `metodo_pago_id`, `banco_emisor`, `banco_receptor`, `codigo`, `fecha`, `tipo_tarjeta`, 
                         `franquicia`, `recibo`, `titular`, `cheque`) 
@@ -77,7 +77,7 @@ class DetallePagoCompra {
                             null,
                             null
                         )";
-        } else if ($this->metodo_pago_id === 3) {
+        } else if ($this->metodo_pago_id === 5) {
             $query = "INSERT INTO `detalle_pagos_compra`(`compra_id`, `metodo_pago_id`, `banco_emisor`, `banco_receptor`, `codigo`, `fecha`, `tipo_tarjeta`, 
                         `franquicia`, `recibo`, `titular`, `cheque`) 
                         VALUES (
@@ -93,7 +93,7 @@ class DetallePagoCompra {
                             '".$this->titular."',
                             null
                         )";
-        } else if ($this->metodo_pago_id === 4) {
+        } else if ($this->metodo_pago_id === 1) {
             $query = "INSERT INTO `detalle_pagos_compra`(`compra_id`, `metodo_pago_id`, `banco_emisor`, `banco_receptor`, `codigo`, `fecha`, `tipo_tarjeta`, 
                         `franquicia`, `recibo`, `titular`, `cheque`) 
                         VALUES (
@@ -109,7 +109,7 @@ class DetallePagoCompra {
                             '".$this->titular."',
                             '".$this->cheque."'
                         )";
-        } else if ($this->metodo_pago_id === 5) {
+        } else if ($this->metodo_pago_id === 6) {
             $query = "INSERT INTO `detalle_pagos_compra`(`compra_id`, `metodo_pago_id`, `banco_emisor`, `banco_receptor`, `codigo`, `fecha`, `tipo_tarjeta`, 
                         `franquicia`, `recibo`, `titular`, `cheque`) 
                         VALUES (
@@ -125,7 +125,7 @@ class DetallePagoCompra {
                             '".$this->titular."',
                             null
                         )";
-        } else if ($this->metodo_pago_id === 6) {
+        } else if ($this->metodo_pago_id === 4) {
             $query = "INSERT INTO `detalle_pagos_compra`(`compra_id`, `metodo_pago_id`, `banco_emisor`, `banco_receptor`, `codigo`, `fecha`, `tipo_tarjeta`, 
                         `franquicia`, `recibo`, `titular`, `cheque`) 
                         VALUES (

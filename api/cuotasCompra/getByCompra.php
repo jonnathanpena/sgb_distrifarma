@@ -8,14 +8,14 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
  
 // incluye la configuración de la base de datos y la conexión
 include_once '../config/database.php';
-include_once '../objects/historia_edo_compra.php';
+include_once '../objects/cuotasCompra.php';
  
 // inicia la conexión a la base de datos
 $database = new Database();
 $db = $database->getConnection();
  
 // inicia el objeto
-$historia_edo = new HistoriaEdoCompra($db);
+$cuotasCompra = new CuotasCompra($db);
 
 // get posted data
 $data = json_decode(file_get_contents('php://input'), true);
@@ -23,15 +23,15 @@ $data = json_decode(file_get_contents('php://input'), true);
 $info = array($data);
  
 // configura los valores recibidos en post de la app
-$historia_edo->venta_id_hist = $info[0]["venta_id_hist"];
+$cuotasCompra->compra_id = $info[0]["compra_id"];
 
 // query de lectura
-$stmt = $historia_edo->readByVenta();
+$stmt = $cuotasCompra->readByCompra();
 $num = $stmt->rowCount();
 
-// historia_edo array
-$historia_edo_arr=array();
-$historia_edo_arr["data"]=array();
+// cuotasCompra array
+$cuotasCompra_arr=array();
+$cuotasCompra_arr["data"]=array();
  
 // check if more than 0 record found
 if($num>0){ 
@@ -44,22 +44,18 @@ if($num>0){
         // just $name only
         extract($row);
         
-        $historia_edo_item=array(
-            "id_hist_edo_com"=>$id_hist_edo_com, 
-            "compra_id_hist"=>$compra_id_hist, 
-            "venta_id_hist"=>$venta_id_hist, 
-            "retencion_id_hist"=>$retencion_id_hist, 
-            "id_edo_entrega_hist"=>$id_edo_entrega_hist, 
-            "id_edo_pago_hist"=>$id_edo_pago_hist, 
-            "fecha_hist"=>$fecha_hist
-        );
- 
-        array_push($historia_edo_arr["data"], $historia_edo_item);
-    }
- 
+        $cuotasCompra_item=array(
+            "df_id_cc"=>$df_id_cc, 
+            "compra_id"=>$compra_id, 
+            "df_fecha_cc"=>$df_fecha_cc, 
+            "df_monto_cc"=>$df_monto_cc, 
+            "df_estado_cc"=>$df_estado_cc
+        ); 
+        array_push($cuotasCompra_arr["data"], $cuotasCompra_item);
+    } 
     
 }
  
-echo json_encode($historia_edo_arr);
+echo json_encode($cuotasCompra_arr);
 
 ?>

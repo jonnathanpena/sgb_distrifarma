@@ -47,6 +47,28 @@ class Producto {
         return $stmt;
     }
 
+    function readAll(){
+    
+        // select all query
+        $query = "SELECT prod.`df_id_producto`, prod.`df_nombre_producto`, prod.`df_codigo_prod`,
+        pp.`df_id_precio`, pp.`df_producto_id`, pp.`df_ppp`, pp.`df_pvt1`, 
+        pp.`df_pvt2`, pp.`df_pvp`, pp.`df_iva`, pp.`df_min_sugerido`, pp.`df_und_caja`, 
+        pp.`df_utilidad`, iva.`df_valor_impuesto`
+        FROM `df_producto` as prod
+        JOIN `df_producto_precio` as pp ON (prod.`df_id_producto` = pp.`df_producto_id`)
+        JOIN `df_impuesto` as iva ON (pp.`df_iva` = iva.`df_id_impuesto`)
+        WHERE prod.`df_codigo_prod` like '%".$this->df_codigo_prod."%' OR prod.`df_nombre_producto` like '%".$this->df_nombre_producto."%'
+        ORDER BY prod.df_id_producto DESC";
+    
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+    
+        // execute query
+        $stmt->execute();
+    
+        return $stmt;
+    }
+
     // obtener producto de login
     function readById(){
     

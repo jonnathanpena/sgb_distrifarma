@@ -534,7 +534,7 @@ $('#codigo_producto').keyup(function(e) {
                     producto_max = producto.df_cant_bodega;
                     poblarConProductoConsultado(response.data[0]);
                 } else {
-                    alertar('warning', '¡Alerta!', 'Cantidad insuficiente en bodega');
+                    alertar('warning', '¡Alerta!', 'Producto sin stock');
                     keyPress = 0;
                     producto_max = 0;
                     limpiarLineaProducto();

@@ -65,10 +65,52 @@ function generate_table() {
     var tr;
     $.each(displayRecords, function(index, row) {
         tr = $('<tr/>');
-        tr.append('<td>' + row.id_compra + '</td>');
-        tr.append('<td>' + row.df_usuario_usuario + '</td>');
-        tr.append('<td>' + row.df_nombre_empresa + '</td>');
-        tr.append('<td class="text-center">' + row.total_compra + '</td>');
-        $('#resultados .table-responsive table tbody').append(tr);
+        if (row.condiciones_compra == 4) {
+            tr.append('<td>' + row.id_compra + '</td>');
+            tr.append('<td>' + row.df_usuario_usuario + '</td>');
+            tr.append('<td>' + row.df_nombre_empresa + '</td>');
+            tr.append('<td class="text-center">' + row.total_compra + '</td>');
+            tr.append('<td class="text-right"> <button class="btn btn-info"><i class="glyphicon glyphicon-eye-open" onclick="observarCuotas(`' + row.id_compra + '`)"></i></button> </td>');
+            $('#resultados .table-responsive table tbody').append(tr);
+        } else {
+            tr.append('<td>' + row.id_compra + '</td>');
+            tr.append('<td>' + row.df_usuario_usuario + '</td>');
+            tr.append('<td>' + row.df_nombre_empresa + '</td>');
+            tr.append('<td class="text-center">' + row.total_compra + '</td>');
+            tr.append('<td class="text-right"></td>');
+            $('#resultados .table-responsive table tbody').append(tr);
+        }
+    });
+}
+
+function observarCuotas(compra_id) {
+    var urlCompleta = url + 'cuotasCompra/getByCompra.php';
+    $('#cuotas tbody').empty();
+    $.post(urlCompleta, JSON.stringify({ compra_id: compra_id }), function(response) {
+        console.log('observación cuotas', response.data);
+        $.each(response.data, function(index, row) {
+            var tr = $('<tr/>');
+            tr.append('<td>' + row.df_monto_cc + '</td>');
+            tr.append('<td>' + row.df_fecha_cc + '</td>');
+            if (row.df_estado_cc == 'PENDIENTE') {
+                tr.append('<td> <button class="btn btn-info" title="Pagar" onclick="pagarCuota(`' + row.df_id_cc + '`, `' + row.compra_id + '`)"><i class="glyphicon glyphicon-usd"></i></button> </td>');
+            } else {
+                tr.append('<td><span class="label label-success">Cancelado</span></td>');
+            }
+            $('#cuotas tbody').append(tr);
+        });
+        $('#cuotasCompra').modal('show');
+    });
+}
+
+function pagarCuota(id, compra_id) {
+    var urlCompleta = url + 'cuotasCompra/update.php';
+    var cuota = {
+        df_estado_cc: 'PAGADO',
+        df_id_cc: id
+    };
+    $.post(urlCompleta, JSON.stringify(cuota), function(response) {
+        console.log('pago cuota', response);
+        observarCuotas(compra_id);
     });
 }

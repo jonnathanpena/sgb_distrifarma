@@ -360,7 +360,7 @@ function irRetencion() {
 
 $("#condiciones").change(function() {
     var valor = $(this).val() * 1;
-    if (valor == 1) {
+    if (valor == 3) {
         $('#pago_transferencia').hide('slow');
         $('#pago_tarjeta').hide('slow');
         $('#pago_cheque').hide('slow');
@@ -372,25 +372,25 @@ $("#condiciones").change(function() {
         $('#pago_cheque').hide('slow');
         $('#pago_electronico').hide('slow');
         $('#pago_credito').hide('slow');
-    } else if (valor == 3) {
+    } else if (valor == 5) {
         $('#pago_transferencia').hide('slow');
         $('#pago_tarjeta').show('slow');
         $('#pago_cheque').hide('slow');
         $('#pago_electronico').hide('slow');
         $('#pago_credito').hide('slow');
-    } else if (valor == 4) {
+    } else if (valor == 1) {
         $('#pago_transferencia').hide('slow');
         $('#pago_tarjeta').hide('slow');
         $('#pago_cheque').show('slow');
         $('#pago_electronico').hide('slow');
         $('#pago_credito').hide('slow');
-    } else if (valor == 5) {
+    } else if (valor == 6) {
         $('#pago_transferencia').hide('slow');
         $('#pago_tarjeta').hide('slow');
         $('#pago_cheque').hide('slow');
         $('#pago_electronico').show('slow');
         $('#pago_credito').hide('slow');
-    } else if (valor == 6) {
+    } else if (valor == 4) {
         $('#pago_transferencia').hide('slow');
         $('#pago_tarjeta').hide('slow');
         $('#pago_cheque').hide('slow');
@@ -402,7 +402,7 @@ $("#condiciones").change(function() {
             $('#pago_credito').show('slow');
         } else {
             alert('Debe llenar la tabla de gastos o productos antes de procesar el pago');
-            $("#condiciones").val('1');
+            $("#condiciones").val('3');
             $('#pago_credito').hide('slow');
         }
     }
@@ -410,13 +410,13 @@ $("#condiciones").change(function() {
 
 $('#cancelarCuotas').click(function() {
     cuotas = [];
-    $("#condiciones").val('1');
+    $("#condiciones").val('3');
     $('#pago_credito').hide('slow');
 });
 
 $('#cerrarModal').click(function() {
     cuotas = [];
-    ("#condiciones").val('1');
+    $("#condiciones").val('3');
     $('#pago_credito').hide('slow');
 });
 
@@ -594,7 +594,7 @@ function validarCampos(compra) {
             alertar('warning', '¡Alerta!', 'Debe indicar la fecha de transferencia');
             return;
         }
-    } else if (tipoPago == 3) {
+    } else if (tipoPago == 5) {
         if ($('#banco_tarjeta').val() == 'null') {
             alertar('warning', '¡Alerta!', 'Debe escoger un banco emisor');
             return;
@@ -623,7 +623,7 @@ function validarCampos(compra) {
             alertar('warning', '¡Alerta!', 'Debe indicar el titular de la tarjeta');
             return;
         }
-    } else if (tipoPago == 4) {
+    } else if (tipoPago == 1) {
         if ($('#banco_cheque').val() == 'null') {
             alertar('warning', '¡Alerta!', 'Debe escoger un banco emisor');
             return;
@@ -640,7 +640,7 @@ function validarCampos(compra) {
             alertar('warning', '¡Alerta!', 'Debe indicar el titular de la tarjeta');
             return;
         }
-    } else if (tipoPago == 5) {
+    } else if (tipoPago == 6) {
         if ($('#empresa').val() == '') {
             alertar('warning', '¡Alerta!', 'Debe indicar la empresa');
             return;
@@ -653,7 +653,7 @@ function validarCampos(compra) {
             alertar('warning', '¡Alerta!', 'Debe especificar el monto');
             return;
         }
-    } else if (tipoPago == 6) {
+    } else if (tipoPago == 4) {
         if (cuotas.length == 0) {
             alertar('warning', '¡Alerta!', 'Debe especificar las cuotas de pago');
             return;
@@ -683,6 +683,7 @@ function insert(compra) {
     $.post(urlCompleta, JSON.stringify(compra), function(response) {
         console.log('guardado:', response);
         if (response == false) {
+            console.log('compra insert', response);
             alertar('danger', '¡Error!', 'Algo malo ocurrió, por favor verifique e intente de nuevo');
         } else {
             getDataProductoTable(response);
@@ -721,6 +722,7 @@ function getDataProductoTable(id) {
         if (exito == true) {
             validarPago(id);
         } else {
+            console.log('get data producto');
             alertar('danger', '¡Error!', 'Algo malo ocurrió, por favor verifique e intente de nuevo');
         }
     }, 2000)
@@ -790,7 +792,7 @@ function insertDetalleCompraProducto(data) {
 function validarPago(id) {
     var tipo = $('#condiciones').val() * 1;
     var pago;
-    if (tipo == 1) {
+    if (tipo == 3) {
         pago = {
             compra_id: id,
             metodo_pago_id: tipo,
@@ -818,7 +820,7 @@ function validarPago(id) {
             titular: '',
             cheque: ''
         };
-    } else if (tipo == 3) {
+    } else if (tipo == 5) {
         pago = {
             compra_id: id,
             metodo_pago_id: tipo,
@@ -832,7 +834,7 @@ function validarPago(id) {
             titular: $('#titular_tarjeta').val(),
             cheque: ''
         };
-    } else if (tipo == 4) {
+    } else if (tipo == 1) {
         pago = {
             compra_id: id,
             metodo_pago_id: tipo,
@@ -846,7 +848,7 @@ function validarPago(id) {
             titular: $('#titular_cheque').val(),
             cheque: $('#numero_cheque').val()
         };
-    } else if (tipo == 5) {
+    } else if (tipo == 6) {
         pago = {
             compra_id: id,
             metodo_pago_id: tipo,
@@ -860,7 +862,7 @@ function validarPago(id) {
             titular: '',
             cheque: ''
         };
-    } else if (tipo == 6) {
+    } else if (tipo == 4) {
         pago = {
             compra_id: id,
             metodo_pago_id: tipo,
@@ -879,17 +881,40 @@ function validarPago(id) {
 }
 
 function insertPago(pago) {
+    if (pago.metodo_pago_id == 4) {
+        insertCuotas(pago.compra_id);
+    }
     var urlCompleta = url + 'detalle_pago_compra/insert.php';
     $.post(urlCompleta, JSON.stringify(pago), function(response) {
         if (response == true) {
             alertar('success', '¡Éxito!', 'Compra registrada exitosamente');
         } else {
+            console.log('detalle pago compra', response);
             alertar('danger', '¡Error!', 'Algo malo ocurrió, por favor verifique e intente de nuevo');
         }
         clearTimeout(timer);
         timer = setTimeout(function() {
             window.location.reload();
-        }, 2000);
+        }, 3000);
+    });
+}
+
+function insertCuotas(compra_id) {
+    $.each(cuotas, function(index, row) {
+        var cuota = {
+            compra_id: compra_id,
+            df_fecha_cc: row.fecha,
+            df_monto_cc: row.cuota,
+            df_estado_cc: 'PENDIENTE'
+        };
+        insertarCuota(cuota);
+    });
+}
+
+function insertarCuota(cuota) {
+    var urlCompleta = url + 'cuotasCompra/insert.php';
+    $.post(urlCompleta, JSON.stringify(cuota), function(response) {
+        console.log('insert cuotas', response);
     });
 }
 
