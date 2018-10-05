@@ -24,7 +24,7 @@
                                     <th>Tipo Documento</th>
                                     <th>Documento</th>
                                     <th>Nombre</th>
-                                    <th>Razón Social</th>
+                                    <th>Dirección</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>

@@ -273,6 +273,7 @@ function getProductoPrecioDetalle(producto) {
 
 function getIvasDetalle(producto) {
     var urlCompleta = url + 'productoPrecio/getAllImpuesto.php';
+    $('#editIva').empty();
     $.get(urlCompleta, function(response) {
         console.log('detallar: ', response);
         $.each(response.data, function(index, row) {

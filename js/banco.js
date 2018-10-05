@@ -52,7 +52,7 @@ function load() {
     var urlCompleta = url + 'banco/getAll.php';
     $.get(urlCompleta, function(response) {
         if (response.data.length > 0) {
-            $('#saldo_banco').val('$' + response.data[0].df_saldo_banco);
+            $('#saldo_banco').val('$' + (response.data[0].df_saldo_banco * 1).toFixed(2));
             saldo = response.data[0].df_saldo_banco * 1;
             libro =  ($('#valor_libro').val() * 1) + saldo; 
             $('#valor_libro').val(libro);
@@ -110,8 +110,8 @@ function generate_table() {
         tr.append("<td>" + row.df_tipo_movimiento + "</td>");
         tr.append("<td>" + row.df_detalle_mov_banco + "</td>");
         tr.append("<td>" + row.df_num_documento_banco + "</td>");
-        tr.append("<td class='text-center'> $ " + Number(row.df_monto_banco).toFixed(3) + "</td>");
-        tr.append("<td class='text-center'> $ " + Number(row.df_saldo_banco).toFixed(3) + "</td>");        
+        tr.append("<td class='text-center'> $ " + Number(row.df_monto_banco).toFixed(2) + "</td>");
+        tr.append("<td class='text-center'> $ " + Number(row.df_saldo_banco).toFixed(2) + "</td>");        
         //tr.append("<td><button class='btn btn-default pull-right' title='Detallar' onclick='detallar(" + row.df_id_gasto + ",`" + row.tipo + "`, `"+ row.df_movimiento +"`)'><i class='glyphicon glyphicon-edit'></i></button></td>");
         $('#resultados .table-responsive table tbody').append(tr);
     })         

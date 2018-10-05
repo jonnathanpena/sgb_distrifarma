@@ -47,7 +47,7 @@
                         <div class="form-group">
                             <label for="editIva" class="col-sm-3 control-label">IVA</label>
                             <div class="col-sm-8">
-                                <select name="editIva" id="editIva" class="form-control" disabled></select>
+                                <select name="editIva" id="editIva" class="form-control" required></select>
                             </div>
                         </div>
                         <div class="form-group">

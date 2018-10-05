@@ -83,12 +83,12 @@ function consultarCliente() {
             var tr;
             if (response.data.length > 0) {
                 $.each(response.data, function(index, row) {
-                    tr = $('<tr style="cursor: pointer;" onclick="seleccionarCliente(' + row.df_id_cliente + ', ' + row.df_documento_cli + ', ' + row.df_sector_cod + ', `' + row.df_nombre_cli + '` )"/>');
+                    tr = $('<tr style="cursor: pointer;" onclick="seleccionarCliente(' + row.df_id_cliente + ', ' + row.df_documento_cli + ', ' + row.df_sector_cod + ', `' + row.df_nombre_cli + '`, `' + row.df_direccion_cli +'` )"/>');
                     tr.append("<td>" + row.df_codigo_cliente + "</td>");
                     tr.append("<td>" + row.df_tipo_documento_cli + "</td>");
                     tr.append("<td>" + row.df_documento_cli + "</td>");
                     tr.append("<td>" + row.df_nombre_cli + "</td>");
-                    tr.append("<td>" + row.df_razon_social_cli + "</td>");
+                    tr.append("<td>" + row.df_direccion_cli + "</td>");
                     $('#resultados .table-responsive table tbody').append(tr);
                 });
             } else {
@@ -98,12 +98,13 @@ function consultarCliente() {
     }, 1000);
 }
 
-function seleccionarCliente(id_cliente, documento, sector, nombre) {
+function seleccionarCliente(id_cliente, documento, sector, nombre, direccion) {
     $('#consultarClientes').modal('hide');
     $('#documento_cliente').val(documento);
     $('#cliente_id').val(id_cliente);
     $('#nombre_cliente').val(nombre);
     $('#sector').val(sector);
+    $('#direccion_cliente').val(direccion);
 }
 
 function buscarProductos() {
