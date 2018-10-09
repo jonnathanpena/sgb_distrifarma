@@ -64,7 +64,7 @@
                         <div class="col-md-2">
                             <input type="date" id="fecha_remision" class="form-control" disabled>
                         </div>
-                        <label for="sector_remision" class="col-md-1 control-label">Sector</label>
+                        <label for="sector_remision" class="col-md-1 control-label">Zona</label>
                         <div class="col-md-2">
                             <input type="text" id="sector_remisionT" class="form-control" disabled>
                             <select style="display: none;" name="sector_remision" id="sector_remision" class="form-control" disabled>

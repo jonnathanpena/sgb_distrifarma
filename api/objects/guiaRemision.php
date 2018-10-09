@@ -17,6 +17,9 @@ class GuiaRemision {
     public $df_modificadoBy_rem;
     public $df_guia_rem_recibido;
     public $condicion;
+    public $df_nombre_sector;
+    public $df_nombre_per;
+    public $df_apellido_per;
     
     //constructor con base de datos como conexión
     public function __construct($db){
@@ -45,11 +48,13 @@ class GuiaRemision {
     function readById(){
     
         // select all query
-        $query = "SELECT `df_guia_remision`, `df_codigo_rem`, `df_fecha_remision`, `df_sector_cod_rem`, 
-                    `df_vendedor_rem`, `df_cant_total_producto_rem`, `df_valor_efectivo_rem`, `df_creadoBy_rem`, 
-                    `df_modificadoBy_rem`, `df_guia_rem_recibido` 
-                    FROM `df_guia_remision`
-                    WHERE df_guia_remision = ".$this->df_guia_remision;
+        $query = "SELECT rem.`df_guia_remision`, rem.`df_codigo_rem`, rem.`df_fecha_remision`, rem.`df_sector_cod_rem`, 
+                    rem.`df_vendedor_rem`, rem.`df_cant_total_producto_rem`, rem.`df_valor_efectivo_rem`, rem.`df_creadoBy_rem`, 
+                    rem.`df_modificadoBy_rem`, rem.`df_guia_rem_recibido`, sec.df_nombre_sector, per.`df_nombre_per`, per.`df_apellido_per` 
+                    FROM `df_guia_remision` as rem
+                    INNER JOIN `df_sector` as sec ON (sec.df_codigo_sector = rem.`df_sector_cod_rem`)
+                    INNER JOIN `df_personal` as per ON (per.df_id_personal = rem.`df_vendedor_rem`)
+                    WHERE rem.df_guia_remision =  ".$this->df_guia_remision;
     
         // prepare query statement
         $stmt = $this->conn->prepare($query);
