@@ -66,12 +66,14 @@
                         </div>
                         <label for="sector_remision" class="col-md-1 control-label">Sector</label>
                         <div class="col-md-2">
-                            <select name="sector_remision" id="sector_remision" class="form-control" disabled>
+                            <input type="text" id="sector_remisionT" class="form-control" disabled>
+                            <select style="display: none;" name="sector_remision" id="sector_remision" class="form-control" disabled>
                             </select>
                         </div>
                         <label for="vendedor_remision" class="col-md-1 control-label">Vendedor</label>
                         <div class="col-md-4">
-                            <select name="vendedor_remision" id="vendedor_remision" class="form-control" disabled>
+                            <input type="text" id="vendedor_remisionT" class="form-control" disabled>                            
+                            <select style="display: none;" name="vendedor_remision" id="vendedor_remision" class="form-control" disabled>
                             </select>
                         </div>
                     </div>
@@ -150,7 +152,8 @@
                         </div>
                         <label for="repartidor_entrega" class="col-md-1 control-label">Repartidor</label>
                         <div class="col-md-4">
-                            <select name="repartidor_entrega" id="repartidor_entrega" class="form-control" disabled>
+                            <input type="text" id="repartidor_entregaT" class="form-control" disabled>
+                            <select style="display: none;" name="repartidor_entrega" id="repartidor_entrega" class="form-control" disabled>
                             </select>
                         </div>
                     </div>

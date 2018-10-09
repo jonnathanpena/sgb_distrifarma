@@ -193,7 +193,9 @@ function getRemision() {
         console.log('Remision -', response.data);
         $('#fecha_remision').val(response.data[0].df_fecha_remision.split(' ')[0]);
         $('#vendedor_remision').val(response.data[0].df_vendedor_rem);
+        $('#vendedor_remisionT').val(response.data[0].df_nombre_per + ' ' + response.data[0].df_apellido_per);
         $('#sector_remision').val(response.data[0].df_sector_cod_rem);
+        $('#sector_remisionT').val(response.data[0].df_nombre_sector);
         guiaRemision = response.data[0];
     });
 }
@@ -372,6 +374,7 @@ function cambioNumGuiaEntrega() {
     console.log('guia entrega', guiaEntrega);
     $('#sector_entrega').val(guiaEntrega.df_sector_ent);
     $('#repartidor_entrega').val(guiaEntrega.df_repartidor_ent);
+    $('#repartidor_entregaT').val(guiaEntrega.df_nombre_per + ' ' + guiaEntrega.df_apellido_per);
     $('#fecha_entrega').val(guiaEntrega.df_fecha_ent.split(' ')[0]);
     getDetalleEntrega();
 }
