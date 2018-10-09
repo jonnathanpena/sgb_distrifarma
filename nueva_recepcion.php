@@ -98,7 +98,7 @@
                         <div class="table-responsive">
                             <table class="table">
                                 <tr>
-                                    <td class='text-right' colspan=5>VALOR RECAUDAD</td>
+                                    <td class='text-right' colspan=5>VALOR RECAUDADO</td>
                                     <td class='text-right' colspan=1>
                                         <input type="number" class="form-control" id="valor_recaudado" step="0.01" value="0.00" readonly>
                                     </td>
@@ -143,8 +143,8 @@
                         <div class="col-md-2">
                             <input type="date" id="fecha_entrega" class="form-control" disabled>
                         </div>
-                        <label for="sector_entrega" class="col-md-1 control-label">Sector</label>
-                        <div class="col-md-2">
+                        <label style="display: none;" for="sector_entrega" class="col-md-1 control-label">Sector</label>
+                        <div style="display: none;" class="col-md-2">
                             <select name="sector_entrega" id="sector_entrega" class="form-control" disabled>
                             </select>
                         </div>
@@ -188,7 +188,7 @@
                         <div class="table-responsive">
                             <table class="table">
                                 <tr>
-                                    <td class='text-right' colspan=5>VALOR RECAUDAD</td>
+                                    <td class='text-right' colspan=5>VALOR RECAUDADO</td>
                                     <td class='text-right' colspan=1>
                                         <input type="number" class="form-control" id="valor_recaudado_entrega" step="0.01" value="0.00" readonly>
                                     </td>

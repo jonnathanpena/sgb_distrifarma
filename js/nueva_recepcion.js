@@ -189,10 +189,11 @@ function cambioNumGuiaRemision() {
 
 function getRemision() {
     var urlCompleta = url + 'guiaRemision/getById.php';
-    $.post(urlCompleta, JSON.stringify({ df_guia_remision: $('#num_guia_remision').val() }), function(response) {
+    $.post(urlCompleta, JSON.stringify({ df_guia_remision: $('#num_guia_remision').val() * 1 }), function(response) {
+        console.log('Remision -', response.data);
         $('#fecha_remision').val(response.data[0].df_fecha_remision.split(' ')[0]);
-        $('#sector_remision').val(response.data[0].df_sector_cod_rem);
         $('#vendedor_remision').val(response.data[0].df_vendedor_rem);
+        $('#sector_remision').val(response.data[0].df_sector_cod_rem);
         guiaRemision = response.data[0];
     });
 }

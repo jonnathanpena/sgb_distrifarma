@@ -50,9 +50,9 @@ function consultarPersonal() {
     $.get(urlCompleta, function(response) {
         if (response.data.length > 0) {
             $.each(response.data, function(index, row) {
-                if (row.df_cargo_per == 'Repartidor') {
+                
                     $('#personal').append('<option value="' + row.df_id_personal + '">' + row.df_nombre_per + ' ' + row.df_apellido_per + '</option>');
-                }
+                
             })
         }
     });
