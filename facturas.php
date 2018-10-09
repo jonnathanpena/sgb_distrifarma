@@ -55,7 +55,7 @@
                                 <th class="text-center">Descuento</th>
                                 <th class="text-center">IVA</th>
                                 <th class="text-center">Total</th>
-                                <th class='text-right'>Acciones</th>
+                                <th colspan="2" class='text-center'>Acciones</th>
                             </tr>
                         </thead>
                         <tbody></tbody>

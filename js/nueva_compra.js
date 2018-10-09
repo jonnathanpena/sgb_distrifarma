@@ -992,26 +992,26 @@ $('#descuento_producto').keyup(function(e) {
 });
 
 function agregar() {
-    var descuento = Number(Number($('#descuento_producto').val()) / 100).toFixed(2);
+    var descuento = Number(Number($('#descuento_producto').val()) / 100);
     var accion = '<a class="delete" title="Eliminar" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>';
     var cantidad = $('#cantidad_producto').val() * 1;
-    var precio = Number($('#precio_unitario_producto').val()).toFixed(3);
+    var precio = Number($('#precio_unitario_producto').val());
     var iva = $('#iva_producto').val() * 1;
-    iva = Number(iva * precio * cantidad).toFixed(3);
-    var total_tupla = Number(precio * cantidad).toFixed(3);
-    var total_descuento = Number(descuento * total_tupla).toFixed(3);
-    total_tupla = Number(total_tupla - total_descuento).toFixed(3);
+    iva = Number(iva * precio * cantidad);
+    var total_tupla = Number(precio * cantidad);
+    var total_descuento = Number(descuento * total_tupla);
+    total_tupla = Number(total_tupla - total_descuento);
     var tr = $('<tr/>');
     tr.append('<td class="id_producto" style="display:none;">' + producto.df_id_producto + '</td>');
     tr.append('<td class="codigo" width="150">' + producto.df_codigo_prod + '</td>');
     tr.append('<td class="producto">' + producto.df_nombre_producto + '</td>');
     tr.append('<td class="bonificacion" width="100">' + Number($('#bonificacion_producto').val()) + '</td>');
     tr.append('<td class="cantidad" width="100">' + cantidad + '</td>');
-    tr.append('<td class="precio" width="100">' + precio + '</td>');
-    tr.append('<td class="iva" width="100">' + iva + '</td>');
-    tr.append('<td class="descuento" style="display: none;">' + descuento + '</td>');
-    tr.append('<td class="total_descuento" width="100">' + total_descuento + '</td>');
-    tr.append('<td class="total_tupla" width="100">' + total_tupla + '</td>');
+    tr.append('<td class="precio" width="100">' + Number(precio).toFixed(3) + '</td>');
+    tr.append('<td class="iva" width="100">' + Number(iva).toFixed(3) + '</td>');
+    tr.append('<td class="descuento" style="display: none;">' + Number(descuento).toFixed(3) + '</td>');
+    tr.append('<td class="total_descuento" width="100">' + Number(total_descuento).toFixed(3) + '</td>');
+    tr.append('<td class="total_tupla" width="100">' + Number(total_tupla).toFixed(3) + '</td>');
     tr.append('<td>' + accion + '</td>');
     $('#table_productos').append(tr);
     calcularResultados();
