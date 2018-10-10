@@ -118,6 +118,7 @@ function detallar(id) {
         $(form).attr("action", "pdf/documentos/guia_entrega.php");
         $(form).attr("method", "POST");
         $(form).css("display", "none");
+        $(form).attr("target", "_blank");
 
         var input_employee_name = $("<input>")
             .attr("type", "text")

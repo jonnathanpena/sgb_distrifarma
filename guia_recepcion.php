@@ -53,7 +53,7 @@
                                 <th class="text-center">Valor Recaudad($)</th>
                                 <th class="text-center">Valor Efectivo($)</th>
                                 <th class="text-center">Valor Cheque($)</th>
-                                <!--<th class='text-right'>Acciones</th>-->
+                                <th class='text-right'>Acciones</th>
                             </tr>
                         </thead>
                         <tbody></tbody>

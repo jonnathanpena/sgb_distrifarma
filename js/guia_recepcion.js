@@ -96,7 +96,7 @@ function generate_table() {
         tr.append("<td class='text-center'>$" + displayRecords[i].df_valor_recaudado + "</td>");
         tr.append("<td class='text-center'>$" + displayRecords[i].df_valor_efectivo + "</td>");
         tr.append("<td class='text-center'>$" + displayRecords[i].df_valor_cheque + "</td>");
-        //tr.append("<td><button class='btn btn-default pull-right' title='Detallar' onclick='detallar(" + displayRecords[i].df_num_guia_entrega + ")'><i class='glyphicon glyphicon-edit'></i></button></td>");
+        tr.append("<td><button class='btn btn-info pull-right' title='Detallar' onclick='detallar(" + displayRecords[i].df_guia_recepcion + ")'><i class='glyphicon glyphicon-print'></i></button></td>");
         $('#resultados .table-responsive table tbody').append(tr);
     }
 }
@@ -113,7 +113,23 @@ function consultarVendedor(guia) {
 }
 
 function detallar(id) {
-    console.log('id guia', id);
+    var urlCompleta = url + 'guiaRecepcion/print.php';
+    $.post(urlCompleta, JSON.stringify({ df_guia_recepcion: id }), function(response) {
+        var form = $(document.createElement('form'));
+        $(form).attr("action", "pdf/documentos/guia_recepcion.php");
+        $(form).attr("method", "POST");
+        $(form).css("display", "none");
+        $(form).attr("target", "_blank");
+
+        var input_employee_name = $("<input>")
+            .attr("type", "text")
+            .attr("name", "data")
+            .val(JSON.stringify(response.data[0]));
+        $(form).append($(input_employee_name));
+
+        form.appendTo(document.body);
+        $(form).submit();
+    });
 }
 
 /*function consultarPersonal() {

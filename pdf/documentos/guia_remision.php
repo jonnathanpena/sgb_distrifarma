@@ -9,7 +9,7 @@
         $html2pdf = new HTML2PDF('P', 'LETTER', 'es', true, 'UTF-8', array(0, 0, 0, 0));
         $html2pdf->pdf->SetDisplayMode('fullpage');
         $html2pdf->writeHTML($content, isset($_GET['vuehtml']));
-        $html2pdf->Output('guia_remision.pdf', 'D');
+        $html2pdf->Output('guia_remision.pdf');
     } catch(HTML2PDF_exception $e) {
         echo $e;
         exit;
