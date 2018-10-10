@@ -64,14 +64,16 @@
                         <div class="col-md-2">
                             <input type="date" id="fecha_remision" class="form-control" disabled>
                         </div>
-                        <label for="sector_remision" class="col-md-1 control-label">Sector</label>
+                        <label for="sector_remision" class="col-md-1 control-label">Zona</label>
                         <div class="col-md-2">
-                            <select name="sector_remision" id="sector_remision" class="form-control" disabled>
+                            <input type="text" id="sector_remisionT" class="form-control" disabled>
+                            <select style="display: none;" name="sector_remision" id="sector_remision" class="form-control" disabled>
                             </select>
                         </div>
                         <label for="vendedor_remision" class="col-md-1 control-label">Vendedor</label>
                         <div class="col-md-4">
-                            <select name="vendedor_remision" id="vendedor_remision" class="form-control" disabled>
+                            <input type="text" id="vendedor_remisionT" class="form-control" disabled>                            
+                            <select style="display: none;" name="vendedor_remision" id="vendedor_remision" class="form-control" disabled>
                             </select>
                         </div>
                     </div>
@@ -98,7 +100,7 @@
                         <div class="table-responsive">
                             <table class="table">
                                 <tr>
-                                    <td class='text-right' colspan=5>VALOR RECAUDAD</td>
+                                    <td class='text-right' colspan=5>VALOR RECAUDADO</td>
                                     <td class='text-right' colspan=1>
                                         <input type="number" class="form-control" id="valor_recaudado" step="0.01" value="0.00" readonly>
                                     </td>
@@ -143,14 +145,15 @@
                         <div class="col-md-2">
                             <input type="date" id="fecha_entrega" class="form-control" disabled>
                         </div>
-                        <label for="sector_entrega" class="col-md-1 control-label">Sector</label>
-                        <div class="col-md-2">
+                        <label style="display: none;" for="sector_entrega" class="col-md-1 control-label">Sector</label>
+                        <div style="display: none;" class="col-md-2">
                             <select name="sector_entrega" id="sector_entrega" class="form-control" disabled>
                             </select>
                         </div>
                         <label for="repartidor_entrega" class="col-md-1 control-label">Repartidor</label>
                         <div class="col-md-4">
-                            <select name="repartidor_entrega" id="repartidor_entrega" class="form-control" disabled>
+                            <input type="text" id="repartidor_entregaT" class="form-control" disabled>
+                            <select style="display: none;" name="repartidor_entrega" id="repartidor_entrega" class="form-control" disabled>
                             </select>
                         </div>
                     </div>
@@ -188,7 +191,7 @@
                         <div class="table-responsive">
                             <table class="table">
                                 <tr>
-                                    <td class='text-right' colspan=5>VALOR RECAUDAD</td>
+                                    <td class='text-right' colspan=5>VALOR RECAUDADO</td>
                                     <td class='text-right' colspan=1>
                                         <input type="number" class="form-control" id="valor_recaudado_entrega" step="0.01" value="0.00" readonly>
                                     </td>

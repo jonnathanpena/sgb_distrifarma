@@ -43,7 +43,9 @@ if($num>0){
             "df_cant_total_producto_ent"=>$df_cant_total_producto_ent,
             "df_creadoBy_ent"=>$df_creadoBy_ent,
             "df_modificadoBy_ent"=>$df_modificadoBy_ent,
-            "df_guia_ent_recibido"=>$df_guia_ent_recibido
+            "df_guia_ent_recibido"=>$df_guia_ent_recibido,
+            "df_nombre_per"=>$df_nombre_per,
+            "df_apellido_per"=>$df_apellido_per
         );
  
         array_push($guiaRecepcion_arr["data"], $guiaRecepcion_item);

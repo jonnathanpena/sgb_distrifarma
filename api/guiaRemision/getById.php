@@ -44,16 +44,18 @@ if($num>0){
         
         //Los nombres acá son iguales a los de la clase iguales a las columnas de la BD
         $guiaRemision_item=array(
-            "df_guia_remision"=>$df_guia_remision, 
+            "df_guia_remision"=>$df_guia_remision * 1, 
             "df_codigo_rem"=>$df_codigo_rem,
             "df_fecha_remision"=>$df_fecha_remision,
-            "df_sector_cod_rem"=>$df_sector_cod_rem,
-            "df_vendedor_rem"=>$df_vendedor_rem,
-            "df_cant_total_producto_rem"=>$df_cant_total_producto_rem,
+            "df_sector_cod_rem"=>$df_sector_cod_rem * 1,
+            "df_vendedor_rem"=>$df_vendedor_rem * 1,
+            "df_cant_total_producto_rem"=>$df_cant_total_producto_rem * 1,
             "df_valor_efectivo_rem"=>$df_valor_efectivo_rem,
-            "df_creadoBy_rem"=>$df_creadoBy_rem,
-            "df_modificadoBy_rem"=>$df_modificadoBy_rem,
-            "df_guia_rem_recibido"=>$df_guia_rem_recibido
+            "df_creadoBy_rem"=>$df_creadoBy_rem * 1,
+            "df_modificadoBy_rem"=>$df_modificadoBy_rem * 1,
+            "df_nombre_sector"=>$df_nombre_sector,
+            "df_nombre_per"=>$df_nombre_per,
+            "df_apellido_per"=>$df_apellido_per
         );
  
         array_push($guiaRemision_arr["data"], $guiaRemision_item);

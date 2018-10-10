@@ -61,9 +61,9 @@ function consultarSectores() {
     $.post(urlCompleta, JSON.stringify({ fecha: fecha_entrega }), function(response) {
         if (response.data.length > 0) {
             $.each(response.data, function(index, row) {
-                var tr = '<tr>' +
+                var tr = '<tr onclick="selectSector(`' + row.df_codigo_sector + '`)" style="cursor: pointer;">' +
                     '<td width="20">' +
-                    '<input type="checkbox" id="check_sector_' + row.df_codigo_sector + '" onclick="selectSector(`' + row.df_codigo_sector + '`)">' +
+                    '<input type="checkbox" id="check_sector_' + row.df_codigo_sector + '">' +
                     '</td>' +
                     '<td>' +
                     row.df_nombre_sector +
@@ -80,8 +80,7 @@ function consultarSectores() {
 function selectSector(sector) {
     var check = '#check_sector_' + sector;
     if ($(check).prop('checked') == false) {
-        eliminarSector(sector);
-    } else {
+        $(check).prop('checked', true);
         var urlCompleta = url + 'factura/getFacturaGEnt.php';
         $.post(urlCompleta, JSON.stringify({ fecha: fecha_entrega, sector: sector }), function(response) {
             if (response.data.length > 0) {
@@ -91,6 +90,9 @@ function selectSector(sector) {
                 console.log('facturas', facturas);
             }
         });
+    } else {
+        $(check).prop('checked', false);
+        eliminarSector(sector);
     }
 }
 
@@ -125,13 +127,14 @@ function detalleFacturas(fact, sector, posicion) {
 }
 
 function eliminarSector(sector) {
-    for (var i = facturas.length - 1; facturas.length > i; i--) {
-        if (i > 0) {
-            if (facturas[i].sector * 1 == sector) {
-                facturas.splice(facturas[i], 1);
-            }
+    var iteracion = facturas.length - 1;
+    for (var i = iteracion; i >= 0; i--) {
+        if (facturas[i].sector * 1 == sector) {
+            facturas.splice(i, 1);
         }
     }
+    seleccionadas.length = 0;
+    $('#table_productos tbody').empty();
     llenarTablaFacturas();
 }
 
@@ -191,11 +194,19 @@ function poblarDetalles() {
     $('#table_productos tbody').empty();
     $.each(seleccionadas, function(index, row) {
         for (var i = 0; i < row.detalles.length; i++) {
+            var cantidad = row.detalles[i].df_cantidad_detfac * 1;
+            for (var j = 0; j < temp.length; j++) {
+                if (row.detalles[i].df_codigo_prod == temp[j].codigo) {
+                    var nueva = temp[j].cantidad * 1;
+                    cantidad = cantidad + nueva;
+                    temp.splice(j, 1);
+                }
+            }
             temp.push({
                 producto_id: row.detalles[i].df_id_producto,
                 codigo: row.detalles[i].df_codigo_prod,
                 producto: row.detalles[i].df_nombre_producto,
-                cantidad: row.detalles[i].df_cantidad_detfac,
+                cantidad: cantidad,
                 factura: row.detalles[i].df_id_factura_detfac,
                 sector: row.sector,
                 numFactura: row.df_num_factura
@@ -213,15 +224,8 @@ function generateTablaDetalles(temp) {
     var totalProductos = 0;
     var posicion = 0;
     $('#table_productos tbody').empty();
+    var j = 0;
     $.each(temp, function(index, row) {
-        /*
-                for (var i = 0; i < temp.length; i++) {
-                    if (row.producto_id == temp[i].producto_id) {
-                        if (posicion != i) {
-                            row.df_cantidad_detfac = row.df_cantidad_detfac + temp[i].df_cantidad_detfac;
-                        }
-                    }
-                }*/
         posicion++;
         totalProductos += row.cantidad * 1;
         var tr = $('<tr/>');
@@ -234,6 +238,7 @@ function generateTablaDetalles(temp) {
         tr.append("<td class='numFactura' style='display:none;'>" + row.numFactura + "</td>");
         $('#table_productos tbody').append(tr);
         $('#cantidad').val(totalProductos);
+        j++;
     });
     if (temp.length == 0) {
         $('#cantidad').val('0');
