@@ -135,6 +135,6 @@ function imprimir(factura) {
 
         form.appendTo(document.body);
         $(form).submit();
-        //$.redirectPost('print/factura.php', { 'data': response.data[0] });
+        $.redirectPost('print/factura.php', { 'data': response.data[0] });
     });
 }

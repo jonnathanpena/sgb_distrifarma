@@ -50,11 +50,11 @@ function cargar() {
         if (response.data.length > 0) {
             console.log('guias', response.data);
             $.each(response.data, function(index, row) {
-            consultarVendedor(row);
+                consultarVendedor(row);
             });
             clearTimeout(timer);
             timer = setTimeout(function() {
-                guias.sort(function (a, b){
+                guias.sort(function(a, b) {
                     return (b.df_num_guia_entrega - a.df_num_guia_entrega)
                 });
                 records = guias;
@@ -95,7 +95,7 @@ function generate_table() {
         tr.append("<td>" + displayRecords[i].df_nombre_per + "  " + displayRecords[i].df_apellido_per + "</td>");
         tr.append("<td class='text-center'>" + displayRecords[i].df_cant_total_producto_ent + "</td>");
         tr.append("<td class='text-center'>" + displayRecords[i].df_cant_facturas_ent + "</td>");
-        //tr.append("<td><button class='btn btn-default pull-right' title='Detallar' onclick='detallar(" + displayRecords[i].df_num_guia_entrega + ")'><i class='glyphicon glyphicon-edit'></i></button></td>");
+        tr.append("<td><button class='btn btn-info pull-right' title='Detallar' onclick='detallar(" + displayRecords[i].df_num_guia_entrega + ")'><i class='glyphicon glyphicon-print'></i></button></td>");
         $('#resultados .table-responsive table tbody').append(tr);
     }
 }
@@ -112,7 +112,23 @@ function consultarVendedor(guia) {
 }
 
 function detallar(id) {
-    console.log('id guia', id);
+    var urlCompleta = url + 'guiaEntrega/print.php';
+    $.post(urlCompleta, JSON.stringify({ df_num_guia_entrega: id }), function(response) {
+        var form = $(document.createElement('form'));
+        $(form).attr("action", "pdf/documentos/guia_entrega.php");
+        $(form).attr("method", "POST");
+        $(form).css("display", "none");
+
+        var input_employee_name = $("<input>")
+            .attr("type", "text")
+            .attr("name", "data")
+            .val(JSON.stringify(response.data[0]));
+        $(form).append($(input_employee_name));
+
+        form.appendTo(document.body);
+        $(form).submit();
+        //$.redirectPost('guiaRemision/print.php', { 'data': response.data[0] });
+    });
 }
 
 /*function consultarPersonal() {
