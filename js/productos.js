@@ -44,7 +44,7 @@ function cargar() {
     productos = [];
     $('#resultados .table-responsive table tbody').html('Cargando...');
     //$('#resultados .table-responsive table tbody').empty();
-   //    var urlCompleta = url + 'producto/getAll.php';
+    //    var urlCompleta = url + 'producto/getAll.php';
     var urlCompleta = url + 'producto/getAlls.php';
     var q = $('#q').val();
     $.post(urlCompleta, JSON.stringify({ df_codigo_prod: q, df_nombre_producto: q }), function(response) {
@@ -323,6 +323,7 @@ function updatePrecio() {
         df_utilidad: $('#editUtilidad').val(),
         df_id_precio: $('#id_precio').val()
     };
+    obtenerInventario(precio);
     var urlCompleta = url + 'productoPrecio/update.php';
     $.post(urlCompleta, JSON.stringify(precio), function(response) {
         if (response == true) {
@@ -332,6 +333,21 @@ function updatePrecio() {
         }
         $('#editarProducto').modal('hide');
         load();
+    });
+}
+
+function obtenerInventario(producto_precio) {
+    var urlCompleta = url + 'inventario/getByIdProd.php';
+    $.post(urlCompleta, JSON.stringify({ df_producto: producto_precio.df_producto_id }), function(response) {
+        response.data[0].df_pvt_ind = producto_precio.df_pvt1;
+        modificarInventario(response.data[0]);
+    });
+}
+
+function modificarInventario(inventario) {
+    var urlCompleta = url + 'inventario/update.php';
+    $.post(urlCompleta, JSON.stringify(inventario), function(response) {
+        console.log('update inventario', response);
     });
 }
 
@@ -351,7 +367,7 @@ function insertInventario(producto) {
         df_cant_transito: 0,
         df_producto: producto.df_producto_id,
         df_ppp_ind: 0,
-        df_pvt_ind: 0,
+        df_pvt_ind: producto.df_pvt1,
         df_ppp_total: 0,
         df_pvt_total: 0,
         df_minimo_sug: 0,
