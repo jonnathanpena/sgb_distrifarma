@@ -50,9 +50,9 @@ function consultarPersonal() {
     $.get(urlCompleta, function(response) {
         if (response.data.length > 0) {
             $.each(response.data, function(index, row) {
-                if (row.df_cargo_per == 'Repartidor') {
+                
                     $('#personal').append('<option value="' + row.df_id_personal + '">' + row.df_nombre_per + ' ' + row.df_apellido_per + '</option>');
-                }
+                
             })
         }
     });
@@ -115,12 +115,12 @@ function getEgresos() {
 }
 
 function getSectores() {
-    var urlCompleta = url + 'sector/getAll.php';
+    var urlCompleta = url + 'zona/getAll.php';
     $('#sector').append('<option value="null">Seleccione...</option>');
     $.get(urlCompleta, function(response) {
         if (response.data.length > 0) {
             $.each(response.data, function(index, row) {
-                $('#sector').append('<option value="' + row.df_codigo_sector + '">' + row.df_nombre_sector + '</option>');
+                $('#sector').append('<option value="' + row.df_codigo_zona + '">' + row.df_nombre_zona + '</option>');
             });
         } else {
             alertar('danger', '¡Error!', 'Por favor verifique que tiene conexión a internet, e intente nuevamente');
