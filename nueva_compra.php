@@ -484,7 +484,7 @@
                             <label class="control-label">IVA</label> 
                         </td>
                         <td>
-                            <input type="number" class="form-control input-sm" id="total_iva" value="0.12" disabled>
+                            <input type="number" class="form-control input-sm" id="total_iva" value="0" disabled>
                         </td>
                     </tr>
                     <tr>
