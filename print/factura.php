@@ -3,14 +3,24 @@
 		<head>
 			<meta charset="UTF-8">
 			<title></title>
-			<style type="text/css" media="print">
-			@media print {
-  				body {
-    				width: 148mm;
-    				height: 210mm;
-  				}
-			}
-			</style>			
+			<style>
+				@page { 
+					size: letter;
+					margin-left: 10mm;
+					margin-right: 65mm;
+					margin-bottom: 50mm;
+					margin-top: 20mm;
+				} /* output size */
+				body.receipt .sheet { 
+					width: 0mm; 
+					height: 0mm; 
+				} /* sheet size */
+				@media print { 
+					body.receipt { 
+						width: 48mm 
+					} 
+				} /* fix for Chrome */
+  			</style>		
 		</head>
 		<body onload="imprimir()">
         <?php 
@@ -36,11 +46,16 @@
 						?></FONT>
 					</td>
 				</tr>
+				<tr>
+					<td>
+					    <FONT FACE="Arial" SIZE="1"><?php echo $data['cliente']['df_direccion_cli'] ?></FONT>
+					</td>
+				</tr>
 			</table>
 			<table style="width: 100%;">
 		<?php			
-			for ($i= 0; $i < count($data['detalles']); $i++) {
-				$detalle = $data['detalles'][$i];
+			for ($i= 0; $i < 100; $i++) {
+				$detalle = $data['detalles'][0];
 		?>
 				<tr>
 					<td style="width: 15%; text-align: left;">
