@@ -52,7 +52,7 @@
                                 <th>Vendedor</th>
                                 <th class="text-center">Cant Total Producto</th>
                                 <th class="text-center">Valor Efectivo</th>
-                                <!--<th class='text-right'>Acciones</th>-->
+                                <th class='text-right'>Acciones</th>
                             </tr>
                         </thead>
                         <tbody></tbody>

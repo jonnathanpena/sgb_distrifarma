@@ -2,6 +2,7 @@ $(document).ready(function() {
     usuario = JSON.parse(localStorage.getItem('distrifarma_test_user'));
     usuario.ingreso = false;
     localStorage.setItem('distrifarma_test_user', JSON.stringify(usuario));
+    bootstraper();
 });
 
 $('#form-login').submit(function(event) {
@@ -42,3 +43,10 @@ $('#form-login').submit(function(event) {
         }
     });
 });
+
+function bootstraper() {
+    var urlCompleta = url + 'inventario/bootstraper.php';
+    $.get(urlCompleta, function(response) {
+        console.log('bootstraper', response);
+    });
+}

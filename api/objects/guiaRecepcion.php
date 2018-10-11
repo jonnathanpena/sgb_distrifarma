@@ -51,12 +51,11 @@ class GuiaRecepcion {
     function readById(){
     
         // select all query
-        $query = "SELECT `df_guia_recepcion`, `df_codigo_guia_rec`, `df_fecha_recepcion`, `df_repartidor_rec`, 
-                    `df_valor_recaudado`, `df_valor_efectivo`, `df_valor_cheque`, `df_retenciones`, 
-                    `df_descuento_rec`, `df_diferencia_rec`, `df_remision_rec`, `df_entrega_rec`, `df_num_guia`, 
-                    `df_creadoBy_rec`, `df_modificadoBy_rec`, `df_edo_factura_rec` 
-                    FROM `df_guia_recepcion`
-                    WHERE df_guia_recepcion = ".$this->df_guia_recepcion;
+        $query = "SELECT `df_guia_recepcion`, `df_codigo_guia_rec`, `df_fecha_recepcion`, `df_repartidor_rec`, `df_valor_recaudado`, 
+                    `df_valor_efectivo`, `df_valor_cheque`, `df_retenciones`, `df_descuento_rec`, `df_diferencia_rec`, `df_remision_rec`, 
+                    `df_entrega_rec`, `df_num_guia`, `df_creadoBy_rec`, `df_modificadoBy_rec` 
+                    FROM `df_guia_recepcion` 
+                    WHERE `df_guia_recepcion` = ".$this->df_guia_recepcion;
     
         // prepare query statement
         $stmt = $this->conn->prepare($query);

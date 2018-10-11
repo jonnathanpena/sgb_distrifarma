@@ -8,28 +8,28 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
  
 // incluye la configuración de la base de datos y la conexión
 include_once '../config/database.php';
-include_once '../objects/guiaRemision.php';
+include_once '../objects/guiaRecepcion.php';
  
 // inicia la conexión a la base de datos
 $database = new Database();
 $db = $database->getConnection();
  
 // inicia el objeto
-$guiaRemision = new GuiaRemision($db);
+$guiaRecepcion = new GuiaRecepcion($db);
 
 // get posted data
 $data = json_decode(file_get_contents('php://input'), true);
 
 $info = array($data);
 
-$guiaRemision->df_guia_remision= $info[0]["df_guia_remision"];
+$guiaRecepcion->df_guia_recepcion= $info[0]["df_guia_recepcion"];
 // query de lectura
-$stmt = $guiaRemision->readById();
+$stmt = $guiaRecepcion->readById();
 $num = $stmt->rowCount();
 
-//guiaRemision array
-$guiaRemision_arr=array();
-$guiaRemision_arr["data"]=array();
+//guiaRecepcion array
+$guiaRecepcion_arr=array();
+$guiaRecepcion_arr["data"]=array();
  
 // check if more than 0 record found
 if($num>0){ 
@@ -41,55 +41,34 @@ if($num>0){
         // this will make $row['name'] to
         // just $name only
         extract($row);
-        $sector = getSector($df_sector_cod_rem, $db);
-        $personal = getPersonal($df_vendedor_rem, $db);
-        $detalles = getDetalle($df_guia_remision, $db);
+        $personal = getPersonal($df_repartidor_rec, $db);
+        $detalles = getDetalles($df_guia_recepcion, $db);
         //Los nombres acá son iguales a los de la clase iguales a las columnas de la BD
-        $guiaRemision_item=array(
-            "df_guia_remision"=>$df_guia_remision, 
-            "df_codigo_rem"=>$df_codigo_rem,
-            "df_fecha_remision"=>$df_fecha_remision,
-            "df_sector_cod_rem"=>$df_sector_cod_rem,
-            "df_vendedor_rem"=>$df_vendedor_rem,
-            "df_cant_total_producto_rem"=>$df_cant_total_producto_rem,
-            "df_valor_efectivo_rem"=>$df_valor_efectivo_rem,
-            "df_creadoBy_rem"=>$df_creadoBy_rem,
-            "df_modificadoBy_rem"=>$df_modificadoBy_rem,
-            "df_guia_rem_recibido"=>$df_guia_rem_recibido,
-            "sector"=>$sector,
+        $guiaRecepcion_item=array(
+            "df_guia_recepcion"=>$df_guia_recepcion, 
+            "df_codigo_guia_rec"=>$df_codigo_guia_rec,
+            "df_fecha_recepcion"=>$df_fecha_recepcion,
+            "df_repartidor_rec"=>$df_repartidor_rec,
+            "df_valor_recaudado"=>$df_valor_recaudado,
+            "df_valor_efectivo"=>$df_valor_efectivo,
+            "df_valor_cheque"=>$df_valor_cheque,
+            "df_retenciones"=>$df_retenciones,
+            "df_descuento_rec"=>$df_descuento_rec,
+            "df_diferencia_rec"=>$df_diferencia_rec,
+			"df_remision_rec"=>$df_remision_rec,
+			"df_entrega_rec"=>$df_entrega_rec,
+			"df_num_guia"=>$df_num_guia,
+			"df_creadoBy_rec"=>$df_creadoBy_rec,
+            "df_modificadoBy_rec"=>$df_modificadoBy_rec,
             "personal"=>$personal,
             "detalles"=>$detalles
         );
  
-        array_push($guiaRemision_arr["data"], $guiaRemision_item);
+        array_push($guiaRecepcion_arr["data"], $guiaRecepcion_item);
     }
- 
-    echo json_encode($guiaRemision_arr);
-}
- 
-else{
-    echo json_encode($guiaRemision_arr);
 }
 
-function getSector($sector_id, $db) {
-    include_once '../objects/zona.php';
-    $zona = new Zona($db);
-    $zona->df_codigo_zona= $sector_id;
-    $stmt = $zona->readById();
-    $num = $stmt->rowCount();
-    $zona_arr=array();
-    if($num>0){ 
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-            extract($row);
-            $zona_item=array(
-                "df_codigo_zona"=>$df_codigo_zona, 
-                "df_nombre_zona"=>$df_nombre_zona
-            );     
-            array_push($zona_arr, $zona_item);
-        }
-    }
-    return $zona_arr[0];
-}
+echo json_encode($guiaRecepcion_arr);
 
 function getPersonal($personal_id, $db) {
     include_once '../objects/personal.php';
@@ -131,33 +110,29 @@ function getPersonal($personal_id, $db) {
     return $personal_arr[0];
 }
 
-function getDetalle($guia, $db) {
-    include_once '../objects/detalleRemision.php';
-    $detalleRemision = new DetalleRemision($db);
-    $detalleRemision->df_guia_remision_detrem = $guia;
-    $stmt = $detalleRemision->readById();
+function getDetalles($guia, $db) {
+    include_once '../objects/detalleRecepcion.php';
+    $detalleRecepcion = new DetalleRecepcion($db);
+    $detalleRecepcion->df_guia_recepcion_detrec= $guia;
+    $stmt = $detalleRecepcion->readById();
     $num = $stmt->rowCount();
-    $detalleRemision_arr=array();
+    $detalleRecepcion_arr=array();
     if($num>0){ 
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
             extract($row);
-            $detalleRemision_item=array(
-                "df_id_detrem"=>$df_id_detrem, 
-                "df_guia_remision_detrem"=>$df_guia_remision_detrem,
-                "df_producto_precio_detrem"=>$df_producto_precio_detrem, 
-                "df_cant_producto_detrem"=>$df_cant_producto_detrem,
-                "df_nombre_und_detrem"=>$df_nombre_und_detrem,
-                "df_cant_x_und_detrem"=>$df_cant_x_und_detrem,
-                "df_valor_sin_iva_detrem"=>$df_valor_sin_iva_detrem,
-                "df_iva_detrem"=>$df_iva_detrem,
-                "df_valor_total_detrem"=>$df_valor_total_detrem,
-                "df_id_producto"=>$df_id_producto,
-                "df_codigo_prod"=>$df_codigo_prod,
-                "df_nombre_producto"=>$df_nombre_producto
+            $detalleRecepcion_item=array(
+                "df_id_detrec"=>$df_id_detrec, 
+                "df_guia_recepcion_detrec"=>$df_guia_recepcion_detrec,
+                "df_factura_rec"=>$df_factura_rec, 
+                "df_cant_producto_detrec"=>$df_cant_producto_detrec,
+                "df_producto_cod_detrec"=>$df_producto_cod_detrec,
+                "df_nueva_fecha"=>$df_nueva_fecha,
+                "df_edo_prod_fact_detrec" =>$df_edo_prod_fact_detrec
             );
-            array_push($detalleRemision_arr, $detalleRemision_item);
-        }        
+     
+            array_push($detalleRecepcion_arr, $detalleRecepcion_item);
+        }
     }
-    return $detalleRemision_arr;
+    return $detalleRecepcion_arr;
 }
 ?>

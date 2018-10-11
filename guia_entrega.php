@@ -52,7 +52,7 @@
                                 <th>Repartidor</th>
                                 <th class="text-center">Cant Productos Entregados</th>
                                 <th class="text-center">Cant Facturas Entregadas</th>
-                                <!--<th class='text-right'>Acciones</th>-->
+                                <th class='text-right'>Acciones</th>
                             </tr>
                         </thead>
                         <tbody></tbody>

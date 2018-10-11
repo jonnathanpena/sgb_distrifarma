@@ -85,6 +85,7 @@ function generate_table() {
         tr.append("<td>$" + iva + "</td>");
         tr.append("<td>$" + total_factura + "</td>");
         tr.append("<td><button class='btn btn-default pull-right' title='Editar' onclick='editar(`" + factura.df_num_factura + "`)'><i class='glyphicon glyphicon-edit'></i></button></td>");
+        tr.append("<td><button class='btn btn-info pull-right' title='Imprimir' onclick='imprimir(`" + factura.df_num_factura + "`)'><i class='glyphicon glyphicon-print'></i></button></td>");
         $('#resultados .table-responsive table tbody').append(tr);
     });
 }
@@ -116,4 +117,24 @@ function getCliente(factura) {
 
 function editar(facturaId) {
     window.location.href = "editar_factura.php?id=" + facturaId;
+}
+
+function imprimir(factura) {
+    var urlCompleta = url + 'factura/print.php';
+    $.post(urlCompleta, JSON.stringify({ df_num_factura: factura }), function(response) {
+        var form = $(document.createElement('form'));
+        $(form).attr("action", "print/factura.php");
+        $(form).attr("method", "POST");
+        $(form).css("display", "none");
+
+        var input_employee_name = $("<input>")
+            .attr("type", "text")
+            .attr("name", "data")
+            .val(JSON.stringify(response.data[0]));
+        $(form).append($(input_employee_name));
+
+        form.appendTo(document.body);
+        $(form).submit();
+        $.redirectPost('print/factura.php', { 'data': response.data[0] });
+    });
 }

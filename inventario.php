@@ -52,14 +52,11 @@
                         <thead>
                             <tr class="info">
                                 <th>Codigo</th>
-                                <th>Cant Bodega</th>
-                                <th>Cant Transito</th>
-                                <th>Producto</th>
-                                <th class="text-center">PPP Ind</th>
-                                <th class="text-center">PVT ind</th>
-                                <th class='text-right'>PPP Total</th>
-                                <th class='text-right'>PVT Total</th>
-                                <th class='text-right'>Min Sug</th>
+                                <th class="text-center">Cant Bodega</th>
+                                <!--<th>Cant Transito</th>-->
+                                <th class="text-center">Producto</th>
+                                <!--<th class="text-center">PPP Ind</th>
+                                <th class="text-center">PVT ind</th>-->
                             </tr>
                         </thead>
                         <tbody></tbody>
