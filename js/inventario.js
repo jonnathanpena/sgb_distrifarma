@@ -88,10 +88,10 @@ function generate_table() {
         tr.append("<td class='text-center'>" + row.df_cant_bodega + "</td>");
         //tr.append("<td class='text-center'>" + row.df_cant_transito + "</td>");
         tr.append("<td class='text-center'>" + row.df_nombre_producto + "</td>");
-        //tr.append("<td class='text-center'>" + row.df_ppp_ind + "</td>");
-        //tr.append("<td class='text-center'>" + row.df_pvt_ind + "</td>");
-        //tr.append("<td class='text-center'>" + row.df_ppp_total + "</td>");
-        //tr.append("<td class='text-center'>" + row.df_pvt_total + "</td>");    
+        tr.append("<td class='text-center'>" + row.df_ppp_ind + "</td>");
+        tr.append("<td class='text-center'>" + row.df_pvt_ind + "</td>");
+        tr.append("<td class='text-center'>" + (row.df_cant_bodega * 1) * (row.df_ppp_ind * 1) + "</td>");
+        tr.append("<td class='text-center'>" + (row.df_cant_bodega * 1) * (row.df_pvt_ind * 1) + "</td>");    
         //tr.append("<td class='text-center'>" + row.df_minimo_sug + "</td>");    
         //tr.append("<td><button class='btn btn-default pull-right' title='Detallar' onclick='detallar(" + row.df_id_gasto + ",`" + row.tipo + "`, `"+ row.df_movimiento +"`)'><i class='glyphicon glyphicon-edit'></i></button></td>");
         $('#resultados .table-responsive table tbody').append(tr);
