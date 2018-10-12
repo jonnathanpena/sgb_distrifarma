@@ -7,7 +7,7 @@
 				@page { 
 					size: letter;
 					margin-left: 30mm;
-					margin-right: 60mm;
+					margin-right: 62mm;
 					margin-bottom: 78mm;
 					margin-top: 33mm;
 				} /* output size */
@@ -30,7 +30,7 @@
 				<tr>
 					<td style="width: 70%; text-align: left;"></td>
 					<td style="width: 30%; text-align: center; padding-top: 1mm; font-wieght: bold; ">
-					    <FONT FACE="'Open Sans',Helvetica,Arial,sans-serif fonts" SIZE="2"><?php echo substr($data['df_fecha_fac'], 8,-9).'-'.substr($data['df_fecha_fac'], 5,-12).'-'.substr($data['df_fecha_fac'], 0,-15) ?></FONT>
+					    <FONT FACE="Arial" SIZE="2"><?php echo substr($data['df_fecha_fac'], 8,-9).'-'.substr($data['df_fecha_fac'], 5,-12).'-'.substr($data['df_fecha_fac'], 0,-15) ?></FONT>
 					</td>
 				</tr>
 			</table>
@@ -38,7 +38,7 @@
 				<tr>
 					<td style="width: 13%; text-align: left;"></td>
 					<td style="width: 87%; text-align: left; font-wieght: bold;">
-					    <FONT FACE="'Open Sans',Helvetica,Arial,sans-serif fonts" SIZE="2"><?php echo strtoupper($data['cliente']['df_nombre_cli']) ?></FONT>
+					    <FONT FACE="Arial" SIZE="2"><?php echo strtoupper($data['cliente']['df_nombre_cli']) ?></FONT>
 					</td>
 				</tr>
 			</table>
@@ -46,11 +46,11 @@
 				<tr>
 					<td style="width: 14%; text-align: left;"></td>
 					<td style="width: 23%; text-align: left; font-wieght: bold; ">
-					    <FONT FACE="'Open Sans',Helvetica,Arial,sans-serif fonts" SIZE="2"><?php echo $data['cliente']['df_documento_cli'] ?></FONT>
+					    <FONT FACE="Arial" SIZE="2"><?php echo $data['cliente']['df_documento_cli'] ?></FONT>
 					</td>
 					<td style="width: 15%; text-align: left;"></td>
 					<td style="width: 15%; text-align: left; font-wieght: bold;">
-						<FONT FACE="'Open Sans',Helvetica,Arial,sans-serif fonts new" SIZE="2"><?php
+						<FONT FACE="Arial new" SIZE="2"><?php
 							if ($data['cliente']['df_telefono_cli'] == '') {
 								echo $data['cliente']['df_celular_cli'];
 							} else {
@@ -65,7 +65,7 @@
 				<tr>
 					<td style="width: 12%; text-align: left;"></td>
 					<td style="width: 88%; text-align: left; font-wieght: bold;">
-					    <FONT FACE="'Open Sans',Helvetica,Arial,sans-serif fonts" SIZE="2"><?php echo strtoupper($data['cliente']['df_direccion_cli']) ?></FONT>
+					    <FONT FACE="Arial" SIZE="1"><?php echo strtoupper($data['cliente']['df_direccion_cli']) ?></FONT>
 					</td>
 				</tr>
 			</table>			
@@ -82,16 +82,16 @@
 		?>
 				<tr>
 					<td style="width: 8%; text-align: left; font-wieght: bold; ">
-					    <FONT FACE="'Open Sans',Helvetica,Arial,sans-serif fonts" SIZE="2"><?php echo $detalle['df_cantidad_detfac']?></FONT>
+					    <FONT FACE="Arial" SIZE="2"><?php echo $detalle['df_cantidad_detfac']?></FONT>
 					</td>
 					<td style="width: 54%; text-align: center; font-wieght: bold; ">
-					    <FONT FACE="'Open Sans',Helvetica,Arial,sans-serif fonts" SIZE="2"><?php echo $detalle['df_nombre_producto']?></FONT>
+					    <FONT FACE="Arial" SIZE="2"><?php echo $detalle['df_nombre_producto']?></FONT>
 					</td>
-					<td style="width: 19%; text-align: right; font-wieght: bold; ">
-					    <FONT FACE="'Open Sans',Helvetica,Arial,sans-serif fonts" SIZE="2"><?php echo $detalle['df_precio_prod_detfac']?></FONT>
+					<td style="width: 19%; text-align: center; font-wieght: bold; ">
+					    <FONT FACE="Arial" SIZE="2"><?php echo $detalle['df_precio_prod_detfac']?></FONT>
 					</td>
-					<td style="width: 19%; text-align: right; font-wieght: bold;">
-					    <FONT FACE="'Open Sans',Helvetica,Arial,sans-serif fonts" SIZE="2"><?php echo $detalle['df_valor_sin_iva_detfac']?></FONT>
+					<td style="width: 19%; text-align: center; font-wieght: bold;">
+					    <FONT FACE="Arial" SIZE="2"><?php echo $detalle['df_valor_sin_iva_detfac']?></FONT>
 					</td>
 				</tr>
 		<?php
@@ -101,16 +101,16 @@
 		?>
 			<tr>
 					<td style="width: 8%; text-align: left;">
-					    <FONT FACE="'Open Sans',Helvetica,Arial,sans-serif fonts" SIZE="2">&nbsp;</FONT>
+					    <FONT FACE="Arial" SIZE="2">&nbsp;</FONT>
 					</td>
 					<td style="width: 56%; text-align: center;">
-					    <FONT FACE="'Open Sans',Helvetica,Arial,sans-serif fonts" SIZE="2">&nbsp;</FONT>
+					    <FONT FACE="Arial" SIZE="2">&nbsp;</FONT>
 					</td>
 					<td style="width: 18%; text-align: right;">
-					    <FONT FACE="'Open Sans',Helvetica,Arial,sans-serif fonts" SIZE="2">&nbsp;</FONT>
+					    <FONT FACE="Arial" SIZE="2">&nbsp;</FONT>
 					</td>
 					<td style="width: 18%; text-align: right;">
-					    <FONT FACE="'Open Sans',Helvetica,Arial,sans-serif fonts" SIZE="2">&nbsp;</FONT>
+					    <FONT FACE="Arial" SIZE="2">&nbsp;</FONT>
 					</td>
 			</tr>
 		<?php
@@ -121,7 +121,7 @@
 			<table style="width: 100%;">
 				<tr>
 					<td style="width: 60%; text-align: center; font-wieght: bold; ">
-					    <FONT FACE="'Open Sans',Helvetica,Arial,sans-serif fonts" SIZE="2"><?php echo strtoupper($data['cliente']['df_referencia_cli'])?></FONT>
+					    <FONT FACE="Arial" SIZE="2"><?php echo strtoupper($data['cliente']['df_referencia_cli'])?></FONT>
 					</td>
 					<td style="width: 40%; text-align: right;">&nbsp;</td>
 				</table>							
@@ -129,40 +129,40 @@
 					<td style="width: 30%; text-align: center;">
 					</td>
 					<td style="width: 20%; text-align: left; padding-top: 1mm; padding-left: 20mm; font-wieght: bold; ">
-					    <FONT FACE="'Open Sans',Helvetica,Arial,sans-serif fonts" SIZE="5"><?php echo strtoupper($data['personal']['df_nombre_per'][0]).'.'.strtoupper($data['personal']['df_apellido_per'][0])?></FONT>
+					    <FONT FACE="Arial" SIZE="5"><?php echo strtoupper($data['personal']['df_nombre_per'][0]).'.'.strtoupper($data['personal']['df_apellido_per'][0])?></FONT>
 					</td>
-					<td style="width: 50%; text-align: right; margin-right: -5mm; font-wieght: bold; ">
-					    <FONT FACE="'Open Sans',Helvetica,Arial,sans-serif fonts" SIZE="2"><?php echo $data['df_subtotal_fac']?></FONT>
+					<td style="width: 50%; text-align: center; margin-right: -5mm; font-wieght: bold; ">
+					    <FONT FACE="Arial" SIZE="2"><?php echo $data['df_subtotal_fac']?></FONT>
 					</td>
-					</td>
-				</tr>
-				<tr>
-					<td style="width: 30%; text-align: center;">
-					</td>
-					<td style="width: 20%; text-align: right; ">
-					    <FONT FACE="'Open Sans',Helvetica,Arial,sans-serif fonts" SIZE="2"></FONT>
-					</td>
-					<td style="width: 50%; text-align: right; margin-right: -5mm; font-wieght: bold;">
-					    <FONT FACE="'Open Sans',Helvetica,Arial,sans-serif fonts" SIZE="2"><?php echo $iva_cero?></FONT>
 					</td>
 				</tr>
 				<tr>
 					<td style="width: 30%; text-align: center;">
 					</td>
-					<td style="width: 50%; text-align: right;">
-					    <FONT FACE="'Open Sans',Helvetica,Arial,sans-serif fonts" SIZE="2"></FONT>
+					<td style="width: 20%; text-align: center; ">
+					    <FONT FACE="Arial" SIZE="2"></FONT>
 					</td>
-					<td style="width: 50%; text-align: right; margin-right: -5mm; font-wieght: bold;">
-					    <FONT FACE="'Open Sans',Helvetica,Arial,sans-serif fonts" SIZE="2"><?php echo $data['df_iva_fac']?></FONT>
+					<td style="width: 50%; text-align: center; margin-right: -5mm; font-wieght: bold;">
+					    <FONT FACE="Arial" SIZE="2"><?php echo $iva_cero?></FONT>
 					</td>
 				</tr>
 				<tr>
 					<td style="width: 30%; text-align: center;">
 					</td>
 					<td style="width: 50%; text-align: right;">
-					    <FONT FACE="'Open Sans',Helvetica,Arial,sans-serif fonts" SIZE="2"></FONT>
+					    <FONT FACE="Arial" SIZE="2"></FONT>
 					</td>
-					<td style="width: 50%; text-align: right; margin-right: -5mm; font-wieght: bold;">
+					<td style="width: 50%; text-align: center; margin-right: -5mm; font-wieght: bold;">
+					    <FONT FACE="Arial" SIZE="2"><?php echo $data['df_iva_fac']?></FONT>
+					</td>
+				</tr>
+				<tr>
+					<td style="width: 30%; text-align: center;">
+					</td>
+					<td style="width: 50%; text-align: right;">
+					    <FONT FACE="Arial" SIZE="2"></FONT>
+					</td>
+					<td style="width: 50%; text-align: center; margin-right: -5mm; font-wieght: bold;">
 					    <FONT FACE="'Open Sans',Helvetica,Arial,sans-serifl fonts" SIZE="2"><?php echo $data['df_valor_total_fac']?></FONT>
 					</td>
 				</tr>
