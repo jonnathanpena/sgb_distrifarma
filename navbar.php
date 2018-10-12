@@ -75,7 +75,7 @@
 					<li><a href="guia_recepcion.php">Guías de Recepción</a></li>
 				</ul>
 			</li>
-			<li class="<?php echo $active_reportes ?>"><a href="reportes.php"><i  class='glyphicon glyphicon-paste'></i> Reportes</a></li> 
+			<!-- <li class="<?php echo $active_reportes ?>"><a href="reportes.php"><i  class='glyphicon glyphicon-paste'></i> Reportes</a></li>  -->
 	  	</ul>
 
 			<!-- Menú Perfil Supervisor (Secretaria y Supervisor) -->
