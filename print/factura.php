@@ -6,7 +6,7 @@
 			<style>
 				@page { 
 					size: letter;
-					margin-left: 30mm;
+					margin-left: 29mm;
 					margin-right: 62mm;
 					margin-bottom: 78mm;
 					margin-top: 33mm;
@@ -28,8 +28,8 @@
         ?>
 			<table style="width: 100%;">
 				<tr>
-					<td style="width: 70%; text-align: left;"></td>
-					<td style="width: 30%; text-align: center; padding-top: 1mm; font-wieght: bold; ">
+					<td style="width: 75%; text-align: left;"></td>
+					<td style="width: 25%; text-align: center; padding-top: 1mm; font-wieght: bold; padding-left: 1mm; ">
 					    <FONT FACE="Arial" SIZE="2"><?php echo substr($data['df_fecha_fac'], 8,-9).'-'.substr($data['df_fecha_fac'], 5,-12).'-'.substr($data['df_fecha_fac'], 0,-15) ?></FONT>
 					</td>
 				</tr>
@@ -81,17 +81,17 @@
 				}
 		?>
 				<tr>
-					<td style="width: 8%; text-align: left; font-wieght: bold; ">
+					<td style="width: 9%; text-align: left; font-wieght: bold; padding-left: 1mm; ">
 					    <FONT FACE="Arial" SIZE="2"><?php echo $detalle['df_cantidad_detfac']?></FONT>
 					</td>
-					<td style="width: 54%; text-align: center; font-wieght: bold; ">
+					<td style="width: 53%; text-align: left; font-wieght: bold; ">
 					    <FONT FACE="Arial" SIZE="2"><?php echo $detalle['df_nombre_producto']?></FONT>
 					</td>
-					<td style="width: 19%; text-align: center; font-wieght: bold; ">
-					    <FONT FACE="Arial" SIZE="2"><?php echo $detalle['df_precio_prod_detfac']?></FONT>
+					<td style="width: 19%; text-align: right; font-wieght: bold; ">
+					    <FONT FACE="Arial" SIZE="2"><?php echo Number_format($detalle['df_precio_prod_detfac'],2)?></FONT>
 					</td>
-					<td style="width: 19%; text-align: center; font-wieght: bold;">
-					    <FONT FACE="Arial" SIZE="2"><?php echo $detalle['df_valor_sin_iva_detfac']?></FONT>
+					<td style="width: 19%; text-align: right; font-wieght: bold;">
+					    <FONT FACE="Arial" SIZE="2"><?php echo Number_format($detalle['df_valor_sin_iva_detfac'],2)?></FONT>
 					</td>
 				</tr>
 		<?php
@@ -103,7 +103,7 @@
 					<td style="width: 8%; text-align: left;">
 					    <FONT FACE="Arial" SIZE="2">&nbsp;</FONT>
 					</td>
-					<td style="width: 56%; text-align: center;">
+					<td style="width: 56%; text-align: left;">
 					    <FONT FACE="Arial" SIZE="2">&nbsp;</FONT>
 					</td>
 					<td style="width: 18%; text-align: right;">
@@ -131,8 +131,8 @@
 					<td style="width: 20%; text-align: left; padding-top: 1mm; padding-left: 20mm; font-wieght: bold; ">
 					    <FONT FACE="Arial" SIZE="5"><?php echo strtoupper($data['personal']['df_nombre_per'][0]).'.'.strtoupper($data['personal']['df_apellido_per'][0])?></FONT>
 					</td>
-					<td style="width: 50%; text-align: center; margin-right: -5mm; font-wieght: bold; ">
-					    <FONT FACE="Arial" SIZE="2"><?php echo $data['df_subtotal_fac']?></FONT>
+					<td style="width: 50%; text-align: right; margin-right: -5mm; font-wieght: bold; ">
+					    <FONT FACE="Arial" SIZE="2"><?php echo Number_format($data['df_subtotal_fac'],2)?></FONT>
 					</td>
 					</td>
 				</tr>
@@ -142,8 +142,8 @@
 					<td style="width: 20%; text-align: center; ">
 					    <FONT FACE="Arial" SIZE="2"></FONT>
 					</td>
-					<td style="width: 50%; text-align: center; margin-right: -5mm; font-wieght: bold;">
-					    <FONT FACE="Arial" SIZE="2"><?php echo $iva_cero?></FONT>
+					<td style="width: 50%; text-align: right; margin-right: -5mm; font-wieght: bold;">
+					    <FONT FACE="Arial" SIZE="2"><?php echo Number_format($iva_cero,2)?></FONT>
 					</td>
 				</tr>
 				<tr>
@@ -152,8 +152,8 @@
 					<td style="width: 50%; text-align: right;">
 					    <FONT FACE="Arial" SIZE="2"></FONT>
 					</td>
-					<td style="width: 50%; text-align: center; margin-right: -5mm; font-wieght: bold;">
-					    <FONT FACE="Arial" SIZE="2"><?php echo $data['df_iva_fac']?></FONT>
+					<td style="width: 50%; text-align: right; margin-right: -5mm; font-wieght: bold;">
+					    <FONT FACE="Arial" SIZE="2"><?php echo Number_format($data['df_iva_fac'],2)?></FONT>
 					</td>
 				</tr>
 				<tr>
@@ -162,8 +162,8 @@
 					<td style="width: 50%; text-align: right;">
 					    <FONT FACE="Arial" SIZE="2"></FONT>
 					</td>
-					<td style="width: 50%; text-align: center; margin-right: -5mm; font-wieght: bold;">
-					    <FONT FACE="'Open Sans',Helvetica,Arial,sans-serifl fonts" SIZE="2"><?php echo $data['df_valor_total_fac']?></FONT>
+					<td style="width: 50%; text-align: right; margin-right: -5mm; font-wieght: bold;">
+					    <FONT FACE="Arial" SIZE="2"><?php echo Number_format($data['df_valor_total_fac'],2)?></FONT>
 					</td>
 				</tr>
 			</table> 
