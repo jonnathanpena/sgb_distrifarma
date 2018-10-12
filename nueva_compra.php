@@ -7,7 +7,7 @@
    $active_bodega = "";
    $active_reportes = "";
    $active_reportes_usuarios = "";
-   $title="Compras | SGB";
+   $title="Nueva Compra | SGI";
    date_default_timezone_set('America/Bogota');
 ?>
 <!DOCTYPE html>

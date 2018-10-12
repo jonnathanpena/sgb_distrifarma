@@ -6,7 +6,7 @@
    $active_bodega = "";
    $active_reportes = "";
    $active_reportes_usuarios = "";
-   $title="Nueva Guía Entrega | SGB";  
+   $title="Nueva Guía Entrega | SGI";  
    $fecha = Date('d/m/Y');
 ?>
 <!DOCTYPE html>
