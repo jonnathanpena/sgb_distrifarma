@@ -187,6 +187,7 @@ function seleccionarFactura(numFactura) {
         }, 1000);
     }
     $('#facturas').val(seleccionadas.length);
+    console.log('seleccionadas', seleccionadas);
 }
 
 function poblarDetalles() {
@@ -196,7 +197,7 @@ function poblarDetalles() {
         for (var i = 0; i < row.detalles.length; i++) {
             var cantidad = row.detalles[i].df_cantidad_detfac * 1;
             for (var j = 0; j < temp.length; j++) {
-                if (row.detalles[i].df_codigo_prod == temp[j].codigo) {
+                if (row.detalles[i].df_codigo_prod == temp[j].codigo && row.detalles[i].df_nombre_und_detfac == temp[j].unidad) {
                     var nueva = temp[j].cantidad * 1;
                     cantidad = cantidad + nueva;
                     temp.splice(j, 1);
@@ -209,7 +210,8 @@ function poblarDetalles() {
                 cantidad: cantidad,
                 factura: row.detalles[i].df_id_factura_detfac,
                 sector: row.sector,
-                numFactura: row.df_num_factura
+                numFactura: row.df_num_factura,
+                unidad: row.detalles[i].df_nombre_und_detfac
             });
         }
         clearTimeout(timer);
@@ -222,26 +224,34 @@ function poblarDetalles() {
 function generateTablaDetalles(temp) {
     console.log('temp', temp);
     var totalProductos = 0;
+    var totalCajas = 0;
     var posicion = 0;
     $('#table_productos tbody').empty();
     var j = 0;
     $.each(temp, function(index, row) {
         posicion++;
-        totalProductos += row.cantidad * 1;
+        if (row.unidad == 'CAJA') {
+            totalCajas += row.cantidad * 1;
+        } else {
+            totalProductos += row.cantidad * 1;
+        }
         var tr = $('<tr/>');
         tr.append("<td class='producto_id' style='display:none;'>" + row.producto_id + "</td>");
         tr.append("<td class='codigo'>" + row.codigo + "</td>");
         tr.append("<td class='producto'>" + row.producto + "</td>");
+        tr.append("<td class='unidad'>" + row.unidad + "</td>");
         tr.append("<td class='cantidad'>" + row.cantidad + "</td>");
         tr.append("<td class='factura' style='display:none;'>" + row.factura + "</td>");
         tr.append("<td class='sector' style='display:none;'>" + row.sector + "</td>");
         tr.append("<td class='numFactura' style='display:none;'>" + row.numFactura + "</td>");
         $('#table_productos tbody').append(tr);
         $('#cantidad').val(totalProductos);
+        $('#cantidad_cajas').val(totalCajas);
         j++;
     });
     if (temp.length == 0) {
         $('#cantidad').val('0');
+        $('#cantidad_cajas').val('0');
     }
 }
 
@@ -254,11 +264,13 @@ $('#form_nueva_guia').submit(function(event) {
         currentdate.getHours() + ":" +
         currentdate.getMinutes() + ":" +
         currentdate.getSeconds();
+    on();
     var guia = {
         df_codigo_guia_ent: '',
         df_sector_ent: $('#sector').val(),
         df_repartidor_ent: $('#personal').val(),
         df_cant_total_producto_ent: $('#cantidad').val(),
+        df_cant_total_cajas_ent: $('#cantidad_cajas').val(),
         df_cant_facturas_ent: $('#facturas').val(),
         df_fecha_ent: datetime,
         df_creadoBy_ent: $('#usuario').val()
@@ -274,7 +286,7 @@ function validarInsert(guia) {
     if (guia.df_vendedor_rem == 'null') {
         guardar = false;
     }
-    if ($('#cantidad').val() == 0) {
+    if ($('#cantidad').val() == 0 && $('#cantidad_cajas').val() == 0) {
         guardar = false;
     }
     if ($('#facturas').val() < 1) {
@@ -282,6 +294,7 @@ function validarInsert(guia) {
     }
     if (guardar == false) {
         alertar('warning', '¡Alerta!', 'Todos los campos son obligatorios');
+        off();
     } else {
         getMaxId(guia);
     }
@@ -308,10 +321,12 @@ function getMaxId(guia) {
 }
 
 function insertGuia(guia) {
+    console.log('guia entrega', guia);
     var urlCompleta = url + 'guiaEntrega/insert.php';
     $.post(urlCompleta, JSON.stringify(guia), function(response) {
         if (response == false) {
             alertar('danger', '¡Error!', 'Algo malo ocurrió, verifique la información e intente nuevamente');
+            off();
         } else {
             generarDetalle(response);
         }
@@ -321,20 +336,23 @@ function insertGuia(guia) {
 function generarDetalle(id) {
     var id_entrega = id;
     var insercion = true;
-    $('table#table_productos tbody tr').each(function(a, b) {
-        var detalle = {
-            df_guia_entrega: id_entrega,
-            df_cod_producto: $('.producto_id', b).text(),
-            df_cant_producto_detent: $('.cantidad', b).text() * 1,
-            df_factura_detent: $('.factura', b).text(),
-            df_sector_id_detent: $('.sector', b).text(),
-            df_nom_producto_detent: $('.producto', b).text(),
-            df_num_factura_detent: $('.numFactura', b).text()
-        };
-        var ejec = insertarDetalle(detalle);
-        if (ejec == false) {
-            insercion = false;
-        }
+    $.each(seleccionadas, function(index, row) {
+        $.each(row.detalles, function(index, r) {
+            var detalle = {
+                df_guia_entrega: id_entrega,
+                df_cod_producto: r.df_id_producto,
+                df_unidad_detent: r.df_nombre_und_detfac,
+                df_cant_producto_detent: r.df_cantidad_detfac,
+                df_factura_detent: r.df_id_factura_detfac,
+                df_sector_id_detent: row.sector,
+                df_nom_producto_detent: r.df_nombre_producto,
+                df_num_factura_detent: row.df_num_factura
+            };
+            var ejec = insertarDetalle(detalle);
+            if (ejec == false) {
+                insercion = false;
+            }
+        });
     });
     clearTimeout(timer);
     timer = setTimeout(function() {
@@ -343,8 +361,9 @@ function generarDetalle(id) {
         } else {
             alertar('success', '¡Éxito!', 'Guía registrada exitosamente');
         }
+        off();
         window.location.href = 'guia_entrega.php';
-    }, 1000);
+    }, 2000);
 }
 
 function insertarDetalle(detalle) {
