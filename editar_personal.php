@@ -62,10 +62,11 @@
                      <div class="col-md-2">
                         <select name="cargo" id="cargo" class="form-control">
                             <option value="null">Seleccione...</option>
-                            <option value="Supervisor">Supervisor</option>
-                            <option value="Secretaria">Secretaria</option>
-                            <option value="Vendedor">Vendedor</option>
+                            <option value="Administrador">Administrador</option>
                             <option value="Repartidor">Repartidor</option>
+                            <option value="Secretaria">Secretaria</option>
+                            <option value="Supervisor">Supervisor</option>
+                            <option value="Vendedor">Vendedor</option>
                         </select>
                      </div>
                      <label for="fecha_ingreso" class="col-md-1 control-label">F.Ingreso<span class="obligatorio">*</span></label>

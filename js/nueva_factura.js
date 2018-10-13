@@ -332,11 +332,11 @@ function validarInsercion(factura) {
         seguir = false;
         return;
     }
-    if (factura.df_valor_total_fac == 0) {
+   /*  if (factura.df_valor_total_fac == 0) {
         alertar('warning', '¡Alerta!', 'Los valores no pueden estar en cero');
         seguir = false;
         return;
-    }
+    } */
     if (factura.df_personal_cod_fac == 'null') {
         alertar('warning', '¡Alerta!', 'Debe escoger un personal');
         seguir = false;
@@ -444,7 +444,7 @@ function getIdKardex(detalle, nombre_producto, cant_bodega) {
         df_egresa_kar: detalle.df_cantidad_detfac,
         df_existencia_kar: cant_bodega,
         df_creadoBy_kar: $('#usuario').val(),
-        df_edo_kardex: 2
+        df_edo_kardex: 1
     }
     var urlCompleta = url + 'kardex/getIdMax.php';
     $.get(urlCompleta, function(response) {
@@ -506,6 +506,8 @@ function limpiar() {
     $('#descuento').html('$0.00');
     $('#total_iva').html('$0.00');
     $('#total').html('$0.00');
+    $('#direccion_cliente').val('');
+    $('#fecha_entrega').val('');
 }
 
 /*function seleccionaUnidad(codigo) {

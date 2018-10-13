@@ -78,7 +78,7 @@ table.page_footer {
             <th style="width: 100%;text-align:left" class='silver'>CANT PRODUCTOS: <?php echo $data['df_cant_total_producto_ent']; ?></th>
         </tr>
         <tr>
-            <th style="width: 100%;text-align:left" class='silver'>CANT FACTURAS: $<?php echo $data['df_cant_facturas_ent']; ?></th>
+            <th style="width: 100%;text-align:left" class='silver'>CANT FACTURAS: <?php echo $data['df_cant_facturas_ent']; ?></th>
         </tr>
     </table>    
     <table cellspacing="0" style="width: 100%; text-align: left; font-size: 10pt;">
@@ -90,14 +90,15 @@ table.page_footer {
         </tr>
 
         <?php
-            for ($i = 0; $i < count($data['detalles']); $i++) {
+            $contador = count($data['detalles']);
+            for ($i = 0; $i < $contador ; $i++) {
                 $detalle = $data['detalles'][$i];
         ?>
 
         <tr>
             <td style="width: 15%; text-align: center"><?php echo $detalle['df_num_factura_detent']?></td>
             <td style="width: 65%; text-align: center"><?php echo $detalle['df_nom_producto_detent']?></td>
-            <td style="width: 10%; text-align: center">UND</td>
+            <td style="width: 10%; text-align: center">UND <?php echo $contador?></td>
             <td style="width: 10%; text-align: center"><?php echo $detalle['df_cant_producto_detent']?></td>
         </tr>
 

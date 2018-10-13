@@ -604,7 +604,7 @@ function validarInsercionEntrega() {
             df_num_guia: $('#num_guia_entrega').val(),
             df_creadoBy_rec: $('#usuario').val()
         };
-        alert('guardar entrega ', recepcion);
+        //alert('guardar entrega ', recepcion);
         console.log('entrega', recepcion);
         insertEntrega(recepcion);
 }
@@ -654,8 +654,8 @@ function generarDetalleGuiaEntrega(id) {
             var detalle = {
                 df_guia_recepcion_detrec: id,
                 df_factura_rec: row.df_num_factura_detfac,
-                df_cant_producto_detrec: 0,
-                df_producto_cod_detrec: 0,
+                df_cant_producto_detrec: row.df_cantidad_detfac, //cantidad segun factura puede ser caja o und
+                df_producto_cod_detrec: row.df_id_producto,
                 df_nueva_fecha: nueva_fecha,
                 df_detalleRemision_detrec: '',
                 df_edo_prod_fact_detrec: $('#estado-' + row.df_num_factura_detfac).val()
@@ -696,7 +696,7 @@ function buscarParaModificarFactura(fact, estado, forma_pago, fecha_entrega) {
     $.post(urlCompleta, JSON.stringify({ df_num_factura: fact }), function(response) {
         response.data[0].df_forma_pago_fac = forma_pago;
         response.data[0].df_edo_factura_fac = estado;
-        if (fecha_entrega = !'') {
+        if (fecha_entrega != '') {
             response.data[0].df_fecha_entrega_fac = fecha_entrega;
         }
         updateFactura(response.data[0]);
