@@ -322,16 +322,21 @@ function guardar() {
 
 function validarInsercion(factura) {
     var seguir = true;
+    if (factura.df_fecha_entrega_fac == '') {
+        alertar('warning', '¡Alerta!', 'Debe escoger una fecha de entrega');
+        seguir = false;
+        return;
+    }
     if (factura.df_cliente_cod_fac == undefined) {
         alertar('warning', '¡Alerta!', 'Debe escoger un cliente');
         seguir = false;
         return;
     }
-    if (factura.df_valor_total_fac == 0) {
+   /*  if (factura.df_valor_total_fac == 0) {
         alertar('warning', '¡Alerta!', 'Los valores no pueden estar en cero');
         seguir = false;
         return;
-    }
+    } */
     if (factura.df_personal_cod_fac == 'null') {
         alertar('warning', '¡Alerta!', 'Debe escoger un personal');
         seguir = false;
@@ -341,7 +346,7 @@ function validarInsercion(factura) {
         alertar('warning', '¡Alerta!', 'Debe escoger un sector');
         seguir = false;
         return;
-    }
+    }    
     if (seguir == true) {
         insertarFactura(factura);
     }
@@ -369,6 +374,11 @@ function insertarFactura(factura) {
                 cant_x_und = cantidad;
             } else {
                 cant_x_und = unidad_caja * cantidad;
+            }
+            if (nombre_unidad == 'UND') {
+                cant_bodega = cant_bodega - cantidad;
+            } else {
+                cant_bodega = cant_bodega - (unidad_caja * cantidad);
             }
             insertDetalle(id_factura, id_precio, precio, cantidad, valor_sin_iva, iva, total_tupla, nombre_unidad, cant_x_und, nombre_producto, cant_bodega);
         });
@@ -434,7 +444,7 @@ function getIdKardex(detalle, nombre_producto, cant_bodega) {
         df_egresa_kar: detalle.df_cantidad_detfac,
         df_existencia_kar: cant_bodega,
         df_creadoBy_kar: $('#usuario').val(),
-        df_edo_kardex: 2
+        df_edo_kardex: 1
     }
     var urlCompleta = url + 'kardex/getIdMax.php';
     $.get(urlCompleta, function(response) {
@@ -496,6 +506,8 @@ function limpiar() {
     $('#descuento').html('$0.00');
     $('#total_iva').html('$0.00');
     $('#total').html('$0.00');
+    $('#direccion_cliente').val('');
+    $('#fecha_entrega').val('');
 }
 
 /*function seleccionaUnidad(codigo) {
@@ -604,12 +616,19 @@ $('#cantidad_producto').keyup(function(e) {
 
 function agregar() {
     var cantidad = $('#cantidad_producto').val() * 1;
-    if (cantidad > producto_max) {
-        alertar('danger', '¡Alerta!', 'No puede vender más de ' + producto_max);
+    var unidad_caja = producto.df_und_caja * 1;
+    var stock = 0;
+    if ($('#unidad_producto').val() == 'CAJA') {
+        stock = cantidad * unidad_caja;
+    } else {
+        stock = cantidad;
+    }
+    if (stock > producto_max) {
+        alertar('danger', '¡Alerta!', 'No puede vender más de ' + producto_max + 'UND');
     } else {
         var precio = $('#precio_unitario_producto').val() * 1;
         var unidad = $('#unidad_producto').val();
-        var unidad_caja = producto.df_und_caja * 1;
+        
         var iva = producto.df_valor_impuesto / 100;
         if (precio == 'null' || cantidad < 1) {
             alert('Debe escoger valores reales');
@@ -617,7 +636,7 @@ function agregar() {
             var subtotal_tabla = cantidad * precio;
             var total_iva_tabla = subtotal_tabla * iva;
             var total_tupla = subtotal_tabla;
-            var cant_bodega = producto.df_cant_bodega - cantidad;
+            var cant_bodega = producto.df_cant_bodega;
             total_tupla = total_tupla.toFixed(2);
             var row = '<tr>' +
                 '<td class="id_producto" style="display: none;">' + producto.df_id_producto + '</td>' +

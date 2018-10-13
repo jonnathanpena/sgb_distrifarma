@@ -7,7 +7,7 @@
     $active_bodega = "";
     $active_reportes = "active";
 	$active_reportes_usuarios = "";
-	$title="Reportes | SGB";
+	$title="Reportes | SGI";
 ?>
 <!DOCTYPE html>
 <html lang="en">

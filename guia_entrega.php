@@ -7,7 +7,7 @@
     $active_bodega = "";
     $active_reportes = "";
     $active_reportes_usuarios = "";
-	$title="Guía Entrega | SGB";
+	$title="Guía Entrega | SGI";
 ?>
 <!DOCTYPE html>
 <html lang="en">

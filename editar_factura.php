@@ -7,7 +7,7 @@
    $active_bodega = "";
    $active_reportes = "";
    $active_reportes_usuarios = "";
-   $title="Modificar Factura | SGB";  
+   $title="Modificar Factura | SGI";  
    $fecha = Date('d/m/Y');
 ?>
 <!DOCTYPE html>

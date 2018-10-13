@@ -139,6 +139,16 @@ function insertDetalle(detalle) {
 }
 
 function crearUsuario() {
+    var perfil = '';
+    if ($('#perfil').val() == ''){
+        if ($('#cargo').val() == 'Administrador'){
+            perfil = 'Administrador';
+        } else if ($('#cargo').val() == 'Repartidor' || $('#cargo').val() == 'Vendedor') {
+            perfil = 'Ventas';
+        } else if ($('#cargo').val() == 'Secretaria' || $('#cargo').val() == 'Supervisor') {
+            perfil = 'Supervisor';
+        }
+    }
     var user = {
         df_usuario_usuario: $('#usuario').val(),
         df_personal_cod: $('#id').val(),

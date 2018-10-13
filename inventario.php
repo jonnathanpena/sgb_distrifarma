@@ -7,7 +7,7 @@
     $active_bodega = "active";
     $active_reportes = "";
     $active_reportes_usuarios = "";
-	$title="Inventario | SGB";
+	$title="Inventario | SGI";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -55,8 +55,10 @@
                                 <th class="text-center">Cant Bodega</th>
                                 <!--<th>Cant Transito</th>-->
                                 <th class="text-center">Producto</th>
-                                <!--<th class="text-center">PPP Ind</th>
-                                <th class="text-center">PVT ind</th>-->
+                                <th class="text-center">PPP Ind</th>
+                                <th class="text-center">PVT Ind</th>
+                                <th class="text-center">PPP Total</th>
+                                <th class="text-center">PVT Total</th>
                             </tr>
                         </thead>
                         <tbody></tbody>

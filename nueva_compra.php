@@ -7,7 +7,7 @@
    $active_bodega = "";
    $active_reportes = "";
    $active_reportes_usuarios = "";
-   $title="Compras | SGB";
+   $title="Nueva Compra | SGI";
    date_default_timezone_set('America/Bogota');
 ?>
 <!DOCTYPE html>
@@ -484,7 +484,7 @@
                             <label class="control-label">IVA</label> 
                         </td>
                         <td>
-                            <input type="number" class="form-control input-sm" id="total_iva" value="0.12" disabled>
+                            <input type="number" class="form-control input-sm" id="total_iva" value="0" disabled>
                         </td>
                     </tr>
                     <tr>

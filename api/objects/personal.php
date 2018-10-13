@@ -96,7 +96,7 @@ class Personal {
                     dp.`df_descuento_detper`, dp.`df_decimos_detper`, dp.`df_vacaciones_detper`, dp.`df_tabala_comision_detper`, 
                     dp.`df_comisiones_detper`, dp.`df_personal_cod_detper`, dp.`df_usuario_detper`, dp.`df_fecha_proceso`
                     FROM `df_personal` as per
-                    JOIN `df_detalle_personal` as dp ON (per.`df_id_personal` = dp.`df_personal_cod_detper`)
+                    LEFT JOIN `df_detalle_personal` as dp ON (per.`df_id_personal` = dp.`df_personal_cod_detper`)
                     WHERE per.`df_documento_per` = '".$this->df_documento_per."' ORDER BY dp.`df_fecha_proceso` DESC";
                 
         // prepare query statement
