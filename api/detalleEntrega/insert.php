@@ -29,6 +29,7 @@ $detalleEntrega->df_cant_producto_detent= $info[0]["df_cant_producto_detent"];
 $detalleEntrega->df_factura_detent= $info[0]["df_factura_detent"];
 $detalleEntrega->df_nom_producto_detent= $info[0]["df_nom_producto_detent"];
 $detalleEntrega->df_num_factura_detent= $info[0]["df_num_factura_detent"];
+$detalleEntrega->df_unidad_detent= $info[0]["df_unidad_detent"];
 
 // insert detalleEntrega
 $response = $detalleEntrega->insert();

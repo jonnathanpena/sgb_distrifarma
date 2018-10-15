@@ -54,6 +54,7 @@ if($num>0){
             "df_creadoBy_ent"=>$df_creadoBy_ent,
             "df_modificadoBy_ent"=>$df_modificadoBy_ent,
             "df_guia_ent_recibido"=>$df_guia_ent_recibido,
+            "df_cant_total_cajas_ent"=>$df_cant_total_cajas_ent,
             "personal"=>$personal,
             "detalles"=>$detalles
         );
@@ -112,7 +113,7 @@ function getDetalle($guia, $db) {
     include_once '../objects/detalleEntrega.php';
     $detalleEntrega = new DetalleEntrega($db);
     $detalleEntrega->df_guia_entrega = $guia;
-    $stmt = $detalleEntrega->readById();
+    $stmt = $detalleEntrega->readByIdPrint();
     $num = $stmt->rowCount();
     $detalleEntrega_arr=array();
     if($num>0){
@@ -122,10 +123,11 @@ function getDetalle($guia, $db) {
                 "df_id_detent"=>$df_id_detent, 
                 "df_guia_entrega"=>$df_guia_entrega,
                 "df_cod_producto"=>$df_cod_producto, 
-                 "df_cant_producto_detent"=>$df_cant_producto_detent,
-                 "df_factura_detent"=>$df_factura_detent,
-                 "df_nom_producto_detent"=>$df_nom_producto_detent,
-                 "df_num_factura_detent"=>$df_num_factura_detent
+                "df_cant_producto_detent"=>$df_cant_producto_detent,
+                "df_factura_detent"=>$df_factura_detent,
+                "df_nom_producto_detent"=>$df_nom_producto_detent,
+                "df_num_factura_detent"=>$df_num_factura_detent,
+                "df_unidad_detent"=>$df_unidad_detent
             );
      
             array_push($detalleEntrega_arr, $detalleEntrega_item);

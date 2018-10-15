@@ -52,7 +52,8 @@ if($num>0){
             "df_fecha_ent"=>$df_fecha_ent,
             "df_creadoBy_ent"=>$df_creadoBy_ent,
             "df_modificadoBy_ent"=>$df_modificadoBy_ent,
-            "df_guia_ent_recibido"=>$df_guia_ent_recibido
+            "df_guia_ent_recibido"=>$df_guia_ent_recibido,
+            "df_cant_total_cajas_ent"=>$df_cant_total_cajas_ent
         );
  
         array_push($guiaEntrega_arr["data"], $guiaEntrega_item);
