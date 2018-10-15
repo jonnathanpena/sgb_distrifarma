@@ -65,7 +65,7 @@
 				<tr>
 					<td style="width: 12%; text-align: left;"></td>
 					<td style="width: 88%; text-align: left; font-wieght: bold;">
-					    <FONT FACE="Arial" SIZE="1"><?php echo strtoupper($data['cliente']['df_direccion_cli']) ?></FONT>
+					    <FONT FACE="Arial" SIZE="1"><?php echo strtoupper($data['df_sector_factura']) ?></FONT>
 					</td>
 				</tr>
 			</table>			
