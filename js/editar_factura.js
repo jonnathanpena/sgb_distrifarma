@@ -312,6 +312,7 @@ function calcular() {
 }
 
 function modificar() {
+    on();
     factura.df_cliente_cod_fac = $('#cliente_id').val();
     factura.df_personal_cod_fac = $('#personal').val();
     factura.df_sector_cod_fac = $('#sector').val();
@@ -328,14 +329,17 @@ function modificar() {
 function validarInsercion(factura) {
     var seguir = true;
     if (factura.df_cliente_cod_fac == undefined) {
+        off();
         alertar('warning', '¡Alerta!', 'Debe escoger un cliente');
         seguir = false;
     }
     if (factura.df_personal_cod_fac == 'null') {
+        off();
         alertar('warning', '¡Alerta!', 'Debe escoger un personal');
         seguir = false;
     }
     if (factura.df_sector_cod_fac == 'null') {
+        off();
         alertar('warning', '¡Alerta!', 'Debe escoger un sector');
         seguir = false;
     }
@@ -359,6 +363,7 @@ function modificarFactura(factura) {
         if (response == true) {
             recorrerTablaProductos();
         } else {
+            off();
             alertar('danger', '¡Error!', 'Certifica que tienes conectividad estable y vuelve a intentar');
             load();
         }
@@ -403,6 +408,7 @@ function recorrerTablaProductos() {
     consultarElmimado();
     clearTimeout(timer);
     timer = setTimeout(function() {
+        off();
         alertar('success', '¡Éxito!', 'Factura # ' + id + 'modificada exitosamente');
         load();
     }, 2000);
