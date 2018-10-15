@@ -46,7 +46,24 @@ class DetalleEntrega {
                     `df_factura_detent`, `df_nom_producto_detent`, `df_num_factura_detent`
 							FROM `df_detalle_entrega` 
                     WHERE df_guia_entrega = ".$this->df_guia_entrega."
-                    GROUP BY df_num_factura_detent";
+                    ORDER BY `df_num_factura_detent` ASC";
+    
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+    
+        // execute query
+        $stmt->execute();
+    
+        return $stmt;
+    }
+
+    function readByIdPrint(){
+    
+        // select all query
+        $query = "SELECT `df_id_detent`, `df_guia_entrega`, `df_cod_producto`, `df_unidad_detent`, `df_cant_producto_detent`, 
+                    `df_factura_detent`, `df_nom_producto_detent`, `df_num_factura_detent`
+							FROM `df_detalle_entrega` 
+                    WHERE df_guia_entrega = ".$this->df_guia_entrega;
     
         // prepare query statement
         $stmt = $this->conn->prepare($query);

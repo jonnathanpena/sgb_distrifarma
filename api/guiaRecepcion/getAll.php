@@ -52,6 +52,8 @@ if($num>0){
             "df_codigo_guia_rec"=>$df_codigo_guia_rec,
             "df_fecha_recepcion"=>$df_fecha_recepcion,
             "df_repartidor_rec"=>$df_repartidor_rec,
+            "df_cant_und_rec"=>$df_cant_und_rec,
+            "df_cant_caja_rec"=>$df_cant_caja_rec,
             "df_valor_recaudado"=>$df_valor_recaudado,
             "df_valor_efectivo"=>$df_valor_efectivo,
             "df_valor_cheque"=>$df_valor_cheque,
@@ -62,8 +64,7 @@ if($num>0){
 			"df_entrega_rec"=>$df_entrega_rec,
 			"df_num_guia"=>$df_num_guia,
 			"df_creadoBy_rec"=>$df_creadoBy_rec,
-			"df_modificadoBy_rec"=>$df_modificadoBy_rec,
-			"df_edo_factura_rec"=>$df_edo_factura_rec
+			"df_modificadoBy_rec"=>$df_modificadoBy_rec
         );
  
         array_push($guiaRecepcion_arr["data"], $guiaRecepcion_item);

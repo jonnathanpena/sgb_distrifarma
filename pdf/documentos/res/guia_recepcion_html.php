@@ -90,7 +90,7 @@ table.page_footer {
             <th style="width: 100%;text-align:left" class='silver'>DESCUENTO: $<?php echo $data['df_descuento_rec']; ?></th>
         </tr>
     </table>    
-    <table cellspacing="0" style="width: 100%; text-align: left; font-size: 10pt;">
+    <!--<table cellspacing="0" style="width: 100%; text-align: left; font-size: 10pt;">
         <tr>
             <th style="width: 10%;text-align:center" class='midnight-blue'>FACTURA</th>
             <th style="width: 45%;text-align:center" class='midnight-blue'>CATN PRODUCTOS</th>
@@ -126,5 +126,5 @@ table.page_footer {
             <th class='silver' style="width: 50%; text-align: left; font-size:11pt">Supervisor</th>
             <th class='silver' style="width: 40%; text-align: right; font-size:11pt">Recibe</th>
         </tr>
-    </table>
+    </table>-->
 </page>
