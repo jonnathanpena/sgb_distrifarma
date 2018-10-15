@@ -18,7 +18,8 @@ class CatMovimiento {
     function read(){
     
         // select all query
-        $query = "SELECT `df_id_cat_movimiento`, `df_nombre_movimiento` FROM `df_cat_movimiento`";
+        $query = "SELECT `df_id_cat_movimiento`, `df_nombre_movimiento`, `df_tipo` FROM `df_cat_movimiento`
+                    ORDER BY df_nombre_movimiento ASC";
     
         // prepare query statement
         $stmt = $this->conn->prepare($query);
