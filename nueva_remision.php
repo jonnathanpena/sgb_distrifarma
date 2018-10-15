@@ -6,7 +6,7 @@
    $active_bodega = "";
    $active_reportes = "";
    $active_reportes_usuarios = "";
-   $title="Nueva Guía Remisión | SGB";  
+   $title="Nueva Guía Remisión | SGI";  
    $fecha = Date('d/m/Y');
 ?>
 <!DOCTYPE html>
@@ -34,6 +34,9 @@ include("modal/consultar_productos.php");
                      <div class="col-md-2">
                         <select name="usuario" id="usuario" class="form-control" readonly>
                         </select>
+                        <input type="hidden" id="valor_libro" >
+                        <input type="hidden" id="saldo_banco" >
+                        <input type="hidden" id="saldo_caja" >
                      </div>
                      <label for="fecha" class="col-md-1 control-label">Fecha</label>
                      <div class="col-md-2">

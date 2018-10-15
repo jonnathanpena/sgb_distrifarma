@@ -7,7 +7,7 @@
    $active_bodega = "";
    $active_reportes = "";
    $active_reportes_usuarios = "";
-   $title="Modificar Factura | SGB";  
+   $title="Modificar Factura | SGI";  
    $fecha = Date('d/m/Y');
 ?>
 <!DOCTYPE html>
@@ -29,6 +29,7 @@
 <?php
 include("modal/consultar_clientes.php");
 include("modal/consultar_productos.php");
+include("modal/load.php");
 ?>
                <form class="form-horizontal" role="form" id="form_modificar_factura">
                   <div class="form-group row">

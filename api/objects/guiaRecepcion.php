@@ -9,7 +9,9 @@ class GuiaRecepcion {
     public $df_guia_recepcion;
 	public $df_codigo_guia_rec;
 	public $df_fecha_recepcion;
-	public $df_repartidor_rec;
+    public $df_repartidor_rec;
+    public $df_cant_und_rec;
+    public $df_cant_caja_rec;
      public $df_valor_recaudado;
 	 public $df_valor_efectivo;
 	 public $df_valor_cheque;
@@ -33,9 +35,10 @@ class GuiaRecepcion {
     function read(){
     
         // select all query
-        $query = "SELECT `df_guia_recepcion`, `df_codigo_guia_rec`, `df_fecha_recepcion`, `df_repartidor_rec`, `df_valor_recaudado`, `df_valor_efectivo`, 
-                    `df_valor_cheque`, `df_retenciones`, `df_descuento_rec`, `df_diferencia_rec`, `df_remision_rec`, `df_entrega_rec`, `df_num_guia`, 
-                    `df_creadoBy_rec`, `df_modificadoBy_rec` FROM `df_guia_recepcion` WHERE `df_codigo_guia_rec` LIKE '%".$this->df_codigo_guia_rec."%'";
+        $query = "SELECT `df_guia_recepcion`, `df_codigo_guia_rec`, `df_fecha_recepcion`, `df_repartidor_rec`, `df_cant_und_rec`, `df_cant_caja_rec`, 
+                    `df_valor_recaudado`, `df_valor_efectivo`, `df_valor_cheque`, `df_retenciones`, `df_descuento_rec`, `df_diferencia_rec`, `df_remision_rec`, 
+                    `df_entrega_rec`, `df_num_guia`, `df_creadoBy_rec`, `df_modificadoBy_rec` FROM `df_guia_recepcion` WHERE `df_codigo_guia_rec` 
+                    LIKE '%".$this->df_codigo_guia_rec."%'";
     
         // prepare query statement
         $stmt = $this->conn->prepare($query);
@@ -51,12 +54,11 @@ class GuiaRecepcion {
     function readById(){
     
         // select all query
-        $query = "SELECT `df_guia_recepcion`, `df_codigo_guia_rec`, `df_fecha_recepcion`, `df_repartidor_rec`, 
-                    `df_valor_recaudado`, `df_valor_efectivo`, `df_valor_cheque`, `df_retenciones`, 
-                    `df_descuento_rec`, `df_diferencia_rec`, `df_remision_rec`, `df_entrega_rec`, `df_num_guia`, 
-                    `df_creadoBy_rec`, `df_modificadoBy_rec`, `df_edo_factura_rec` 
-                    FROM `df_guia_recepcion`
-                    WHERE df_guia_recepcion = ".$this->df_guia_recepcion;
+        $query = "SELECT `df_guia_recepcion`, `df_codigo_guia_rec`, `df_fecha_recepcion`, `df_repartidor_rec`, `df_cant_und_rec`, `df_cant_caja_rec`, 
+                    `df_valor_recaudado`, `df_valor_efectivo`, `df_valor_cheque`, `df_retenciones`, `df_descuento_rec`, `df_diferencia_rec`, `df_remision_rec`, 
+                    `df_entrega_rec`, `df_num_guia`, `df_creadoBy_rec`, `df_modificadoBy_rec`
+                    FROM `df_guia_recepcion` 
+                    WHERE `df_guia_recepcion` = ".$this->df_guia_recepcion;
     
         // prepare query statement
         $stmt = $this->conn->prepare($query);
@@ -70,9 +72,11 @@ class GuiaRecepcion {
     function readPendienteEnt(){
     
         // select all query
-        $query = "SELECT `df_num_guia_entrega`, `df_codigo_guia_ent`, `df_sector_ent`, `df_repartidor_ent`, 
-                    `df_cant_total_producto_ent`, `df_fecha_ent`, `df_creadoBy_ent`, `df_modificadoBy_ent`, 
-                    `df_guia_ent_recibido` FROM `df_guia_entrega` 
+        $query = "SELECT ent.`df_num_guia_entrega`, ent.`df_codigo_guia_ent`, ent.`df_repartidor_ent`, 
+                    ent.`df_cant_total_producto_ent`, ent.`df_cant_facturas_ent`, ent.`df_fecha_ent`, ent.`df_creadoBy_ent`, 
+                    ent.`df_modificadoBy_ent`, ent.`df_guia_ent_recibido`, per.`df_nombre_per`, per.`df_apellido_per` 
+                    FROM `df_guia_entrega` as ent
+                    INNER JOIN `df_personal` as per ON (per.df_id_personal =  ent.`df_repartidor_ent`)
                     WHERE `df_guia_ent_recibido` = 0 
                     order by df_fecha_ent asc";
     
@@ -88,9 +92,12 @@ class GuiaRecepcion {
     function readPendienteRem(){
     
         // select all query
-        $query = "SELECT `df_guia_remision`, `df_codigo_rem`, `df_sector_cod_rem`, `df_vendedor_rem`, 
-                    `df_cant_total_producto_rem`, `df_fecha_remision`, `df_creadoBy_rem`, `df_modificadoBy_rem`,
-                    `df_guia_rem_recibido` FROM `df_guia_remision` 
+        $query = "SELECT rem.`df_guia_remision`, rem.`df_codigo_rem`, rem.`df_fecha_remision`, rem.`df_sector_cod_rem`, 
+                    rem.`df_vendedor_rem`, rem.`df_cant_total_producto_rem`, rem.`df_valor_efectivo_rem`, rem.`df_creadoBy_rem`, 
+                    rem.`df_modificadoBy_rem`, rem.`df_guia_rem_recibido`, sec.df_nombre_sector, per.`df_nombre_per`, per.`df_apellido_per` 
+                    FROM `df_guia_remision` as rem
+                    INNER JOIN `df_sector` as sec ON (sec.df_codigo_sector = rem.`df_sector_cod_rem`)
+                    INNER JOIN `df_personal` as per ON (per.df_id_personal = rem.`df_vendedor_rem`)
                     WHERE `df_guia_rem_recibido` = 0
                     order by df_fecha_remision asc";
     
@@ -162,12 +169,14 @@ class GuiaRecepcion {
     function insert(){
     
         // query to insert record
-        $query = "INSERT INTO `df_guia_recepcion`(`df_codigo_guia_rec`, `df_fecha_recepcion`, `df_repartidor_rec`, `df_valor_recaudado`, 
-                    `df_valor_efectivo`, `df_valor_cheque`, `df_retenciones`, `df_descuento_rec`, `df_diferencia_rec`, `df_remision_rec`, 
-                    `df_entrega_rec`, `df_num_guia`, `df_creadoBy_rec`, `df_modificadoBy_rec`) VALUES (
+        $query = "INSERT INTO `df_guia_recepcion`(`df_codigo_guia_rec`, `df_fecha_recepcion`, `df_repartidor_rec`, `df_cant_und_rec`, 
+                    `df_cant_caja_rec`, `df_valor_recaudado`, `df_valor_efectivo`, `df_valor_cheque`, `df_retenciones`, `df_descuento_rec`, 
+                    `df_diferencia_rec`, `df_remision_rec`, `df_entrega_rec`, `df_num_guia`, `df_creadoBy_rec`, `df_modificadoBy_rec`) VALUES (
                         '".$this->df_codigo_guia_rec."',
                         '".$this->df_fecha_recepcion."',
                         ".$this->df_repartidor_rec.",
+                        ".$this->df_cant_und_rec.",
+                        ".$this->df_cant_caja_rec.",
                         ".$this->df_valor_recaudado.",
                         ".$this->df_valor_efectivo.",
                         ".$this->df_valor_cheque.",

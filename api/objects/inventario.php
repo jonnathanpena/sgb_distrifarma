@@ -31,7 +31,8 @@ class Inventario {
         // select all query
         $query = "SELECT inv.`df_id_inventario`, inv.`df_cant_bodega`, inv.`df_cant_transito`, inv.`df_producto`,
                 inv.`df_ppp_ind`, inv.`df_pvt_ind`, inv.`df_ppp_total`, inv.`df_pvt_total`, inv.`df_minimo_sug`, 
-                inv.`df_und_caja`, inv.`df_bodega`, pro.`df_codigo_prod`, pro.`df_nombre_producto` 
+                inv.`df_und_caja`, inv.`df_bodega`, pro.`df_codigo_prod`, pro.`df_nombre_producto`,
+                (inv.`df_cant_bodega` / inv.`df_und_caja`) as cantidad 
                 FROM `df_inventario` inv 
                 LEFT JOIN `df_producto` pro ON (pro.df_id_producto = inv.df_producto)
                 WHERE pro.`df_codigo_prod` LIKE '%".$this->df_codigo_prod."%' OR 

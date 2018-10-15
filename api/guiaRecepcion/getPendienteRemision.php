@@ -43,7 +43,10 @@ if($num>0){
             "df_fecha_remision"=>$df_fecha_remision,
             "df_creadoBy_rem"=>$df_creadoBy_rem,
             "df_modificadoBy_rem"=>$df_modificadoBy_rem,
-            "df_guia_rem_recibido"=>$df_guia_rem_recibido
+            "df_guia_rem_recibido"=>$df_guia_rem_recibido,
+            "df_nombre_sector"=>$df_nombre_sector,
+            "df_nombre_per"=>$df_nombre_per,
+            "df_apellido_per"=>$df_apellido_per
         );
  
         array_push($guiaRecepcion_arr["data"], $guiaRecepcion_item);

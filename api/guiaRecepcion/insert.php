@@ -36,6 +36,8 @@ $guiaRecepcion->df_remision_rec= $info[0]["df_remision_rec"];
 $guiaRecepcion->df_entrega_rec= $info[0]["df_entrega_rec"];
 $guiaRecepcion->df_num_guia= $info[0]["df_num_guia"];
 $guiaRecepcion->df_creadoBy_rec= $info[0]["df_creadoBy_rec"];
+$guiaRecepcion->df_cant_und_rec= $info[0]["df_cant_und_rec"];
+$guiaRecepcion->df_cant_caja_rec= $info[0]["df_cant_caja_rec"];
 
 // insert guiaRecepcion
 $response = $guiaRecepcion->insert();

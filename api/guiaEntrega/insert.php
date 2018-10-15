@@ -29,6 +29,7 @@ $guiaEntrega->df_cant_total_producto_ent= $info[0]["df_cant_total_producto_ent"]
 $guiaEntrega->df_cant_facturas_ent= $info[0]["df_cant_facturas_ent"];
 $guiaEntrega->df_fecha_ent= $info[0]["df_fecha_ent"];
 $guiaEntrega->df_creadoBy_ent= $info[0]["df_creadoBy_ent"];
+$guiaEntrega->df_cant_total_cajas_ent= $info[0]["df_cant_total_cajas_ent"];
 
 // insert guiaEntrega
 $response = $guiaEntrega->insert();

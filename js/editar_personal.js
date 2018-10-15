@@ -126,6 +126,7 @@ function insertDetalle(detalle) {
             $('#form_modificar_personal').attr('disabled', false);
         } else {
             var per = JSON.parse(localStorage.getItem('distrifar_personal_editar'));
+            console.log('per ',per);
             if (per.df_usuario_detper != null) {
                 crearUsuario();
                 alertar('success', '¡Éxito!', 'Personal modificado exitosamente');
@@ -139,13 +140,24 @@ function insertDetalle(detalle) {
 }
 
 function crearUsuario() {
+    alert('Crear usuario');
+    var perfil = '';
+    if ($('#perfil').val() == ''){
+        if ($('#cargo').val() == 'Administrador'){
+            perfil = 'Administrador';
+        } else if ($('#cargo').val() == 'Repartidor' || $('#cargo').val() == 'Vendedor') {
+            perfil = 'Ventas';
+        } else if ($('#cargo').val() == 'Secretaria' || $('#cargo').val() == 'Supervisor') {
+            perfil = 'Supervisor';
+        }
+    }
     var user = {
         df_usuario_usuario: $('#usuario').val(),
         df_personal_cod: $('#id').val(),
         df_clave_usuario: $('#clave').val(),
         df_activo: 1,
         df_correo: $('#email').val(),
-        df_tipo_usuario: $('#perfil').val(),
+        df_tipo_usuario: perfil, //$('#perfil').val(),
         df_id_usuario: $('#usuario_id').val()
     };
     updateUsuario(user);

@@ -30,7 +30,7 @@ $fecha = date("d/m/Y");
                         <div class="form-group">
                             <label for="movimiento" class="col-sm-3 control-label">Detalle<span class="obligatorio">*</span></label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="movimiento" name="movimiento" placeholder="Detalle" required>
+                                <select class="form-control" id="movimiento" name="movimiento"></select>
                             </div>
                         </div>
                         <div class="form-group">

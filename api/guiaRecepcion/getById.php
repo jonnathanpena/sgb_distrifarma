@@ -48,6 +48,8 @@ if($num>0){
             "df_codigo_guia_rec"=>$df_codigo_guia_rec,
             "df_fecha_recepcion"=>$df_fecha_recepcion,
             "df_repartidor_rec"=>$df_repartidor_rec,
+            "df_cant_und_rec"=>$df_cant_und_rec,
+            "df_cant_caja_rec"=>$df_cant_caja_rec,
             "df_valor_recaudado"=>$df_valor_recaudado,
             "df_valor_efectivo"=>$df_valor_efectivo,
             "df_valor_cheque"=>$df_valor_cheque,
