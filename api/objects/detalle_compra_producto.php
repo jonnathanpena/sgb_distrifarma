@@ -123,7 +123,7 @@ class DetalleCompraProducto {
         $query = "SELECT AVG((det.`cantidad_dcp` * det.`precio_unitario_dcp`)/(det.`bonificacion_dcp` + det.`cantidad_dcp`)) as promedio
                     FROM `detalle_compra_producto` as det
                     JOIN `compra` as comp ON (det.`compra_id` = comp.`id_compra`)
-                    WHERE det.`producto_id` = ".$this->producto_id." AND comp.`fecha_compra` >= DATE_ADD(NOW(), INTERVAL -3 MONTH)";
+                    WHERE det.`producto_id` = ".$this->producto_id." AND comp.`fecha_compra` <= DATE_ADD(NOW(), INTERVAL -3 MONTH)";
         
         $stmt = $this->conn->prepare($query);
     

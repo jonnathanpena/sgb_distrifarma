@@ -36,7 +36,8 @@ if($num>0){
         //Los nombres acá son iguales a los de la clase iguales a las columnas de la BD
         $ciudad_item=array(
             "df_id_cat_movimiento"=>$df_id_cat_movimiento, 
-            "df_nombre_movimiento"=>$df_nombre_movimiento
+            "df_nombre_movimiento"=>$df_nombre_movimiento,
+            "df_tipo"=>$df_tipo
         );
  
         array_push($ciudad_arr["data"], $ciudad_item);
