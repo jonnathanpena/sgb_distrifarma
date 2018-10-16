@@ -24,7 +24,7 @@
 		</head>
 		<body onload="imprimir()">
         <?php 
-            $data = json_decode($_POST['data'], true);
+			$data = json_decode($_POST['data'], true);
         ?>
 			<table style="width: 100%;">
 				<tr>
@@ -61,11 +61,19 @@
 					<td style="width: 33%; text-align: left;"></td>
 				</tr>
 			</table>
+
+			<?php	
+			$contadorf = count($data['historiaEstadoFactura']);	
+			for ($i= 0; $i < $contadorf; $i++) {				
+				$detallef = $data['historiaEstadoFactura'][$i];
+			}
+			?>
+
 			<table style="width: 100%; margin-top: -0.5mm">
 				<tr>
 					<td style="width: 12%; text-align: left;"></td>
 					<td style="width: 88%; text-align: left; font-wieght: bold;">
-					    <FONT FACE="Arial" SIZE="1"><?php echo strtoupper($data['df_sector_factura']) ?></FONT>
+					<FONT FACE="Arial" SIZE="1"><?php echo strtoupper($detallef['df_direccion_factura']) ?></FONT>
 					</td>
 				</tr>
 			</table>			

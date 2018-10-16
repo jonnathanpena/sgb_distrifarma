@@ -214,7 +214,6 @@ function gethistoriaEstadoFactura($factura, $db) {
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
             extract($row);
             $historiaEstadoFactura_item=array(
-                "df_num_factura"=>$df_num_factura,
                 "df_sector_factura"=>$df_sector_factura,
                 "df_direccion_factura"=>$df_direccion_factura
             );
