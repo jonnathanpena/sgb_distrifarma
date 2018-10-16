@@ -181,7 +181,7 @@ function cambioNumGuiaRemision() {
             tr.append('<td width="120" class="devueltos"><input type="number" class="form-control" id="devueltos-' + row.df_codigo_prod + '" value="0" disabled/></td>');
             tr.append('<td class="iva" style="display: none;">' + row.df_iva_detrem + '</td>');
             tr.append('<td class="id_producto" style="display: none;">' + row.df_id_producto + '</td>');
-            tr.append('<td class="unidad_x_caja" style="display: none;">' + row.df_cant_x_und_detrem + '</td>');
+            tr.append('<td class="unidad_x_caja" style="display: none;">' + row.df_und_caja + '</td>');
             $('#table_productos tbody').append(tr);
         });
         calcularRemision();
@@ -259,7 +259,9 @@ function restarRemision() {
 }
 
 $('#btn-guardar').click(function() {
+    on();
     if ($('#tipo_guia').val() == 'null') {
+        off();
         alertar('warning', '¡Alerta!', 'Debe seleccionar un tipo de guía');
         clearTimeout(timer);
         timer = setTimeout(function() {
@@ -276,6 +278,7 @@ function comensarInsertarRemision() {
     if ($('#diferencia').val() * 1 == 0) {
         crearObjetoRemision();
     } else {
+        off();
         alertar('warning', '¡Alerta!', 'La diferencia debe ser igual a cero');
     }
 }
@@ -315,6 +318,7 @@ function insertRemision(recepcion) {
     $.post(urlCompleta, JSON.stringify(recepcion), function(response) {
         console.log('response insert remision', response);
         if (response == false || response == false) {
+            off();
             alertar('danger', '¡Error!', 'Verifique su conexión a internet, e intente nuevamente');
         } else {
             updateRemision();
@@ -365,6 +369,7 @@ function generarDetalleGuia(id) {
         } else {
             alertar('danger', '¡Error!', 'Compruebe su conexión a internet e intente nuevamente');
         }
+        off();
         $('#tipo_guia').val('null');
         $('#seleccionGuiaEntrega').hide('slow');
         $('#seleccionGuiaRemision').hide('slow');
@@ -412,7 +417,7 @@ function getDetalleEntrega() {
                 getDetalleFactura(factura);
                 tr.append('<td width="120" class="factura">' + factura + '</td>');
                 tr.append('<td class="estado"><select id="estado-' + factura + '" class="form-control" onchange="cambiaEstado(`' + factura + '`)"><option value="2">ENTREGADO</option><option value="4">MODIFICADA</option><option value="6">REASIGNADA</option><option value="5">ANULADA</option></select></td>');
-                tr.append('<td width="180" class="nueva_fecha"><input type="date" class="form-control" id="nueva-fecha-' + factura + '"></td>');
+                tr.append('<td width="180" class="nueva_fecha"><input type="date" class="form-control" id="nueva-fecha-' + factura + '" disabled></td>');
                 tr.append('<td class="forma-pago"><select id="forma-pago-' + factura + '" class="form-control" onchange="cambioFormaPago(`' + factura + '`)"><option value="EFECTIVO">EFECTIVO</option><option value="CHEQUE">CHEQUE</option><option value="TRANSFERENCIA">TRANSFERENCIA</option><option value="CREDITO">CRÉDITO</option></select></td>');
                 $('#table_guias tbody').append(tr);
             }
@@ -441,6 +446,8 @@ function cambiaEstado(fact) {
     modificados = [];
     $('#display_productos tbody').empty();
     if ($('#estado-' + fact).val() == 4) {
+        $('#nueva-fecha-' + fact).val('');
+        $('#nueva-fecha-' + fact).attr('disabled', true);
         $.each(detalleFactura, function(index, row) {
             if (row.df_num_factura_detfac == fact) {
                 var tr = $('<tr/>');
@@ -456,6 +463,8 @@ function cambiaEstado(fact) {
         });
         $('#modificacionRecepcion').modal('show');
     } else if ($('#estado-' + fact).val() == 5) {
+        $('#nueva-fecha-' + fact).val('');
+        $('#nueva-fecha-' + fact).attr('disabled', true);
         for (var i = 0; i < detalleFactura.length; i++) {
             if (detalleFactura[i].df_num_factura_detfac == fact) {
                 var cantidad = detalleFactura[i].df_cantidad_detfac * 1;
@@ -476,6 +485,8 @@ function cambiaEstado(fact) {
         };
         calcularCostos();
     } else if ($('#estado-' + fact).val() == 6) {
+        $('#nueva-fecha-' + fact).val('');
+        $('#nueva-fecha-' + fact).attr('disabled', false);
         for (var i = 0; i < detalleFactura.length; i++) {
             if (detalleFactura[i].df_num_factura_detfac == fact) {
                 var cantidad = detalleFactura[i].df_cantidad_detfac * 1;
@@ -548,7 +559,7 @@ function gardaModificacion() {
                 tr.append('<td class="unidad">' + detalleFactura[i].df_nombre_und_detfac + '</td>');
                 tr.append('<td class="producto">' + detalleFactura[i].df_nombre_producto + '</td>');
                 tr.append('<td class="producto_id" style="display: none;">' + detalleFactura[i].df_id_producto + '</td>');
-                tr.append('<td class="cant_x_caja" style="display: none;">' + detalleFactura[i].df_cant_x_und_detfac + '</td>');
+                tr.append('<td class="cant_x_caja" style="display: none;">' + detalleFactura[i].df_und_caja + '</td>');
                 $('#table_resumen_productos tbody').append(tr);
             }
         }
@@ -575,7 +586,7 @@ function calcularCostos() {
     $.each(detalleFactura, function(index, row) {
         if (row.df_nombre_und_detfac == 'CAJA') {
             totalCajas += row.df_cantidad_detfac * 1;
-        } else {
+        } else if (row.df_nombre_und_detfac == 'UND') {
             totalUnidades += row.df_cantidad_detfac * 1;
         }
         var iva = row.df_iva_detfac * 1;
@@ -700,9 +711,10 @@ function generarDetalleGuiaEntrega(id) {
             if (factura == row.df_num_factura_detfac) {
                 var productosUnidad = 0;
                 var productosCaja = 0;
+                console.log('ROW ', row.df_nombre_und_detfac);
                 if (row.df_nombre_und_detfac == 'CAJA') {
                     productosCaja = row.df_cantidad_detfac * 1;
-                } else {
+                } else if (row.df_nombre_und_detfac == 'UND') {
                     productosUnidad = row.df_cantidad_detfac * 1;
                 }
                 var detalle = {
