@@ -695,7 +695,7 @@ function insertarFactura(factura) {
 
                 cant_bodega = cant_bodega - (unidad_caja * cantidad);
 
-            }
+            }            
 
             insertDetalle(id_factura, id_precio, precio, cantidad, valor_sin_iva, iva, total_tupla, nombre_unidad, cant_x_und, nombre_producto, cant_bodega);
 
@@ -711,7 +711,7 @@ function insertarFactura(factura) {
 
             limpiar();
 
-        }, 1000);
+        }, 5000);
 
     });
 
@@ -747,13 +747,11 @@ function insertDetalle(id, id_precio, precio, cantidad, valor_sin_iva, iva, tota
 
     }
 
-    $.post(urlCompleta, JSON.stringify(detalle), function(response) {
+    getIdKardex(detalle, nombre_producto, cant_bodega);
 
-        getIdKardex(detalle, nombre_producto, cant_bodega);
+    getInventario(detalle, cant_bodega);
 
-        getInventario(detalle, cant_bodega);
-
-    });
+    $.post(urlCompleta, JSON.stringify(detalle), function(response) { });
 
 }
 
