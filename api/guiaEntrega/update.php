@@ -29,6 +29,7 @@ $guiaEntrega->df_cant_facturas_ent= $info[0]["df_cant_facturas_ent"];
 $guiaEntrega->df_modificadoBy_ent= $info[0]["df_modificadoBy_ent"];
 $guiaEntrega->df_guia_ent_recibido= $info[0]["df_guia_ent_recibido"];
 $guiaEntrega->df_num_guia_entrega= $info[0]["df_num_guia_entrega"];
+$guiaEntrega->df_cant_total_cajas_ent= $info[0]["df_cant_total_cajas_ent"];
 
 // modificar guiaEntrega
 $response = $guiaEntrega->update();

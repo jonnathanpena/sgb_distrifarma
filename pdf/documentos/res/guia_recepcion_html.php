@@ -50,14 +50,16 @@ table.page_footer {
     </page_footer>
 	<table cellspacing="0" style="width: 100%;">
         <tr>
-            <td style="width: 25%; color: #444444;">
-                <img style="width: 100%;" src="../../img/logo.jpg" alt="Logo"><br>
+        <td style="width: 25%; color: #444444;">
+                <img style="width: 70%;" src="../../img/logo.jpg" alt="Logo"><br>
             </td>
-            <td style="width: 50%; color: #34495e;font-size:12px;text-align:center">
-                <span style="color: #34495e;font-size:14px;font-weight:bold">DISTRIFARMA</span>
-                <br>Jipijapa No. 44 y Río Coca, Quito Pichinca<br>
-                Teléfono: +(593) 99 059-6002<br>
-                Email: distrifarma@hotmail.com
+            <td style="width: 50%; color: #34495e;font-size:12px;text-align:center;">
+                <br>&nbsp;<br>
+                <br>&nbsp;<br>
+                <span style="color: #34495e;font-size:17px;font-weight:bold">DISTRIFARMA</span>
+                <br style="font-size:10px;"><span style="font-size:14px;">Jipijapa No. 44 y Río Coca, Quito Pichincha</span><br>
+                <span style="font-size:14px;">Teléfono: +(593) 99 059-6002</span><br>
+                <span style="font-size:14px;">Email: distrifarma@hotmail.com</span>
             </td>
             <td style="width: 25%;text-align:right">
             </td>
@@ -91,29 +93,71 @@ table.page_footer {
         </tr>
     </table>    
     <table cellspacing="0" style="width: 100%; text-align: left; font-size: 10pt;">
+        <?php
+            $cod = substr($data['df_codigo_guia_rec'], 0,-4);
+            if ($cod == 'GREM' ) {                          
+        ?>
         <tr>
-            <th style="width: 10%;text-align:center" class='midnight-blue'>FACTURA</th>
-            <th style="width: 45%;text-align:center" class='midnight-blue'>CATN PRODUCTOS</th>
-            <th style="width: 10%;text-align:center" class='midnight-blue'>CODIGO</th>
-            <th style="width: 10%;text-align:center" class='midnight-blue'>NUEVA FECHA</th>
-            <th style="width: 25%;text-align:center" class='midnight-blue'>DET REM</th>
+            <th style="width: 15%; text-align: left" class='midnight-blue'>CÓDIGO.</th>
+            <th style="width: 45%; text-align: center" class='midnight-blue'>PRODUCTO</th>
+            <th style="width: 10%; text-align: left" class='midnight-blue'>UNIDAD.</th>
+            <th style="width: 15%; text-align: left" class='midnight-blue'>CANT VEND.</th>
+            <th style="width: 15%; text-align: left" class='midnight-blue'>CANT DEV.</th>
         </tr>
 
         <?php
-            for ($i = 0; $i < count($data['detalles']); $i++) {
+                for ($i = 0; $i < count($data['detalles']); $i++) {
                 $detalle = $data['detalles'][$i];
+                $detallesRemision = explode("-", $detalle['df_detalleRemision_detrec']); 
+                $und = $detallesRemision[0];
+                $ven = $detallesRemision[3];
+                $dev = $detallesRemision[4];
+            
+            
         ?>
 
         <tr>
-            <td style="width: 10%; text-align: center"><?php echo $detalle['df_factura_rec']?></td>
-            <td style="width: 45%; text-align: center"><?php echo $detalle['df_cant_producto_detrec']?></td>
-            <td style="width: 10%; text-align: center"><?php echo $detalle['df_cant_producto_detrec']?></td>
-            <td style="width: 10%; text-align: center"><?php echo $detalle['df_producto_cod_detrec']?></td>
-            <td style="width: 25%; text-align: center"><?php echo $detalle['df_nueva_fecha']?></td>
+            <td style="width: 15%; text-align: left"><?php echo $detalle['df_codigo_prod']?></td>
+            <td style="width: 45%; text-align: left"><?php echo $detalle['df_nombre_producto']?></td>
+            <td style="width: 10%; text-align: left"><?php echo $und?></td>
+            <td style="width: 15%; text-align: left"><?php echo $ven?></td>
+            <td style="width: 15%; text-align: left"><?php echo $dev?></td>
         </tr>
 
         <?php
-            }
+                }
+            } else {                    
+        ?>
+        <tr>
+            <th style="width: 15%;text-align: left" class='midnight-blue'>FACTURA</th>
+            <th style="width: 15%;text-align: left" class='midnight-blue'>CODIGO</th>
+            <th style="width: 40%;text-align: center" class='midnight-blue'>PRODUCTO</th>
+            <th style="width: 15%;text-align: left" class='midnight-blue'>UND</th>
+            <th style="width: 15%;text-align: left" class='midnight-blue'>CANT</th>
+        </tr>
+        <?php
+                }   if ($data['detalles'][0][df_factura_rec] != '0') {
+                    for ($i = 0; $i < count($data['detalles']); $i++) {
+                    $detalle = $data['detalles'][$i];    
+                        if ( $detalle['df_cant_producto_detrec'] == '0') {
+                            $und = 'CAJA';
+                            $cant = $detalle['df_cant_caja_detrec']; 
+                        } else {
+                            $und = 'UND';
+                            $cant = $detalle['df_cant_producto_detrec'];
+                        }
+        ?>    
+         <tr>
+            <td style="width: 15%; text-align: left"><?php echo $detalle['df_factura_rec']?></td>
+            <td style="width: 15%; text-align: left"><?php echo $detalle['df_codigo_prod']?></td>
+            <td style="width: 40%; text-align: left"><?php echo $detalle['df_nombre_producto']?></td>
+            <td style="width: 15%; text-align: left"><?php echo $und?></td>
+            <td style="width: 15%; text-align: left"><?php echo $cant?></td>
+        </tr>
+
+        <?php
+                    } 
+                }           
         ?>
     </table>
     <br>

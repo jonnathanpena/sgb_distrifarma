@@ -125,9 +125,13 @@ function getDetalles($guia, $db) {
                 "df_guia_recepcion_detrec"=>$df_guia_recepcion_detrec,
                 "df_factura_rec"=>$df_factura_rec, 
                 "df_cant_producto_detrec"=>$df_cant_producto_detrec,
+                "df_cant_caja_detrec"=>$df_cant_caja_detrec,
                 "df_producto_cod_detrec"=>$df_producto_cod_detrec,
                 "df_nueva_fecha"=>$df_nueva_fecha,
-                "df_edo_prod_fact_detrec" =>$df_edo_prod_fact_detrec
+                "df_detalleRemision_detrec" =>$df_detalleRemision_detrec,
+                "df_edo_prod_fact_detrec" =>$df_edo_prod_fact_detrec,
+                "df_nombre_producto" =>$df_nombre_producto,
+                "df_codigo_prod" =>$df_codigo_prod
             );
      
             array_push($detalleRecepcion_arr, $detalleRecepcion_item);

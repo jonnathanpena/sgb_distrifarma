@@ -740,21 +740,28 @@ function consultarInventario(id, detalle, nombre_producto) {
             var nueva_cantidad = detalle.cantidad_dcp * inventario.df_und_caja;
             var nueva_bonificacion = detalle.bonificacion_dcp * inventario.df_und_caja;
             inventario.df_cant_bodega = Number(bodega_anterior + nueva_cantidad + nueva_bonificacion);
-            updateInventario(id, inventario, nombre_producto, detalle.cantidad_dcp);
+            console.log('cantidad x unidad ',inventario.df_und_caja);
+            console.log('inventario bodega anterior ',bodega_anterior);
+            console.log('inventario cant ',nueva_cantidad);
+            console.log('inventario bono ',nueva_bonificacion);
+            console.log('inventario bodega ',inventario.df_cant_bodega);
+            updateInventario(id, inventario, nombre_producto, detalle.cantidad_dcp, detalle.bonificacion_dcp);
         } else {
             alertar('danger', '¡Error!', 'Compruebe su conexión a internet e intente nuevamente');
         }
     });
 }
 
-function updateInventario(id, inventario, nombre_producto, cantidad) {
-    insertKardex(inventario, id, nombre_producto, cantidad);
+function updateInventario(id, inventario, nombre_producto, cantidad, bonificacion) {
+    insertKardex(inventario, id, nombre_producto, cantidad, bonificacion);
     urlCompleta = url + 'inventario/update.php';
     $.post(urlCompleta, JSON.stringify(inventario), function(response) {});
 }
 
-function insertKardex(inventario, id, nombre_producto, cantidad) {
+function insertKardex(inventario, id, nombre_producto, cantidad, bonificacion) {    
     var currentdate = new Date();
+    var cant = ((cantidad * 1) + (bonificacion * 1));
+    console.log('Cant en Kardex ', cant);
     datetime = currentdate.getFullYear() + "-" +
         (currentdate.getMonth() + 1) + "-" +
         currentdate.getDate() + " " +
@@ -775,7 +782,7 @@ function insertKardex(inventario, id, nombre_producto, cantidad) {
         df_producto_cod_kar: inventario.df_producto,
         df_producto: nombre_producto,
         df_factura_kar: id,
-        df_ingresa_kar: cantidad * 1,
+        df_ingresa_kar: cant,
         df_egresa_kar: 0,
         df_existencia_kar: inventario.df_cant_bodega,
         df_creadoBy_kar: $('#usuario').val(),

@@ -23,6 +23,7 @@ $data = json_decode(file_get_contents('php://input'), true);
 $info = array($data);
 
 // configura los valores recibidos en post de la app
+$inventario->df_id_inventario= $info[0]["df_id_inventario"];
 $inventario->df_cant_bodega= $info[0]["df_cant_bodega"];
 $inventario->df_cant_transito= $info[0]["df_cant_transito"];
 $inventario->df_producto= $info[0]["df_producto"];
@@ -33,7 +34,6 @@ $inventario->df_pvt_total= $info[0]["df_pvt_total"];
 $inventario->df_minimo_sug= $info[0]["df_minimo_sug"];
 $inventario->df_und_caja= $info[0]["df_und_caja"];
 $inventario->df_bodega= $info[0]["df_bodega"];
-$inventario->df_id_inventario= $info[0]["df_id_inventario"];
 
 // insert inventario
 $response = $inventario->update();

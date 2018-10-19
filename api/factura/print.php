@@ -16,17 +16,13 @@ $db = $database->getConnection();
  
 // inicia el objeto
 $factura = new Factura($db);
-
 // get posted data
 $data = json_decode(file_get_contents('php://input'), true);
-
 $info = array($data);
-
 $factura->df_num_factura = $info[0]["df_num_factura"];
 // query de lectura
 $stmt = $factura->readById();
 $num = $stmt->rowCount();
-
 //factura array
 $factura_arr=array();
 $factura_arr["data"]=array();
@@ -45,6 +41,7 @@ if($num>0){
         $personal = getPersonal($df_personal_cod_fac, $db);
         $sector = getSector($df_sector_cod_fac, $db);
         $detalleFactura = getDetalle($df_num_factura, $db);
+        $historiaEstadoFactura = gethistoriaEstadoFactura($df_num_factura, $db);
         //Los nombres acá son iguales a los de la clase iguales a las columnas de la BD
         $factura_item=array(
             "df_num_factura"=>$df_num_factura, 
@@ -61,7 +58,8 @@ if($num>0){
             "cliente"=>$cliente,
             "personal"=>$personal,
             "sector"=>$sector,
-            "detalles"=>$detalleFactura
+            "detalles"=>$detalleFactura,
+            "historiaEstadoFactura"=>$historiaEstadoFactura
         );
  
         array_push($factura_arr["data"], $factura_item);
@@ -73,7 +71,6 @@ if($num>0){
 else{
     echo json_encode($factura_arr);
 }
-
 function getCliente($id_cliente, $db) {
     include_once '../objects/cliente.php';
     $cliente = new Cliente($db);
@@ -105,7 +102,6 @@ function getCliente($id_cliente, $db) {
     }
     return $cliente_arr[0];
 }
-
 function getPersonal($personal_id, $db) {
     include_once '../objects/personal.php';
     $personal = new Personal($db);
@@ -145,7 +141,6 @@ function getPersonal($personal_id, $db) {
     }
     return $personal_arr[0];
 }
-
 function getSector($sector_id, $db) {
     include_once '../objects/sector.php';
     $sector = new Sector($db);
@@ -166,7 +161,6 @@ function getSector($sector_id, $db) {
     }
     return $sector_arr[0];
 }
-
 function getDetalle($factura, $db) {
     include_once '../objects/detalleFactura.php';
     $detalleFactura = new DetalleFactura($db);
@@ -198,5 +192,26 @@ function getDetalle($factura, $db) {
         }
     }
     return $detalleFactura_arr;
+}
+function gethistoriaEstadoFactura($factura, $db) {
+    include_once '../objects/historiaEstadoFactura.php';
+    $historiaEstadoFactura = new HistoriaEstadoFactura($db);
+    $historiaEstadoFactura->df_num_factura = $factura;
+    $stmt = $historiaEstadoFactura->readById();
+    $num = $stmt->rowCount();
+    $historiaEstadoFactura_arr=array();
+    if($num>0){ 
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+            extract($row);
+            $historiaEstadoFactura_item=array(
+                "df_sector_factura"=>$df_sector_factura,
+                "df_direccion_factura"=>$df_direccion_factura
+            );
+     
+            array_push($historiaEstadoFactura_arr, $historiaEstadoFactura_item);
+        }
+    }
+    
+    return $historiaEstadoFactura_arr;
 }
 ?>

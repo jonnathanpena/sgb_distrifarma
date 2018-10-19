@@ -50,7 +50,8 @@ if($num>0){
              "df_cant_producto_detent"=>$df_cant_producto_detent,
              "df_factura_detent"=>$df_factura_detent,
              "df_nom_producto_detent"=>$df_nom_producto_detent,
-             "df_num_factura_detent"=>$df_num_factura_detent
+             "df_num_factura_detent"=>$df_num_factura_detent,
+             "df_unidad_detent"=>$df_unidad_detent
         );
  
         array_push($detalleEntrega_arr["data"], $detalleEntrega_item);

@@ -136,7 +136,9 @@ function nuevoEgreso() {
     var urlCompleta = url + 'catMovimiento/getAll.php';
     $.get(urlCompleta, function(response) {
         $.each(response.data, function(index, row) {
-            $('#movimiento').append('<option value="' + row.df_nombre_movimiento + '">' + row.df_nombre_movimiento + '</option>')
+            if (row.df_tipo == 'E') {
+                $('#movimiento').append('<option value="' + row.df_nombre_movimiento + '">' + row.df_nombre_movimiento + '</option>')
+            }
         });
     });
 }
@@ -151,7 +153,9 @@ function nuevoIngreso() {
     $('#detalle').append('<option value="null" selected>Seleccione...</option>');
     $.get(urlCompleta, function(response) {
         $.each(response.data, function(index, row) {
-            $('#detalle').append('<option value="' + row.df_nombre_movimiento + '">' + row.df_nombre_movimiento + '</option>')
+            if (row.df_tipo == 'I') {
+                $('#detalle').append('<option value="' + row.df_nombre_movimiento + '">' + row.df_nombre_movimiento + '</option>')
+            }
         });
     });
 }

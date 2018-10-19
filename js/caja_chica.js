@@ -361,7 +361,9 @@ function nuevoGasto() {
     var urlCompleta = url + 'catMovimiento/getAll.php';
     $.get(urlCompleta, function(response) {
         $.each(response.data, function(index, row) {
-            $('#movimiento').append('<option value="' + row.df_nombre_movimiento + '">' + row.df_nombre_movimiento + '</option>')
+            if (row.df_tipo == 'E') {
+                $('#movimiento').append('<option value="' + row.df_nombre_movimiento + '">' + row.df_nombre_movimiento + '</option>')
+            }
         });
     });
 }

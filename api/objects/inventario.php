@@ -31,7 +31,8 @@ class Inventario {
         // select all query
         $query = "SELECT inv.`df_id_inventario`, inv.`df_cant_bodega`, inv.`df_cant_transito`, inv.`df_producto`,
                 inv.`df_ppp_ind`, inv.`df_pvt_ind`, inv.`df_ppp_total`, inv.`df_pvt_total`, inv.`df_minimo_sug`, 
-                inv.`df_und_caja`, inv.`df_bodega`, pro.`df_codigo_prod`, pro.`df_nombre_producto` 
+                inv.`df_und_caja`, inv.`df_bodega`, pro.`df_codigo_prod`, pro.`df_nombre_producto`,
+                (inv.`df_cant_bodega` / inv.`df_und_caja`) as cantidad 
                 FROM `df_inventario` inv 
                 LEFT JOIN `df_producto` pro ON (pro.df_id_producto = inv.df_producto)
                 WHERE pro.`df_codigo_prod` LIKE '%".$this->df_codigo_prod."%' OR 
@@ -50,9 +51,11 @@ class Inventario {
     function readById(){
     
         // select all query
-        $query = "SELECT `df_id_inventario`, `df_cant_bodega`, `df_cant_transito`, `df_producto`, `df_ppp_ind`, 
-                    `df_pvt_ind`, `df_ppp_total`, `df_pvt_total`, `df_minimo_sug`, `df_und_caja`, `df_bodega` 
-                    FROM `df_inventario`  WHERE `df_id_inventario` =".$this->df_id_inventario;
+        $query = "SELECT inv.`df_id_inventario`, inv.`df_cant_bodega`, inv.`df_cant_transito`, inv.`df_producto`, inv.`df_ppp_ind`, 
+                    inv.`df_pvt_ind`, inv.`df_ppp_total`, inv.`df_pvt_total`, inv.`df_minimo_sug`, pro.`df_und_caja`, inv.`df_bodega` 
+                    FROM `df_inventario` as inv
+                    INNER JOIN  `df_producto_precio` AS pro ON (pro.`df_producto_id` = inv.`df_producto`) 
+                    WHERE `df_id_inventario` =".$this->df_id_inventario;
     
         // prepare query statement
         $stmt = $this->conn->prepare($query);
@@ -66,9 +69,10 @@ class Inventario {
     function readByIdProd(){
     
         // select all query
-        $query = "SELECT `df_id_inventario`, `df_cant_bodega`, `df_cant_transito`, `df_producto`, `df_ppp_ind`, 
-                    `df_pvt_ind`, `df_ppp_total`, `df_pvt_total`, `df_minimo_sug`, `df_und_caja`, `df_bodega` 
-                FROM `df_inventario` 
+        $query = "SELECT inv.`df_id_inventario`, inv.`df_cant_bodega`, inv.`df_cant_transito`, inv.`df_producto`, inv.`df_ppp_ind`, 
+        inv.`df_pvt_ind`, inv.`df_ppp_total`, inv.`df_pvt_total`, inv.`df_minimo_sug`, pro.`df_und_caja`, inv.`df_bodega` 
+        FROM `df_inventario` as inv
+        INNER JOIN  `df_producto_precio` AS pro ON (pro.`df_producto_id` = inv.`df_producto`) 
                 WHERE `df_producto` = ".$this->df_producto." and `df_id_inventario` = (select max(inv.`df_id_inventario`) 
                         from  `df_inventario` inv where inv.`df_producto` = ".$this->df_producto." )";
     

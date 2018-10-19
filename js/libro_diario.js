@@ -125,9 +125,9 @@ function generate_table() {
         tr.append("<td>" + row.df_usuario_usuario + "</td>");
         tr.append("<td>" + row.df_fuente_ld + "</td>");
         tr.append("<td>" + row.df_descipcion_ld + "</td>");
-        tr.append("<td class='text-center'> $ " + Number(row.df_valor_inicial_ld).toFixed(2) + "</td>");
-        tr.append("<td class='text-center'> $ " + Number(row.df_ingreso_ld).toFixed(2) + "</td>");
-        tr.append("<td class='text-center'> $ " + Number(row.df_egreso_ld).toFixed(2) + "</td>");        
+        tr.append("<td class='text-right'> $ " + Number(row.df_valor_inicial_ld).toFixed(2) + "</td>");
+        tr.append("<td class='text-right'> $ " + Number(row.df_ingreso_ld).toFixed(2) + "</td>");
+        tr.append("<td class='text-right'> $ " + Number(row.df_egreso_ld).toFixed(2) + "</td>");        
         //tr.append("<td><button class='btn btn-default pull-right' title='Detallar' onclick='detallar(" + row.df_id_gasto + ",`" + row.tipo + "`, `"+ row.df_movimiento +"`)'><i class='glyphicon glyphicon-edit'></i></button></td>");
         $('#resultados .table-responsive table tbody').append(tr);
     })         

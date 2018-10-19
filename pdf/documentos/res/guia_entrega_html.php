@@ -50,14 +50,16 @@ table.page_footer {
     </page_footer>
 	<table cellspacing="0" style="width: 100%;">
         <tr>
-            <td style="width: 25%; color: #444444;">
-                <img style="width: 100%;" src="../../img/logo.jpg" alt="Logo"><br>
+        <td style="width: 25%; color: #444444;">
+                <img style="width: 70%;" src="../../img/logo.jpg" alt="Logo"><br>
             </td>
-            <td style="width: 50%; color: #34495e;font-size:12px;text-align:center">
-                <span style="color: #34495e;font-size:14px;font-weight:bold">DISTRIFARMA</span>
-                <br>Jipijapa No. 44 y Río Coca, Quito Pichinca<br>
-                Teléfono: +(593) 99 059-6002<br>
-                Email: distrifarma@hotmail.com
+            <td style="width: 50%; color: #34495e;font-size:12px;text-align:center;">
+                <br>&nbsp;<br>
+                <br>&nbsp;<br>
+                <span style="color: #34495e;font-size:17px;font-weight:bold">DISTRIFARMA</span>
+                <br style="font-size:10px;"><span style="font-size:14px;">Jipijapa No. 44 y Río Coca, Quito Pichincha</span><br>
+                <span style="font-size:14px;">Teléfono: +(593) 99 059-6002</span><br>
+                <span style="font-size:14px;">Email: distrifarma@hotmail.com</span>
             </td>
             <td style="width: 25%;text-align:right">
             </td>
@@ -75,7 +77,10 @@ table.page_footer {
             <th style="width: 100%;text-align:left" class='silver'>VENDEDOR: <?php echo $data['personal']['df_nombre_per']."  ".$data['personal']['df_apellido_per']; ?></th>
         </tr>
         <tr>
-            <th style="width: 100%;text-align:left" class='silver'>CANT PRODUCTOS: <?php echo $data['df_cant_total_producto_ent']; ?></th>
+            <th style="width: 100%;text-align:left" class='silver'>CANT PRODUCTOS UND: <?php echo $data['df_cant_total_producto_ent']; ?></th>
+        </tr>
+        <tr>
+            <th style="width: 100%;text-align:left" class='silver'>CANT PRODUCTOS CAJA: <?php echo $data['df_cant_total_cajas_ent']; ?></th>
         </tr>
         <tr>
             <th style="width: 100%;text-align:left" class='silver'>CANT FACTURAS: <?php echo $data['df_cant_facturas_ent']; ?></th>
@@ -83,23 +88,40 @@ table.page_footer {
     </table>    
     <table cellspacing="0" style="width: 100%; text-align: left; font-size: 10pt;">
         <tr>
-            <th style="width: 15%;text-align:center" class='midnight-blue'>FACTURA</th>
-            <th style="width: 65%;text-align:center" class='midnight-blue'>PRODUCTO</th>
-            <th style="width: 10%;text-align:center" class='midnight-blue'>UNIDAD</th>
-            <th style="width: 10%;text-align:center" class='midnight-blue'>CANTIDAD</th>
+            <th style="width: 70%;text-align:left" class='midnight-blue'>PRODUCTO</th>
+            <th style="width: 15%;text-align:left" class='midnight-blue'>UNIDAD</th>
+            <th style="width: 15%;text-align:left" class='midnight-blue'>CANTIDAD</th>
         </tr>
 
         <?php
             $contador = count($data['detalles']);
+            $tabla = [];
             for ($i = 0; $i < $contador ; $i++) {
                 $detalle = $data['detalles'][$i];
+                $conseguido = false;
+                for ($j = 0; $j < count($tabla); $j++) {
+                    if ($tabla[$j]['df_nom_producto_detent'] == $detalle['df_nom_producto_detent'] && $tabla[$j]['df_unidad_detent'] == $detalle['df_unidad_detent']) {
+                        $conseguido = true;
+                        $cantidad = $tabla[$j]['df_cant_producto_detent'] * 1;
+                        $cantidad_nueva = $detalle['df_cant_producto_detent'] * 1;
+                        $cantidad = $cantidad + $cantidad_nueva;
+                        $tabla[$j]['df_cant_producto_detent'] = $cantidad;
+                    } 
+                }
+                if ($conseguido == false) {
+                    array_push($tabla, $detalle);
+                }
+            }
+
+            for ($i = 0; $i < count($tabla); $i++) {
+                $detalle = $tabla[$i];
+            
         ?>
 
         <tr>
-            <td style="width: 15%; text-align: center"><?php echo $detalle['df_num_factura_detent']?></td>
-            <td style="width: 65%; text-align: center"><?php echo $detalle['df_nom_producto_detent']?></td>
-            <td style="width: 10%; text-align: center">UND <?php echo $contador?></td>
-            <td style="width: 10%; text-align: center"><?php echo $detalle['df_cant_producto_detent']?></td>
+            <td style="width: 70%; text-align: left"><?php echo $detalle['df_nom_producto_detent']?></td>
+            <td style="width: 15%; text-align: left"><?php echo $detalle['df_unidad_detent']?></td>
+            <td style="width: 15%; text-align: left"><?php echo $detalle['df_cant_producto_detent']?></td>
         </tr>
 
         <?php

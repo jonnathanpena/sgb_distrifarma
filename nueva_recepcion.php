@@ -27,6 +27,7 @@
             <div class="panel-body">
 <?php
 	include("modal/modificar_recepcion.php");
+	include("modal/load.php");
 ?>
                <form class="form-horizontal" role="form" id="form_nueva_guia">
                   <div class="form-group row">

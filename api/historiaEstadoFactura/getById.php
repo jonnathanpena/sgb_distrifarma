@@ -49,7 +49,9 @@ if($num>0){
             "df_edo_factura"=>$df_edo_factura,
             "df_edo_impresion"=>$df_edo_impresion,
             "df_usuario_id"=>$df_usuario_id,
-            "df_fecha_proceso"=>$df_fecha_proceso
+            "df_fecha_proceso"=>$df_fecha_proceso,
+            "df_sector_factura"=>$df_sector_factura,
+            "df_direccion_factura"=>$df_direccion_factura
         );
  
         array_push($historiaEstadoFactura_arr["data"], $historiaEstadoFactura_item);

@@ -80,10 +80,10 @@ function generate_table() {
         tr.append("<td>" + factura.df_num_factura + "</td>");
         tr.append("<td>" + factura.df_nombre_cli + "</td>");
         tr.append("<td>" + factura.df_forma_pago_fac + "</td>");
-        tr.append("<td>$" + subtotal + "</td>");
-        tr.append("<td>$" + descuentos + "</td>");
-        tr.append("<td>$" + iva + "</td>");
-        tr.append("<td>$" + total_factura + "</td>");
+        tr.append("<td class='text-right'>$" + subtotal + "</td>");
+        tr.append("<td class='text-right'>$" + descuentos + "</td>");
+        tr.append("<td class='text-right'>$" + iva + "</td>");
+        tr.append("<td class='text-right'>$" + total_factura + "</td>");
         tr.append("<td><button class='btn btn-default pull-right' title='Editar' onclick='editar(`" + factura.df_num_factura + "`)'><i class='glyphicon glyphicon-edit'></i></button></td>");
         tr.append("<td><button class='btn btn-info pull-right' title='Imprimir' onclick='imprimir(`" + factura.df_num_factura + "`)'><i class='glyphicon glyphicon-print'></i></button></td>");
         $('#resultados .table-responsive table tbody').append(tr);

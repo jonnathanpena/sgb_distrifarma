@@ -55,7 +55,8 @@ if($num>0){
             "df_modificadoBy_ent"=>$df_modificadoBy_ent,
             "df_guia_ent_recibido"=>$df_guia_ent_recibido,
             "df_nombre_per"=>$df_nombre_per,
-            "df_apellido_per"=>$df_apellido_per
+            "df_apellido_per"=>$df_apellido_per,
+            "df_cant_total_cajas_ent"=>$df_cant_total_cajas_ent
         );
  
         array_push($guiaEntrega_arr["data"], $guiaEntrega_item);

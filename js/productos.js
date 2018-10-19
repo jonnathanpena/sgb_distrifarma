@@ -37,7 +37,7 @@ function load() {
     clearTimeout(timer);
     timer = setTimeout(function() {
         cargar();
-    }, 500);
+    }, 0);
 }
 
 function cargar() {
@@ -63,7 +63,7 @@ function cargar() {
                 totalRecords = records.length;
                 totalPages = Math.ceil(totalRecords / recPerPage);
                 apply_pagination();
-            }, 500);
+            }, 0);
         } else {
             $('#resultados .table-responsive table tbody').html('No se encontró ningún resultado');
         }
@@ -78,12 +78,12 @@ function generate_table() {
         tr.append("<td>" + displayRecords[i].df_codigo_prod + "</td>");
         tr.append("<td>" + displayRecords[i].df_nombre_producto + "</td>");
         //tr.append("<td class='text-center'>" + displayRecords[i].df_ppp + "</td>");
-        tr.append("<td class='text-center'>" + displayRecords[i].df_pvt1 + "</td>");
-        tr.append("<td class='text-center'>" + displayRecords[i].df_pvt2 + "</td>");
-        tr.append("<td class='text-center'>" + displayRecords[i].df_pvp + "</td>");
-        tr.append("<td class='text-center'>" + displayRecords[i].df_valor_impuesto + "%</td>");
+        tr.append("<td class='text-right'> $ " + Number(displayRecords[i].df_pvt1).toFixed(2) + "</td>");
+        tr.append("<td class='text-right'> $ " + Number(displayRecords[i].df_pvt2).toFixed(2) + "</td>");
+        tr.append("<td class='text-right'> $ " + Number(displayRecords[i].df_pvp).toFixed(2) + "</td>");
+        tr.append("<td class='text-right'>" + displayRecords[i].df_valor_impuesto + "%</td>");
         //tr.append("<td class='text-center'>" + displayRecords[i].df_min_sugerido + "</td>");
-        tr.append("<td class='text-center'>" + displayRecords[i].df_und_caja + "</td>");
+        tr.append("<td class='text-right'>" + displayRecords[i].df_und_caja + "</td>");
         //tr.append("<td class='text-center'>" + displayRecords[i].df_utilidad + "</td>");
         tr.append("<td><button class='btn btn-default pull-right' title='Detallar' onclick='detallar(" + displayRecords[i].df_id_producto + ")'><i class='glyphicon glyphicon-edit'></i></button></td>");
         $('#resultados .table-responsive table tbody').append(tr);

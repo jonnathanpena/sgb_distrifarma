@@ -8,8 +8,10 @@ var descuento = 0;
 var total = 0;
 var id = '';
 var factura = {};
+var facturaVieja;
 var productosFactura = [];
 var detallesProducto = [];
+var dineroAntes = 0;
 $(document).ready(function() {
     usuario = JSON.parse(localStorage.getItem('distrifarma_test_user'));
     if (usuario.ingreso == true) {
@@ -60,6 +62,8 @@ function consultarFactura() {
         if (response.data.length > 0) {
             console.log('resultados', response.data);
             factura = response.data[0];
+            dineroAntes = factura.df_valor_total_fac * 1;
+            facturaVieja = factura;
             var f = factura.df_fecha_fac.split(' ')[0];
             var dia = f.split('-')[2];
             var mes = f.split('-')[1];
@@ -80,6 +84,9 @@ function consultarFactura() {
             $('#descuento').html(descuento_factura.toFixed(2));
             $('#total_iva').html(iva_factura.toFixed(2));
             $('#total').html(total_factura.toFixed(2));
+            if (factura.df_edo_factura_fac == 2 || factura.df_edo_factura_fac == 4 || factura.df_edo_factura_fac == 5) {
+                $('#btn-guardar').attr('disabled', true);
+            }
         } else {
             alertar('danger', '¡Error!', 'Por favor certifique que está conectado a internet, e intente nuevamente');
             window.location.href = "facturas.php";
@@ -305,6 +312,7 @@ function calcular() {
 }
 
 function modificar() {
+    on();
     factura.df_cliente_cod_fac = $('#cliente_id').val();
     factura.df_personal_cod_fac = $('#personal').val();
     factura.df_sector_cod_fac = $('#sector').val();
@@ -321,26 +329,29 @@ function modificar() {
 function validarInsercion(factura) {
     var seguir = true;
     if (factura.df_cliente_cod_fac == undefined) {
+        off();
         alertar('warning', '¡Alerta!', 'Debe escoger un cliente');
         seguir = false;
     }
-    if (factura.df_iva_fac == 0) {
-        alertar('warning', '¡Alerta!', 'Los valores no pueden estar en cero');
-        seguir = false;
-    }
-    if (factura.df_valor_total_fac == 0) {
-        alertar('warning', '¡Alerta!', 'Los valores no pueden estar en cero');
-        seguir = false;
-    }
     if (factura.df_personal_cod_fac == 'null') {
+        off();
         alertar('warning', '¡Alerta!', 'Debe escoger un personal');
         seguir = false;
     }
     if (factura.df_sector_cod_fac == 'null') {
+        off();
         alertar('warning', '¡Alerta!', 'Debe escoger un sector');
         seguir = false;
     }
     if (seguir == true) {
+        var dineroActual = factura.df_valor_total_fac * 1;
+        if (dineroAntes > dineroActual) {
+            var restar = dineroAntes - dineroActual;
+            consultarBanco('Egreso', restar, factura.df_num_factura);
+        } else if (dineroAntes < dineroActual) {
+            var sumar = dineroActual - dineroAntes;
+            consultarBanco('Ingreso', sumar, factura.df_num_factura);
+        }
         modificarFactura(factura);
     }
 }
@@ -352,6 +363,7 @@ function modificarFactura(factura) {
         if (response == true) {
             recorrerTablaProductos();
         } else {
+            off();
             alertar('danger', '¡Error!', 'Certifica que tienes conectividad estable y vuelve a intentar');
             load();
         }
@@ -396,6 +408,7 @@ function recorrerTablaProductos() {
     consultarElmimado();
     clearTimeout(timer);
     timer = setTimeout(function() {
+        off();
         alertar('success', '¡Éxito!', 'Factura # ' + id + 'modificada exitosamente');
         load();
     }, 2000);
@@ -404,7 +417,9 @@ function recorrerTablaProductos() {
 function consultarExistencia(detalle) {
     var parecido = false;
     for (var i = 0; i < productosFactura.length; i++) {
-        if (detalle.df_prod_precio_detfac == productosFactura[i].df_prod_precio_detfac) {
+        if (detalle.df_prod_precio_detfac == productosFactura[i].df_prod_precio_detfac &&
+            productosFactura[i].df_cantidad_detfac * 1 == detalle.df_cantidad_detfac &&
+            detalle.df_nombre_und_detfac == productosFactura[i].df_nombre_und_detfac) {
             parecido = true;
         }
     }
@@ -427,7 +442,7 @@ function getInventario(detalle, cant_bodega) {
         var inventario = response.data[0];
         inventario.df_cant_bodega = cant_bodega;
         updateInventario(inventario);
-    })
+    });
 }
 
 function updateInventario(inventario) {
@@ -489,7 +504,9 @@ function consultarElmimado() {
     for (var i = 0; i < productosFactura.length; i++) {
         var existe = false;
         for (var j = 0; j < detallesProducto.length; j++) {
-            if (productosFactura[i].df_prod_precio_detfac == detallesProducto[j].df_prod_precio_detfac) {
+            if (productosFactura[i].df_prod_precio_detfac == detallesProducto[j].df_prod_precio_detfac &&
+                productosFactura[i].df_cantidad_detfac * 1 == detallesProducto[j].df_cantidad_detfac &&
+                detallesProducto[j].df_nombre_und_detfac == productosFactura[i].df_nombre_und_detfac) {
                 existe = true;
             }
         }
@@ -556,8 +573,8 @@ function consultarProductosFactura(facturaId) {
                 '<td width="100" class="cantidad">' + row.df_cantidad_detfac + '</td>' +
                 '<td width="100" class="precio_unitario">' + Number(row.df_precio_prod_detfac).toFixed(2) + '</td>' +
                 '<td width="100" class="total_tupla_producto">' + Number(subtotal_tabla).toFixed(2) + '</td>' +
-                '<td width="100"><a class="delete" title="Eliminar" data-toggle="tooltip" onclick="eliminarProducto(`'+ row.df_id_producto +'`, `'+ row.df_codigo_prod +'`, `'+ row.df_nombre_producto +'`, `'+ cantidad +'`)">'+
-                    '<i class="material-icons">&#xE872;</i></a></td>' +
+                '<td width="100"><a class="delete" title="Eliminar" data-toggle="tooltip" onclick="eliminarProducto(`' + row.df_id_producto + '`, `' + row.df_codigo_prod + '`, `' + row.df_nombre_producto + '`, `' + cantidad + '`, `' + row.df_nombre_und_detfac + '`)">' +
+                '<i class="material-icons">&#xE872;</i></a></td>' +
                 '</tr>';
             $('#table_productos tbody').append(row);
             $('[data-toggle="tooltip"]').tooltip();
@@ -688,7 +705,7 @@ function agregar() {
     }
 }
 
-function eliminarProducto(idProducto, codigo, nombre_producto, cantidad) {
+function eliminarProducto(idProducto, codigo, nombre_producto, cantidad, unidad) {
     currentdate = new Date();
     datetime = currentdate.getFullYear() + "-" +
         (currentdate.getMonth() + 1) + "-" +
@@ -709,20 +726,26 @@ function eliminarProducto(idProducto, codigo, nombre_producto, cantidad) {
         df_existencia_kar: 0,
         df_creadoBy_kar: $('#usuario').val(),
         df_edo_kardex: 3
-    };    
-    reponerInventario(idProducto, ingresa, kardex);
+    };
+    reponerInventario(idProducto, ingresa, kardex, unidad);
 }
 
-function reponerInventario(idProducto, cantidad, kardex) {
+function reponerInventario(idProducto, cantidad, kardex, unidad) {
     var urlCompleta = url + 'inventario/getByIdProd.php';
     $.post(urlCompleta, JSON.stringify({ df_producto: idProducto }), function(response) {
         var inventario = response.data[0];
         var antes = inventario.df_cant_bodega * 1;
-        inventario.df_cant_bodega = cantidad + antes;
-        kardex.df_existencia_kar = inventario.df_cant_bodega;
+        if (unidad == 'CAJA') {
+            var nuevo = cantidad * inventario.df_und_caja;
+            inventario.df_cant_bodega = nuevo + antes;
+            kardex.df_existencia_kar = inventario.df_cant_bodega;
+        } else {
+            inventario.df_cant_bodega = cantidad + antes;
+            kardex.df_existencia_kar = inventario.df_cant_bodega;
+        }
         getIdMaxKardex(kardex);
         updateInventario(inventario);
-    })
+    });
 }
 
 function getIdMaxKardex(kardex) {
@@ -748,4 +771,99 @@ function getIdMaxKardex(kardex) {
         }
         insertKardex(kardex);
     })
+}
+
+function consultarBanco(tipo, monto, fact) {
+    var urlCompleta = url + 'banco/getAll.php';
+    currentdate = new Date();
+    datetime = currentdate.getFullYear() + "-" +
+        (currentdate.getMonth() + 1) + "-" +
+        currentdate.getDate() + " " +
+        currentdate.getHours() + ":" +
+        currentdate.getMinutes() + ":" +
+        currentdate.getSeconds();
+    $.get(urlCompleta, function(response) {
+        var saldoAnterior = response.data[0].df_saldo_banco * 1;
+        var banco;
+        if (tipo == 'Egreso') {
+            monto = monto * 1;
+            var saldo = saldoAnterior - monto;
+            banco = {
+                df_fecha_banco: datetime,
+                df_usuario_id_banco: $('#usuario').val(),
+                df_tipo_movimiento: 'Egreso',
+                df_monto_banco: monto,
+                df_saldo_banco: saldo,
+                df_num_documento_banco: 'Factura #' + fact,
+                df_detalle_mov_banco: 'Modificación factura'
+            };
+        } else {
+            monto = monto * 1;
+            var saldo = saldoAnterior + monto;
+            banco = {
+                df_fecha_banco: datetime,
+                df_usuario_id_banco: $('#usuario').val(),
+                df_tipo_movimiento: 'Ingreso',
+                df_monto_banco: monto,
+                df_saldo_banco: saldo,
+                df_num_documento_banco: 'Factura #' + fact,
+                df_detalle_mov_banco: 'Modificación factura'
+            };
+        }
+        insertarBanco(banco, saldoAnterior, fact, monto, tipo);
+    });
+}
+
+function insertarBanco(banco, saldoBanco, fact, monto, tipo) {
+    var urlCompleta = url + 'banco/insert.php';
+    $.post(urlCompleta, JSON.stringify(banco), function(response) {
+        console.log('insert banco', response);
+        consultarLibroDiario(saldoBanco, fact, monto, tipo);
+    });
+}
+
+function consultarLibroDiario(saldoBanco, fact, monto, tipo) {
+    var urlCompleta = url + 'cajaChicaGasto/getMes.php';
+    currentdate = new Date();
+    datetime = currentdate.getFullYear() + "-" +
+        (currentdate.getMonth() + 1) + "-" +
+        currentdate.getDate() + " " +
+        currentdate.getHours() + ":" +
+        currentdate.getMinutes() + ":" +
+        currentdate.getSeconds();
+    $.get(urlCompleta, function(response) {
+        var saldoCajaChica = response.data[0].df_saldo * 1;
+        saldoBanco = saldoBanco * 1;
+        var valorInicial = saldoBanco + saldoCajaChica;
+        var librodiario;
+        if (tipo == 'Egreso') {
+            librodiario = {
+                df_fuente_ld: 'Banco',
+                df_valor_inicial_ld: valorInicial,
+                df_fecha_ld: datetime,
+                df_descipcion_ld: 'Modificación Factura #' + fact,
+                df_ingreso_ld: 0,
+                df_egreso_ld: monto,
+                df_usuario_id_ld: $('#usuario').val()
+            };
+        } else {
+            librodiario = {
+                df_fuente_ld: 'Banco',
+                df_valor_inicial_ld: valorInicial,
+                df_fecha_ld: datetime,
+                df_descipcion_ld: 'Modificación Factura #' + fact,
+                df_ingreso_ld: monto,
+                df_egreso_ld: 0,
+                df_usuario_id_ld: $('#usuario').val()
+            };
+        }
+        insertLibroDiario(librodiario);
+    })
+}
+
+function insertLibroDiario(libroDiario) {
+    var urlCompleta = url + 'libroDiario/insert.php';
+    $.post(urlCompleta, JSON.stringify(libroDiario), function(response) {
+        console.log('inserción libro diario', response);
+    });
 }

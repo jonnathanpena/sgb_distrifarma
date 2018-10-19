@@ -49,15 +49,16 @@ if($num>0){
             "df_cant_bodega"=>$df_cant_bodega,
             "df_cant_transito"=>$df_cant_transito,
             "df_producto"=>$df_producto,
-            "df_ppp_ind"=>$df_ppp_ind,
-            "df_pvt_ind"=>$df_pvt_ind,
+            "df_ppp_ind"=>$df_ppp_ind * 1,
+            "df_pvt_ind"=>$df_pvt_ind * 1,
             "df_ppp_total"=>$df_ppp_total,
             "df_pvt_total"=>$df_pvt_total,
             "df_minimo_sug"=>$df_minimo_sug,
             "df_und_caja"=>$df_und_caja,
             "df_bodega"=>$df_bodega,
             "df_codigo_prod"=>$df_codigo_prod,
-            "df_nombre_producto"=>$df_nombre_producto
+            "df_nombre_producto"=>$df_nombre_producto,
+            "cantidad"=>$cantidad * 1
         );
  
         array_push($inventario_arr["data"], $inventario_item);

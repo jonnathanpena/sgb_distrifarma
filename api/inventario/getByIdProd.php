@@ -53,7 +53,7 @@ if($num>0){
             "df_ppp_total"=>$df_ppp_total,
             "df_pvt_total"=>$df_pvt_total,
             "df_minimo_sug"=>$df_minimo_sug,
-            "df_und_caja"=>$df_und_caja,
+            "df_und_caja"=>$df_und_caja * 1,
             "df_bodega"=>$df_bodega
         );
  

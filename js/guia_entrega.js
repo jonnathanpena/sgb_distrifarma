@@ -37,7 +37,7 @@ function load() {
     clearTimeout(timer);
     timer = setTimeout(function() {
         cargar();
-    }, 1000);
+    }, 200);
 }
 
 function cargar() {
@@ -49,19 +49,14 @@ function cargar() {
     $.post(urlCompleta, JSON.stringify({ df_codigo_guia_ent: q }), function(response) {
         if (response.data.length > 0) {
             console.log('guias', response.data);
-            $.each(response.data, function(index, row) {
-                consultarVendedor(row);
+            guias = response.data;
+            guias.sort(function(a, b) {
+                return (b.df_num_guia_entrega - a.df_num_guia_entrega)
             });
-            clearTimeout(timer);
-            timer = setTimeout(function() {
-                guias.sort(function(a, b) {
-                    return (b.df_num_guia_entrega - a.df_num_guia_entrega)
-                });
-                records = guias;
-                totalRecords = records.length;
-                totalPages = Math.ceil(totalRecords / recPerPage);
-                apply_pagination();
-            }, 1000);
+            records = guias;
+            totalRecords = records.length;
+            totalPages = Math.ceil(totalRecords / recPerPage);
+            apply_pagination();
         } else {
             $('#resultados .table-responsive table tbody').html('No se encontró ningún resultado');
         }
@@ -94,6 +89,7 @@ function generate_table() {
         tr.append("<td>" + displayRecords[i].df_fecha_ent + "</td>");
         tr.append("<td>" + displayRecords[i].df_nombre_per + "  " + displayRecords[i].df_apellido_per + "</td>");
         tr.append("<td class='text-center'>" + displayRecords[i].df_cant_total_producto_ent + "</td>");
+        tr.append("<td class='text-center'>" + displayRecords[i].df_cant_total_cajas_ent + "</td>");
         tr.append("<td class='text-center'>" + displayRecords[i].df_cant_facturas_ent + "</td>");
         tr.append("<td><button class='btn btn-info pull-right' title='Detallar' onclick='detallar(" + displayRecords[i].df_num_guia_entrega + ")'><i class='glyphicon glyphicon-print'></i></button></td>");
         $('#resultados .table-responsive table tbody').append(tr);
@@ -128,18 +124,5 @@ function detallar(id) {
 
         form.appendTo(document.body);
         $(form).submit();
-        //$.redirectPost('guiaRemision/print.php', { 'data': response.data[0] });
     });
 }
-
-/*function consultarPersonal() {
-    var urlCompleta = url + 'personal/getAll.php';
-    $('#personal').append('<option value="null">Seleccione...</option>')
-    $.get(urlCompleta, function(response) {
-        if (response.data.length > 0) {
-            $.each(response.data, function(index, row) {
-                $('#personal').append('<option value="' + row.df_id_personal + '">' + row.df_nombre_per + ' ' + row.df_apellido_per + '</option>');
-            })
-        }
-    });
-}*/

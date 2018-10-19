@@ -26,6 +26,7 @@ $info = array($data);
 $detalleRecepcion->df_guia_recepcion_detrec= $info[0]["df_guia_recepcion_detrec"];
 $detalleRecepcion->df_factura_rec= $info[0]["df_factura_rec"];
 $detalleRecepcion->df_cant_producto_detrec= $info[0]["df_cant_producto_detrec"];
+$detalleRecepcion->df_cant_caja_detrec= $info[0]["df_cant_caja_detrec"];
 $detalleRecepcion->df_producto_cod_detrec= $info[0]["df_producto_cod_detrec"];
 $detalleRecepcion->df_nueva_fecha= $info[0]["df_nueva_fecha"];
 $detalleRecepcion->df_detalleRemision_detrec= $info[0]["df_detalleRemision_detrec"];

@@ -53,7 +53,7 @@ if($num>0){
             "df_valor_efectivo_rem"=>$df_valor_efectivo_rem,
             "df_creadoBy_rem"=>$df_creadoBy_rem * 1,
             "df_modificadoBy_rem"=>$df_modificadoBy_rem * 1,
-            "df_nombre_sector"=>$df_nombre_sector,
+            "df_nombre_zona"=>$df_nombre_zona,
             "df_nombre_per"=>$df_nombre_per,
             "df_apellido_per"=>$df_apellido_per
         );
