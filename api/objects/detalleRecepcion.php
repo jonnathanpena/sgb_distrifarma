@@ -43,9 +43,11 @@ class DetalleRecepcion {
     function readById(){
     
         // select all query
-        $query = "SELECT `df_id_detrec`, `df_guia_recepcion_detrec`, `df_factura_rec`, `df_cant_producto_detrec`, `df_cant_caja_detrec`, 
-                    `df_producto_cod_detrec`, `df_nueva_fecha`, `df_detalleRemision_detrec`, `df_edo_prod_fact_detrec` 
-					FROM `df_detalle_recepcion` 
+        $query = "SELECT `df_id_detrec`, `df_guia_recepcion_detrec`, `df_factura_rec`, `df_cant_producto_detrec`, 
+                    `df_cant_caja_detrec`, `df_producto_cod_detrec`, `df_nueva_fecha`, `df_detalleRemision_detrec`,
+                    `df_edo_prod_fact_detrec`, pro.`df_nombre_producto`, pro.`df_codigo_prod`
+                    FROM `df_detalle_recepcion` as det
+                    INNER JOIN  `df_producto` AS pro on (pro.`df_id_producto` = det.`df_producto_cod_detrec`)
                     WHERE df_guia_recepcion_detrec = ".$this->df_guia_recepcion_detrec;
     
         // prepare query statement

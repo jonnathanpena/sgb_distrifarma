@@ -57,7 +57,8 @@ if($num>0){
             "df_edo_entrega_prod_detfac"=>$df_edo_entrega_prod_detfac,
             "df_valor_sin_iva_detfac"=>$df_valor_sin_iva_detfac,
             "df_iva_detfac"=>$df_iva_detfac,
-            "df_valor_total_detfac"=>$df_valor_total_detfac
+            "df_valor_total_detfac"=>$df_valor_total_detfac,
+            "df_und_caja"=>$df_und_caja * 1
         );
  
         array_push($detalleFactura_arr["data"], $detalleFactura_item);

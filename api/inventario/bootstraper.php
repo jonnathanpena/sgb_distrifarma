@@ -45,10 +45,10 @@ if($num>0){
             "df_cant_bodega"=>$df_cant_bodega,
             "df_cant_transito"=>$df_cant_transito,
             "df_producto"=>$df_producto,
-            "df_ppp_ind"=>number_format(getPPPInd($df_producto, $db),2),
+            "df_ppp_ind"=>number_format(getPPPInd($df_producto, $db), 2, '.', ''),
             "df_pvt_ind"=>$df_pvt_ind,
-            "df_ppp_total"=>number_format((getPPPInd($df_producto, $db) * $df_cant_bodega), 2),
-            "df_pvt_total"=>number_format(($df_pvt_ind * $df_cant_bodega), 2),
+            "df_ppp_total"=>number_format((getPPPInd($df_producto, $db) * $df_cant_bodega), 2, '.', ''),
+            "df_pvt_total"=>number_format(($df_pvt_ind * $df_cant_bodega), 2, '.', ''),
             "df_minimo_sug"=>$df_minimo_sug,
             "df_und_caja"=>$df_und_caja,
             "df_bodega"=>$df_bodega,
@@ -80,6 +80,7 @@ function getPPPInd($producto_id, $db) {
 function updateInventario($info, $db) {
     include_once '../objects/inventario.php';
     $inventario = new Inventario($db);
+    $inventario->df_id_inventario= $info["df_id_inventario"];
     $inventario->df_cant_bodega= $info["df_cant_bodega"];
     $inventario->df_cant_transito= $info["df_cant_transito"];
     $inventario->df_producto= $info["df_producto"];
@@ -90,7 +91,6 @@ function updateInventario($info, $db) {
     $inventario->df_minimo_sug= $info["df_minimo_sug"];
     $inventario->df_und_caja= $info["df_und_caja"];
     $inventario->df_bodega= $info["df_bodega"];
-    $inventario->df_id_inventario= $info["df_id_inventario"];
     $response = $inventario->update();
 }
 ?>

@@ -417,7 +417,9 @@ function recorrerTablaProductos() {
 function consultarExistencia(detalle) {
     var parecido = false;
     for (var i = 0; i < productosFactura.length; i++) {
-        if (detalle.df_prod_precio_detfac == productosFactura[i].df_prod_precio_detfac) {
+        if (detalle.df_prod_precio_detfac == productosFactura[i].df_prod_precio_detfac &&
+            productosFactura[i].df_cantidad_detfac * 1 == detalle.df_cantidad_detfac &&
+            detalle.df_nombre_und_detfac == productosFactura[i].df_nombre_und_detfac) {
             parecido = true;
         }
     }
@@ -502,7 +504,9 @@ function consultarElmimado() {
     for (var i = 0; i < productosFactura.length; i++) {
         var existe = false;
         for (var j = 0; j < detallesProducto.length; j++) {
-            if (productosFactura[i].df_prod_precio_detfac == detallesProducto[j].df_prod_precio_detfac) {
+            if (productosFactura[i].df_prod_precio_detfac == detallesProducto[j].df_prod_precio_detfac &&
+                productosFactura[i].df_cantidad_detfac * 1 == detallesProducto[j].df_cantidad_detfac &&
+                detallesProducto[j].df_nombre_und_detfac == productosFactura[i].df_nombre_und_detfac) {
                 existe = true;
             }
         }

@@ -139,10 +139,8 @@ function insertDetalle(detalle) {
     });
 }
 
-function crearUsuario() {
-    alert('Crear usuario');
+function crearUsuario() {    
     var perfil = '';
-    if ($('#perfil').val() == ''){
         if ($('#cargo').val() == 'Administrador'){
             perfil = 'Administrador';
         } else if ($('#cargo').val() == 'Repartidor' || $('#cargo').val() == 'Vendedor') {
@@ -150,7 +148,7 @@ function crearUsuario() {
         } else if ($('#cargo').val() == 'Secretaria' || $('#cargo').val() == 'Supervisor') {
             perfil = 'Supervisor';
         }
-    }
+    console.log('perfil ', perfil);
     var user = {
         df_usuario_usuario: $('#usuario').val(),
         df_personal_cod: $('#id').val(),

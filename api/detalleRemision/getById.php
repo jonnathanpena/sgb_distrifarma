@@ -55,7 +55,8 @@ if($num>0){
             "df_valor_total_detrem"=>$df_valor_total_detrem,
             "df_id_producto"=>$df_id_producto,
             "df_codigo_prod"=>$df_codigo_prod,
-            "df_nombre_producto"=>$df_nombre_producto
+            "df_nombre_producto"=>$df_nombre_producto,
+            "df_und_caja"=>$df_und_caja * 1
         );
  
         array_push($detalleRemision_arr["data"], $detalleRemision_item);

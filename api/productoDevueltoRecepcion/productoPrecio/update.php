@@ -8,14 +8,14 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
  
 // incluye la configuración de la base de datos y la conexión
 include_once '../config/database.php';
-include_once '../objects/inventario.php';
+include_once '../objects/productoPrecio.php';
  
 // inicia la conexión a la base de datos
 $database = new Database();
 $db = $database->getConnection();
  
 // inicia el objeto
-$inventario = new Inventario($db);
+$productoPrecio = new ProductoPrecio($db);
  
 // get posted data
 $data = json_decode(file_get_contents('php://input'), true);
@@ -23,22 +23,21 @@ $data = json_decode(file_get_contents('php://input'), true);
 $info = array($data);
 
 // configura los valores recibidos en post de la app
-$inventario->df_id_inventario= $info[0]["df_id_inventario"];
-$inventario->df_cant_bodega= $info[0]["df_cant_bodega"];
-$inventario->df_cant_transito= $info[0]["df_cant_transito"];
-$inventario->df_producto= $info[0]["df_producto"];
-$inventario->df_ppp_ind= $info[0]["df_ppp_ind"];
-$inventario->df_pvt_ind= $info[0]["df_pvt_ind"];
-$inventario->df_ppp_total= $info[0]["df_ppp_total"];
-$inventario->df_pvt_total= $info[0]["df_pvt_total"];
-$inventario->df_minimo_sug= $info[0]["df_minimo_sug"];
-$inventario->df_und_caja= $info[0]["df_und_caja"];
-$inventario->df_bodega= $info[0]["df_bodega"];
+$productoPrecio->df_producto_id= $info[0]["df_producto_id"];
+$productoPrecio->df_ppp= $info[0]["df_ppp"];
+$productoPrecio->df_pvt1= $info[0]["df_pvt1"];
+$productoPrecio->df_pvt2= $info[0]["df_pvt2"];
+$productoPrecio->df_pvp= $info[0]["df_pvp"];
+$productoPrecio->df_iva= $info[0]["df_iva"];
+$productoPrecio->df_min_sugerido= $info[0]["df_min_sugerido"];
+$productoPrecio->df_und_caja= $info[0]["df_und_caja"];
+$productoPrecio->df_utilidad= $info[0]["df_utilidad"];
+$productoPrecio->df_id_precio= $info[0]["df_id_precio"];
 
-// insert inventario
-$response = $inventario->update();
+// modificar productoPrecio
+$response = $productoPrecio->update();
 if($response == true){
-    echo json_encode($response); 
+    echo json_encode(true); 
 }else{
     // Error en caso de que no se pueda modificar
     echo json_encode(false); 

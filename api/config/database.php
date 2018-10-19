@@ -7,8 +7,8 @@ class Database{
     // specify your own database credentials
     private $host = "localhost";
     private $db_name = "sgipro_distrifarma"; //"proco389_distrifar";
-    private $username = "root";//"proco389_dfar";
-    private $password = "";//"Distrifarma2018";
+    private $username = "sgipro_dfarma";//"proco389_dfar";
+    private $password = "Distrifarma2018";//"Distrifarma2018";
     public $conn;
  
     // get the database connection

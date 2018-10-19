@@ -46,6 +46,27 @@ class GuiaEntrega {
         return $stmt;
     }
 
+    // obtener guia_entrega del usuario
+    function readByRepartidor(){
+    
+        // select all query
+        $query = "SELECT ent.`df_num_guia_entrega`, ent.`df_codigo_guia_ent`, ent.`df_repartidor_ent`, 
+                    ent.`df_cant_total_producto_ent`, ent.`df_cant_facturas_ent`, ent.`df_fecha_ent`, ent.`df_creadoBy_ent`, 
+                    ent.`df_modificadoBy_ent`, ent.`df_guia_ent_recibido`, per.`df_nombre_per`, per.`df_apellido_per`, ent.`df_cant_total_cajas_ent`
+                    FROM `df_guia_entrega` as ent
+                    INNER JOIN `df_personal` as per ON (per.df_id_personal =  ent.`df_repartidor_ent`)
+                    WHERE `df_codigo_guia_ent` LIKE '%".$this->df_codigo_guia_ent."%'
+                    AND ent.`df_repartidor_ent` =".$this->df_repartidor_ent;
+    
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+    
+        // execute query
+        $stmt->execute();
+    
+        return $stmt;
+    }
+
 
     // obtener guia_entrega
     function readById(){
