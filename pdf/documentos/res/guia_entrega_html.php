@@ -50,14 +50,16 @@ table.page_footer {
     </page_footer>
 	<table cellspacing="0" style="width: 100%;">
         <tr>
-            <td style="width: 25%; color: #444444;">
-                <img style="width: 100%;" src="../../img/logo.jpg" alt="Logo"><br>
+        <td style="width: 25%; color: #444444;">
+                <img style="width: 70%;" src="../../img/logo.jpg" alt="Logo"><br>
             </td>
-            <td style="width: 50%; color: #34495e;font-size:12px;text-align:center">
-                <span style="color: #34495e;font-size:14px;font-weight:bold">DISTRIFARMA</span>
-                <br>Jipijapa No. 44 y Río Coca, Quito Pichinca<br>
-                Teléfono: +(593) 99 059-6002<br>
-                Email: distrifarma@hotmail.com
+            <td style="width: 50%; color: #34495e;font-size:12px;text-align:center;">
+                <br>&nbsp;<br>
+                <br>&nbsp;<br>
+                <span style="color: #34495e;font-size:17px;font-weight:bold">DISTRIFARMA</span>
+                <br style="font-size:10px;"><span style="font-size:14px;">Jipijapa No. 44 y Río Coca, Quito Pichincha</span><br>
+                <span style="font-size:14px;">Teléfono: +(593) 99 059-6002</span><br>
+                <span style="font-size:14px;">Email: distrifarma@hotmail.com</span>
             </td>
             <td style="width: 25%;text-align:right">
             </td>
@@ -87,8 +89,8 @@ table.page_footer {
     <table cellspacing="0" style="width: 100%; text-align: left; font-size: 10pt;">
         <tr>
             <th style="width: 70%;text-align:left" class='midnight-blue'>PRODUCTO</th>
-            <th style="width: 15%;text-align:center" class='midnight-blue'>UNIDAD</th>
-            <th style="width: 15%;text-align:center" class='midnight-blue'>CANTIDAD</th>
+            <th style="width: 15%;text-align:left" class='midnight-blue'>UNIDAD</th>
+            <th style="width: 15%;text-align:left" class='midnight-blue'>CANTIDAD</th>
         </tr>
 
         <?php
@@ -118,8 +120,8 @@ table.page_footer {
 
         <tr>
             <td style="width: 70%; text-align: left"><?php echo $detalle['df_nom_producto_detent']?></td>
-            <td style="width: 15%; text-align: center"><?php echo $detalle['df_unidad_detent']?></td>
-            <td style="width: 15%; text-align: center"><?php echo $detalle['df_cant_producto_detent']?></td>
+            <td style="width: 15%; text-align: left"><?php echo $detalle['df_unidad_detent']?></td>
+            <td style="width: 15%; text-align: left"><?php echo $detalle['df_cant_producto_detent']?></td>
         </tr>
 
         <?php

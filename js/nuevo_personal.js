@@ -65,6 +65,11 @@ $('#form_nuevo_personal').submit(function(event) {
                                     var perfil = $('#perfil').val();
                                     console.log('Cargo', $('#cargo').val());
                                     console.log('Perfil', $('#perfil').val());
+                                } else if ( cargo == 'Administrador'){
+                                    $('#perfil').val('Administrador');
+                                    var perfil = $('#perfil').val();
+                                    console.log('Cargo', $('#cargo').val());
+                                    console.log('Perfil', $('#perfil').val());
                                 }
                                 if (perfil != 'null') {
                                     selectMaxID({

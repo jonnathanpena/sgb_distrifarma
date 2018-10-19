@@ -9,6 +9,7 @@ class Sector {
     public $df_codigo_sector;
     public $df_nombre_sector;
     public $fecha;
+    public $df_sector_cod_fac;
 
     //constructor con base de datos como conexión
     public function __construct($db){
@@ -38,7 +39,7 @@ class Sector {
         // select all query
         $query = "SELECT DISTINCT sec.`df_codigo_sector`, sec.`df_nombre_sector` 
                     FROM `df_sector` as sec
-                    INNER JOIN `df_factura` as fac on (fac.df_cliente_cod_fac = sec.`df_codigo_sector` and 
+                    INNER JOIN `df_factura` as fac on (fac.df_sector_cod_fac = sec.`df_codigo_sector` and 
                                 fac.df_edo_factura_fac IN (1,3,4,6) and date(fac.df_fecha_entrega_fac) = '".$this->fecha."')
                     ORDER BY sec.`df_nombre_sector` ASC";
         /* $query = "SELECT DISTINCT sec.`df_codigo_sector`, sec.`df_nombre_sector` 
@@ -112,8 +113,8 @@ class Sector {
     
         // query 
         $query = "UPDATE `df_sector` SET 
-            df_nombre_sector`= '".$this->df_nombre_sector."'
-            WHERE `df_codigo_sector`=".$this->df_codigo_sector;
+                df_nombre_sector`= '".$this->df_nombre_sector."'
+                WHERE `df_codigo_sector`= ".$this->df_codigo_sector;
     
         // prepara la sentencia del query
         $stmt = $this->conn->prepare($query);

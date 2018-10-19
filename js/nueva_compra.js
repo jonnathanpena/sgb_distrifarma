@@ -740,6 +740,11 @@ function consultarInventario(id, detalle, nombre_producto) {
             var nueva_cantidad = detalle.cantidad_dcp * inventario.df_und_caja;
             var nueva_bonificacion = detalle.bonificacion_dcp * inventario.df_und_caja;
             inventario.df_cant_bodega = Number(bodega_anterior + nueva_cantidad + nueva_bonificacion);
+            console.log('cantidad x unidad ',inventario.df_und_caja);
+            console.log('inventario bodega anterior ',bodega_anterior);
+            console.log('inventario cant ',nueva_cantidad);
+            console.log('inventario bono ',nueva_bonificacion);
+            console.log('inventario bodega ',inventario.df_cant_bodega);
             updateInventario(id, inventario, nombre_producto, detalle.cantidad_dcp, detalle.bonificacion_dcp);
         } else {
             alertar('danger', '¡Error!', 'Compruebe su conexión a internet e intente nuevamente');

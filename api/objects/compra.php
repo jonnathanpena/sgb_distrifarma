@@ -84,7 +84,7 @@ class Compra {
                     `ice_cc_compra`, `imp_verde_compra`, `iva_compra`, `otros_compra`, `interes_compra`, `bonificacion_compra`, `total_compra`) 
                     VALUES (
                         ".$this->usuario_id.",
-                        '".$hoy."',
+                        '".$this->fecha_compra."',
                         ".$this->proveedor_id.",
                         ".$this->detalle_sustento_comprobante_id.",
                         '".$this->serie_compra."',
