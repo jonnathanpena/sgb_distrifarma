@@ -33,12 +33,13 @@ class DetalleFactura {
         //INNER JOIN df_producto_precio as pp on (pp.`df_id_precio` = det.`df_prod_precio_detfac`)        //
 
         $query = "SELECT det.`df_id_factura_detfac`, det.`df_num_factura_detfac`, det.`df_prod_precio_detfac`, 
-                    det.df_precio_prod_detfac, prod.`df_id_producto`, prod.`df_nombre_producto`, 
-                    prod.`df_codigo_prod`, det.`df_cantidad_detfac`,det.`df_nombre_und_detfac`, 
-                    det.`df_cant_x_und_detfac`, det.`df_edo_entrega_prod_detfac`, det.`df_valor_sin_iva_detfac`,
-                    det.`df_iva_detfac`, det.`df_valor_total_detfac` 
-                FROM `df_detalle_factura` as det
-                INNER JOIN `df_producto` as prod on (det.`df_prod_precio_detfac` = prod.df_id_producto) 
+                        det.df_precio_prod_detfac, prod.`df_id_producto`, prod.`df_nombre_producto`, 
+                        prod.`df_codigo_prod`, det.`df_cantidad_detfac`,det.`df_nombre_und_detfac`, 
+                        det.`df_cant_x_und_detfac`, det.`df_edo_entrega_prod_detfac`, det.`df_valor_sin_iva_detfac`,
+                        det.`df_iva_detfac`, det.`df_valor_total_detfac` ,  pp.df_und_caja
+                    FROM `df_detalle_factura` as det
+                    INNER JOIN `df_producto` as prod on (det.`df_prod_precio_detfac` = prod.df_id_producto) 
+                    INNER JOIN  `df_producto_precio`AS pp on (pp.`df_producto_id` = prod.df_id_producto )
                     WHERE det.df_num_factura_detfac = ".$this->df_num_factura_detfac;
     
         // prepare query statement

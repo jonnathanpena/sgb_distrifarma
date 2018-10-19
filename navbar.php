@@ -8,7 +8,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">::: SGB :::</a>
+      <a class="navbar-brand" href="#">::: SGI :::</a>
     </div>
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -75,7 +75,7 @@
 					<li><a href="guia_recepcion.php">Guías de Recepción</a></li>
 				</ul>
 			</li>
-			<li class="<?php echo $active_reportes ?>"><a href="reportes.php"><i  class='glyphicon glyphicon-paste'></i> Reportes</a></li> 
+			<!-- <li class="<?php echo $active_reportes ?>"><a href="reportes.php"><i  class='glyphicon glyphicon-paste'></i> Reportes</a></li>  -->
 	  	</ul>
 
 			<!-- Menú Perfil Supervisor (Secretaria y Supervisor) -->

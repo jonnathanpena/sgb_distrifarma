@@ -6,7 +6,7 @@
    $active_bodega = "";
    $active_reportes = "";
    $active_reportes_usuarios = "";
-   $title="Nueva Guía Entrega | SGB";  
+   $title="Nueva Guía Entrega | SGI";  
    $fecha = Date('d/m/Y');
 ?>
 <!DOCTYPE html>
@@ -27,6 +27,7 @@
             <div class="panel-body">
 <?php
 include("modal/consultar_productos_entrega.php");
+include("modal/load.php");
 ?>
                <form class="form-horizontal" role="form" id="form_nueva_guia">
                   <div class="form-group row">
@@ -49,10 +50,14 @@ include("modal/consultar_productos_entrega.php");
                      </div>
                   </div>
                   <div class="form-group row">
-                    <label for="cantidad" class="col-md-2 control-label">Cantidad de Productos</label>
+                     <label for="cantidad" class="col-md-2 control-label">Cantidad Unidades</label>
                      <div class="col-md-2">
                         <input type="text" class="form-control input-sm" id="cantidad" name="cantidad" value="0" readonly>
-                     </div>   
+                     </div>  
+                     <label for="cantidad" class="col-md-2 control-label">Cantidad Cajas</label>
+                     <div class="col-md-2">
+                        <input type="text" class="form-control input-sm" id="cantidad_cajas" name="cantidad_cajas" value="0" readonly>
+                     </div>  
                      <label for="facturas" class="col-md-2 control-label">Cantidad de Facturas</label>
                      <div class="col-md-2">
                         <input type="number" class="form-control input-sm" id="facturas" name="facturas" min="1" max="1000000" step="1" value="0" readonly>
@@ -95,6 +100,7 @@ include("modal/consultar_productos_entrega.php");
                                         <tr>
                                             <th>Código</th>
                                             <th>Producto</th>
+                                            <th>Unidad</th>
                                             <th>Cantidad</th>
                                         </tr>
                                     </thead>

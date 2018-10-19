@@ -1,4 +1,4 @@
-<?php
+ <?php
 class HistoriaEstadoFactura {
 
     // conexión a la base de datos y nombre de la tabla
@@ -12,6 +12,8 @@ class HistoriaEstadoFactura {
     public $df_edo_impresion;
     public $df_usuario_id;
     public $df_fecha_proceso;
+    public $df_sector_factura;
+    public $df_direccion_factura;
 
     //constructor con base de datos como conexión
     public function __construct($db){
@@ -23,7 +25,7 @@ class HistoriaEstadoFactura {
     
         // select all query
         $query = "SELECT `df_id_hist_edo_factura`, `df_num_factura`, `df_edo_factura`, `df_edo_impresion`, 
-                    `df_usuario_id`, `df_fecha_proceso` 
+                    `df_usuario_id`, `df_fecha_proceso` , `df_sector_factura` , `df_direccion_factura` 
                     FROM `df_historia_edo_factura`
                     WHERE df_num_factura = ".$this->df_num_factura."
                     ORDER BY df_fecha_proceso DESC";
@@ -42,12 +44,15 @@ class HistoriaEstadoFactura {
     
         // query to insert record
         $query = "INSERT INTO `df_historia_edo_factura`(`df_num_factura`, `df_edo_factura`, `df_edo_impresion`, 
-                    `df_usuario_id`, `df_fecha_proceso`) VALUES (
+                    `df_usuario_id`, `df_fecha_proceso`, `df_sector_factura`, `df_direccion_factura`) VALUES (
                         ".$this->df_num_factura.",
                         ".$this->df_edo_factura.",
                         ".$this->df_edo_impresion.",
                         ".$this->df_usuario_id.",
-                        '".$this->df_fecha_proceso."')";
+                        '".$this->df_fecha_proceso."',
+                        ".$this->df_sector_factura.",
+                        '".$this->df_direccion_factura."'
+                        )";
         // prepara la sentencia del query
         $stmt = $this->conn->prepare($query);    
         

@@ -7,7 +7,7 @@
     $active_bodega = "active";
     $active_reportes = "";
     $active_reportes_usuarios = "";
-	$title="Kardex | SGB";
+	$title="Kardex | SGI";
 ?>
 <!DOCTYPE html>
 <html lang="en">

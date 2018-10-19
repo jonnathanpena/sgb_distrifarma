@@ -37,15 +37,16 @@ function load() {
     clearTimeout(timer);
     timer = setTimeout(function() {
         cargar();
-    }, 1000);
+    }, 0);
 }
 
 function cargar() {
     guias = [];
-//    $('#resultados .table-responsive table tbody').empty();
+    //    $('#resultados .table-responsive table tbody').empty();
     var q = $('#q').val();
     $('#resultados .table-responsive table tbody').html('Cargando...');
     var urlCompleta = url + 'guiaRemision/getAll.php';
+
     $.post(urlCompleta, JSON.stringify({ df_codigo_rem: q }), function(response) {
         $.each(response.data, function(index, row) {
             consultarVendedor(row);
@@ -68,6 +69,7 @@ function apply_pagination() {
     endRec = (displayRecordsIndex) + recPerPage;
     displayRecords = records.slice(displayRecordsIndex, endRec);
     generate_table();
+
     $pagination.twbsPagination({
         totalPages: totalPages,
         visiblePages: 6,
@@ -89,8 +91,8 @@ function generate_table() {
         tr.append("<td>" + displayRecords[i].df_fecha_remision + "</td>");
         tr.append("<td>" + displayRecords[i].df_nombre_per + "  " + displayRecords[i].df_apellido_per + "</td>");
         tr.append("<td class='text-center'>" + displayRecords[i].df_cant_total_producto_rem + "</td>");
-        tr.append("<td class='text-center'>" + displayRecords[i].df_valor_efectivo_rem + "</td>");
-        //tr.append("<td><button class='btn btn-default pull-right' title='Detallar' onclick='detallar(" + displayRecords[i].df_guia_remision + ")'><i class='glyphicon glyphicon-edit'></i></button></td>");
+        tr.append("<td class='text-right'>$ " + Number(displayRecords[i].df_valor_efectivo_rem).toFixed(2) + "</td>");
+        tr.append("<td><button class='btn btn-info pull-right' title='Detallar' onclick='detallar(" + displayRecords[i].df_guia_remision + ")'><i class='glyphicon glyphicon-print'></i></button></td>");
         $('#resultados .table-responsive table tbody').append(tr);
     }
 }
@@ -117,5 +119,22 @@ function consultarPersonal() {
 }
 
 function detallar(id) {
-    console.log('id', id);
+    var urlCompleta = url + 'guiaRemision/print.php';
+    $.post(urlCompleta, JSON.stringify({ df_guia_remision: id }), function(response) {
+        var form = $(document.createElement('form'));
+        $(form).attr("action", "pdf/documentos/guia_remision.php");
+        $(form).attr("method", "POST");
+        $(form).css("display", "none");
+        $(form).attr("target", "_blank");
+
+        var input_employee_name = $("<input>")
+            .attr("type", "text")
+            .attr("name", "data")
+            .val(JSON.stringify(response.data[0]));
+        $(form).append($(input_employee_name));
+
+        form.appendTo(document.body);
+        $(form).submit();
+        $.redirectPost('guiaRemision/print.php', { 'data': response.data[0] });
+    });
 }

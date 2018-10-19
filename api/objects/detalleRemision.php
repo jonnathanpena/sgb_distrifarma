@@ -50,7 +50,7 @@ class DetalleRemision {
         // select all query
         $query = "SELECT drem.`df_id_detrem`, drem.`df_guia_remision_detrem`, drem.`df_producto_precio_detrem`, drem.`df_cant_producto_detrem`, 
                     drem.`df_nombre_und_detrem`, drem.`df_cant_x_und_detrem`, drem.`df_valor_sin_iva_detrem`, drem.`df_iva_detrem`, drem.`df_valor_total_detrem`, 
-                    prod.`df_codigo_prod`, prod.`df_nombre_producto`, prod.`df_id_producto`
+                    prod.`df_codigo_prod`, prod.`df_nombre_producto`, prod.`df_id_producto`, pp.df_und_caja
                     FROM `df_detalle_remision` as drem
                     JOIN `df_producto_precio` as pp ON (drem.`df_producto_precio_detrem` = pp.`df_id_precio`)
                     JOIN `df_producto` as prod ON (pp.`df_producto_id` = prod.`df_id_producto`)

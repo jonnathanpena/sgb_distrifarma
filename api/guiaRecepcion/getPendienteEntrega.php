@@ -38,12 +38,14 @@ if($num>0){
             "df_num_guia_entrega"=>$df_num_guia_entrega,     
             "df_codigo_guia_ent"=>$df_codigo_guia_ent,
             "df_fecha_ent"=>$df_fecha_ent,
-            "df_sector_ent"=>$df_sector_ent,
+            "df_sector_ent"=>0,
             "df_repartidor_ent"=>$df_repartidor_ent,
             "df_cant_total_producto_ent"=>$df_cant_total_producto_ent,
             "df_creadoBy_ent"=>$df_creadoBy_ent,
             "df_modificadoBy_ent"=>$df_modificadoBy_ent,
-            "df_guia_ent_recibido"=>$df_guia_ent_recibido
+            "df_guia_ent_recibido"=>$df_guia_ent_recibido,
+            "df_nombre_per"=>$df_nombre_per,
+            "df_apellido_per"=>$df_apellido_per
         );
  
         array_push($guiaRecepcion_arr["data"], $guiaRecepcion_item);

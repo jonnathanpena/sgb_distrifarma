@@ -28,6 +28,8 @@ $historiaEstadoFactura->df_edo_factura= $info[0]["df_edo_factura"];
 $historiaEstadoFactura->df_edo_impresion= $info[0]["df_edo_impresion"];
 $historiaEstadoFactura->df_usuario_id= $info[0]["df_usuario_id"];
 $historiaEstadoFactura->df_fecha_proceso= $info[0]["df_fecha_proceso"];
+$historiaEstadoFactura->df_sector_factura= $info[0]["df_sector_factura"];
+$historiaEstadoFactura->df_direccion_factura= $info[0]["df_direccion_factura"];
 
 // insert historiaEstadoFactura
 $response = $historiaEstadoFactura->insert();

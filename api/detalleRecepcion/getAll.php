@@ -39,8 +39,10 @@ if($num>0){
 			"df_guia_recepcion_detrec"=>$df_guia_recepcion_detrec,
 			"df_factura_rec"=>$df_factura_rec, 
              "df_cant_producto_detrec"=>$df_cant_producto_detrec,
+             "df_cant_caja_detrec"=>$df_cant_caja_detrec,
              "df_producto_cod_detrec"=>$df_producto_cod_detrec,
              "df_nueva_fecha"=>$df_nueva_fecha,
+             "df_detalleRemision_detrec" =>$df_detalleRemision_detrec,
              "df_edo_prod_fact_detrec" =>$df_edo_prod_fact_detrec
         );
  

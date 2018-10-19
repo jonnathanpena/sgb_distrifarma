@@ -9,6 +9,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 // incluye la configuración de la base de datos y la conexión
 include_once '../config/database.php';
 include_once '../objects/compra.php';
+include_once '../objects/cuotasCompra.php';
  
 // inicia la conexión a la base de datos
 $database = new Database();
@@ -42,6 +43,10 @@ if($num>0){
         // this will make $row['name'] to
         // just $name only
         extract($row);
+        $pagado = 1;
+        if ($condiciones_compra * 1 == 4) {
+            $pagado = getCuotas($db, $id_compra);
+        }
  
         $compra_item=array(
             "id_compra"=>$id_compra,
@@ -76,7 +81,8 @@ if($num>0){
             "total_compra"=>$total_compra,
             "df_nombre_empresa"=>$df_nombre_empresa,
             "df_codigo_proveedor"=>$df_codigo_proveedor,
-            "df_usuario_usuario"=>$df_usuario_usuario
+            "df_usuario_usuario"=>$df_usuario_usuario,
+            "pagado"=>$pagado
         );
  
         array_push($compra_arr["data"], $compra_item);
@@ -87,5 +93,31 @@ if($num>0){
  
 else{
     echo json_encode($compra_arr);
+}
+
+function getCuotas($db, $compra_id) {
+    $cuotasCompra = new CuotasCompra($db);
+    $cuotasCompra->compra_id = $compra_id;
+    $stmt = $cuotasCompra->readByCompra();
+    $num = $stmt->rowCount();
+    if ($num > 0) {
+        $i = 0;
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+            // extract row
+            // this will make $row['name'] to
+            // just $name only
+            extract($row);
+            if ($df_estado_cc == 'PAGADO') {
+                $i++;
+            }
+        }
+        if ($i == $num) {
+            return 1;
+        } else {
+            return 0;
+        }
+    } else {
+        return 1;
+    }
 }
 ?>

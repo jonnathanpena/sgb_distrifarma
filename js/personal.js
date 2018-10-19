@@ -34,7 +34,7 @@ function load() {
     clearTimeout(timer);
     timer = setTimeout(function() {
         cargar();
-    }, 1000);
+    }, 0);
 }
 
 function cargar() {

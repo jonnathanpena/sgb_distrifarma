@@ -19,20 +19,28 @@ function timerIncrement() {
         window.location.href = 'login.php';
     }
 }
-var url = 'http://www.proconty.com/API/distrifar/'; //'http://www.proconty.com/API/distrifar/'; 
+var url = 'api/'; //'http://www.proconty.com/API/distrifar/'; 
 var usuario = "";
 
 function alertar(tipo, titulo, mensaje) {
-   // $.toaster({ priority: tipo, title: titulo, message: mensaje, timeout: 7000, autohide: false });
-   var opciones = {
-    'bgColor': '#5cb85c', 'ftColor': 'white', 'vPosition': 'top', 'hPosition': 'right', 'fadeIn': 400, 'fadeOut': 400, 'clickable': true, 'autohide': false, 'duration': 4000 
-   };
-   if (tipo == 'warning'){
-       opciones.bgColor = '#f0ad4e';
-   } else if (tipo == 'danger'){
-       opciones.bgColor = '#d9534f';
-   }
-   flash(titulo + ' - ' + mensaje, opciones);    
+    // $.toaster({ priority: tipo, title: titulo, message: mensaje, timeout: 7000, autohide: false });
+    var opciones = {
+        'bgColor': '#5cb85c',
+        'ftColor': 'white',
+        'vPosition': 'top',
+        'hPosition': 'right',
+        'fadeIn': 400,
+        'fadeOut': 400,
+        'clickable': true,
+        'autohide': false,
+        'duration': 4000
+    };
+    if (tipo == 'warning') {
+        opciones.bgColor = '#f0ad4e';
+    } else if (tipo == 'danger') {
+        opciones.bgColor = '#d9534f';
+    }
+    flash(titulo + ' - ' + mensaje, opciones);
 }
 
 $('#logout').click(function() {
@@ -49,3 +57,11 @@ history.pushState(null, null, location.href);
 window.onpopstate = function() {
     history.go(1);
 };
+
+function on() {
+    $('#loadModal').modal('show');
+}
+
+function off() {
+    $('#loadModal').modal('hide');
+}

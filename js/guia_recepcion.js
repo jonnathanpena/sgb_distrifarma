@@ -37,16 +37,16 @@ function load() {
     clearTimeout(timer);
     timer = setTimeout(function() {
         cargar();
-    }, 1000);
+    }, 100);
 }
 
 function cargar() {
     guias = [];
     $('#resultados .table-responsive table tbody').html('Cargando...');
-    //$('#resultados .table-responsive table tbody').empty();
     var q = $('#q').val();
     var urlCompleta = url + 'guiaRecepcion/getAll.php';
     $.post(urlCompleta, JSON.stringify({ df_codigo_guia_rec: q }), function(response) {
+        //console.log('guias', response);
         if (response.data.length > 0) {
             console.log('guias', response.data);
             $.each(response.data, function(index, row) {
@@ -65,7 +65,7 @@ function cargar() {
         } else {
             $('#resultados .table-responsive table tbody').html('No se encontró ningún resultado');
         }
-    })
+    });
 }
 
 function apply_pagination() {
@@ -96,7 +96,7 @@ function generate_table() {
         tr.append("<td class='text-center'>$" + displayRecords[i].df_valor_recaudado + "</td>");
         tr.append("<td class='text-center'>$" + displayRecords[i].df_valor_efectivo + "</td>");
         tr.append("<td class='text-center'>$" + displayRecords[i].df_valor_cheque + "</td>");
-        //tr.append("<td><button class='btn btn-default pull-right' title='Detallar' onclick='detallar(" + displayRecords[i].df_num_guia_entrega + ")'><i class='glyphicon glyphicon-edit'></i></button></td>");
+        tr.append("<td><button class='btn btn-info pull-right' title='Detallar' onclick='detallar(" + displayRecords[i].df_guia_recepcion + ")'><i class='glyphicon glyphicon-print'></i></button></td>");
         $('#resultados .table-responsive table tbody').append(tr);
     }
 }
@@ -113,7 +113,23 @@ function consultarVendedor(guia) {
 }
 
 function detallar(id) {
-    console.log('id guia', id);
+    var urlCompleta = url + 'guiaRecepcion/print.php';
+    $.post(urlCompleta, JSON.stringify({ df_guia_recepcion: id }), function(response) {
+        var form = $(document.createElement('form'));
+        $(form).attr("action", "pdf/documentos/guia_recepcion.php");
+        $(form).attr("method", "POST");
+        $(form).css("display", "none");
+        $(form).attr("target", "_blank");
+
+        var input_employee_name = $("<input>")
+            .attr("type", "text")
+            .attr("name", "data")
+            .val(JSON.stringify(response.data[0]));
+        $(form).append($(input_employee_name));
+
+        form.appendTo(document.body);
+        $(form).submit();
+    });
 }
 
 /*function consultarPersonal() {

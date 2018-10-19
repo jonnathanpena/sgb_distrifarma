@@ -73,14 +73,14 @@ function generate_table() {
                 tr.append('<td>' + row.id_compra + '</td>');
                 tr.append('<td>' + row.df_usuario_usuario + '</td>');
                 tr.append('<td>' + row.df_nombre_empresa + '</td>');
-                tr.append('<td class="text-center">$ ' + (row.total_compra * 1).toFixed(3) + '</td>');
+                tr.append('<td class="text-right">$ ' + (row.total_compra * 1).toFixed(3) + '</td>');
                 tr.append('<td class="text-right"> <button class="btn btn-success"><i class="glyphicon glyphicon-eye-open" onclick="observarCuotas(`' + row.id_compra + '`)"></i></button> </td>');
                 $('#resultados .table-responsive table tbody').append(tr);    
             } else {
                 tr.append('<td>' + row.id_compra + '</td>');
                 tr.append('<td>' + row.df_usuario_usuario + '</td>');
                 tr.append('<td>' + row.df_nombre_empresa + '</td>');
-                tr.append('<td class="text-center">$ ' + (row.total_compra * 1).toFixed(3) + '</td>');
+                tr.append('<td class="text-right">$ ' + (row.total_compra * 1).toFixed(3) + '</td>');
                 tr.append('<td class="text-right"> <button class="btn btn-warning"><i class="glyphicon glyphicon-eye-open" onclick="observarCuotas(`' + row.id_compra + '`)"></i></button> </td>');
                 $('#resultados .table-responsive table tbody').append(tr);
             }            
@@ -88,7 +88,7 @@ function generate_table() {
             tr.append('<td>' + row.id_compra + '</td>');
             tr.append('<td>' + row.df_usuario_usuario + '</td>');
             tr.append('<td>' + row.df_nombre_empresa + '</td>');
-            tr.append('<td class="text-center">$ ' + (row.total_compra * 1).toFixed(3)+ '</td>');
+            tr.append('<td class="text-right">$ ' + (row.total_compra * 1).toFixed(3)+ '</td>');
             tr.append('<td class="text-right"></td>');
             $('#resultados .table-responsive table tbody').append(tr);
         }

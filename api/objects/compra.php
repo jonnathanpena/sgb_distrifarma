@@ -61,7 +61,8 @@ class Compra {
                     JOIN `df_proveedor` as prov ON (comp.`proveedor_id` = prov.`df_id_proveedor`)
                     JOIN `df_usuario` as usu ON (comp.`usuario_id` = usu.`df_id_usuario`)
                     WHERE prov.`df_nombre_empresa` LIKE '%".$this->df_nombre_empresa."%'
-                    OR usu.`df_usuario_usuario` LIKE '%".$this->df_nombre_empresa."%' ";
+                    OR usu.`df_usuario_usuario` LIKE '%".$this->df_nombre_empresa."%' 
+                    ORDER BY comp.`id_compra` DESC";
     
         // prepare query statement
         $stmt = $this->conn->prepare($query);
@@ -83,7 +84,7 @@ class Compra {
                     `ice_cc_compra`, `imp_verde_compra`, `iva_compra`, `otros_compra`, `interes_compra`, `bonificacion_compra`, `total_compra`) 
                     VALUES (
                         ".$this->usuario_id.",
-                        '".$hoy."',
+                        '".$this->fecha_compra."',
                         ".$this->proveedor_id.",
                         ".$this->detalle_sustento_comprobante_id.",
                         '".$this->serie_compra."',

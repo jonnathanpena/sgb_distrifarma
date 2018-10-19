@@ -7,7 +7,7 @@
    $active_bodega = "";
    $active_reportes = "";
    $active_reportes_usuarios = "";
-   $title="Compras | SGB";
+   $title="Nueva Compra | SGI";
    date_default_timezone_set('America/Bogota');
 ?>
 <!DOCTYPE html>
@@ -287,9 +287,9 @@
                                     <div class="col-md-3">
                                         <input type="text" class="form-control input-sm" placeholder="Producto" id='nombre_producto' disabled>
                                     </div>
-                                    <label for="cdigo_producto" class="col-md-1 control-label">Cant</label>
+                                    <label for="cdigo_producto" class="col-md-1 control-label" title="Cantidad x Caja">Cant</label>
                                     <div class="col-md-1">
-                                        <input type="number" class="form-control input-sm" id="cantidad_producto" name="cantidad_producto" value="1">
+                                        <input title="Cantidad x Caja" type="number" class="form-control input-sm" id="cantidad_producto" name="cantidad_producto" value="1">
                                     </div>
                                     <label for="cdigo_producto" class="col-md-1 control-label">P. Unit.</label>
                                     <div class="col-md-2">
@@ -481,10 +481,10 @@
                                 id="imp_verde" onkeyup="calcularResultados()">
                         </td>
                         <td>
-                            <label class="control-label">IVA</label> 
+                            <label  style="display: none;" class="control-label">IVA</label> 
                         </td>
                         <td>
-                            <input type="number" class="form-control input-sm" id="total_iva" value="0.12" disabled>
+                            <input  style="display: none;" type="number" class="form-control input-sm" id="total_iva" value="0" disabled>
                         </td>
                     </tr>
                     <tr>
@@ -502,10 +502,10 @@
                             <input type="number" class="form-control input-sm" id="intereses" value="0.000">
                         </td>
                         <td>
-                            <label class="control-label">Descuento (%)</label>
+                            <label  style="display: none;" class="control-label">Descuento (%)</label>
                         </td>
                         <td>
-                            <input type="number" class="form-control input-sm" id="bonificacion" value="0.000">
+                            <input  style="display: none;" type="number" class="form-control input-sm" id="bonificacion" value="0.000">
                         </td>
                     </tr>
                     <tr>

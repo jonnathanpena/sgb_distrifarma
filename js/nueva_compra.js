@@ -686,6 +686,9 @@ function insert(compra) {
             console.log('compra insert', response);
             alertar('danger', '¡Error!', 'Algo malo ocurrió, por favor verifique e intente de nuevo');
         } else {
+            if (compra.condiciones_compra != '4') {
+                getBancos(compra.total_compra, response);
+            }
             getDataProductoTable(response);
         }
     })
@@ -737,21 +740,28 @@ function consultarInventario(id, detalle, nombre_producto) {
             var nueva_cantidad = detalle.cantidad_dcp * inventario.df_und_caja;
             var nueva_bonificacion = detalle.bonificacion_dcp * inventario.df_und_caja;
             inventario.df_cant_bodega = Number(bodega_anterior + nueva_cantidad + nueva_bonificacion);
-            updateInventario(id, inventario, nombre_producto, detalle.cantidad_dcp);
+            console.log('cantidad x unidad ',inventario.df_und_caja);
+            console.log('inventario bodega anterior ',bodega_anterior);
+            console.log('inventario cant ',nueva_cantidad);
+            console.log('inventario bono ',nueva_bonificacion);
+            console.log('inventario bodega ',inventario.df_cant_bodega);
+            updateInventario(id, inventario, nombre_producto, detalle.cantidad_dcp, detalle.bonificacion_dcp);
         } else {
             alertar('danger', '¡Error!', 'Compruebe su conexión a internet e intente nuevamente');
         }
     });
 }
 
-function updateInventario(id, inventario, nombre_producto, cantidad) {
-    insertKardex(inventario, id, nombre_producto, cantidad);
+function updateInventario(id, inventario, nombre_producto, cantidad, bonificacion) {
+    insertKardex(inventario, id, nombre_producto, cantidad, bonificacion);
     urlCompleta = url + 'inventario/update.php';
     $.post(urlCompleta, JSON.stringify(inventario), function(response) {});
 }
 
-function insertKardex(inventario, id, nombre_producto, cantidad) {
+function insertKardex(inventario, id, nombre_producto, cantidad, bonificacion) {    
     var currentdate = new Date();
+    var cant = ((cantidad * 1) + (bonificacion * 1));
+    console.log('Cant en Kardex ', cant);
     datetime = currentdate.getFullYear() + "-" +
         (currentdate.getMonth() + 1) + "-" +
         currentdate.getDate() + " " +
@@ -772,7 +782,7 @@ function insertKardex(inventario, id, nombre_producto, cantidad) {
         df_producto_cod_kar: inventario.df_producto,
         df_producto: nombre_producto,
         df_factura_kar: id,
-        df_ingresa_kar: cantidad * 1,
+        df_ingresa_kar: cant,
         df_egresa_kar: 0,
         df_existencia_kar: inventario.df_cant_bodega,
         df_creadoBy_kar: $('#usuario').val(),
@@ -992,26 +1002,26 @@ $('#descuento_producto').keyup(function(e) {
 });
 
 function agregar() {
-    var descuento = Number(Number($('#descuento_producto').val()) / 100).toFixed(2);
+    var descuento = Number(Number($('#descuento_producto').val()) / 100);
     var accion = '<a class="delete" title="Eliminar" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>';
     var cantidad = $('#cantidad_producto').val() * 1;
-    var precio = Number($('#precio_unitario_producto').val()).toFixed(3);
+    var precio = Number($('#precio_unitario_producto').val());
     var iva = $('#iva_producto').val() * 1;
-    iva = Number(iva * precio * cantidad).toFixed(3);
-    var total_tupla = Number(precio * cantidad).toFixed(3);
-    var total_descuento = Number(descuento * total_tupla).toFixed(3);
-    total_tupla = Number(total_tupla - total_descuento).toFixed(3);
+    iva = Number(iva * precio * cantidad);
+    var total_tupla = Number(precio * cantidad);
+    var total_descuento = Number(descuento * total_tupla);
+    total_tupla = Number(total_tupla - total_descuento);
     var tr = $('<tr/>');
     tr.append('<td class="id_producto" style="display:none;">' + producto.df_id_producto + '</td>');
     tr.append('<td class="codigo" width="150">' + producto.df_codigo_prod + '</td>');
     tr.append('<td class="producto">' + producto.df_nombre_producto + '</td>');
     tr.append('<td class="bonificacion" width="100">' + Number($('#bonificacion_producto').val()) + '</td>');
     tr.append('<td class="cantidad" width="100">' + cantidad + '</td>');
-    tr.append('<td class="precio" width="100">' + precio + '</td>');
-    tr.append('<td class="iva" width="100">' + iva + '</td>');
-    tr.append('<td class="descuento" style="display: none;">' + descuento + '</td>');
-    tr.append('<td class="total_descuento" width="100">' + total_descuento + '</td>');
-    tr.append('<td class="total_tupla" width="100">' + total_tupla + '</td>');
+    tr.append('<td class="precio" width="100">' + Number(precio).toFixed(3) + '</td>');
+    tr.append('<td class="iva" width="100">' + Number(iva).toFixed(3) + '</td>');
+    tr.append('<td class="descuento" style="display: none;">' + Number(descuento).toFixed(3) + '</td>');
+    tr.append('<td class="total_descuento" width="100">' + Number(total_descuento).toFixed(3) + '</td>');
+    tr.append('<td class="total_tupla" width="100">' + Number(total_tupla).toFixed(3) + '</td>');
     tr.append('<td>' + accion + '</td>');
     $('#table_productos').append(tr);
     calcularResultados();
@@ -1032,3 +1042,71 @@ $('#bonificacion').keyup(function(e) {
     total_descuento = Number(total_pagar - total_descuento).toFixed(3);
     $('#total_compra').val(total_descuento);
 });
+
+function getBancos(monto, num_compra) {
+    var urlCompleta = url + 'banco/getAll.php';
+    var currentdate = new Date();
+    datetime = currentdate.getFullYear() + "-" +
+        (currentdate.getMonth() + 1) + "-" +
+        currentdate.getDate() + " " +
+        currentdate.getHours() + ":" +
+        currentdate.getMinutes() + ":" +
+        currentdate.getSeconds();
+    $.get(urlCompleta, function(response) {
+        saldo_anterior = response.data[0].df_saldo_banco * 1;
+        nuevo_saldo = saldo_anterior - monto;
+        var banco = {
+            df_fecha_banco: datetime,
+            df_usuario_id_banco: $('#usuario').val(),
+            df_tipo_movimiento: 'Egreso',
+            df_monto_banco: monto,
+            df_saldo_banco: nuevo_saldo,
+            df_num_documento_banco: num_compra,
+            df_detalle_mov_banco: 'Compra'
+        };
+        insertBanco(banco);
+        getCajaChica(saldo_anterior, monto, num_compra);
+    });
+}
+
+function insertBanco(banco) {
+    var urlCompleta = url + 'banco/insert.php';
+    $.post(urlCompleta, JSON.stringify(banco), function(response) {
+        console.log('insercion banco', response);
+    });
+}
+
+function getCajaChica(saldo_banco, monto, compra_id) {
+    var urlCompleta = url + 'cajaChicaGasto/getMes.php';
+    var saldo_inicial = saldo_banco * 1;
+    var currentdate = new Date();
+    datetime = currentdate.getFullYear() + "-" +
+        (currentdate.getMonth() + 1) + "-" +
+        currentdate.getDate() + " " +
+        currentdate.getHours() + ":" +
+        currentdate.getMinutes() + ":" +
+        currentdate.getSeconds();
+    $.get(urlCompleta, function(response) {
+        if (response.data.length > 0) {
+            var saldo_caja = response.data[0].df_saldo * 1;
+            saldo_inicial = saldo_caja + saldo_inicial;
+        }
+        var libroDiario = {
+            df_fuente_ld: 'Banco',
+            df_valor_inicial_ld: saldo_inicial,
+            df_fecha_ld: datetime,
+            df_descipcion_ld: 'Compra #' + compra_id,
+            df_ingreso_ld: 0,
+            df_egreso_ld: monto,
+            df_usuario_id_ld: $('#usuario').val()
+        };
+        insertLibroDiario(libroDiario);
+    });
+}
+
+function insertLibroDiario(libroDiario) {
+    var urlCompleta = url + 'libroDiario/insert.php';
+    $.post(urlCompleta, JSON.stringify(libroDiario), function(response) {
+        console.log('insert libro diario', response);
+    });
+}

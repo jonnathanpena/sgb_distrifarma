@@ -7,7 +7,7 @@
     $active_bodega = "";
     $active_reportes = "";
     $active_reportes_usuarios = "";
-	$title="Guía Recepción | SGB";
+	$title="Guía Recepción | SGI";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -53,7 +53,7 @@
                                 <th class="text-center">Valor Recaudad($)</th>
                                 <th class="text-center">Valor Efectivo($)</th>
                                 <th class="text-center">Valor Cheque($)</th>
-                                <!--<th class='text-right'>Acciones</th>-->
+                                <th class='text-right'>Acciones</th>
                             </tr>
                         </thead>
                         <tbody></tbody>

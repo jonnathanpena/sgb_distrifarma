@@ -6,7 +6,7 @@
     $active_guias = "";
     $active_bodega = "";
     $active_reportes = "";
-	$title="Nueva Caja Chica | SGB";
+	$title="Nueva Caja Chica | SGI";
 ?>
 
 <!DOCTYPE html>

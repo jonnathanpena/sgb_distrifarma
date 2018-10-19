@@ -37,14 +37,14 @@ function load() {
     clearTimeout(timer);
     timer = setTimeout(function() {
         cargar();
-    }, 500);
+    }, 0);
 }
 
 function cargar() {
     productos = [];
     $('#resultados .table-responsive table tbody').html('Cargando...');
     //$('#resultados .table-responsive table tbody').empty();
-   //    var urlCompleta = url + 'producto/getAll.php';
+    //    var urlCompleta = url + 'producto/getAll.php';
     var urlCompleta = url + 'producto/getAlls.php';
     var q = $('#q').val();
     $.post(urlCompleta, JSON.stringify({ df_codigo_prod: q, df_nombre_producto: q }), function(response) {
@@ -63,7 +63,7 @@ function cargar() {
                 totalRecords = records.length;
                 totalPages = Math.ceil(totalRecords / recPerPage);
                 apply_pagination();
-            }, 500);
+            }, 0);
         } else {
             $('#resultados .table-responsive table tbody').html('No se encontró ningún resultado');
         }
@@ -78,12 +78,12 @@ function generate_table() {
         tr.append("<td>" + displayRecords[i].df_codigo_prod + "</td>");
         tr.append("<td>" + displayRecords[i].df_nombre_producto + "</td>");
         //tr.append("<td class='text-center'>" + displayRecords[i].df_ppp + "</td>");
-        tr.append("<td class='text-center'>" + displayRecords[i].df_pvt1 + "</td>");
-        tr.append("<td class='text-center'>" + displayRecords[i].df_pvt2 + "</td>");
-        tr.append("<td class='text-center'>" + displayRecords[i].df_pvp + "</td>");
-        tr.append("<td class='text-center'>" + displayRecords[i].df_valor_impuesto + "%</td>");
+        tr.append("<td class='text-right'> $ " + Number(displayRecords[i].df_pvt1).toFixed(2) + "</td>");
+        tr.append("<td class='text-right'> $ " + Number(displayRecords[i].df_pvt2).toFixed(2) + "</td>");
+        tr.append("<td class='text-right'> $ " + Number(displayRecords[i].df_pvp).toFixed(2) + "</td>");
+        tr.append("<td class='text-right'>" + displayRecords[i].df_valor_impuesto + "%</td>");
         //tr.append("<td class='text-center'>" + displayRecords[i].df_min_sugerido + "</td>");
-        tr.append("<td class='text-center'>" + displayRecords[i].df_und_caja + "</td>");
+        tr.append("<td class='text-right'>" + displayRecords[i].df_und_caja + "</td>");
         //tr.append("<td class='text-center'>" + displayRecords[i].df_utilidad + "</td>");
         tr.append("<td><button class='btn btn-default pull-right' title='Detallar' onclick='detallar(" + displayRecords[i].df_id_producto + ")'><i class='glyphicon glyphicon-edit'></i></button></td>");
         $('#resultados .table-responsive table tbody').append(tr);
@@ -323,6 +323,7 @@ function updatePrecio() {
         df_utilidad: $('#editUtilidad').val(),
         df_id_precio: $('#id_precio').val()
     };
+    obtenerInventario(precio);
     var urlCompleta = url + 'productoPrecio/update.php';
     $.post(urlCompleta, JSON.stringify(precio), function(response) {
         if (response == true) {
@@ -332,6 +333,21 @@ function updatePrecio() {
         }
         $('#editarProducto').modal('hide');
         load();
+    });
+}
+
+function obtenerInventario(producto_precio) {
+    var urlCompleta = url + 'inventario/getByIdProd.php';
+    $.post(urlCompleta, JSON.stringify({ df_producto: producto_precio.df_producto_id }), function(response) {
+        response.data[0].df_pvt_ind = producto_precio.df_pvt1;
+        modificarInventario(response.data[0]);
+    });
+}
+
+function modificarInventario(inventario) {
+    var urlCompleta = url + 'inventario/update.php';
+    $.post(urlCompleta, JSON.stringify(inventario), function(response) {
+        console.log('update inventario', response);
     });
 }
 
@@ -351,7 +367,7 @@ function insertInventario(producto) {
         df_cant_transito: 0,
         df_producto: producto.df_producto_id,
         df_ppp_ind: 0,
-        df_pvt_ind: 0,
+        df_pvt_ind: producto.df_pvt1,
         df_ppp_total: 0,
         df_pvt_total: 0,
         df_minimo_sug: 0,

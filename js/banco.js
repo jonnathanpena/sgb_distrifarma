@@ -54,16 +54,16 @@ function load() {
         if (response.data.length > 0) {
             $('#saldo_banco').val('$' + (response.data[0].df_saldo_banco * 1).toFixed(2));
             saldo = response.data[0].df_saldo_banco * 1;
-            libro =  ($('#valor_libro').val() * 1) + saldo; 
+            libro = ($('#valor_libro').val() * 1) + saldo;
             $('#valor_libro').val(libro);
-            console.log('valor inicial',libro);
+            console.log('valor inicial', libro);
             $.each(response.data, function(index, row) {
                 getUsuario(row);
             })
             clearTimeout(timer);
             timer = setTimeout(function() {
-                bancos.sort(function (a, b){
-                  return (b.df_id_banco - a.df_id_banco)
+                bancos.sort(function(a, b) {
+                    return (b.df_id_banco - a.df_id_banco)
                 });
                 records = bancos;
                 totalRecords = records.length;
@@ -102,7 +102,7 @@ function generate_table() {
         var dia = f.split('-')[2];
         var mes = f.split('-')[1];
         var ano = f.split('-')[0];
-        var fecha = dia + '/' + mes + '/' + ano; 
+        var fecha = dia + '/' + mes + '/' + ano;
         tr = $('<tr/>');
         tr.append("<td>" + row.df_id_banco + "</td>");
         tr.append("<td>" + fecha + "</td>");
@@ -111,10 +111,10 @@ function generate_table() {
         tr.append("<td>" + row.df_detalle_mov_banco + "</td>");
         tr.append("<td>" + row.df_num_documento_banco + "</td>");
         tr.append("<td class='text-center'> $ " + Number(row.df_monto_banco).toFixed(2) + "</td>");
-        tr.append("<td class='text-center'> $ " + Number(row.df_saldo_banco).toFixed(2) + "</td>");        
+        tr.append("<td class='text-center'> $ " + Number(row.df_saldo_banco).toFixed(2) + "</td>");
         //tr.append("<td><button class='btn btn-default pull-right' title='Detallar' onclick='detallar(" + row.df_id_gasto + ",`" + row.tipo + "`, `"+ row.df_movimiento +"`)'><i class='glyphicon glyphicon-edit'></i></button></td>");
         $('#resultados .table-responsive table tbody').append(tr);
-    })         
+    })
 }
 
 function getUsuario(row) {
@@ -131,6 +131,16 @@ function nuevoEgreso() {
     $('#saldo').val(saldo);
     $('#usuario_egreso').html('');
     $('#usuario_egreso').append('<option value="' + usuario.df_id_usuario + '">' + usuario.df_usuario_usuario + '</option>');
+    $('#movimiento').empty();
+    $('#movimiento').append('<option value="null" selected>Seleccione...</option>');
+    var urlCompleta = url + 'catMovimiento/getAll.php';
+    $.get(urlCompleta, function(response) {
+        $.each(response.data, function(index, row) {
+            if (row.df_tipo == 'E') {
+                $('#movimiento').append('<option value="' + row.df_nombre_movimiento + '">' + row.df_nombre_movimiento + '</option>')
+            }
+        });
+    });
 }
 
 function nuevoIngreso() {
@@ -138,6 +148,16 @@ function nuevoIngreso() {
     $('#saldo_ingreso').val(saldo);
     $('#usuario').html('');
     $('#usuario').append('<option value="' + usuario.df_id_usuario + '">' + usuario.df_usuario_usuario + '</option>');
+    var urlCompleta = url + 'catMovimiento/getAll.php';
+    $('#detalle').empty();
+    $('#detalle').append('<option value="null" selected>Seleccione...</option>');
+    $.get(urlCompleta, function(response) {
+        $.each(response.data, function(index, row) {
+            if (row.df_tipo == 'I') {
+                $('#detalle').append('<option value="' + row.df_nombre_movimiento + '">' + row.df_nombre_movimiento + '</option>')
+            }
+        });
+    });
 }
 
 function calcularIngreso() {
@@ -155,43 +175,43 @@ function calcularEgreso() {
 $('#guardar_egreso').submit(function(event) {
     $('#guardar_egreso').attr('disabled', true);
     event.preventDefault();
-    if ($('#fecha_egreso').val() == '') {
-        alertar('warning','¡Advertencia!','Todos los campos son obligtorios');
+    if ($('#fecha_egreso').val() == '' || $('#movimiento').val() == 'null') {
+        alertar('warning', '¡Advertencia!', 'Todos los campos son obligtorios');
     } else {
-    var f = $('#fecha_egreso').val();
-    var datetime = f + ' 00:00:00';
-    currentdate = new Date();
-    var datelibro = currentdate.getFullYear() + "-" +
-        (currentdate.getMonth() + 1) + "-" +
-        currentdate.getDate() + " " +
-        currentdate.getHours() + ":" +
-        currentdate.getMinutes() + ":" +
-        currentdate.getSeconds();
+        var f = $('#fecha_egreso').val();
+        var datetime = f + ' 00:00:00';
+        currentdate = new Date();
+        var datelibro = currentdate.getFullYear() + "-" +
+            (currentdate.getMonth() + 1) + "-" +
+            currentdate.getDate() + " " +
+            currentdate.getHours() + ":" +
+            currentdate.getMinutes() + ":" +
+            currentdate.getSeconds();
 
-    var egreso = {
-        df_fecha_banco: datetime,
-        df_usuario_id_banco: $('#usuario_egreso').val(),
-        df_tipo_movimiento: "Egreso",
-        df_monto_banco: $('#valor_egreso').val(),
-        df_saldo_banco: $('#saldo').val(),
-        df_num_documento_banco: $('#documento_egreso').val(),
-        df_detalle_mov_banco: $('#movimiento').val()
-    };
-    var egresoLibro = {
-        df_fuente_ld: 'Banco',
-        df_valor_inicial_ld: $('#valor_libro').val(),
-        df_fecha_ld: datelibro,
-        df_descipcion_ld: $('#movimiento').val(),
-        df_ingreso_ld: 0,
-        df_egreso_ld: $('#valor_egreso').val(),
-        df_usuario_id_ld: $('#usuario_egreso').val(),
-    };
-    insertEgresoLibro(egresoLibro);
-    insertEgreso(egreso);
+        var egreso = {
+            df_fecha_banco: datetime,
+            df_usuario_id_banco: $('#usuario_egreso').val(),
+            df_tipo_movimiento: "Egreso",
+            df_monto_banco: $('#valor_egreso').val(),
+            df_saldo_banco: $('#saldo').val(),
+            df_num_documento_banco: $('#documento_egreso').val(),
+            df_detalle_mov_banco: $('#movimiento').val()
+        };
+        var egresoLibro = {
+            df_fuente_ld: 'Banco',
+            df_valor_inicial_ld: $('#valor_libro').val(),
+            df_fecha_ld: datelibro,
+            df_descipcion_ld: $('#movimiento').val(),
+            df_ingreso_ld: 0,
+            df_egreso_ld: $('#valor_egreso').val(),
+            df_usuario_id_ld: $('#usuario_egreso').val(),
+        };
+        insertEgresoLibro(egresoLibro);
+        insertEgreso(egreso);
     }
 });
 
-function insertEgresoLibro(egresoLibro){
+function insertEgresoLibro(egresoLibro) {
     var urlCompleta = url + 'libroDiario/insert.php';
     console.log('insert egreso de BANCO en libro diario');
     $.post(urlCompleta, JSON.stringify(egresoLibro), function(response) {
@@ -223,43 +243,43 @@ function insertEgreso(egreso) {
 $('#guardar_ingreso').submit(function(event) {
     $('#guardar_ingreso').attr('disabled', true);
     event.preventDefault();
-    if ($('#fecha').val() == '') {
-        alertar('warning','¡Advertencia!','Todos los campos son obligtorios');
+    if ($('#fecha').val() == '' || $('#detalle').val() == 'null') {
+        alertar('warning', '¡Advertencia!', 'Todos los campos son obligtorios');
     } else {
-    var f = $('#fecha').val();
-    var datetime = f + ' 00:00:00';
-    currentdate = new Date();
-    var datelibro = currentdate.getFullYear() + "-" +
-        (currentdate.getMonth() + 1) + "-" +
-        currentdate.getDate() + " " +
-        currentdate.getHours() + ":" +
-        currentdate.getMinutes() + ":" +
-        currentdate.getSeconds();
+        var f = $('#fecha').val();
+        var datetime = f + ' 00:00:00';
+        currentdate = new Date();
+        var datelibro = currentdate.getFullYear() + "-" +
+            (currentdate.getMonth() + 1) + "-" +
+            currentdate.getDate() + " " +
+            currentdate.getHours() + ":" +
+            currentdate.getMinutes() + ":" +
+            currentdate.getSeconds();
 
-    var ingreso = {
-        df_fecha_banco: datetime,
-        df_usuario_id_banco: $('#usuario').val(),
-        df_tipo_movimiento: "Ingreso",
-        df_monto_banco: $('#valor').val(),
-        df_saldo_banco: $('#saldo_ingreso').val(),
-        df_num_documento_banco: $('#documento').val(),
-        df_detalle_mov_banco: $('#detalle').val()
-    };
-    var ingresoLibro = {
-        df_fuente_ld: 'Banco',
-        df_valor_inicial_ld: $('#valor_libro').val(),
-        df_fecha_ld: datelibro,
-        df_descipcion_ld:$('#detalle').val(),
-        df_ingreso_ld: $('#valor').val(),
-        df_egreso_ld: 0,
-        df_usuario_id_ld: $('#usuario').val()
-    };
-    insertIngresoLibro(ingresoLibro);
-    insertIngreso(ingreso);
+        var ingreso = {
+            df_fecha_banco: datetime,
+            df_usuario_id_banco: $('#usuario').val(),
+            df_tipo_movimiento: "Ingreso",
+            df_monto_banco: $('#valor').val(),
+            df_saldo_banco: $('#saldo_ingreso').val(),
+            df_num_documento_banco: $('#documento').val(),
+            df_detalle_mov_banco: $('#detalle').val()
+        };
+        var ingresoLibro = {
+            df_fuente_ld: 'Banco',
+            df_valor_inicial_ld: $('#valor_libro').val(),
+            df_fecha_ld: datelibro,
+            df_descipcion_ld: $('#detalle').val(),
+            df_ingreso_ld: $('#valor').val(),
+            df_egreso_ld: 0,
+            df_usuario_id_ld: $('#usuario').val()
+        };
+        insertIngresoLibro(ingresoLibro);
+        insertIngreso(ingreso);
     }
 });
 
-function insertIngresoLibro(ingresoLibro){
+function insertIngresoLibro(ingresoLibro) {
     var urlCompleta = url + 'libroDiario/insert.php';
     console.log('insert ingreso de CC en libro diario');
     $.post(urlCompleta, JSON.stringify(ingresoLibro), function(response) {
@@ -288,9 +308,9 @@ function insertIngreso(ingreso) {
     selectDetallesIngreso();
 }
 
-function selectDetalles(){
+function selectDetalles() {
     var urlCompleta = url + 'banco/getAutocomplete.php';
-    $.get(urlCompleta, function(response){
+    $.get(urlCompleta, function(response) {
         localStorage.setItem('distrifarma_autocomplete_banco', JSON.stringify(response.data));
     });
 }
@@ -302,9 +322,9 @@ var opciones = {
 $('#movimiento').easyAutocomplete(opciones);
 
 
-function selectDetallesIngreso(){
+function selectDetallesIngreso() {
     var urlCompleta = url + 'banco/getAutocompleteIng.php';
-    $.get(urlCompleta, function(response){
+    $.get(urlCompleta, function(response) {
         localStorage.setItem('distrifarma_autocomplete_bancoingreso', JSON.stringify(response.data));
     });
 }
