@@ -73,7 +73,12 @@
 				<tr>
 					<td style="width: 12%; text-align: left;"></td>
 					<td style="width: 88%; text-align: left; font-wieght: bold;">
-					<FONT FACE="Arial" SIZE="1"><?php echo strtoupper($detallef['df_direccion_factura']) ?></FONT>
+					<FONT FACE="Arial" SIZE="1"><?php 
+						if ($detallef['df_direccion_factura'] == '') {
+							$detallef['df_direccion_factura'] = $data['cliente']['df_direccion_cli'];
+						}
+						echo strtoupper($detallef['df_direccion_factura']) 
+						?></FONT>
 					</td>
 				</tr>
 			</table>			

@@ -1,0 +1,7 @@
+[22-Aug-2018 04:17:37 UTC] PHP Fatal error:  Class 'CajaChicaIngreso' not found in /home/proco389/public_html/API/distrifar/cajaChicaIngreso/insert.php on line 18
+[22-Aug-2018 04:42:15 UTC] PHP Warning:  Creating default object from empty value in /home/proco389/public_html/API/distrifar/cajaChicaIngreso/getById.php on line 17
+[22-Aug-2018 04:46:04 UTC] PHP Warning:  Creating default object from empty value in /home/proco389/public_html/API/distrifar/cajaChicaIngreso/getById.php on line 17
+[22-Aug-2018 05:24:19 UTC] PHP Warning:  Creating default object from empty value in /home/proco389/public_html/API/distrifar/cajaChicaIngreso/getById.php on line 17
+[22-Aug-2018 05:30:13 UTC] PHP Warning:  Creating default object from empty value in /home/proco389/public_html/API/distrifar/cajaChicaIngreso/getById.php on line 25
+[22-Aug-2018 05:39:57 UTC] PHP Warning:  Creating default object from empty value in /home/proco389/public_html/API/distrifar/cajaChicaIngreso/getById.php on line 25
+[23-Aug-2018 01:37:44 UTC] PHP Warning:  Creating default object from empty value in /home/proco389/public_html/API/distrifar/cajaChicaIngreso/getById.php on line 25
