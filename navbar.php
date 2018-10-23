@@ -22,6 +22,7 @@
 					<!--<li><a href="libros_banco.php">Libros de Banco</a></li>-->					
 					<li><a href="personal.php">Personal</a></li>
 					<li><a href="usuarios.php">Usuarios</a></li>
+					<li><a href="pdf/documentos/MOJNX7C_Compras-converted.xlsx" target="_blank">Exportar Data Vieja</a></li>
 				</ul>
 			</li>
 
