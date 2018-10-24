@@ -1,1 +1,0 @@
-[23-Aug-2018 03:08:11 UTC] PHP Fatal error:  Call to undefined method Producto::readAll() in /home/proco389/public_html/API/distrifar/producto/getAll.php on line 18
