@@ -740,11 +740,11 @@ function consultarInventario(id, detalle, nombre_producto) {
             var nueva_cantidad = detalle.cantidad_dcp * inventario.df_und_caja;
             var nueva_bonificacion = detalle.bonificacion_dcp * inventario.df_und_caja;
             inventario.df_cant_bodega = Number(bodega_anterior + nueva_cantidad + nueva_bonificacion);
-            console.log('cantidad x unidad ',inventario.df_und_caja);
-            console.log('inventario bodega anterior ',bodega_anterior);
-            console.log('inventario cant ',nueva_cantidad);
-            console.log('inventario bono ',nueva_bonificacion);
-            console.log('inventario bodega ',inventario.df_cant_bodega);
+            console.log('cantidad x unidad ', inventario.df_und_caja);
+            console.log('inventario bodega anterior ', bodega_anterior);
+            console.log('inventario cant ', nueva_cantidad);
+            console.log('inventario bono ', nueva_bonificacion);
+            console.log('inventario bodega ', inventario.df_cant_bodega);
             updateInventario(id, inventario, nombre_producto, detalle.cantidad_dcp, detalle.bonificacion_dcp);
         } else {
             alertar('danger', '¡Error!', 'Compruebe su conexión a internet e intente nuevamente');
@@ -758,7 +758,7 @@ function updateInventario(id, inventario, nombre_producto, cantidad, bonificacio
     $.post(urlCompleta, JSON.stringify(inventario), function(response) {});
 }
 
-function insertKardex(inventario, id, nombre_producto, cantidad, bonificacion) {    
+function insertKardex(inventario, id, nombre_producto, cantidad, bonificacion) {
     var currentdate = new Date();
     var cant = ((cantidad * 1) + (bonificacion * 1));
     console.log('Cant en Kardex ', cant);
@@ -1061,7 +1061,7 @@ function getBancos(monto, num_compra) {
             df_tipo_movimiento: 'Egreso',
             df_monto_banco: monto,
             df_saldo_banco: nuevo_saldo,
-            df_num_documento_banco: num_compra,
+            df_num_documento_banco: 'Compra #' + num_compra,
             df_detalle_mov_banco: 'Compra'
         };
         insertBanco(banco);
