@@ -74,6 +74,24 @@ class Proveedor {
     }
 
     // obtener proveedor
+    function readByIdProveedor(){
+    
+        // select all query
+        $query = "SELECT `df_id_proveedor`, `df_codigo_proveedor`, `df_nombre_empresa`, `df_tlf_empresa`, 
+                    `df_direccion_empresa`, `df_nombre_contacto`, `df_tlf_contacto`, `df_documento_prov` 
+                    FROM `df_proveedor` 
+                    WHERE df_id_proveedor = ".$this->df_id_proveedor;
+    
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+    
+        // execute query
+        $stmt->execute();
+    
+        return $stmt;
+    }
+
+    // obtener proveedor
     function readByRUC(){
     
         // select all query

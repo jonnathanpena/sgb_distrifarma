@@ -73,6 +73,29 @@ class Compra {
         return $stmt;
     }
 
+    function readById(){
+    
+        // select all query
+        $query = "SELECT comp.`id_compra`, comp.`usuario_id`, comp.`fecha_compra`, comp.`proveedor_id`, comp.`detalle_sustento_comprobante_id`, comp.`serie_compra`, 
+                    comp.`documento_compra`, comp.`autorizacion_compra`, comp.`fecha_comprobante_compra`, comp.`fecha_ingreso_bodega_compra`, comp.`fecha_caducidad_compra`, 
+                    comp.`vencimiento_compra`, comp.`descripcion_compra`, comp.`condiciones_compra`, comp.`st_con_iva_compra`, comp.`descuento_con_iva_compra`, 
+                    comp.`total_con_iva_compra`, comp.`st_sin_iva_compra`, comp.`descuento_sin_iva_compra`, comp.`total_sin_iva_compra`, comp.`st_iva_cero_compra`, 
+                    comp.`descuento_iva_cero_compra`, comp.`total_iva_cero`, comp.`ice_cc_compra`, comp.`imp_verde_compra`, comp.`iva_compra`, comp.`otros_compra`, 
+                    comp.`interes_compra`, comp.`bonificacion_compra`, comp.`total_compra`, prov.`df_nombre_empresa`, prov.`df_codigo_proveedor`, usu.`df_usuario_usuario`
+                    FROM `compra` as comp
+                    JOIN `df_proveedor` as prov ON (comp.`proveedor_id` = prov.`df_id_proveedor`)
+                    JOIN `df_usuario` as usu ON (comp.`usuario_id` = usu.`df_id_usuario`)
+                    WHERE comp.`id_compra` = ".$this->id_compra;
+    
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+    
+        // execute query
+        $stmt->execute();
+    
+        return $stmt;
+    }
+
     // insertar un cliente
     function insert(){
     
