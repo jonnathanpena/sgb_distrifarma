@@ -54,6 +54,24 @@ class DetalleCompraProducto {
         return $stmt;
     }
 
+    function readByCompraPrint(){
+    
+        // select one query
+        $query = "SELECT dc.`id_dcp`, dc.`compra_id`, dc.`producto_id`, dc.`bonificacion_dcp`, dc.`cantidad_dcp`, dc.`precio_unitario_dcp`, 
+                    dc.`descuento_dcp`, dc.`iva_dcp`, dc.`subtotal_dcp`, prod.`df_nombre_producto`, prod.`df_codigo_prod`
+                    FROM `detalle_compra_producto` as dc
+                    JOIN `df_producto` as prod ON (dc.`producto_id` = prod.`df_id_producto`)
+                    WHERE dc.`compra_id` = ".$this->compra_id;
+    
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+    
+        // execute query
+        $stmt->execute();
+    
+        return $stmt;
+    }
+
     // insertar un detalle compra producto
     function insert(){
     
