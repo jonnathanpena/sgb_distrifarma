@@ -479,6 +479,8 @@ function cambiaEstado(fact) {
                 tr.append('<td class="resta">' + cantidad + '</td>');
                 tr.append('<td class="unidad">' + detalleFactura[i].df_nombre_und_detfac + '</td>');
                 tr.append('<td class="producto">' + detalleFactura[i].df_nombre_producto + '</td>');
+                tr.append('<td class="producto_id" style="display: none;">' + detalleFactura[i].df_id_producto + '</td>');
+                tr.append('<td class="cant_x_caja" style="display: none;">' + detalleFactura[i].df_und_caja + '</td>');
                 $('#table_resumen_productos tbody').append(tr);
                 detalleFactura[i].df_cantidad_detfac = 0;
             }
@@ -501,6 +503,8 @@ function cambiaEstado(fact) {
                 tr.append('<td class="resta">' + cantidad + '</td>');
                 tr.append('<td class="unidad">' + detalleFactura[i].df_nombre_und_detfac + '</td>');
                 tr.append('<td class="producto">' + detalleFactura[i].df_nombre_producto + '</td>');
+                tr.append('<td class="producto_id" style="display: none;">' + detalleFactura[i].df_id_producto + '</td>');
+                tr.append('<td class="cant_x_caja" style="display: none;">' + detalleFactura[i].df_und_caja + '</td>');
                 $('#table_resumen_productos tbody').append(tr);
                 detalleFactura[i].df_cantidad_detfac = 0;
             }

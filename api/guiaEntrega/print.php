@@ -105,8 +105,8 @@ function getPersonal($personal_id, $db) {
      
             array_push($personal_arr, $personal_item);
         }
+        return $personal_arr[0];
     }
-    return $personal_arr[0];
 }
 
 function getDetalle($guia, $db) {

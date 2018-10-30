@@ -53,5 +53,20 @@ class SustentoTributario {
         return $stmt;
     }
 
+    function readDetalleSustentoTributario() {
+
+        $query = "SELECT det.`id_dsc`, det.`sustento_id`, det.`comprobante_id`, sustento.`nombre_sustento`, comprobante.`nombre_tipocomprobante`
+                    FROM `detalle_sustento_comprobante` as det
+                    JOIN `sustento_tributario` as sustento ON (det.`sustento_id` = sustento.`id_sustento`)
+                    JOIN `tipo_comprobante` as comprobante ON (det.`comprobante_id` = comprobante.`id_tipocomprobante`)
+                    WHERE det.`id_dsc` = ".$this->id_dsc;
+
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->execute();
+
+        return $stmt;
+    }
+
 }
 ?>

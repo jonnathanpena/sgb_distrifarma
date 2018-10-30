@@ -36,9 +36,9 @@ function load() {
     var urlCompleta = url + 'compra/getAll.php';
     $.post(urlCompleta, JSON.stringify({ df_nombre_empresa: $('#q').val() }), function(response) {
         console.log('compra', response.data);
-        response.data.sort(function (a, b){
+        response.data.sort(function(a, b) {
             return (b.id_compra - a.id_compra)
-          });
+        });
         records = response.data;
         totalRecords = records.length;
         totalPages = Math.ceil(totalRecords / recPerPage);
@@ -75,21 +75,24 @@ function generate_table() {
                 tr.append('<td>' + row.df_nombre_empresa + '</td>');
                 tr.append('<td class="text-right">$ ' + (row.total_compra * 1).toFixed(3) + '</td>');
                 tr.append('<td class="text-right"> <button class="btn btn-success"><i class="glyphicon glyphicon-eye-open" onclick="observarCuotas(`' + row.id_compra + '`)"></i></button> </td>');
-                $('#resultados .table-responsive table tbody').append(tr);    
+                //tr.append('<td class="text-right"> <button class="btn btn-info pull-right" title="Imprimir" onclick="detallar(`' + row.id_compra + '`)"><i class="glyphicon glyphicon-print"></i></button> </td>');
+                $('#resultados .table-responsive table tbody').append(tr);
             } else {
                 tr.append('<td>' + row.id_compra + '</td>');
                 tr.append('<td>' + row.df_usuario_usuario + '</td>');
                 tr.append('<td>' + row.df_nombre_empresa + '</td>');
                 tr.append('<td class="text-right">$ ' + (row.total_compra * 1).toFixed(3) + '</td>');
                 tr.append('<td class="text-right"> <button class="btn btn-warning"><i class="glyphicon glyphicon-eye-open" onclick="observarCuotas(`' + row.id_compra + '`)"></i></button> </td>');
+                //tr.append('<td class="text-right"> <button class="btn btn-info pull-right" title="Imprimir" onclick="detallar(`' + row.id_compra + '`)"><i class="glyphicon glyphicon-print"></i></button> </td>');
                 $('#resultados .table-responsive table tbody').append(tr);
-            }            
+            }
         } else {
             tr.append('<td>' + row.id_compra + '</td>');
             tr.append('<td>' + row.df_usuario_usuario + '</td>');
             tr.append('<td>' + row.df_nombre_empresa + '</td>');
-            tr.append('<td class="text-right">$ ' + (row.total_compra * 1).toFixed(3)+ '</td>');
+            tr.append('<td class="text-right">$ ' + (row.total_compra * 1).toFixed(3) + '</td>');
             tr.append('<td class="text-right"></td>');
+            //tr.append('<td class="text-right"> <button class="btn btn-info pull-right" title="Imprimir" onclick="detallar(`' + row.id_compra + '`)"><i class="glyphicon glyphicon-print"></i></button> </td>');
             $('#resultados .table-responsive table tbody').append(tr);
         }
     });
@@ -124,5 +127,25 @@ function pagarCuota(id, compra_id) {
     $.post(urlCompleta, JSON.stringify(cuota), function(response) {
         console.log('pago cuota', response);
         observarCuotas(compra_id);
+    });
+}
+
+function detallar(id) {
+    var urlCompleta = url + 'compra/print.php';
+    $.post(urlCompleta, JSON.stringify({ df_num_guia_entrega: id }), function(response) {
+        var form = $(document.createElement('form'));
+        $(form).attr("action", "pdf/documentos/guia_entrega.php");
+        $(form).attr("method", "POST");
+        $(form).css("display", "none");
+        $(form).attr("target", "_blank");
+
+        var input_employee_name = $("<input>")
+            .attr("type", "text")
+            .attr("name", "data")
+            .val(JSON.stringify(response.data[0]));
+        $(form).append($(input_employee_name));
+
+        form.appendTo(document.body);
+        $(form).submit();
     });
 }
