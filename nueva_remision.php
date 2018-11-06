@@ -94,20 +94,22 @@ include("modal/consultar_productos.php");
                     </div>                  
                    <div class="col-md-12" style="margin-top: 20px;">
                         <div class="table-wrapper">
-                            <table id="table_productos" class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th width="100">Código</th>
-                                        <th>Producto</th>
-                                        <th width="100">Unidad</th>
-                                        <th width="100">Cantidad</th>
-                                        <th width="100">P.Unitario $</th>
-                                        <th width="100">Total $</th>
-                                        <th width="100">Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
+                            <div class="table-responsive">
+                                <table id="table_productos" class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th width="100">Código</th>
+                                            <th>Producto</th>
+                                            <th width="100">Unidad</th>
+                                            <th width="100">Cantidad</th>
+                                            <th width="100">P.Unitario $</th>
+                                            <th width="100">Total $</th>
+                                            <th width="100">Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-12">
