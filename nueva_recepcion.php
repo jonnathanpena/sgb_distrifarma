@@ -80,21 +80,23 @@
                     </div>
                     <div class="col-md-12" style="margin-top: 20px;">
                         <div class="table-wrapper">
-                            <table id="table_productos" class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th width="100">Código</th>
-                                        <th>Producto</th>
-                                        <th width="100">Unidad</th>
-                                        <th width="100">Cantidad</th>
-                                        <th width="100">P.Unitario $</th>
-                                        <th width="100">Total $</th>
-                                        <th width="120">Vendidos</th>
-                                        <th width="120">Devueltos</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
+                            <div class="table-responsive">
+                                <table id="table_productos" class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th width="100">Código</th>
+                                            <th>Producto</th>
+                                            <th width="100">Unidad</th>
+                                            <th width="100">Cantidad</th>
+                                            <th width="100">P.Unitario $</th>
+                                            <th width="100">Total $</th>
+                                            <th width="120">Vendidos</th>
+                                            <th width="120">Devueltos</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-12" id="costos_remision">
@@ -160,32 +162,36 @@
                     </div>
                     <div class="col-md-8 col-sm-12 col-xs-12" style="margin-top: 20px;">
                         <div class="table-wrapper">
-                            <table id="table_guias" class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th width="120"> No. Factura</th>
-                                        <th>Acción</th>
-                                        <th width="180">Nueva Fecha</th>
-                                        <th>Forma Pago</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
+                            <div class="table-responsive">
+                                <table id="table_guias" class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th width="120"> No. Factura</th>
+                                            <th>Acción</th>
+                                            <th width="180">Nueva Fecha</th>
+                                            <th>Forma Pago</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
                         </div>
                     </div> 
                     <div class="col-md-4 col-sm-12 col-xs-12" style="margin-top: 20px;">
                         <div class="table-wrapper">
-                            <table id="table_resumen_productos" class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th width="50"> Cant</th>
-                                        <th width="80"> Unidad</th>
-                                        <th>Producto</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+                            <div class="table-responsive">
+                                <table id="table_resumen_productos" class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th width="50"> Cant</th>
+                                            <th width="80"> Unidad</th>
+                                            <th>Producto</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-12" id="costos_entrega">

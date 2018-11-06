@@ -599,7 +599,7 @@ function calcularCostos() {
         var subtotal = precio_unitario * cantidad;
         var total_iva = subtotal * iva;
         var total_tupla = subtotal + total_iva;
-        valor_recaudado += total_tupla;
+        valor_recaudado = valor_recaudado + total_tupla;
     });
     $('#valor_recaudado_entrega').val(Number(valor_recaudado).toFixed(2));
     var resto = Number(valor_efectivo) + Number(valor_cheque) + Number(valor_retenciones) + Number(valor_descuento);
