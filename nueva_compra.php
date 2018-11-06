@@ -315,23 +315,25 @@
                                     </div>
                                 </div>   
                                 <div class="table-wrapper">
-                                    <table id="table_productos" class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th width="120">Código</th>
-                                                <th>Producto</th>
-                                                <th width="100">Bonificación</th>
-                                                <th width="100">Cantidad</th>
-                                                <th width="100">P.Unitario $</th>
-                                                <th width="100">IVA $</th>
-                                                <th width="120">Descuento($)</th>
-                                                <th width="100">Subtotal $</th>
-                                                <th>Acciones</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>  
-                                        </tbody>
-                                    </table>
+                                    <div class="table-responsive">
+                                        <table id="table_productos" class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th width="120">Código</th>
+                                                    <th>Producto</th>
+                                                    <th width="100">Bonificación</th>
+                                                    <th width="100">Cantidad</th>
+                                                    <th width="100">P.Unitario $</th>
+                                                    <th width="100">IVA $</th>
+                                                    <th width="120">Descuento($)</th>
+                                                    <th width="100">Subtotal $</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>  
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
 
@@ -402,127 +404,129 @@
                   </div>                  
                </form>
                <div id="resultados" class='col-md-12' style="margin-top:2%">
-                <table class="table" style="width: 80%; margin-left: 20%;">
-                    <tr>
-                        <td>
-                            <label class="control-label">ST Con IVA $</label> 
-                        </td>
-                        <td>
-                            <input type="number" class="form-control input-sm" value="0.00" id="pre_st_con_iv" disabled> 
-                        </td>
-                        <td>
-                            <label class="control-label">Descuento $</label> 
-                        </td>
-                        <td>
-                            <input type="number" class="form-control input-sm" min="0.00" step="0.00" value="0.000" 
-                                id="descuento_st_con_iva" onkeyup='cambioDescuentoConIva();'>
-                        </td>
-                        <td>
-                            <label class="control-label">Total con IVA $</label> 
-                        </td>
-                        <td>
-                            <input type="number" class="form-control input-sm" value="0.00" id="total_st_con_iva" disabled>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label class="control-label">ST Sin IVA $</label> 
-                        </td>
-                        <td>
-                            <input type="number" class="form-control input-sm" value="0.00" id="pre_st_sin_iva" disabled> 
-                        </td>
-                        <td>
-                            <label class="control-label">Descuento $</label> 
-                        </td>
-                        <td>
-                            <input type="number" class="form-control input-sm" min="0.00" step="0.00" value="0.000" 
-                                id="descuento_st_sin_iva" onkeyup='cambioDescuentoSinIva();'>
-                        </td>
-                        <td>
-                            <label class="control-label">Total sin IVA $</label> 
-                        </td>
-                        <td>
-                            <input type="number" class="form-control input-sm" id="total_st_sin_iva" value="0.000" disabled>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label class="control-label">ST 0% IVA $</label> 
-                        </td>
-                        <td>
-                            <input type="number" class="form-control input-sm" value="0.00" id="pre_st_iva_cero" disabled> 
-                        </td>
-                        <td>
-                            <label class="control-label">Descuento $</label> 
-                        </td>
-                        <td>
-                            <input type="number" class="form-control input-sm" min="0.00" step="0.00" value="0.000" 
-                                id="descuento_iva_cero" onkeyup='cambioDescuentoIvaCero();'>
-                        </td>
-                        <td>
-                            <label class="control-label">Total 0% IVA $</label> 
-                        </td>
-                        <td>
-                            <input type="number" class="form-control input-sm" id="total_st_iva_cero" value="0.000" disabled>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label class="control-label">ICE + CC %</label> 
-                        </td>
-                        <td>
-                            <input type="number" class="form-control input-sm" value="0.00" id="pre_ice_cc" onkeyup="cambioICECC()"> 
-                        </td>
-                        <td>
-                            <label class="control-label">Imp. Verde $</label> 
-                        </td>
-                        <td>
-                            <input type="number" class="form-control input-sm" min="0.00" step="0.00" value="0.000" 
-                                id="imp_verde" onkeyup="calcularResultados()">
-                        </td>
-                        <td>
-                            <label  style="display: none;" class="control-label">IVA</label> 
-                        </td>
-                        <td>
-                            <input  style="display: none;" type="number" class="form-control input-sm" id="total_iva" value="0" disabled>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label class="control-label">Otros $</label>                             
-                        </td>
-                        <td>
-                            <input type="number" class="form-control input-sm" id="total_otros" value="0.000"
-                                onkeyup="calcularResultados()">
-                        </td>
-                        <td>
-                            <label class="control-label">Interés %</label>
-                        </td>
-                        <td>
-                            <input type="number" class="form-control input-sm" id="intereses" value="0.000">
-                        </td>
-                        <td>
-                            <label  style="display: none;" class="control-label">Descuento (%)</label>
-                        </td>
-                        <td>
-                            <input  style="display: none;" type="number" class="form-control input-sm" id="bonificacion" value="0.000">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                        </td>
-                        <td>
-                        </td>
-                        <td>
-                        </td>
-                        <td>
-                            <label class="control-label">Total Compra</label>                             
-                        </td>
-                        <td colspan="2">
-                            <input type="number" class="form-control input-sm" id="total_compra" value="0.00" disabled>
-                        </td>
-                    </tr>
-                </table>
+                <div class="table-responsive">
+                    <table class="table" style="width: 80%; margin-left: 20%;">
+                        <tr>
+                            <td>
+                                <label class="control-label">ST Con IVA $</label> 
+                            </td>
+                            <td>
+                                <input type="number" class="form-control input-sm" value="0.00" id="pre_st_con_iv" disabled> 
+                            </td>
+                            <td>
+                                <label class="control-label">Descuento $</label> 
+                            </td>
+                            <td>
+                                <input type="number" class="form-control input-sm" min="0.00" step="0.00" value="0.000" 
+                                    id="descuento_st_con_iva" onkeyup='cambioDescuentoConIva();'>
+                            </td>
+                            <td>
+                                <label class="control-label">Total con IVA $</label> 
+                            </td>
+                            <td>
+                                <input type="number" class="form-control input-sm" value="0.00" id="total_st_con_iva" disabled>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label class="control-label">ST Sin IVA $</label> 
+                            </td>
+                            <td>
+                                <input type="number" class="form-control input-sm" value="0.00" id="pre_st_sin_iva" disabled> 
+                            </td>
+                            <td>
+                                <label class="control-label">Descuento $</label> 
+                            </td>
+                            <td>
+                                <input type="number" class="form-control input-sm" min="0.00" step="0.00" value="0.000" 
+                                    id="descuento_st_sin_iva" onkeyup='cambioDescuentoSinIva();'>
+                            </td>
+                            <td>
+                                <label class="control-label">Total sin IVA $</label> 
+                            </td>
+                            <td>
+                                <input type="number" class="form-control input-sm" id="total_st_sin_iva" value="0.000" disabled>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label class="control-label">ST 0% IVA $</label> 
+                            </td>
+                            <td>
+                                <input type="number" class="form-control input-sm" value="0.00" id="pre_st_iva_cero" disabled> 
+                            </td>
+                            <td>
+                                <label class="control-label">Descuento $</label> 
+                            </td>
+                            <td>
+                                <input type="number" class="form-control input-sm" min="0.00" step="0.00" value="0.000" 
+                                    id="descuento_iva_cero" onkeyup='cambioDescuentoIvaCero();'>
+                            </td>
+                            <td>
+                                <label class="control-label">Total 0% IVA $</label> 
+                            </td>
+                            <td>
+                                <input type="number" class="form-control input-sm" id="total_st_iva_cero" value="0.000" disabled>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label class="control-label">ICE + CC %</label> 
+                            </td>
+                            <td>
+                                <input type="number" class="form-control input-sm" value="0.00" id="pre_ice_cc" onkeyup="cambioICECC()"> 
+                            </td>
+                            <td>
+                                <label class="control-label">Imp. Verde $</label> 
+                            </td>
+                            <td>
+                                <input type="number" class="form-control input-sm" min="0.00" step="0.00" value="0.000" 
+                                    id="imp_verde" onkeyup="calcularResultados()">
+                            </td>
+                            <td>
+                                <label  style="display: none;" class="control-label">IVA</label> 
+                            </td>
+                            <td>
+                                <input  style="display: none;" type="number" class="form-control input-sm" id="total_iva" value="0" disabled>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label class="control-label">Otros $</label>                             
+                            </td>
+                            <td>
+                                <input type="number" class="form-control input-sm" id="total_otros" value="0.000"
+                                    onkeyup="calcularResultados()">
+                            </td>
+                            <td>
+                                <label class="control-label">Interés %</label>
+                            </td>
+                            <td>
+                                <input type="number" class="form-control input-sm" id="intereses" value="0.000">
+                            </td>
+                            <td>
+                                <label  style="display: none;" class="control-label">Descuento (%)</label>
+                            </td>
+                            <td>
+                                <input  style="display: none;" type="number" class="form-control input-sm" id="bonificacion" value="0.000">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                                <label class="control-label">Total Compra</label>                             
+                            </td>
+                            <td colspan="2">
+                                <input type="number" class="form-control input-sm" id="total_compra" value="0.00" disabled>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
                </div>
 
                <div class="col-md-12">
