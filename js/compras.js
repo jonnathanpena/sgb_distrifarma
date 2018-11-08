@@ -92,7 +92,7 @@ function generate_table() {
             } else {
                 tr.append('<td>' + row.id_compra + '</td>');
                 tr.append('<td>' + row.df_usuario_usuario + '</td>');
-                tr.append('<td>' + row.df_nombre_empresa + '</td>');
+                tr.append('<td>' + row.documento_compra + '</td>');
                 tr.append('<td>' + row.documento_compra + '</td>');
                 tr.append('<td>' + tipo_pago + '</td>');
                 tr.append('<td class="text-right">$ ' + (row.total_compra * 1).toFixed(3) + '</td>');
@@ -131,7 +131,7 @@ function observarCuotas(compra_id) {
             tr.append('<td class="text-center" id="td-descuento-' + row.df_id_cc + '">' + row.descuento + '</td>');
             tr.append('<td id="td-descripcion-' + row.df_id_cc + '">' + row.descripcion + '</td>');
             if (row.df_estado_cc == 'PENDIENTE') {
-                tr.append('<td><button class="btn btn-warning" title="Editar" class="editarCuota" id="editarCuota-' + row.df_id_cc + '" onclick="editarcuota(`' + row.df_id_cc + '`, `' + row.compra_id + '`)"><i class="glyphicon glyphicon-pencil"></i></button> <button class="btn btn-info" id="cancelarCuota-' + row.df_id_cc + '" title="Pagar" onclick="pagarCuota(`' + row.df_id_cc + '`, `' + row.compra_id + '`, `'+ monto +'`)"><i class="glyphicon glyphicon-usd"></i></button></td>');
+                tr.append('<td><button class="btn btn-warning" title="Editar" class="editarCuota" id="editarCuota-' + row.df_id_cc + '" onclick="editarcuota(`' + row.df_id_cc + '`, `' + row.compra_id + '`)"><i class="glyphicon glyphicon-pencil"></i></button> <button class="btn btn-info" id="cancelarCuota-' + row.df_id_cc + '" title="Pagar" onclick="pagarCuota(`' + row.df_id_cc + '`, `' + row.compra_id + '`, `' + monto + '`)"><i class="glyphicon glyphicon-usd"></i></button></td>');
             } else {
                 tr.append('<td><span class="label label-success">Cancelado</span></td>');
             }
