@@ -115,7 +115,7 @@ function observarCuotas(compra_id) {
             tr.append('<td class="text-center" id="td-descuento-' + row.df_id_cc + '">' + row.descuento + '</td>');
             tr.append('<td id="td-descripcion-' + row.df_id_cc + '">' + row.descripcion + '</td>');
             if (row.df_estado_cc == 'PENDIENTE') {
-                tr.append('<td><button class="btn btn-warning" title="Editar" class="editarCuota" id="editarCuota-' + row.df_id_cc + '" onclick="editarcuota(`' + row.df_id_cc + '`, `' + row.compra_id + '`)"><i class="glyphicon glyphicon-pencil"></i></button> <button class="btn btn-info" id="cancelarCuota-' + row.df_id_cc + '" title="Pagar" onclick="pagarCuota(`' + row.df_id_cc + '`, `' + row.compra_id + '`, ``)"><i class="glyphicon glyphicon-usd"></i></button></td>');
+                tr.append('<td><button class="btn btn-warning" title="Editar" class="editarCuota" id="editarCuota-' + row.df_id_cc + '" onclick="editarcuota(`' + row.df_id_cc + '`, `' + row.compra_id + '`)"><i class="glyphicon glyphicon-pencil"></i></button> <button class="btn btn-info" id="cancelarCuota-' + row.df_id_cc + '" title="Pagar" onclick="pagarCuota(`' + row.df_id_cc + '`, `' + row.compra_id + '`, `'+ monto +'`)"><i class="glyphicon glyphicon-usd"></i></button></td>');
             } else {
                 tr.append('<td><span class="label label-success">Cancelado</span></td>');
             }
@@ -173,7 +173,7 @@ function modificarCuota() {
     });
 }
 
-function pagarCuota(id, compra_id) {
+function pagarCuota(id, compra_id, monto) {
     var urlCompleta = url + 'cuotasCompra/update.php';
     var cuota = {
         df_estado_cc: 'PAGADO',
@@ -181,7 +181,7 @@ function pagarCuota(id, compra_id) {
     };
     $.post(urlCompleta, JSON.stringify(cuota), function(response) {
         console.log('pago cuota', response);
-        observarCuotas(compra_id);
+        descontarBancos(compra_id, monto);
     });
 }
 
@@ -222,9 +222,8 @@ function cerrarPopUpCuotas() {
     }
 }
 
-function descontarBancos() {
-
-}   var urlCompleta = url + 'banco/getAll.php';
+function descontarBancos(compra_id, monto) {
+    var urlCompleta = url + 'banco/getAll.php';
     var currentdate = new Date();
     var datetime = currentdate.getFullYear() + "-" +
         (currentdate.getMonth() + 1) + "-" +
