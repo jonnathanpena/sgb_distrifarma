@@ -112,10 +112,10 @@ function observarCuotas(compra_id) {
             var tr = $('<tr id="tr-' + row.df_id_cc + '"/>');
             tr.append('<td id="td-monto-' + row.df_id_cc + '" class="monto">' + row.df_monto_cc + '</td>');
             tr.append('<td id="td-fecha-' + row.df_id_cc + '">' + row.df_fecha_cc + '</td>');
-            tr.append('<td class="text-center descuento" id="td-descuento-' + row.df_id_cc + '">' + row.descuento + '</td>');
+            tr.append('<td class="text-center" id="td-descuento-' + row.df_id_cc + '">' + row.descuento + '</td>');
             tr.append('<td id="td-descripcion-' + row.df_id_cc + '">' + row.descripcion + '</td>');
             if (row.df_estado_cc == 'PENDIENTE') {
-                tr.append('<td><button class="btn btn-warning" title="Editar" class="editarCuota" id="editarCuota-' + row.df_id_cc + '" onclick="editarcuota(`' + row.df_id_cc + '`, `' + row.compra_id + '`)"><i class="glyphicon glyphicon-pencil"></i></button> <button class="btn btn-info" id="cancelarCuota-' + row.df_id_cc + '" title="Pagar" onclick="pagarCuota(`' + row.df_id_cc + '`, `' + row.compra_id + '`, `'+ row.df_monto_cc +'`)"><i class="glyphicon glyphicon-usd"></i></button></td>');
+                tr.append('<td><button class="btn btn-warning" title="Editar" class="editarCuota" id="editarCuota-' + row.df_id_cc + '" onclick="editarcuota(`' + row.df_id_cc + '`, `' + row.compra_id + '`)"><i class="glyphicon glyphicon-pencil"></i></button> <button class="btn btn-info" id="cancelarCuota-' + row.df_id_cc + '" title="Pagar" onclick="pagarCuota(`' + row.df_id_cc + '`, `' + row.compra_id + '`, ``)"><i class="glyphicon glyphicon-usd"></i></button></td>');
             } else {
                 tr.append('<td><span class="label label-success">Cancelado</span></td>');
             }
@@ -148,9 +148,9 @@ $('#editar-cuota').submit(function(e) {
     var pagoMinimo = $('#pago-min').val();
     var tr = '<td class="monto">' + $('#pago-min').val() + '</td>';
     tr += '<td>' + $('#fecha-pago').val() + '</td>';
-    tr += '<td style="text-align: center;" class="descuento">' + $('#descuento-pago').val() + '</td>';
+    tr += '<td style="text-align: center;">' + $('#descuento-pago').val() + '</td>';
     tr += '<td>' + $('#descripcion-pago').val() + '</td>';
-    tr += '<td><button class="btn btn-info" id="cancelarCuota-' + idcuota + '" title="Pagar" onclick="pagarCuota(`' + idcuota + '`, `' + idCompra + '`, `'+ pagoMinimo +'`)"><i class="glyphicon glyphicon-usd"></i></button></td>';
+    tr += '<td><button class="btn btn-info" id="cancelarCuota-' + idcuota + '" title="Pagar" onclick="pagarCuota(`' + idcuota + '`, `' + idCompra + '`, `' + pagoMinimo + '`)"><i class="glyphicon glyphicon-usd"></i></button></td>';
     $('#tr-' + $('#id-cuota').val()).html(tr);
     $('#pago-min').val('');
     $('#fecha-pago').val('');
@@ -173,7 +173,7 @@ function modificarCuota() {
     });
 }
 
-function pagarCuota(id, compra_id, monto) {
+function pagarCuota(id, compra_id) {
     var urlCompleta = url + 'cuotasCompra/update.php';
     var cuota = {
         df_estado_cc: 'PAGADO',
@@ -181,7 +181,7 @@ function pagarCuota(id, compra_id, monto) {
     };
     $.post(urlCompleta, JSON.stringify(cuota), function(response) {
         console.log('pago cuota', response);
-        descontarBancos(compra_id, monto);
+        observarCuotas(compra_id);
     });
 }
 
@@ -209,7 +209,6 @@ function calcularDeudaCredito() {
     var pagos = 0;
     $('#cuotas tbody tr').each(function(a, b) {
         pagos += $('.monto', b).text() * 1;
-        pagos += $('.descuento', b).text() * 1;
     });
     var resta = deudaTotal - pagos;
     $('#restan-cuotas').val(resta);
@@ -223,8 +222,9 @@ function cerrarPopUpCuotas() {
     }
 }
 
-function descontarBancos(compra_id, monto) {
-    var urlCompleta = url + 'banco/getAll.php';
+function descontarBancos() {
+
+}   var urlCompleta = url + 'banco/getAll.php';
     var currentdate = new Date();
     var datetime = currentdate.getFullYear() + "-" +
         (currentdate.getMonth() + 1) + "-" +
