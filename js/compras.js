@@ -223,8 +223,7 @@ function cerrarPopUpCuotas() {
 }
 
 function descontarBancos() {
-
-}   var urlCompleta = url + 'banco/getAll.php';
+    var urlCompleta = url + 'banco/getAll.php';
     var currentdate = new Date();
     var datetime = currentdate.getFullYear() + "-" +
         (currentdate.getMonth() + 1) + "-" +
