@@ -92,7 +92,7 @@ function generate_table() {
             } else {
                 tr.append('<td>' + row.id_compra + '</td>');
                 tr.append('<td>' + row.df_usuario_usuario + '</td>');
-                tr.append('<td>' + row.documento_compra + '</td>');
+                tr.append('<td>' + row.df_nombre_empresa + '</td>');
                 tr.append('<td>' + row.documento_compra + '</td>');
                 tr.append('<td>' + tipo_pago + '</td>');
                 tr.append('<td class="text-right">$ ' + (row.total_compra * 1).toFixed(3) + '</td>');
