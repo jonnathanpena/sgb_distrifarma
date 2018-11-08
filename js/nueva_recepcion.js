@@ -702,7 +702,7 @@ function updateEntrega() {
 function generarDetalleGuiaEntrega(id) {
     //alert('Generar delatte guia entrega');
     var inserto = true;
-    modificarInventario();
+    modificarInventario(id);
     $('#table_guias tbody tr').each(function(a, b) {
         var factura = $('.factura', b).text();
         var estado = $('#estado-' + factura).val() * 1;
@@ -899,7 +899,7 @@ function insertarLibroDiario(valorInicial, monto) {
     });
 }
 
-function modificarInventario() {
+function modificarInventario(idguia) {
     $('#table_resumen_productos tbody tr').each(function(a, b) {
         var resta = $('.resta', b).text() * 1;
         var unidad = $('.unidad', b).text();
@@ -907,6 +907,7 @@ function modificarInventario() {
         var cantidadCaja = $('.cant_x_caja', b).text() * 1;
         var resta = $('.resta', b).text() * 1;
         consultarInventario(producto_id, resta, unidad, cantidadCaja);
+        productosDevueltos(idguia, producto_id, resta, unidad);
     });
 }
 
@@ -943,5 +944,18 @@ function updateInventario(inventario) {
     var urlCompleta = url + 'inventario/update.php';
     $.post(urlCompleta, JSON.stringify(inventario), function(response) {
         console.log('update inventario', response);
+    });
+}
+
+function productosDevueltos(guia_id, producto_id, cant, unidad) {
+    var producto = {
+        df_guia_rec: guia_id,
+        df_cant_und_rec: cant,
+        df_producto_id_rec: producto_id,
+        df_und_prod: unidad
+    };
+    var urlCompleta = url + 'productoDevueltoRecepcion/insert.php';
+    $.post(urlCompleta, JSON.stringify(producto), function(response) {
+        console.log('Productos devueltos', response);
     });
 }

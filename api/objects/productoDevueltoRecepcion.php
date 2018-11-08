@@ -10,6 +10,7 @@ class ProductoDevueltoRecepcion {
     public $df_guia_rec;
     public $df_cant_und_rec;
     public $df_producto_id_rec;
+    public $df_und_prod;
     
     //constructor con base de datos como conexión
     public function __construct($db){
@@ -20,8 +21,10 @@ class ProductoDevueltoRecepcion {
     function read(){
     
         // select all query
-        $query = "SELECT `df_id_prod_dev_rec`, `df_guia_rec`, `df_cant_und_rec`, `df_producto_id_rec` 
-                    FROM `df_producto_devuelto_recepcion`";
+        $query = "SELECT dev.`df_id_prod_dev_rec`, dev.`df_guia_rec`, dev.`df_cant_und_rec`, 
+                    dev.`df_producto_id_rec`, dev.`df_und_prod`, pro.`df_nombre_producto`, pro.`df_codigo_prod` 
+                FROM `df_producto_devuelto_recepcion` as dev
+                INNER JOIN `df_producto` AS pro ON (pro.`df_id_producto` = dev.df_producto_id_rec)";
     
         // prepare query statement
         $stmt = $this->conn->prepare($query);
@@ -33,13 +36,15 @@ class ProductoDevueltoRecepcion {
     }
 
 
-    // obtener productoDevuelto por ID de df_guia_remision_detrem
+    // obtener productoDevuelto por ID de df_guia_recepcion
     function readById(){
     
         // select all query
-        $query = "SELECT `df_id_prod_dev_rec`, `df_guia_rec`, `df_cant_und_rec`, `df_producto_id_rec` 
-                    FROM `df_producto_devuelto_recepcion`
-                    WHERE df_id_prod_dev_rec = ".$this->df_id_prod_dev_rec;
+        $query = "SELECT dev.`df_id_prod_dev_rec`, dev.`df_guia_rec`, dev.`df_cant_und_rec`, 
+                        dev.`df_producto_id_rec`, dev.`df_und_prod`, pro.`df_nombre_producto`, pro.`df_codigo_prod` 
+                    FROM `df_producto_devuelto_recepcion` as dev
+                    INNER JOIN `df_producto` AS pro ON (pro.`df_id_producto` = dev.df_producto_id_rec)
+                    WHERE dev.df_guia_rec = ".$this->df_guia_rec." ORDER BY  pro.`df_nombre_producto` ASC";
     
         // prepare query statement
         $stmt = $this->conn->prepare($query);
@@ -54,11 +59,12 @@ class ProductoDevueltoRecepcion {
     function insert(){
     
         // query to insert record
-        $query = "INSERT INTO `df_producto_devuelto_recepcion`(`df_guia_rec`, `df_cant_und_rec`, `df_producto_id_rec`)
+        $query = "INSERT INTO `df_producto_devuelto_recepcion`(`df_guia_rec`, `df_cant_und_rec`, `df_producto_id_rec`, df_und_prod)
                              VALUES (
 							".$this->df_guia_rec.",
 							".$this->df_cant_und_rec.",
-							".$this->df_producto_id_rec.")";
+                            ".$this->df_producto_id_rec.",
+                            '".$this->df_und_prod."')";
 
         // prepara la sentencia del query
         $stmt = $this->conn->prepare($query);    

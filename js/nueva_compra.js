@@ -425,15 +425,24 @@ var acciones = '<a class="add" title="Agregar" data-toggle="tooltip"><i class="m
 // Append table with add row form on add new button click
 $("#nueva_cuota").click(function() {
     var falta = $('#total_compra').val() * 1;
-    for (var i = 0; i < cuotas.length; i++) {
-        var cuota = cuotas[i].cuota * 1;
-        falta = Number(falta - cuota).toFixed(3);
-    }
+    cuotas = [];
+    $('table#cuotas tbody tr').each(function(a, b) {
+        var pago_minimo = $('.cuota', b).text() * 1;
+        var fecha = $('.fecha', b).text();
+        var descripcion = $('.descripcion', b).text();
+        falta -= pago_minimo;
+        cuotas.push({
+            cuota: pago_minimo,
+            fecha: fecha,
+            descripcion: descripcion
+        });
+    });
     $(this).attr("disabled", "disabled");
     var index = $("table#cuotas tbody tr:last-child").index();
     var row = '<tr>' +
-        '<td class="cuota"><input type="number" class="form-control" name="cuota" value="' + falta + '" id="cuota_minima" autofocus></td>' +
+        '<td class="cuota"><input type="number" class="form-control" name="cuota" value="' + Number(falta).toFixed(3) + '" id="cuota_minima" autofocus></td>' +
         '<td class="fecha"><input type="date" class="form-control" name="fecha" id="fecha"></td>' +
+        '<td class="descripcion"><input type="text" class="form-control" name="descripcion" id="descripcion"></td>' +
         '<td>' + acciones + '</td>' +
         '</tr>';
     $("table#cuotas").append(row);
@@ -446,9 +455,12 @@ $(document).on("click", "table#cuotas tbody tr:last-child td a.add", function() 
     var input = $(this).parents("tr").find('input');
     var index = $("table#cuotas tbody tr:last-child").index();
     input.each(function() {
-        if (!$(this).val()) {
-            $(this).addClass("error");
-            empty = true;
+        if ((!$(this).val())) {
+            var inputID = `${$(this).context.id}`;
+            if (inputID != 'descripcion') {
+                $(this).addClass("error");
+                empty = true;
+            }
         } else {
             $(this).removeClass("error");
         }
@@ -458,7 +470,7 @@ $(document).on("click", "table#cuotas tbody tr:last-child td a.add", function() 
         input.each(function() {
             $(this).parent("td").html($(this).val());
         });
-        $("table#cuotas tbody tr").eq(index + 1).find(".edit").toggle();
+        $(this).parents("tr").find(".add, .edit").toggle();
         $("#nueva_cuota").removeAttr("disabled");
         agregarCuotas();
     }
@@ -471,6 +483,8 @@ $(document).on("click", "#editar-cuota", function() {
             $(this).html('<input type="number" class="form-control" name="cuota" id="cuota_minima" value="' + $(this).text() + '" autofocus>');
         } else if (i == 1) {
             $(this).html('<input type="date" class="form-control" name="fecha" id="fecha" value="' + $(this).text() + '">');
+        } else if (i == 2) {
+            $(this).html('<input type="text" class="form-control" name="descripcion" id="descripcion" value="' + $(this).text() + '">');
         }
         i++;
     });
@@ -489,9 +503,11 @@ function agregarCuotas() {
     $('table#cuotas tbody tr').each(function(a, b) {
         var pago_minimo = $('.cuota', b).text() * 1;
         var fecha = $('.fecha', b).text();
+        var descripcion = $('.descripcion', b).text();
         cuotas.push({
             cuota: pago_minimo,
-            fecha: fecha
+            fecha: fecha,
+            descripcion: descripcion
         });
     });
     console.log('cuotas', cuotas);
@@ -506,6 +522,7 @@ function initTablaCuotas() {
         var row = '<tr>' +
             '<td class="cuota">' + cuotas[i].cuota + '</td>' +
             '<td class="fecha">' + cuotas[i].fecha + '</td>' +
+            '<td class="descripcion">' + cuotas[i].descripcion + '</td>' +
             '<td><a class="delete" title="Eliminar" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a></td>' +
             '</tr>';
         $("table#cuotas").append(row);
@@ -518,6 +535,7 @@ function initTablaCuotas() {
 }
 
 $('#btn-comprar').click(function() {
+    on();
     var currentdate = new Date();
     datetime = currentdate.getFullYear() + "-" +
         (currentdate.getMonth() + 1) + "-" +
@@ -562,100 +580,123 @@ $('#btn-comprar').click(function() {
 function validarCampos(compra) {
     if (compra.proveedor_id == 'null') {
         alertar('warning', '¡Alerta!', 'Debes escoger un proveedor');
+        off();
         return;
     }
     if (compra.detalle_sustento_comprobante_id == 'null') {
         alertar('warning', '¡Alerta!', 'Debes escoger un tipo de comprobante');
+        off();
         return;
     }
     if (compra.condiciones_compra == 'null') {
         alertar('warning', '¡Alerta!', 'La forma de pago es obligatoria');
+        off();
         return;
     }
     var tipoPago = $('#condiciones').val() * 1;
     if (tipoPago == 2) {
         if ($('#banco_emisor').val() == 'null') {
             alertar('warning', '¡Alerta!', 'Debe escoger un banco emisor');
+            off();
             return;
         }
         if ($('#banco_receptor').val() == 'null') {
             alertar('warning', '¡Alerta!', 'Debe escoger un banco receptor');
+            off();
             return;
         }
         if ($('#monto').val() == '') {
             alertar('warning', '¡Alerta!', 'Debe indicar el monto');
+            off();
             return;
         }
         if ($('#codigo_transferencia').val() == '') {
             alertar('warning', '¡Alerta!', 'Debe indicar el código de transferencia');
+            off();
             return;
         }
         if ($('#fecha').val() == '') {
             alertar('warning', '¡Alerta!', 'Debe indicar la fecha de transferencia');
+            off();
             return;
         }
     } else if (tipoPago == 5) {
         if ($('#banco_tarjeta').val() == 'null') {
             alertar('warning', '¡Alerta!', 'Debe escoger un banco emisor');
+            off();
             return;
         }
         if ($('#tipo_tarjeta').val() == 'null') {
             alertar('warning', '¡Alerta!', 'Debe seleccionar un tipo de tarjeta');
+            off();
             return;
         }
         if ($('#marca_tarjeta').val() == 'null') {
             alertar('warning', '¡Alerta!', 'Debe seleccionar una franquicia');
+            off();
             return;
         }
         if ($('#numero_recibo').val() == '') {
             alertar('warning', '¡Alerta!', 'Debe indicar el número de recibo');
+            off();
             return;
         }
         if ($('#fecha').val() == '') {
             alertar('warning', '¡Alerta!', 'Debe indicar la fecha');
+            off();
             return;
         }
         if ($('#monto_tarjeta').val() == '') {
             alertar('warning', '¡Alerta!', 'Debe especificar el monto');
+            off();
             return;
         }
         if ($('#titular_tarjeta').val() == '') {
             alertar('warning', '¡Alerta!', 'Debe indicar el titular de la tarjeta');
+            off();
             return;
         }
     } else if (tipoPago == 1) {
         if ($('#banco_cheque').val() == 'null') {
             alertar('warning', '¡Alerta!', 'Debe escoger un banco emisor');
+            off();
             return;
         }
         if ($('#numero_cheque').val() == '') {
             alertar('warning', '¡Alerta!', 'Debe indicar el número del cheque');
+            off();
             return;
         }
         if ($('#monto_cheque').val() == '') {
             alertar('warning', '¡Alerta!', 'Debe especificar el monto');
+            off();
             return;
         }
         if ($('#titular_cheque').val() == '') {
             alertar('warning', '¡Alerta!', 'Debe indicar el titular de la tarjeta');
+            off();
             return;
         }
     } else if (tipoPago == 6) {
         if ($('#empresa').val() == '') {
             alertar('warning', '¡Alerta!', 'Debe indicar la empresa');
+            off();
             return;
         }
         if ($('#codigo').val() == '') {
             alertar('warning', '¡Alerta!', 'Debe especificar el código');
+            off();
             return;
         }
         if ($('#monto_electronico').val() == '') {
             alertar('warning', '¡Alerta!', 'Debe especificar el monto');
+            off();
             return;
         }
     } else if (tipoPago == 4) {
         if (cuotas.length == 0) {
             alertar('warning', '¡Alerta!', 'Debe especificar las cuotas de pago');
+            off();
             return;
         }
     }
@@ -685,6 +726,7 @@ function insert(compra) {
         if (response == false) {
             console.log('compra insert', response);
             alertar('danger', '¡Error!', 'Algo malo ocurrió, por favor verifique e intente de nuevo');
+            off();
         } else {
             if (compra.condiciones_compra != '4') {
                 getBancos(compra.total_compra, response);
@@ -727,6 +769,7 @@ function getDataProductoTable(id) {
         } else {
             console.log('get data producto');
             alertar('danger', '¡Error!', 'Algo malo ocurrió, por favor verifique e intente de nuevo');
+            off();
         }
     }, 2000)
 }
@@ -748,6 +791,7 @@ function consultarInventario(id, detalle, nombre_producto) {
             updateInventario(id, inventario, nombre_producto, detalle.cantidad_dcp, detalle.bonificacion_dcp);
         } else {
             alertar('danger', '¡Error!', 'Compruebe su conexión a internet e intente nuevamente');
+            off();
         }
     });
 }
@@ -898,9 +942,11 @@ function insertPago(pago) {
     $.post(urlCompleta, JSON.stringify(pago), function(response) {
         if (response == true) {
             alertar('success', '¡Éxito!', 'Compra registrada exitosamente');
+            off();
         } else {
             console.log('detalle pago compra', response);
             alertar('danger', '¡Error!', 'Algo malo ocurrió, por favor verifique e intente de nuevo');
+            off();
         }
         clearTimeout(timer);
         timer = setTimeout(function() {
@@ -915,6 +961,8 @@ function insertCuotas(compra_id) {
             compra_id: compra_id,
             df_fecha_cc: row.fecha,
             df_monto_cc: row.cuota,
+            descripcion: row.descripcion,
+            descuento: 0,
             df_estado_cc: 'PENDIENTE'
         };
         insertarCuota(cuota);
@@ -929,9 +977,8 @@ function insertarCuota(cuota) {
 }
 
 var keyPress = 0;
-
 $('#codigo_producto').keyup(function(e) {
-    if (e.which == 13 && keyPress == 0) {
+    if ((e.which == 13 && keyPress == 0) || e.which == undefined) {
         var urlCompleta = url + 'producto/getByCodigoFactura.php';
         var codigo = $('#codigo_producto').val();
         $.post(urlCompleta, JSON.stringify({ codigo: codigo }), function(response) {
@@ -1109,4 +1156,144 @@ function insertLibroDiario(libroDiario) {
     $.post(urlCompleta, JSON.stringify(libroDiario), function(response) {
         console.log('insert libro diario', response);
     });
+}
+
+function nuevoProducto() {
+    var urlCompleta = url + 'producto/getIdMax.php';
+    $.get(urlCompleta, function(response) {
+        var codigo = '';
+        if (response.data[0].df_id_producto == null) {
+            codigo = 'PRO-001';
+        } else if (response.data[0].df_id_producto > 0 && response.data[0].df_id_producto < 10) {
+            codigo = 'PRO-00' + ((response.data[0].df_id_producto * 1) + 1);
+        } else if (response.data[0].df_id_producto > 9 && response.data[0].df_id_producto < 100) {
+            codigo = 'PRO-0' + ((response.data[0].df_id_producto * 1) + 1);
+        } else if (response.data[0].df_id_producto > 99) {
+            codigo = 'PRO-' + ((response.data[0].df_id_producto * 1) + 1);
+        }
+        console.log('MaxId ', codigo);
+        $('#codigop').val(codigo);
+    });
+    var urlCompleta = url + 'productoPrecio/getAllImpuesto.php';
+    $.get(urlCompleta, function(response) {
+        var tr;
+        var i = 0;
+        $.each(response.data, function(index, row) {
+            if (i == 0) {
+                $('#iva').append("<option value='" + row.df_id_impuesto + "' selected>" + row.df_nombre_impuesto + ' - ' + row.df_valor_impuesto + "</option>");
+            } else {
+                $('#iva').append("<option value='" + row.df_id_impuesto + "'>" + row.df_nombre_impuesto + ' - ' + row.df_valor_impuesto + "</option>");
+            }
+            i++;
+        });
+        $('#nuevoProducto').modal('show');
+    });
+}
+
+$('#guardar_producto').submit(function(event) {
+    $('#guardar_producto').attr('disabled', true);
+    event.preventDefault();
+    var producto = {
+        df_nombre_producto: $('#nombre').val(),
+        df_codigo_prod: $('#codigop').val()
+    };
+    var productoPrecio = {
+        df_producto_id: '',
+        df_ppp: 0,
+        df_pvt1: $('#pvt1').val(),
+        df_pvt2: $('#pvt2').val(),
+        df_pvp: $('#pvp').val(),
+        df_iva: $('#iva').val(),
+        df_min_sugerido: 0,
+        df_und_caja: $('#unidad_caja').val(),
+        df_utilidad: 0
+    };
+    if (producto.df_codigo_prod == '' || producto.df_codigo_prod == 'PRO-') {
+        getMaxId(producto, productoPrecio);
+    } else {
+        insertProducto(producto, productoPrecio);
+    }
+});
+
+function getMaxId(producto, productoPrecio) {
+    var urlCompleta = url + 'producto/getIdMax.php';
+    $.get(urlCompleta, function(response) {
+        var codigo = '';
+        if (response.data[0].df_id_producto == null) {
+            codigo = 'PRO-001';
+        } else if (response.data[0].df_id_producto > 0 && response.data[0].df_id_producto < 10) {
+            codigo = 'PRO-00' + ((response.data[0].df_id_producto * 1) + 1);
+        } else if (response.data[0].df_id_producto > 9 && response.data[0].df_id_producto < 100) {
+            codigo = 'PRO-0' + ((response.data[0].df_id_producto * 1) + 1);
+        } else if (response.data[0].df_id_producto > 99) {
+            codigo = 'PRO-' + ((response.data[0].df_id_producto * 1) + 1);
+        }
+        producto.df_codigo_prod = codigo;
+        insertProducto(producto, productoPrecio);
+    });
+}
+
+function insertProducto(producto, productoPrecio) {
+    var urlCompleta = url + 'producto/insert.php';
+    $.post(urlCompleta, JSON.stringify(producto), function(response) {
+        if (response != false) {
+            productoPrecio.df_producto_id = response;
+            insertPrecioProducto(productoPrecio);
+        } else {
+            alertar('danger', '¡Error!', 'Error al insertar, verifique que todo está bien e intente de nuevo');
+            $('#guardar_producto').attr('disabled', true);
+        }
+    });
+}
+
+function insertPrecioProducto(productoPrecio) {
+    var urlCompleta = url + 'productoPrecio/insert.php';
+    consultarInventario(productoPrecio);
+    $.post(urlCompleta, JSON.stringify(productoPrecio), function(response) {
+        if (response == true) {
+            alertar('success', '¡Éxito!', 'Producto insertado exitosamente');
+        } else {
+            alertar('danger', '¡Error!', 'Error al insertar, verifique que todo está bien e intente de nuevo');
+        }
+        $('#codigop').val('');
+        $('#nombre').val('');
+        $('#ppp').val('');
+        $('#pvt1').val('');
+        $('#pvt2').val('');
+        $('#pvp').val('');
+        $('#iva').html('');
+        $('#min').val('');
+        $('#unidad_caja').val('');
+        $('#utilidad').val('');
+        $('#guardar_producto').attr('disabled', true);
+        $('#nuevoProducto').modal('hide');
+        $('#codigo_producto').val(productoPrecio.df_producto_id);
+        $('#codigo_producto').keyup();
+    });
+}
+
+function consultarInventario(producto) {
+    var urlCompleta = url + 'inventario/getByIdProd.php';
+    $.post(urlCompleta, JSON.stringify({ df_producto: producto.df_producto_id }), function(response) {
+        if (response.data.length == 0) {
+            insertInventario(producto);
+        }
+    });
+}
+
+function insertInventario(producto) {
+    var urlCompleta = url + 'inventario/insert.php';
+    var inventario = {
+        df_cant_bodega: 0,
+        df_cant_transito: 0,
+        df_producto: producto.df_producto_id,
+        df_ppp_ind: 0,
+        df_pvt_ind: producto.df_pvt1,
+        df_ppp_total: 0,
+        df_pvt_total: 0,
+        df_minimo_sug: 0,
+        df_und_caja: producto.df_und_caja,
+        df_bodega: 1
+    };
+    $.post(urlCompleta, JSON.stringify(inventario), function(response) {});
 }

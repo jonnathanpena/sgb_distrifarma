@@ -9,3 +9,163 @@ Stack trace:
 #0 /home/sgipro/public_html/SGI_distrifarma/api/login/getByName.php(30): Login->readLogin()
 #1 {main}
   thrown in /home/sgipro/public_html/SGI_distrifarma/api/objects/login.php on line 35
+[29-Oct-2018 17:58:51 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php:35
+Stack trace:
+#0 /home/sgipro/public_html/SGI_distrifarmaTEST/api/login/getByName.php(30): Login->readLogin()
+#1 {main}
+  thrown in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php on line 35
+[29-Oct-2018 17:58:53 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php:35
+Stack trace:
+#0 /home/sgipro/public_html/SGI_distrifarmaTEST/api/login/getByName.php(30): Login->readLogin()
+#1 {main}
+  thrown in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php on line 35
+[29-Oct-2018 17:58:53 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php:35
+Stack trace:
+#0 /home/sgipro/public_html/SGI_distrifarmaTEST/api/login/getByName.php(30): Login->readLogin()
+#1 {main}
+  thrown in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php on line 35
+[29-Oct-2018 17:58:54 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php:35
+Stack trace:
+#0 /home/sgipro/public_html/SGI_distrifarmaTEST/api/login/getByName.php(30): Login->readLogin()
+#1 {main}
+  thrown in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php on line 35
+[29-Oct-2018 17:58:55 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php:35
+Stack trace:
+#0 /home/sgipro/public_html/SGI_distrifarmaTEST/api/login/getByName.php(30): Login->readLogin()
+#1 {main}
+  thrown in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php on line 35
+[29-Oct-2018 17:58:56 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php:35
+Stack trace:
+#0 /home/sgipro/public_html/SGI_distrifarmaTEST/api/login/getByName.php(30): Login->readLogin()
+#1 {main}
+  thrown in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php on line 35
+[29-Oct-2018 17:58:56 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php:35
+Stack trace:
+#0 /home/sgipro/public_html/SGI_distrifarmaTEST/api/login/getByName.php(30): Login->readLogin()
+#1 {main}
+  thrown in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php on line 35
+[29-Oct-2018 17:58:57 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php:35
+Stack trace:
+#0 /home/sgipro/public_html/SGI_distrifarmaTEST/api/login/getByName.php(30): Login->readLogin()
+#1 {main}
+  thrown in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php on line 35
+[29-Oct-2018 17:58:57 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php:35
+Stack trace:
+#0 /home/sgipro/public_html/SGI_distrifarmaTEST/api/login/getByName.php(30): Login->readLogin()
+#1 {main}
+  thrown in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php on line 35
+[29-Oct-2018 17:59:01 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php:35
+Stack trace:
+#0 /home/sgipro/public_html/SGI_distrifarmaTEST/api/login/getByName.php(30): Login->readLogin()
+#1 {main}
+  thrown in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php on line 35
+[29-Oct-2018 17:59:01 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php:35
+Stack trace:
+#0 /home/sgipro/public_html/SGI_distrifarmaTEST/api/login/getByName.php(30): Login->readLogin()
+#1 {main}
+  thrown in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php on line 35
+[29-Oct-2018 17:59:11 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php:35
+Stack trace:
+#0 /home/sgipro/public_html/SGI_distrifarmaTEST/api/login/getByName.php(30): Login->readLogin()
+#1 {main}
+  thrown in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php on line 35
+[29-Oct-2018 17:59:11 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php:35
+Stack trace:
+#0 /home/sgipro/public_html/SGI_distrifarmaTEST/api/login/getByName.php(30): Login->readLogin()
+#1 {main}
+  thrown in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php on line 35
+[29-Oct-2018 17:59:12 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php:35
+Stack trace:
+#0 /home/sgipro/public_html/SGI_distrifarmaTEST/api/login/getByName.php(30): Login->readLogin()
+#1 {main}
+  thrown in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php on line 35
+[29-Oct-2018 17:59:12 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php:35
+Stack trace:
+#0 /home/sgipro/public_html/SGI_distrifarmaTEST/api/login/getByName.php(30): Login->readLogin()
+#1 {main}
+  thrown in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php on line 35
+[29-Oct-2018 17:59:13 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php:35
+Stack trace:
+#0 /home/sgipro/public_html/SGI_distrifarmaTEST/api/login/getByName.php(30): Login->readLogin()
+#1 {main}
+  thrown in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php on line 35
+[29-Oct-2018 17:59:13 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php:35
+Stack trace:
+#0 /home/sgipro/public_html/SGI_distrifarmaTEST/api/login/getByName.php(30): Login->readLogin()
+#1 {main}
+  thrown in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php on line 35
+[29-Oct-2018 17:59:18 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php:35
+Stack trace:
+#0 /home/sgipro/public_html/SGI_distrifarmaTEST/api/login/getByName.php(30): Login->readLogin()
+#1 {main}
+  thrown in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php on line 35
+[29-Oct-2018 17:59:19 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php:35
+Stack trace:
+#0 /home/sgipro/public_html/SGI_distrifarmaTEST/api/login/getByName.php(30): Login->readLogin()
+#1 {main}
+  thrown in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php on line 35
+[29-Oct-2018 17:59:20 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php:35
+Stack trace:
+#0 /home/sgipro/public_html/SGI_distrifarmaTEST/api/login/getByName.php(30): Login->readLogin()
+#1 {main}
+  thrown in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php on line 35
+[29-Oct-2018 17:59:21 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php:35
+Stack trace:
+#0 /home/sgipro/public_html/SGI_distrifarmaTEST/api/login/getByName.php(30): Login->readLogin()
+#1 {main}
+  thrown in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php on line 35
+[29-Oct-2018 17:59:21 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php:35
+Stack trace:
+#0 /home/sgipro/public_html/SGI_distrifarmaTEST/api/login/getByName.php(30): Login->readLogin()
+#1 {main}
+  thrown in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php on line 35
+[29-Oct-2018 17:59:21 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php:35
+Stack trace:
+#0 /home/sgipro/public_html/SGI_distrifarmaTEST/api/login/getByName.php(30): Login->readLogin()
+#1 {main}
+  thrown in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php on line 35
+[29-Oct-2018 17:59:21 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php:35
+Stack trace:
+#0 /home/sgipro/public_html/SGI_distrifarmaTEST/api/login/getByName.php(30): Login->readLogin()
+#1 {main}
+  thrown in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php on line 35
+[29-Oct-2018 17:59:21 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php:35
+Stack trace:
+#0 /home/sgipro/public_html/SGI_distrifarmaTEST/api/login/getByName.php(30): Login->readLogin()
+#1 {main}
+  thrown in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php on line 35
+[29-Oct-2018 17:59:21 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php:35
+Stack trace:
+#0 /home/sgipro/public_html/SGI_distrifarmaTEST/api/login/getByName.php(30): Login->readLogin()
+#1 {main}
+  thrown in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php on line 35
+[29-Oct-2018 17:59:21 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php:35
+Stack trace:
+#0 /home/sgipro/public_html/SGI_distrifarmaTEST/api/login/getByName.php(30): Login->readLogin()
+#1 {main}
+  thrown in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php on line 35
+[29-Oct-2018 17:59:22 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php:35
+Stack trace:
+#0 /home/sgipro/public_html/SGI_distrifarmaTEST/api/login/getByName.php(30): Login->readLogin()
+#1 {main}
+  thrown in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php on line 35
+[29-Oct-2018 17:59:22 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php:35
+Stack trace:
+#0 /home/sgipro/public_html/SGI_distrifarmaTEST/api/login/getByName.php(30): Login->readLogin()
+#1 {main}
+  thrown in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php on line 35
+[29-Oct-2018 17:59:29 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php:35
+Stack trace:
+#0 /home/sgipro/public_html/SGI_distrifarmaTEST/api/login/getByName.php(30): Login->readLogin()
+#1 {main}
+  thrown in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php on line 35
+[29-Oct-2018 17:59:29 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php:35
+Stack trace:
+#0 /home/sgipro/public_html/SGI_distrifarmaTEST/api/login/getByName.php(30): Login->readLogin()
+#1 {main}
+  thrown in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php on line 35
+[29-Oct-2018 17:59:30 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php:35
+Stack trace:
+#0 /home/sgipro/public_html/SGI_distrifarmaTEST/api/login/getByName.php(30): Login->readLogin()
+#1 {main}
+  thrown in /home/sgipro/public_html/SGI_distrifarmaTEST/api/objects/login.php on line 35

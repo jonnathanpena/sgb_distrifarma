@@ -129,35 +129,29 @@ table.page_footer {
             } else {                    
         ?>
         <tr>
-            <th style="width: 15%;text-align: left" class='midnight-blue'>FACTURA</th>
             <th style="width: 15%;text-align: left" class='midnight-blue'>CODIGO</th>
             <th style="width: 40%;text-align: center" class='midnight-blue'>PRODUCTO</th>
             <th style="width: 15%;text-align: left" class='midnight-blue'>UND</th>
-            <th style="width: 15%;text-align: left" class='midnight-blue'>CANT</th>
+            <th style="width: 30%;text-align: left" class='midnight-blue'>CANT DEVUELTO</th>
         </tr>
         <?php
-                }   if ($data['detalles'][0][df_factura_rec] != '0') {
-                    for ($i = 0; $i < count($data['detalles']); $i++) {
-                    $detalle = $data['detalles'][$i];    
-                        if ( $detalle['df_cant_producto_detrec'] == '0') {
-                            $und = 'CAJA';
-                            $cant = $detalle['df_cant_caja_detrec']; 
-                        } else {
-                            $und = 'UND';
-                            $cant = $detalle['df_cant_producto_detrec'];
-                        }
+                }  
+                /*echo json_encode($data['devuelto']);*/
+                    for ($j = 0; $j < count($data['devuelto']); $j++) {
+                        $detalle = $data['devuelto'][$j]; 
+                        $und = $detalle['df_und_prod'];
+                        $cant = $detalle['df_cant_und_rec'];
         ?>    
          <tr>
-            <td style="width: 15%; text-align: left"><?php echo $detalle['df_factura_rec']?></td>
             <td style="width: 15%; text-align: left"><?php echo $detalle['df_codigo_prod']?></td>
             <td style="width: 40%; text-align: left"><?php echo $detalle['df_nombre_producto']?></td>
             <td style="width: 15%; text-align: left"><?php echo $und?></td>
-            <td style="width: 15%; text-align: left"><?php echo $cant?></td>
+            <td style="width: 30%; text-align: right"><?php echo $cant?></td>
         </tr>
 
         <?php
                     } 
-                }           
+                          
         ?>
     </table>
     <br>
