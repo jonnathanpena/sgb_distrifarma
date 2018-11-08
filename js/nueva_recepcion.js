@@ -469,7 +469,7 @@ function cambiaEstado(fact) {
             if (detalleFactura[i].df_num_factura_detfac == fact) {
                 var cantidad = detalleFactura[i].df_cantidad_detfac * 1;
                 $('#table_resumen_productos tbody tr').each(function(a, b) {
-                    if ($('.producto', b).text() == detalleFactura[i].df_nombre_producto) {
+                    if ($('.producto', b).text() == detalleFactura[i].df_nombre_producto && $('.unidad', b).text() == detalleFactura[i].df_nombre_und_detfac) {
                         var resta_ant = $('.resta', b).text() * 1;
                         cantidad = cantidad + resta_ant;
                         $(this).remove();
@@ -493,7 +493,7 @@ function cambiaEstado(fact) {
             if (detalleFactura[i].df_num_factura_detfac == fact) {
                 var cantidad = detalleFactura[i].df_cantidad_detfac * 1;
                 $('#table_resumen_productos tbody tr').each(function(a, b) {
-                    if ($('.producto', b).text() == detalleFactura[i].df_nombre_producto) {
+                    if ($('.producto', b).text() == detalleFactura[i].df_nombre_producto && $('.unidad', b).text() == detalleFactura[i].df_nombre_und_detfac) {
                         var resta_ant = $('.resta', b).text() * 1;
                         cantidad = cantidad + resta_ant;
                         $(this).remove();
@@ -552,7 +552,7 @@ function gardaModificacion() {
                 detalleFactura[i].df_cantidad_detfac = r.cantidad;
                 var devuelve = r.resta;
                 $('#table_resumen_productos tbody tr').each(function(a, b) {
-                    if ($('.producto', b).text() == detalleFactura[i].df_nombre_producto) {
+                    if ($('.producto', b).text() == detalleFactura[i].df_nombre_producto && $('.unidad', b).text() == detalleFactura[i].df_nombre_und_detfac) {
                         var resta_ant = $('.resta', b).text() * 1;
                         devuelve = devuelve + resta_ant;
                         $(this).remove();
