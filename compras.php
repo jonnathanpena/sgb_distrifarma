@@ -55,6 +55,8 @@
                                     <th>No.</th>
                                     <th>Usuario</th>
                                     <th>Proveedor</th>
+                                    <th>Documento Compra</th>
+                                    <th>Forma Pago</th>
                                     <th class="text-right">Consumo ($)</th>
                                     <th class='text-right'>Acciones</th>
                                 </tr>

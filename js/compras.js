@@ -68,11 +68,23 @@ function generate_table() {
     var tr;
     $.each(displayRecords, function(index, row) {
         tr = $('<tr/>');
+        var tipo_pago = '';
+        if (row.condiciones_compra == 4) {
+            tipo_pago = 'Crédito';
+        } else if (row.condiciones_compra == 1) {
+            tipo_pago = 'Cheque';
+        } else if (row.condiciones_compra == 2) {
+            tipo_pago = 'Transferencia Bancaria';
+        } else if (row.condiciones_compra == 3) {
+            tipo_pago = 'Efectivo';
+        }
         if (row.condiciones_compra == 4) {
             if (row.pagado == 1) {
                 tr.append('<td>' + row.id_compra + '</td>');
                 tr.append('<td>' + row.df_usuario_usuario + '</td>');
                 tr.append('<td>' + row.df_nombre_empresa + '</td>');
+                tr.append('<td>' + row.documento_compra + '</td>');
+                tr.append('<td>' + tipo_pago + '</td>');
                 tr.append('<td class="text-right">$ ' + (row.total_compra * 1).toFixed(3) + '</td>');
                 tr.append('<td class="text-right"> <button class="btn btn-success"><i class="glyphicon glyphicon-eye-open" onclick="observarCuotas(`' + row.id_compra + '`)"></i></button> </td>');
                 //tr.append('<td class="text-right"> <button class="btn btn-info pull-right" title="Imprimir" onclick="detallar(`' + row.id_compra + '`)"><i class="glyphicon glyphicon-print"></i></button> </td>');
@@ -81,6 +93,8 @@ function generate_table() {
                 tr.append('<td>' + row.id_compra + '</td>');
                 tr.append('<td>' + row.df_usuario_usuario + '</td>');
                 tr.append('<td>' + row.df_nombre_empresa + '</td>');
+                tr.append('<td>' + row.documento_compra + '</td>');
+                tr.append('<td>' + tipo_pago + '</td>');
                 tr.append('<td class="text-right">$ ' + (row.total_compra * 1).toFixed(3) + '</td>');
                 tr.append('<td class="text-right"> <button class="btn btn-warning"><i class="glyphicon glyphicon-eye-open" onclick="observarCuotas(`' + row.id_compra + '`)"></i></button> </td>');
                 //tr.append('<td class="text-right"> <button class="btn btn-info pull-right" title="Imprimir" onclick="detallar(`' + row.id_compra + '`)"><i class="glyphicon glyphicon-print"></i></button> </td>');
@@ -90,6 +104,8 @@ function generate_table() {
             tr.append('<td>' + row.id_compra + '</td>');
             tr.append('<td>' + row.df_usuario_usuario + '</td>');
             tr.append('<td>' + row.df_nombre_empresa + '</td>');
+            tr.append('<td>' + row.documento_compra + '</td>');
+            tr.append('<td>' + tipo_pago + '</td>');
             tr.append('<td class="text-right">$ ' + (row.total_compra * 1).toFixed(3) + '</td>');
             tr.append('<td class="text-right"></td>');
             //tr.append('<td class="text-right"> <button class="btn btn-info pull-right" title="Imprimir" onclick="detallar(`' + row.id_compra + '`)"><i class="glyphicon glyphicon-print"></i></button> </td>');
