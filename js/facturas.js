@@ -39,6 +39,14 @@ function load() {
     }, 1000);
 }
 
+function loadById() {
+    facts = [];
+    clearTimeout(timer);
+    timer = setTimeout(function() {
+        cargarById();
+    }, 1000);
+}
+
 function cargar() {
     $('#resultados .table-responsive table tbody').html('Cargando...');
     var urlCompleta = url + 'factura/getAll.php';
@@ -46,9 +54,30 @@ function cargar() {
         if (response.data.length > 0) {
             $('#resultados .table-responsive table tbody').html('');
             var facturas = response.data;
-            $.each(facturas, function(index, row) {
-                getCliente(row);
-            });
+            facts = facturas;
+            clearTimeout(timer);
+            timer = setTimeout(function() {                
+                records = facts;
+                totalRecords = records.length;
+                totalPages = Math.ceil(totalRecords / recPerPage);
+                apply_pagination();
+            }, 1000);
+        } else {
+            $('#resultados .table-responsive table tbody').html('No se encontraron facturas');
+        }
+    })
+}
+
+function cargarById() {
+    $('#resultados .table-responsive table tbody').html('Cargando...');
+    console.log('Q',$('#q').val());
+    if ($('#q').val().length > 0){
+    var urlCompleta = url + 'factura/getById.php';
+    $.post(urlCompleta, JSON.stringify({ df_num_factura: $('#q').val() }), function(response) {
+        if (response.data.length > 0) {
+            $('#resultados .table-responsive table tbody').html('');
+            var facturas = response.data;            
+            facts = facturas;
             clearTimeout(timer);
             timer = setTimeout(function() {
                 facts.sort(function(a, b) {
@@ -60,9 +89,12 @@ function cargar() {
                 apply_pagination();
             }, 1000);
         } else {
-            $('#resultados .table-responsive table tbody').html('No se encontraron facturas');
+            $('#resultados .table-responsive table tbody').html('No se encontró la factura');
         }
     })
+    } else {
+        cargar();
+    }
 }
 
 function generate_table() {

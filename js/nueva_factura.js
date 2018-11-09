@@ -516,7 +516,7 @@ function calcular() {
 
     $('#total_iva').html(total_iva.toFixed(2));
 
-    $('#descuento').html(descuento.toFixed(2))
+    $('#descuento').html(descuento.toFixed(2));
 
     $('#total').html(total.toFixed(2));
 
@@ -695,7 +695,7 @@ function insertarFactura(factura) {
 
                 cant_bodega = cant_bodega - (unidad_caja * cantidad);
 
-            }            
+            }
 
             insertDetalle(id_factura, id_precio, precio, cantidad, valor_sin_iva, iva, total_tupla, nombre_unidad, cant_x_und, nombre_producto, cant_bodega);
 
@@ -751,7 +751,7 @@ function insertDetalle(id, id_precio, precio, cantidad, valor_sin_iva, iva, tota
 
     getInventario(detalle, cant_bodega);
 
-    $.post(urlCompleta, JSON.stringify(detalle), function(response) { });
+    $.post(urlCompleta, JSON.stringify(detalle), function(response) {});
 
 }
 

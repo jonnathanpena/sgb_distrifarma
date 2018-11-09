@@ -57,7 +57,7 @@ function cargar() {
 }
 
 function consultarFactura() {
-    var urlCompleta = url + 'factura/getAll.php';
+    var urlCompleta = url + 'factura/getById.php';
     $.post(urlCompleta, JSON.stringify({ df_num_factura: id }), function(response) {
         if (response.data.length > 0) {
             console.log('resultados', response.data);
@@ -469,7 +469,7 @@ function getIdKardex(detalle, nombre_producto, cant_bodega) {
         df_egresa_kar: detalle.df_cantidad_detfac,
         df_existencia_kar: cant_bodega,
         df_creadoBy_kar: $('#usuario').val(),
-        df_edo_kardex: 2
+        df_edo_kardex: 1
     }
     var urlCompleta = url + 'kardex/getIdMax.php';
     $.get(urlCompleta, function(response) {
@@ -739,9 +739,13 @@ function reponerInventario(idProducto, cantidad, kardex, unidad) {
             var nuevo = cantidad * inventario.df_und_caja;
             inventario.df_cant_bodega = nuevo + antes;
             kardex.df_existencia_kar = inventario.df_cant_bodega;
+            kardex.df_ingresa_kar = nuevo;
+            kardex.df_egresa_kar = 0;
         } else {
             inventario.df_cant_bodega = cantidad + antes;
             kardex.df_existencia_kar = inventario.df_cant_bodega;
+            kardex.df_egresa_kar = 0;
+            kardex.df_ingresa_kar = cantidad;
         }
         getIdMaxKardex(kardex);
         updateInventario(inventario);

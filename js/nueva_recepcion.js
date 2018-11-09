@@ -587,24 +587,31 @@ function calcularCostos() {
     var diferencia = 0;
     totalUnidades = 0;
     totalCajas = 0;
+    var urlCompleta = url + 'guiaRecepcion/calcular.php';
+    $.post(urlCompleta, JSON.stringify(detalleFactura), function(response) {
+        valor_recaudado = response;
+        $('#valor_recaudado_entrega').val(Number(valor_recaudado).toFixed(2));
+        var resto = Number(valor_efectivo) + Number(valor_cheque) + Number(valor_retenciones) + Number(valor_descuento);
+        diferencia = Number(valor_recaudado - resto).toFixed(2);
+        $('#diferencia_entrega').val(diferencia);
+    });
     $.each(detalleFactura, function(index, row) {
         if (row.df_nombre_und_detfac == 'CAJA') {
             totalCajas += row.df_cantidad_detfac * 1;
         } else if (row.df_nombre_und_detfac == 'UND') {
             totalUnidades += row.df_cantidad_detfac * 1;
         }
-        var iva = row.df_iva_detfac * 1;
+        /*var iva = row.df_iva_detfac * 1;
         var precio_unitario = row.df_precio_prod_detfac * 1;
         var cantidad = row.df_cantidad_detfac * 1;
         var subtotal = precio_unitario * cantidad;
         var total_iva = subtotal * iva;
-        var total_tupla = subtotal + total_iva;
-        valor_recaudado = valor_recaudado + total_tupla;
+        total_iva = total_iva;
+        calculos.push({
+            subtotal: subtotal.toFixed(2),
+            total_iva: total_iva.toFixed(2)
+        });*/
     });
-    $('#valor_recaudado_entrega').val(Number(valor_recaudado).toFixed(2));
-    var resto = Number(valor_efectivo) + Number(valor_cheque) + Number(valor_retenciones) + Number(valor_descuento);
-    diferencia = Number(valor_recaudado - resto).toFixed(2);
-    $('#diferencia_entrega').val(diferencia);
 }
 
 function restarEntrega() {
