@@ -16,11 +16,11 @@ for ($i = 0; $i < count($data); $i++) {
     $iva = $data[$i]['df_iva_detfac'] * 1;
     $precio_unitario = $data[$i]['df_precio_prod_detfac'] * 1;
     $cantidad = $data[$i]['df_cantidad_detfac'] * 1;
-    $sub = $precio_unitario * $cantidad;
+    $sub = (intval(($precio_unitario*$cantidad)*100)) / 100;
     $subtotal = $subtotal + $sub;
-    $ti = $sub * $iva;
+    $ti = (intval(($sub*$iva)*100)) / 100;
     $total_iva = $total_iva + $ti;
-    $total = $subtotal + $total_iva;
+    $total = (intval(($subtotal + $total_iva)*100)) / 100;
 }
 
 echo $total;

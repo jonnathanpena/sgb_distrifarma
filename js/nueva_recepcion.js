@@ -590,7 +590,7 @@ function calcularCostos() {
     var urlCompleta = url + 'guiaRecepcion/calcular.php';
     $.post(urlCompleta, JSON.stringify(detalleFactura), function(response) {
         valor_recaudado = response;
-        $('#valor_recaudado_entrega').val(Number(valor_recaudado).toFixed(2));
+        $('#valor_recaudado_entrega').val(Number(valor_recaudado));
         var resto = Number(valor_efectivo) + Number(valor_cheque) + Number(valor_retenciones) + Number(valor_descuento);
         diferencia = Number(valor_recaudado - resto).toFixed(2);
         $('#diferencia_entrega').val(diferencia);
