@@ -3,7 +3,7 @@ var $pagination = $('#pagination'),
     totalRecords = 0,
     records = [],
     displayRecords = [],
-    recPerPage = 10,
+    recPerPage = 20,
     page = 1,
     totalPages = 0;
 var facts = [];
@@ -72,7 +72,7 @@ function cargarById() {
     $('#resultados .table-responsive table tbody').html('Cargando...');
     console.log('Q',$('#q').val());
     if ($('#q').val().length > 0){
-    var urlCompleta = url + 'factura/getById.php';
+    var urlCompleta = url + 'factura/getId.php';
     $.post(urlCompleta, JSON.stringify({ df_num_factura: $('#q').val() }), function(response) {
         if (response.data.length > 0) {
             $('#resultados .table-responsive table tbody').html('');
@@ -83,6 +83,7 @@ function cargarById() {
                 facts.sort(function(a, b) {
                     return (b.df_num_factura - a.df_num_factura)
                 });
+                page = 1;
                 records = facts;
                 totalRecords = records.length;
                 totalPages = Math.ceil(totalRecords / recPerPage);
