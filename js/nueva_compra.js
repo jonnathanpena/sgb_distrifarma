@@ -747,6 +747,7 @@ function getDataProductoTable(id) {
         var subtotal_dcp = $('.total_tupla', b).text() * 1;
         var bonificacion = Number($('.bonificacion', b).text());
         var descuento = Number($('.total_descuento', b).text()).toFixed(3);
+        var p = $('.producto', b).text();
         var detalle = {
             compra_id: compra_id,
             producto_id: producto_id,
@@ -757,7 +758,7 @@ function getDataProductoTable(id) {
             bonificacion_dcp: bonificacion,
             descuento_dcp: descuento
         }
-        consultarInventario(id, detalle, $('.producto', b).text());
+        consultarInv(id, detalle, p);
         if (insertDetalleCompraProducto(detalle) == false) {
             exito = false;
         }
@@ -774,7 +775,7 @@ function getDataProductoTable(id) {
     }, 2000)
 }
 
-function consultarInventario(id, detalle, nombre_producto) {
+function consultarInv(id, detalle, nombre_producto) {
     var urlCompleta = url + 'inventario/getByIdProd.php';
     $.post(urlCompleta, JSON.stringify({ df_producto: detalle.producto_id }), function(response) {
         if (response.data.length > 0) {
@@ -833,6 +834,7 @@ function insertKardex(inventario, id, nombre_producto, cantidad, bonificacion) {
         df_edo_kardex: 2
     };
     var urlCompleta = url + 'kardex/insert.php';
+    debugger;
     $.post(urlCompleta, JSON.stringify(kardex), function(response) {});
 }
 
