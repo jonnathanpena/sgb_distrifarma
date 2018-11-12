@@ -381,6 +381,7 @@ function recorrerTablaProductos() {
         var total_tupla = $('.total_tupla_producto', b).text() * 1;
         var nombre_unidad = $('.unidad', b).text();
         var unidad_caja = $('.unidad_caja', b).text();
+        var id_producto = $('.id_producto', b).text();
         var cant_x_und = 0;
         if (nombre_unidad == 'UND') {
             cant_x_und = cantidad * 1;
@@ -390,7 +391,7 @@ function recorrerTablaProductos() {
         var cant_bodega = $('.cant_bodega', b).text() * 1;
         var detalle = {
             df_num_factura_detfac: id,
-            df_prod_precio_detfac: id_precio,
+            df_prod_precio_detfac: id_producto,
             df_precio_prod_detfac: precio,
             df_cantidad_detfac: cantidad,
             df_valor_sin_iva_detfac: valor_sin_iva,
