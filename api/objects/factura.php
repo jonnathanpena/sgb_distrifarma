@@ -39,8 +39,29 @@ class Factura {
         // select all query
         $query = "SELECT `df_num_factura`, `df_fecha_fac`, `df_cliente_cod_fac`, `df_personal_cod_fac`, `df_sector_cod_fac`, `df_forma_pago_fac`, `df_subtotal_fac`, 
                     `df_descuento_fac`, `df_iva_fac`, `df_valor_total_fac`, `df_creadaBy`, `df_fecha_creacion`,
-                    `df_edo_factura_fac`, `df_fecha_entrega_fac` 
-                    FROM `df_factura` WHERE `df_num_factura` like '%".$this->df_num_factura."%'
+                    `df_edo_factura_fac`, `df_fecha_entrega_fac`, cli.df_codigo_cliente, cli.df_nombre_cli, cli.df_razon_social_cli, cli.`df_documento_cli`
+                    FROM `df_factura` as fac
+                    INNER JOIN df_cliente as cli ON (fac.df_cliente_cod_fac = cli.df_id_cliente)
+                    WHERE DATE(df_fecha_fac) >= DATE_ADD(NOW(), INTERVAL -3 DAY)
+                    ORDER BY df_num_factura DESC";
+
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+
+        // execute query
+        $stmt->execute();
+
+        return $stmt;
+    }
+
+    function readId(){
+        // select all query
+        $query = "SELECT `df_num_factura`, `df_fecha_fac`, `df_cliente_cod_fac`, `df_personal_cod_fac`, `df_sector_cod_fac`, `df_forma_pago_fac`, `df_subtotal_fac`, 
+                    `df_descuento_fac`, `df_iva_fac`, `df_valor_total_fac`, `df_creadaBy`, `df_fecha_creacion`,
+                    `df_edo_factura_fac`, `df_fecha_entrega_fac`, cli.df_codigo_cliente, cli.df_nombre_cli, cli.df_razon_social_cli, cli.`df_documento_cli`
+                    FROM `df_factura` as fac
+                    INNER JOIN df_cliente as cli ON (fac.df_cliente_cod_fac = cli.df_id_cliente)
+                    WHERE df_num_factura like '%".$this->df_num_factura."%'
                     ORDER BY df_num_factura DESC";
 
         // prepare query statement
@@ -59,7 +80,9 @@ class Factura {
 
         $query = "SELECT `df_num_factura`, `df_fecha_fac`, `df_cliente_cod_fac`, `df_personal_cod_fac`, `df_sector_cod_fac`, `df_forma_pago_fac`, 
                         `df_subtotal_fac`, `df_descuento_fac`, `df_iva_fac`, `df_valor_total_fac`, `df_creadaBy`, 
-                        `df_fecha_creacion`, `df_edo_factura_fac`, `df_fecha_entrega_fac` FROM `df_factura` 
+                        `df_fecha_creacion`, `df_edo_factura_fac`, `df_fecha_entrega_fac`, cli.df_codigo_cliente, cli.df_nombre_cli, cli.df_razon_social_cli, cli.`df_documento_cli`
+                        FROM `df_factura` as fac
+                        INNER JOIN df_cliente as cli ON (fac.df_cliente_cod_fac = cli.df_id_cliente)
                         WHERE `df_num_factura` = ".$this->df_num_factura;
 
         // prepare query statement

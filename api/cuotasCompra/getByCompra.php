@@ -49,6 +49,8 @@ if($num>0){
             "compra_id"=>$compra_id, 
             "df_fecha_cc"=>$df_fecha_cc, 
             "df_monto_cc"=>$df_monto_cc, 
+            "descripcion"=>$descripcion,
+            "descuento"=>$descuento,
             "df_estado_cc"=>$df_estado_cc
         ); 
         array_push($cuotasCompra_arr["data"], $cuotasCompra_item);

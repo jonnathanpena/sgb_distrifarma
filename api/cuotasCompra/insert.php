@@ -26,6 +26,8 @@ $info = array($data);
 $cuotasCompra->compra_id = $info[0]["compra_id"];
 $cuotasCompra->df_fecha_cc = $info[0]["df_fecha_cc"];
 $cuotasCompra->df_monto_cc = $info[0]["df_monto_cc"];
+$cuotasCompra->descripcion = $info[0]["descripcion"];
+$cuotasCompra->descuento = $info[0]["descuento"];
 $cuotasCompra->df_estado_cc = $info[0]["df_estado_cc"];
 
 // insert cuotasCompra

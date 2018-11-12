@@ -10,6 +10,8 @@ class CuotasCompra {
     public $compra_id;
     public $df_fecha_cc;
     public $df_monto_cc;
+    public $descripcion;
+    public $descuento;
     public $df_estado_cc;
 
     //constructor con base de datos como conexión
@@ -20,7 +22,7 @@ class CuotasCompra {
     function readByCompra() {
     
         // select all query
-        $query = "SELECT `df_id_cc`, `compra_id`, `df_fecha_cc`, `df_monto_cc`, `df_estado_cc` 
+        $query = "SELECT `df_id_cc`, `compra_id`, `df_fecha_cc`, `df_monto_cc`, `descripcion`, `descuento`, `df_estado_cc`
                     FROM `df_cuotas_compra` 
                     WHERE `compra_id` = ".$this->compra_id;
     
@@ -36,11 +38,13 @@ class CuotasCompra {
     function insert(){
     
         // query to insert record
-        $query = "INSERT INTO `df_cuotas_compra`(`compra_id`, `df_fecha_cc`, `df_monto_cc`, `df_estado_cc`) 
-                    VALUES (
+        $query = "INSERT INTO `df_cuotas_compra`(`compra_id`, `df_fecha_cc`, `df_monto_cc`, `descripcion`, `descuento`, 
+                    `df_estado_cc`) VALUES (
                         ".$this->compra_id.",
                         '".$this->df_fecha_cc."',
                         ".$this->df_monto_cc.",
+                        '".$this->descripcion."',
+                        ".$this->descuento.",
                         '".$this->df_estado_cc."'
                     )";
 
@@ -73,7 +77,29 @@ class CuotasCompra {
             return false;
         }       
         
-    }     
+    }    
+    
+    function update() {
+    
+        // query 
+        $query = "UPDATE `df_cuotas_compra` SET 
+                    `df_fecha_cc`= '".$this->df_fecha_cc."',
+                    `df_monto_cc`= ".$this->df_monto_cc.",
+                    `descripcion`= '".$this->descripcion."',
+                    `descuento`= ".$this->descuento."
+                    WHERE `df_id_cc` = ".$this->df_id_cc;                      
+
+        // prepara la sentencia del query
+        $stmt = $this->conn->prepare($query);
+        
+        // execute query
+        if($stmt->execute()){
+            return true;
+        }else{
+            return false;
+        }       
+        
+    }    
 
 }
 ?>

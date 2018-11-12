@@ -8,14 +8,14 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
  
 // incluye la configuración de la base de datos y la conexión
 include_once '../config/database.php';
-include_once '../objects/productoDevueltoRecepcion.php';
- 
+include_once '../objects/cuotasCompra.php';
+
 // inicia la conexión a la base de datos
 $database = new Database();
 $db = $database->getConnection();
  
 // inicia el objeto
-$productoDevueltoRecepcion = new productoDevueltoRecepcion($db);
+$cuotasCompra = new CuotasCompra($db);
  
 // get posted data
 $data = json_decode(file_get_contents('php://input'), true);
@@ -23,19 +23,18 @@ $data = json_decode(file_get_contents('php://input'), true);
 $info = array($data);
 
 // configura los valores recibidos en post de la app
-$productoDevueltoRecepcion->df_guia_rec= $info[0]["df_guia_rec"];
-$productoDevueltoRecepcion->df_cant_und_rec= $info[0]["df_cant_und_rec"];
-$productoDevueltoRecepcion->df_producto_id_rec= $info[0]["df_producto_id_rec"];
-$productoDevueltoRecepcion->df_und_prod= $info[0]["df_und_prod"];
+$cuotasCompra->df_fecha_cc = $info[0]["df_fecha_cc"];
+$cuotasCompra->df_monto_cc = $info[0]["df_monto_cc"];
+$cuotasCompra->descripcion = $info[0]["descripcion"];
+$cuotasCompra->descuento = $info[0]["descuento"];
+$cuotasCompra->df_id_cc = $info[0]["df_id_cc"];
 
-// insert productoDevueltoRecepcion
-$response = $productoDevueltoRecepcion->insert();
-if($response != false){
-    $response = $response * 1;
-    echo json_encode($response); 
+// insert cuotasCompra
+$response = $cuotasCompra->update();
+if($response == true){
+    echo json_encode(true); 
 }else{
     // Error en caso de que no se pueda modificar
     echo json_encode(false); 
 }
-
 ?>

@@ -38,7 +38,10 @@ if($num>0){
             "df_id_prod_dev_rec"=>$df_id_prod_dev_rec,
             "df_guia_rec"=>$df_guia_rec,
             "df_cant_und_rec"=>$df_cant_und_rec,
-            "df_producto_id_rec"=>$df_producto_id_rec
+            "df_producto_id_rec"=>$df_producto_id_rec,
+            "df_und_prod"=>$df_und_prod,
+            "df_nombre_producto"=>$df_nombre_producto,
+            "df_codigo_prod"=>$df_codigo_prod
         );
  
         array_push($productoDevueltoRecepcion_arr["data"], $productoDevueltoRecepcion_item);

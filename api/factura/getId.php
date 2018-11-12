@@ -25,7 +25,7 @@ $info = array($data);
 $factura->df_num_factura= $info[0]["df_num_factura"];
  
 // query de lectura
-$stmt = $factura->read();
+$stmt = $factura->readId();
 $num = $stmt->rowCount();
 
 //factura array
