@@ -128,10 +128,9 @@
 			</table>
 			<table style="width: 100%;">
 				<tr>
-					<td style="width: 60%; text-align: center; font-wieght: bold; ">
+					<td style="width: 100%; text-align: center; font-wieght: bold; ">
 					    <FONT FACE="Arial" SIZE="2"><?php echo strtoupper($data['cliente']['df_referencia_cli'])?></FONT>
 					</td>
-					<td style="width: 40%; text-align: right;">&nbsp;</td>
 				</table>							
 			<table style="width: 100%; margin-top: 4mm;">
 					<td style="width: 30%; text-align: center;">
