@@ -834,7 +834,6 @@ function insertKardex(inventario, id, nombre_producto, cantidad, bonificacion) {
         df_edo_kardex: 2
     };
     var urlCompleta = url + 'kardex/insert.php';
-    debugger;
     $.post(urlCompleta, JSON.stringify(kardex), function(response) {});
 }
 

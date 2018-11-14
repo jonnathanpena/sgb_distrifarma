@@ -42,7 +42,7 @@ if($num>0){
         // this will make $row['name'] to
         // just $name only
         extract($row);
-
+        $detalle = getDetalle($db, $df_num_factura);
         //Los nombres acá son iguales a los de la clase iguales a las columnas de la BD
         $factura_item=array(
             "df_num_factura"=>$df_num_factura, 
@@ -58,7 +58,8 @@ if($num>0){
             "df_creadaBy"=>$df_creadaBy,
             "df_fecha_creacion"=>$df_fecha_creacion,
             "df_edo_factura_fac"=>$df_edo_factura_fac, 
-            "df_fecha_entrega_fac"=>$df_fecha_entrega_fac
+            "df_fecha_entrega_fac"=>$df_fecha_entrega_fac,
+            "detalles"=>$detalle
         );
  
         array_push($factura_arr["data"], $factura_item);
@@ -69,5 +70,38 @@ if($num>0){
  
 else{
     echo json_encode($factura_arr);
+}
+
+function getDetalle($db, $id) {
+    include_once '../objects/detalleFactura.php';
+    $detalleFactura = new DetalleFactura($db);
+    $detalleFactura->df_num_factura_detfac= $id;
+    $stmt = $detalleFactura->readById();
+    $num = $stmt->rowCount();
+    $detalleFactura_arr=array();
+    if($num>0){ 
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+            extract($row);
+            $detalleFactura_item=array(
+                "df_id_factura_detfac"=>$df_id_factura_detfac, 
+                "df_num_factura_detfac"=>$df_num_factura_detfac,
+                "df_prod_precio_detfac"=>$df_prod_precio_detfac,
+                "df_precio_prod_detfac"=>$df_precio_prod_detfac,
+                "df_id_producto"=>$df_id_producto,
+                "df_nombre_producto"=>$df_nombre_producto,
+                "df_codigo_prod"=>$df_codigo_prod,
+                "df_cantidad_detfac"=>$df_cantidad_detfac,
+                "df_nombre_und_detfac"=>$df_nombre_und_detfac,
+                "df_cant_x_und_detfac"=>$df_cant_x_und_detfac,
+                "df_edo_entrega_prod_detfac"=>$df_edo_entrega_prod_detfac,
+                "df_valor_sin_iva_detfac"=>$df_valor_sin_iva_detfac,
+                "df_iva_detfac"=>$df_iva_detfac,
+                "df_valor_total_detfac"=>$df_valor_total_detfac
+            );
+     
+            array_push($detalleFactura_arr, $detalleFactura_item);
+        }
+    }
+    return $detalleFactura_arr;
 }
 ?>

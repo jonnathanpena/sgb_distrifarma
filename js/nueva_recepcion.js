@@ -424,9 +424,6 @@ function getDetalleEntrega() {
             }
         });
         clearTimeout(timer);
-        timer = setTimeout(function() {
-            //calcularCostos();
-        }, 3000);
     });
 }
 
@@ -810,7 +807,7 @@ function generarDetalleGuiaEntrega(id) {
             alertar('danger', '¡Error!', 'Compruebe su conexión a internet e intente nuevamente');
         }
         recargar();
-    }, 3000);
+    }, 6000);
 }
 
 function recargar() {
@@ -831,7 +828,7 @@ function buscarParaModificarFactura(fact, estado, forma_pago, fecha_entrega, res
             updateFactura(response.data[0]);
         } else if (estadoFactura == 4) {
             response.data[0].df_forma_pago_fac = forma_pago;
-            response.data[0].df_edo_factura_fac = 2;
+            response.data[0].df_edo_factura_fac = 4;
             response.data[0].df_subtotal_fac = subtotal;
             response.data[0].df_iva_fac = iva;
             response.data[0].df_valor_total_fac = total;
@@ -1028,7 +1025,7 @@ function getIdKardex(detalle, nombre_producto, cant_bodega) {
         df_egresa_kar: 0,
         df_existencia_kar: cant_bodega,
         df_creadoBy_kar: $('#usuario').val(),
-        df_edo_kardex: 2
+        df_edo_kardex: 3
     }
     var urlCompleta = url + 'kardex/getIdMax.php';
     $.get(urlCompleta, function(response) {
