@@ -1056,10 +1056,11 @@ function agregar() {
     var cantidad = $('#cantidad_producto').val() * 1;
     var precio = Number($('#precio_unitario_producto').val());
     var iva = $('#iva_producto').val() * 1;
-    iva = Number(iva * precio * cantidad);
-    var total_tupla = Number(precio * cantidad);
-    var total_descuento = Number(descuento * total_tupla);
-    total_tupla = Number(total_tupla - total_descuento);
+    var sub = precio * cantidad;
+    var total_descuento = descuento * sub;
+    sub = sub - total_descuento;
+    iva = Number(iva * sub);
+    var total_tupla = sub;
     var tr = $('<tr/>');
     tr.append('<td class="id_producto" style="display:none;">' + producto.df_id_producto + '</td>');
     tr.append('<td class="codigo" width="150">' + producto.df_codigo_prod + '</td>');
