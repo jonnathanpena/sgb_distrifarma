@@ -382,7 +382,7 @@ function getCliente() {
 
                 $.each(response.data, function(index, row) {
 
-                    tr = $('<tr style="cursor: pointer;" onclick="seleccionarCliente(' + row.df_id_cliente + ', ' + row.df_documento_cli + ', ' + row.df_sector_cod + ', `' + row.df_nombre_cli + '` )"/>');
+                    tr = $('<tr style="cursor: pointer;" onclick="seleccionarCliente(' + row.df_id_cliente + ', ' + row.df_documento_cli + ', ' + row.df_sector_cod + ', `' + row.df_nombre_cli + '`, `' + row.df_direccion_cli + '` )"/>');
 
                     tr.append("<td>" + row.df_codigo_cliente + "</td>");
 
@@ -392,7 +392,7 @@ function getCliente() {
 
                     tr.append("<td>" + row.df_nombre_cli + "</td>");
 
-                    tr.append("<td>" + row.df_razon_social_cli + "</td>");
+                    tr.append("<td>" + row.df_direccion_cli + "</td>");
 
                     $('#resultados .table-responsive table tbody').append(tr);
 
