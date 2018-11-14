@@ -407,6 +407,7 @@ function getDetalleEntrega() {
     var urlCompleta = url + 'detalleEntrega/getById.php';
     $('#table_guias tbody').empty();
     $.post(urlCompleta, JSON.stringify({ df_guia_entrega: guiaEntrega.df_num_guia_entrega }), function(response) {
+        $('#valor_recaudado_entrega').val(response.data[0].valor_maestro);
         detallesEntrega = response.data;
         console.log('detalles entrega', detallesEntrega);
         var factura = "";
@@ -424,7 +425,7 @@ function getDetalleEntrega() {
         });
         clearTimeout(timer);
         timer = setTimeout(function() {
-            calcularCostos();
+            //calcularCostos();
         }, 3000);
     });
 }
