@@ -255,7 +255,7 @@ function getCliente() {
     }, 1000);
 }
 
-var acciones = '<a class="delete" title="Eliminar" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>';
+var acciones = '<a class="delete" title="Eliminar" data-toggle="tooltip" onclick="eliminarProducto()"><i class="material-icons">&#xE872;</i></a>';
 var precio = 10;
 
 /*function agregar(codigo, producto, id_producto, id_precio, iva) {
@@ -381,17 +381,16 @@ function recorrerTablaProductos() {
         var total_tupla = $('.total_tupla_producto', b).text() * 1;
         var nombre_unidad = $('.unidad', b).text();
         var unidad_caja = $('.unidad_caja', b).text();
-        var id_producto = $('.id_producto', b).text();
         var cant_x_und = 0;
         if (nombre_unidad == 'UND') {
-            cant_x_und = cantidad * 1;
+            cant_x_und = cantidad;
         } else {
-            cant_x_und = unidad_caja * cantidad * 1;
+            cant_x_und = unidad_caja * cantidad;
         }
         var cant_bodega = $('.cant_bodega', b).text() * 1;
         var detalle = {
             df_num_factura_detfac: id,
-            df_prod_precio_detfac: id_producto,
+            df_prod_precio_detfac: id_precio,
             df_precio_prod_detfac: precio,
             df_cantidad_detfac: cantidad,
             df_valor_sin_iva_detfac: valor_sin_iva,
@@ -558,9 +557,9 @@ function consultarProductosFactura(facturaId) {
             var unidad_caja = row.df_cant_x_und_detfac * 1;
             var unidad = row.df_nombre_und_detfac;
             var cantidad = row.df_cantidad_detfac * 1;
-            /*if (unidad == 'CAJA') {
+            if (unidad == 'CAJA') {
                 cantidad = unidad_caja * cantidad;
-            }*/
+            }
             var row = '<tr>' +
                 '<td class="id_producto" style="display: none;">' + row.df_id_producto + '</td>' +
                 '<td class="id_precio" style="display: none;">' + row.df_prod_precio_detfac + '</td>' +
@@ -673,10 +672,6 @@ function agregar() {
         var precio = $('#precio_unitario_producto').val() * 1;
         var unidad = $('#unidad_producto').val();
         var unidad_caja = producto.df_und_caja * 1;
-        var cant_bodega = producto.df_cant_bodega - cantidad;
-        if (unidad == 'CAJA') {
-            cant_bodega = (producto.df_cant_bodega * 1) - (cantidad * unidad_caja * 1);
-        }
         var iva = producto.df_valor_impuesto / 100;
         if (precio == 'null' || cantidad < 1) {
             alert('Debe escoger valores reales');
@@ -684,7 +679,7 @@ function agregar() {
             var subtotal_tabla = cantidad * precio;
             var total_iva_tabla = subtotal_tabla * iva;
             var total_tupla = subtotal_tabla;
-
+            var cant_bodega = producto.df_cant_bodega - cantidad;
             total_tupla = total_tupla.toFixed(2);
             var row = '<tr>' +
                 '<td class="id_producto" style="display: none;">' + producto.df_id_producto + '</td>' +
@@ -841,10 +836,7 @@ function consultarLibroDiario(saldoBanco, fact, monto, tipo) {
         currentdate.getMinutes() + ":" +
         currentdate.getSeconds();
     $.get(urlCompleta, function(response) {
-        var saldoCajaChica = 0;
-        if (response.data.length > 0) {
-            saldoCajaChica = response.data[0].df_saldo * 1;
-        }
+        var saldoCajaChica = response.data[0].df_saldo * 1;
         saldoBanco = saldoBanco * 1;
         var valorInicial = saldoBanco + saldoCajaChica;
         var librodiario;

@@ -145,3 +145,4 @@ Stack trace:
 [08-Nov-2018 14:36:01 UTC] PHP Warning:  count(): Parameter must be an array or an object that implements Countable in /home/sgipro/public_html/SGI_distrifarma/pdf/documentos/res/guia_recepcion_html.php on line 140
 [08-Nov-2018 14:40:35 UTC] PHP Warning:  count(): Parameter must be an array or an object that implements Countable in /home/sgipro/public_html/SGI_distrifarma/pdf/documentos/res/guia_recepcion_html.php on line 140
 [08-Nov-2018 15:10:56 UTC] PHP Warning:  count(): Parameter must be an array or an object that implements Countable in /home/sgipro/public_html/SGI_distrifarma/pdf/documentos/res/guia_recepcion_html.php on line 140
+[14-Nov-2018 22:25:39 UTC] PHP Warning:  count(): Parameter must be an array or an object that implements Countable in /home/sgipro/public_html/SGI_distrifarma/pdf/documentos/res/guia_recepcion_html.php on line 140
