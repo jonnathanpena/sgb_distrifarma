@@ -14,6 +14,7 @@ class DetalleEntrega {
     public $df_factura_detent;
     public $df_nom_producto_detent;
     public $df_num_factura_detent;
+    public $valor_maestro;
     
     //constructor con base de datos como conexión
     public function __construct($db){
@@ -43,8 +44,14 @@ class DetalleEntrega {
     
         // select all query
         $query = "SELECT `df_id_detent`, `df_guia_entrega`, `df_cod_producto`, `df_unidad_detent`, `df_cant_producto_detent`, 
-                    `df_factura_detent`, `df_nom_producto_detent`, `df_num_factura_detent`
-							FROM `df_detalle_entrega` 
+        `df_factura_detent`, `df_nom_producto_detent`, `df_num_factura_detent`,
+        (select sum(fac.df_valor_total_fac) 
+            from df_factura fac
+            where fac.df_num_factura in (select distinct(det.df_num_factura_detent) 
+                                         from df_detalle_entrega det 
+                                         where det.df_guia_entrega = `df_detalle_entrega`.`df_guia_entrega`)) valor_maestro
+        
+      FROM `df_detalle_entrega`
                     WHERE df_guia_entrega = ".$this->df_guia_entrega."
                     ORDER BY `df_num_factura_detent` ASC";
     

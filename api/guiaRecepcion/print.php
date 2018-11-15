@@ -43,6 +43,7 @@ if($num>0){
         extract($row);
         $personal = getPersonal($df_repartidor_rec, $db);
         $detalles = getDetalles($df_guia_recepcion, $db);
+        $devuelto = getDevueltos($df_guia_recepcion, $db);
         //Los nombres acá son iguales a los de la clase iguales a las columnas de la BD
         $guiaRecepcion_item=array(
             "df_guia_recepcion"=>$df_guia_recepcion, 
@@ -61,7 +62,8 @@ if($num>0){
 			"df_creadoBy_rec"=>$df_creadoBy_rec,
             "df_modificadoBy_rec"=>$df_modificadoBy_rec,
             "personal"=>$personal,
-            "detalles"=>$detalles
+            "detalles"=>$detalles,
+            "devuelto"=>$devuelto
         );
  
         array_push($guiaRecepcion_arr["data"], $guiaRecepcion_item);
@@ -138,5 +140,31 @@ function getDetalles($guia, $db) {
         }
     }
     return $detalleRecepcion_arr;
+}
+
+function getDevueltos($guia, $db) {
+    include_once '../objects/productoDevueltoRecepcion.php';
+    $devueltos = new productoDevueltoRecepcion($db);
+    $devueltos->df_guia_rec= $guia;
+    $stmt = $devueltos->readById();
+    $num = $stmt->rowCount();
+    $devueltos_arr=array();
+    if($num>0){ 
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+            extract($row);
+            $devueltos_item=array(
+                "df_id_prod_dev_rec"=>$df_id_prod_dev_rec,
+                "df_guia_rec"=>$df_guia_rec,
+                "df_cant_und_rec"=>$df_cant_und_rec,
+                "df_producto_id_rec"=>$df_producto_id_rec,
+                "df_und_prod"=>$df_und_prod,
+                "df_nombre_producto"=>$df_nombre_producto,
+                "df_codigo_prod"=>$df_codigo_prod
+            );
+     
+            array_push($devueltos_arr, $devueltos_item);
+        }
+    }
+    return $devueltos_arr;
 }
 ?>

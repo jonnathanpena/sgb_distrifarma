@@ -33,7 +33,7 @@
                 <div class="form-group row">
                     <label for="q" class="col-md-2 control-label">Nº Factura </label>
                     <div class="col-md-5">
-                        <input type="text" class="form-control" id="q" placeholder="Nº Factura" onkeyup='load()'>
+                        <input type="text" class="form-control" id="q" placeholder="Nº Factura" onkeyup='loadById()'>
                     </div>
                     <div class="col-md-3">
                         <button type="button" class="btn btn-default" onclick='load()' style="display: none;">

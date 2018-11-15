@@ -137,6 +137,19 @@ function insertar(documento, codigo) {
     var urlCompleta = url + 'cliente/insert.php';
     $.post(urlCompleta, JSON.stringify(cliente), function(data, status, hrx) {
         if (data == true) {
+            $('#nombre').val('');
+            $('#razon_social').val('');
+            $('#tipo_documento').val('');
+            $('#direccion').val('');
+            $('#referencia').val('');
+            $('#sector').val('null');
+            $('#email').val('');
+            $('#telefono').val('');
+            $('#celular').val('');
+            $('#tipo_documento').val('null');
+            $('#documento').val('');
+            $('#ruc').val('');
+            $('#pasaporte').val('');
             alertar('success', '¡Éxito!', 'Cliente registrado exitosamente');
         } else {
             alertar('danger', '¡Error!', 'Ocurrió un problema, por favor, intente de nuevo');

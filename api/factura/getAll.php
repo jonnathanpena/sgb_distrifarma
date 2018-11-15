@@ -58,7 +58,11 @@ if($num>0){
             "df_creadaBy"=>$df_creadaBy,
             "df_fecha_creacion"=>$df_fecha_creacion,
             "df_edo_factura_fac"=>$df_edo_factura_fac, 
-            "df_fecha_entrega_fac"=>$df_fecha_entrega_fac
+            "df_fecha_entrega_fac"=>$df_fecha_entrega_fac,
+            "df_codigo_cliente"=>$df_codigo_cliente,
+            "df_nombre_cli"=>$df_nombre_cli,
+            "df_razon_social_cli"=>$df_razon_social_cli,
+            "df_documento_cli"=>$df_documento_cli
         );
  
         array_push($factura_arr["data"], $factura_item);

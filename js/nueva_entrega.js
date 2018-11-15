@@ -83,11 +83,13 @@ function selectSector(sector) {
         $(check).prop('checked', true);
         var urlCompleta = url + 'factura/getFacturaGEnt.php';
         $.post(urlCompleta, JSON.stringify({ fecha: fecha_entrega, sector: sector }), function(response) {
+            console.log(response.data.length);
             if (response.data.length > 0) {
-                for (var i = 0; i < response.data.length; i++) {
-                    detalleFacturas(response.data[i], sector, i);
-                }
+                $.each(response.data, function(index, row) {
+                    facturas.push(row);
+                });
                 console.log('facturas', facturas);
+                llenarTablaFacturas();
             }
         });
     } else {
@@ -100,6 +102,7 @@ function detalleFacturas(fact, sector, posicion) {
     var urlCompleta = url + 'detalleFactura/getById.php';
     $.post(urlCompleta, JSON.stringify({ df_num_factura_detfac: fact.df_num_factura }), function(response) {
         if (response.data.length > 0) {
+            console.log(fact.df_num_factura);
             facturas.push({
                 detalles: response.data,
                 df_cliente_cod_fac: fact.df_cliente_cod_fac,
@@ -119,6 +122,7 @@ function detalleFacturas(fact, sector, posicion) {
                 sector: sector
             });
         } else {
+            console.log("else " + fact.df_num_factura);
             facturas.splice(facturas[posicion], 1);
         }
         llenarTablaFacturas();

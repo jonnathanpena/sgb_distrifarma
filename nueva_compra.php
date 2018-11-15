@@ -29,6 +29,8 @@
             <?php
 				include("modal/nuevas_cuotas_credito/compra.php");
 				include("modal/agregar_producto_compra.php");
+				include("modal/nuevo_producto.php");
+				include("modal/load.php");
 			?>
 
                <form class="form-horizontal" role="form" id="nueva_compra">
@@ -310,8 +312,13 @@
                                     <div class="col-md-1">
                                         <input type="number" class="form-control input-sm" id="descuento_producto" name="descuento_producto" placeholder="%" step="0.01">
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-1">
                                         <button type="button" class="btn btn-success" onclick="agregar()"><i class="glyphicon glyphicon-plus"></i></button>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button type="button" class="btn btn-primary" onclick="nuevoProducto()">
+                                            <i class="glyphicon glyphicon-plus"></i> Nuevo producto
+                                        </button>
                                     </div>
                                 </div>   
                                 <div class="table-wrapper">

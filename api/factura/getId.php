@@ -22,10 +22,10 @@ $data = json_decode(file_get_contents('php://input'), true);
 
 $info = array($data);
 
-$factura->fecha= $info[0]["fecha"];
-$factura->sector= $info[0]["sector"];
+$factura->df_num_factura= $info[0]["df_num_factura"];
+ 
 // query de lectura
-$stmt = $factura->readFacturaGEnt();
+$stmt = $factura->readId();
 $num = $stmt->rowCount();
 
 //factura array
@@ -42,11 +42,11 @@ if($num>0){
         // this will make $row['name'] to
         // just $name only
         extract($row);
-        $detalle = getDetalle($db, $df_num_factura);
+        
         //Los nombres acá son iguales a los de la clase iguales a las columnas de la BD
         $factura_item=array(
             "df_num_factura"=>$df_num_factura, 
-            "df_fecha_fac"=>$df_fecha_fac, 
+            "df_fecha_fac"=>$df_fecha_fac,
             "df_cliente_cod_fac"=>$df_cliente_cod_fac,
             "df_personal_cod_fac"=>$df_personal_cod_fac,
             "df_sector_cod_fac"=>$df_sector_cod_fac,
@@ -59,7 +59,10 @@ if($num>0){
             "df_fecha_creacion"=>$df_fecha_creacion,
             "df_edo_factura_fac"=>$df_edo_factura_fac, 
             "df_fecha_entrega_fac"=>$df_fecha_entrega_fac,
-            "detalles"=>$detalle
+            "df_codigo_cliente"=>$df_codigo_cliente,
+            "df_nombre_cli"=>$df_nombre_cli,
+            "df_razon_social_cli"=>$df_razon_social_cli,
+            "df_documento_cli"=>$df_documento_cli
         );
  
         array_push($factura_arr["data"], $factura_item);
@@ -70,38 +73,5 @@ if($num>0){
  
 else{
     echo json_encode($factura_arr);
-}
-
-function getDetalle($db, $id) {
-    include_once '../objects/detalleFactura.php';
-    $detalleFactura = new DetalleFactura($db);
-    $detalleFactura->df_num_factura_detfac= $id;
-    $stmt = $detalleFactura->readById();
-    $num = $stmt->rowCount();
-    $detalleFactura_arr=array();
-    if($num>0){ 
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-            extract($row);
-            $detalleFactura_item=array(
-                "df_id_factura_detfac"=>$df_id_factura_detfac, 
-                "df_num_factura_detfac"=>$df_num_factura_detfac,
-                "df_prod_precio_detfac"=>$df_prod_precio_detfac,
-                "df_precio_prod_detfac"=>$df_precio_prod_detfac,
-                "df_id_producto"=>$df_id_producto,
-                "df_nombre_producto"=>$df_nombre_producto,
-                "df_codigo_prod"=>$df_codigo_prod,
-                "df_cantidad_detfac"=>$df_cantidad_detfac,
-                "df_nombre_und_detfac"=>$df_nombre_und_detfac,
-                "df_cant_x_und_detfac"=>$df_cant_x_und_detfac,
-                "df_edo_entrega_prod_detfac"=>$df_edo_entrega_prod_detfac,
-                "df_valor_sin_iva_detfac"=>$df_valor_sin_iva_detfac,
-                "df_iva_detfac"=>$df_iva_detfac,
-                "df_valor_total_detfac"=>$df_valor_total_detfac
-            );
-     
-            array_push($detalleFactura_arr, $detalleFactura_item);
-        }
-    }
-    return $detalleFactura_arr;
 }
 ?>

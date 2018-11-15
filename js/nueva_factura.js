@@ -382,7 +382,7 @@ function getCliente() {
 
                 $.each(response.data, function(index, row) {
 
-                    tr = $('<tr style="cursor: pointer;" onclick="seleccionarCliente(' + row.df_id_cliente + ', ' + row.df_documento_cli + ', ' + row.df_sector_cod + ', `' + row.df_nombre_cli + '` )"/>');
+                    tr = $('<tr style="cursor: pointer;" onclick="seleccionarCliente(' + row.df_id_cliente + ', ' + row.df_documento_cli + ', ' + row.df_sector_cod + ', `' + row.df_nombre_cli + '`, `' + row.df_direccion_cli + '` )"/>');
 
                     tr.append("<td>" + row.df_codigo_cliente + "</td>");
 
@@ -392,7 +392,7 @@ function getCliente() {
 
                     tr.append("<td>" + row.df_nombre_cli + "</td>");
 
-                    tr.append("<td>" + row.df_razon_social_cli + "</td>");
+                    tr.append("<td>" + row.df_direccion_cli + "</td>");
 
                     $('#resultados .table-responsive table tbody').append(tr);
 
@@ -516,7 +516,7 @@ function calcular() {
 
     $('#total_iva').html(total_iva.toFixed(2));
 
-    $('#descuento').html(descuento.toFixed(2))
+    $('#descuento').html(descuento.toFixed(2));
 
     $('#total').html(total.toFixed(2));
 
@@ -653,6 +653,8 @@ function insertarFactura(factura) {
 
         var inserto = true;
 
+        getBancos(factura.df_valor_total_fac, id_factura);
+
         $('table#table_productos tbody tr').each(function(a, b) {
 
             var id_precio = $('.id_producto', b).text(); //cambiado id_precio por id_producto
@@ -695,7 +697,7 @@ function insertarFactura(factura) {
 
                 cant_bodega = cant_bodega - (unidad_caja * cantidad);
 
-            }            
+            }
 
             insertDetalle(id_factura, id_precio, precio, cantidad, valor_sin_iva, iva, total_tupla, nombre_unidad, cant_x_und, nombre_producto, cant_bodega);
 
@@ -751,7 +753,7 @@ function insertDetalle(id, id_precio, precio, cantidad, valor_sin_iva, iva, tota
 
     getInventario(detalle, cant_bodega);
 
-    $.post(urlCompleta, JSON.stringify(detalle), function(response) { });
+    $.post(urlCompleta, JSON.stringify(detalle), function(response) {});
 
 }
 
@@ -1263,4 +1265,76 @@ function agregar() {
 
     }
 
+}
+
+function getBancos(monto, num_factura) {
+    var urlCompleta = url + 'banco/getAll.php';
+    currentdate = new Date();
+    datetime = currentdate.getFullYear() + "-" +
+        (currentdate.getMonth() + 1) + "-" +
+        currentdate.getDate() + " " +
+        currentdate.getHours() + ":" +
+        currentdate.getMinutes() + ":" +
+        currentdate.getSeconds();
+    $.get(urlCompleta, function(response) {
+        var saldo_anterior = 0;
+        if (response.data.length > 0) {
+            saldo_anterior = response.data[0].df_saldo_banco * 1;
+        }
+        var nuevo_saldo = saldo_anterior + (monto * 1);
+        var banco = {
+            df_fecha_banco: datetime,
+            df_usuario_id_banco: $('#usuario').val(),
+            df_tipo_movimiento: 'Ingreso',
+            df_monto_banco: monto,
+            df_saldo_banco: nuevo_saldo,
+            df_num_documento_banco: 'Factura #' + num_factura,
+            df_detalle_mov_banco: 'Venta'
+        };
+        insertBanco(banco);
+        getCajaChica(saldo_anterior, monto, num_factura);
+    });
+}
+
+function insertBanco(banco) {
+    var urlCompleta = url + 'banco/insert.php';
+    $.post(urlCompleta, JSON.stringify(banco), function(response) {
+        console.log('insercion banco', response);
+    });
+}
+
+function getCajaChica(saldo_banco, monto, factura_id) {
+    var urlCompleta = url + 'cajaChicaGasto/getMes.php';
+    var saldo_inicial = saldo_banco * 1;
+    currentdate = new Date();
+    datetime = currentdate.getFullYear() + "-" +
+        (currentdate.getMonth() + 1) + "-" +
+        currentdate.getDate() + " " +
+        currentdate.getHours() + ":" +
+        currentdate.getMinutes() + ":" +
+        currentdate.getSeconds();
+    $.get(urlCompleta, function(response) {
+        var saldo_caja = 0;
+        if (response.data.length > 0) {
+            saldo_caja = response.data[0].df_saldo * 1;
+        }
+        saldo_inicial = saldo_caja + saldo_inicial;
+        var libroDiario = {
+            df_fuente_ld: 'Banco',
+            df_valor_inicial_ld: saldo_inicial,
+            df_fecha_ld: datetime,
+            df_descipcion_ld: 'Factura #' + factura_id,
+            df_ingreso_ld: monto,
+            df_egreso_ld: 0,
+            df_usuario_id_ld: $('#usuario').val()
+        };
+        insertLibroDiario(libroDiario);
+    });
+}
+
+function insertLibroDiario(libroDiario) {
+    var urlCompleta = url + 'libroDiario/insert.php';
+    $.post(urlCompleta, JSON.stringify(libroDiario), function(response) {
+        console.log('insert libro diario', response);
+    });
 }

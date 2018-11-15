@@ -22,7 +22,7 @@ $data = json_decode(file_get_contents('php://input'), true);
 
 $info = array($data);
 
-$productoDevueltoRecepcion->df_id_prod_dev_rec= $info[0]["df_id_prod_dev_rec"];
+$productoDevueltoRecepcion->df_guia_rec= $info[0]["df_guia_rec"];
 // query de lectura
 $stmt = $productoDevueltoRecepcion->readById();
 $num = $stmt->rowCount();
@@ -41,13 +41,16 @@ if($num>0){
         // this will make $row['name'] to
         // just $name only
         extract($row);
-        
+
         //Los nombres acá son iguales a los de la clase iguales a las columnas de la BD
         $productoDevueltoRecepcion_item=array(
             "df_id_prod_dev_rec"=>$df_id_prod_dev_rec,
             "df_guia_rec"=>$df_guia_rec,
             "df_cant_und_rec"=>$df_cant_und_rec,
-            "df_producto_id_rec"=>$df_producto_id_rec
+            "df_producto_id_rec"=>$df_producto_id_rec,
+            "df_und_prod"=>$df_und_prod,
+            "df_nombre_producto"=>$df_nombre_producto,
+            "df_codigo_prod"=>$df_codigo_prod
         );
  
         array_push($productoDevueltoRecepcion_arr["data"], $productoDevueltoRecepcion_item);

@@ -18,6 +18,7 @@
                                 <tr>
                                     <th>Pago Mínimo</th>
                                     <th>Fecha de Vencimiento</th>
+                                    <th>Descripción</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
