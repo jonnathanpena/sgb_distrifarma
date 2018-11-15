@@ -106,7 +106,11 @@ class Factura {
                 FROM `df_sector` as sec
                 INNER JOIN `df_cliente` as cli on (sec.`df_codigo_sector` = cli.`df_sector_cod`)
                 INNER JOIN `df_factura` as fac on (fac.df_cliente_cod_fac = cli.df_id_cliente and 
-                        fac.df_edo_factura_fac IN (1,3,4,6) and fac.df_fecha_entrega_fac = '".$this->fecha."')
+                        fac.df_edo_factura_fac IN (1,3,4,6) and fac.df_fecha_entrega_fac = '".$this->fecha."'
+                        and not exists (select * from df_detalle_entrega det, df_guia_entrega ent
+                                    where concat('00',det.df_num_factura_detent) = fac.df_num_factura
+                                    and ent.df_guia_ent_recibido = 0
+                                    and det.df_guia_entrega = ent.df_num_guia_entrega))
                 WHERE fac.`df_sector_cod_fac` in (".$this->sector.")
                 ORDER BY fac.`df_num_factura`ASC";
 

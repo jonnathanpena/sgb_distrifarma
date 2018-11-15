@@ -129,12 +129,20 @@
 		<?php
 				}
 			}
+
+			$caracter = strlen($data['cliente']['df_referencia_cli']);
+			if ($caracter > 30){
+				$referencia = substr($data['cliente']['df_referencia_cli'], 0, 32);;
+				$referencia_fact = $referencia.'...';
+			} else {
+				$referencia_fact = $data['cliente']['df_referencia_cli'];
+			}
 		?>
 			</table>
 			<table style="width: 100%;">
 				<tr>
 					<td style="width: 60%; text-align: center; font-wieght: bold; ">
-					    <FONT FACE="Arial" SIZE="2"><?php echo strtoupper($data['cliente']['df_referencia_cli'])?></FONT>
+						<FONT FACE="Arial" SIZE="2"><?php echo strtoupper($referencia_fact)?></FONT>
 					</td>
 					<td style="width: 40%; text-align: right;">&nbsp;</td>
 				</table>							

@@ -41,7 +41,23 @@ class Sector {
                     FROM `df_sector` as sec
                     INNER JOIN `df_factura` as fac on (fac.df_sector_cod_fac = sec.`df_codigo_sector` and 
                                 fac.df_edo_factura_fac IN (1,3,4,6) and date(fac.df_fecha_entrega_fac) = '".$this->fecha."')
+                    and not exists (select * from df_detalle_entrega det, df_guia_entrega ent
+                                    where concat('00',det.df_num_factura_detent) = fac.df_num_factura
+                                    and ent.df_guia_ent_recibido = 0
+                                    and det.df_guia_entrega = ent.df_num_guia_entrega)
                     ORDER BY sec.`df_nombre_sector` ASC";
+        /* SELECT DISTINCT sec.`df_codigo_sector`, sec.`df_nombre_sector` 
+                    FROM `df_sector` as sec
+                    INNER JOIN `df_factura` as fac on (fac.df_sector_cod_fac = sec.`df_codigo_sector` and 
+                                fac.df_edo_factura_fac IN (1,3,4,6) and date(fac.df_fecha_entrega_fac) = '".$this->fecha."')
+                    INNER JOIN `df_factura` as fac on (fac.df_sector_cod_fac = sec.`df_codigo_sector` 
+                    and fac.df_edo_factura_fac IN (1,3,4,6) 
+                    and date(fac.df_fecha_entrega_fac) = '".$this->fecha."')
+                    and not exists (select * from df_detalle_entrega det, df_guia_entrega ent
+                                    where concat('00',det.df_num_factura_detent) = fac.df_num_factura
+                                    and ent.df_guia_ent_recibido = 0
+                                    and det.df_guia_entrega = ent.df_num_guia_entrega)
+                    ORDER BY sec.`df_nombre_sector` ASC*/
         /* $query = "SELECT DISTINCT sec.`df_codigo_sector`, sec.`df_nombre_sector` 
                     FROM `df_sector` as sec
                     INNER JOIN `df_cliente` as cli on (sec.`df_codigo_sector` = cli.`df_sector_cod`)
