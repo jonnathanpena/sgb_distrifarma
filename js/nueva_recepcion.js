@@ -454,7 +454,7 @@ function cambiaEstado(fact) {
                 tr.append('<td>' + row.df_codigo_prod + '</td>');
                 tr.append('<td>' + row.df_nombre_producto + '</td>');
                 tr.append('<td style="text-align: right;">' + row.df_nombre_und_detfac + '</td>');
-                tr.append('<td><input type="number" class="form-control" id="vendidos-' + row.df_id_factura_detfac + '" value="' + row.df_cantidad_detfac + '" onkeyup="cambiaVendidos(`' + row.df_id_factura_detfac + '`, '+ row.df_und_caja +')" ></td>');
+                tr.append('<td><input type="number" class="form-control" id="vendidos-' + row.df_id_factura_detfac + '" value="' + row.df_cantidad_detfac + '" onkeyup="cambiaVendidos(`' + row.df_id_factura_detfac + '`, ' + row.df_und_caja + ')" ></td>');
                 tr.append('<td><input type="number" class="form-control" id="devueltos-' + row.df_id_factura_detfac + '" value="0" disabled ></td>');
                 $('#display_productos tbody').append(tr);
             }
@@ -522,8 +522,10 @@ function cambiaVendidos(id, und_caja) {
         }
         var antes = $('#antes-' + id).val() * 1;
         var ahora = $('#vendidos-' + id).val() * 1;
-        if ((und_caja == 1) && (ahora%1 !== 0)) {
+        if ((und_caja == 1) && (ahora % 1 !== 0)) {
             alert("Este producto no permite valores decimales");
+            $('#vendidos-' + id).val(antes);
+            $('#devueltos-' + id).val('0');
         } else {
             if (ahora < antes) {
                 var resta = antes - ahora;
