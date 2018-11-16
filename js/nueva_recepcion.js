@@ -417,7 +417,7 @@ function getDetalleEntrega() {
                 factura = row.df_num_factura_detent;
                 getDetalleFactura(factura);
                 tr.append('<td width="120" class="factura">' + factura + '</td>');
-                tr.append('<td class="estado"><select id="estado-' + factura + '" class="form-control" onchange="cambiaEstado(`' + factura + '`)"><option value="2">ENTREGADO</option><option value="4">MODIFICADA</option><option value="6">REASIGNADA</option><option value="5">ANULADA</option></select></td>');
+                tr.append('<td class="estado"><select id="estado-' + factura + '" class="form-control" onchange="cambiaEstado(`' + factura + '`)"><option value="2">ENTREGADO</option><option value="7">MODIFICADA</option><option value="6">REASIGNADA</option><option value="5">ANULADA</option></select></td>');
                 tr.append('<td width="180" class="nueva_fecha"><input type="date" class="form-control" id="nueva-fecha-' + factura + '" disabled></td>');
                 tr.append('<td class="forma-pago"><select id="forma-pago-' + factura + '" class="form-control" onchange="cambioFormaPago(`' + factura + '`)"><option value="EFECTIVO">EFECTIVO</option><option value="CHEQUE">CHEQUE</option><option value="TRANSFERENCIA">TRANSFERENCIA</option><option value="CREDITO">CRÉDITO</option></select></td>');
                 $('#table_guias tbody').append(tr);
@@ -443,7 +443,7 @@ var modificados = [];
 function cambiaEstado(fact) {
     modificados = [];
     $('#display_productos tbody').empty();
-    if ($('#estado-' + fact).val() == 4) {
+    if ($('#estado-' + fact).val() == 7) {
         $('#nueva-fecha-' + fact).val('');
         $('#nueva-fecha-' + fact).attr('disabled', true);
         $.each(detalleFactura, function(index, row) {
@@ -454,7 +454,7 @@ function cambiaEstado(fact) {
                 tr.append('<td>' + row.df_codigo_prod + '</td>');
                 tr.append('<td>' + row.df_nombre_producto + '</td>');
                 tr.append('<td style="text-align: right;">' + row.df_nombre_und_detfac + '</td>');
-                tr.append('<td><input type="number" class="form-control" id="vendidos-' + row.df_id_factura_detfac + '" value="' + row.df_cantidad_detfac + '" onkeyup="cambiaVendidos(`' + row.df_id_factura_detfac + '`)" ></td>');
+                tr.append('<td><input type="number" class="form-control" id="vendidos-' + row.df_id_factura_detfac + '" value="' + row.df_cantidad_detfac + '" onkeyup="cambiaVendidos(`' + row.df_id_factura_detfac + '`, '+ row.df_und_caja +')" ></td>');
                 tr.append('<td><input type="number" class="form-control" id="devueltos-' + row.df_id_factura_detfac + '" value="0" disabled ></td>');
                 $('#display_productos tbody').append(tr);
             }
@@ -512,7 +512,7 @@ function cambiaEstado(fact) {
     console.log('modifica detalle', detalleFactura);
 }
 
-function cambiaVendidos(id) {
+function cambiaVendidos(id, und_caja) {
     clearTimeout(timer);
     timer = setTimeout(function() {
         for (var i = 0; i < modificados.length; i++) {
@@ -522,23 +522,27 @@ function cambiaVendidos(id) {
         }
         var antes = $('#antes-' + id).val() * 1;
         var ahora = $('#vendidos-' + id).val() * 1;
-        if (ahora < antes) {
-            var resta = antes - ahora;
-            $('#devueltos-' + id).val(resta);
-            for (var i = 0; i < detalleFactura.length; i++) {
-                if (detalleFactura[i].df_id_factura_detfac == id) {
-                    modificados.push({
-                        cantidad: ahora,
-                        resta: resta,
-                        id: detalleFactura[i].df_id_factura_detfac,
-                        precio_uni: detalleFactura[i].df_precio_prod_detfac,
-                        iva: detalleFactura[i].df_iva_detfac
-                    });
-                };
-            };
+        if ((und_caja == 1) && (ahora%1 !== 0)) {
+            alert("Este producto no permite valores decimales");
         } else {
-            $('#vendidos-' + id).val(antes);
-            $('#devueltos-' + id).val('0');
+            if (ahora < antes) {
+                var resta = antes - ahora;
+                $('#devueltos-' + id).val(resta);
+                for (var i = 0; i < detalleFactura.length; i++) {
+                    if (detalleFactura[i].df_id_factura_detfac == id) {
+                        modificados.push({
+                            cantidad: ahora,
+                            resta: resta,
+                            id: detalleFactura[i].df_id_factura_detfac,
+                            precio_uni: detalleFactura[i].df_precio_prod_detfac,
+                            iva: detalleFactura[i].df_iva_detfac
+                        });
+                    };
+                };
+            } else {
+                $('#vendidos-' + id).val(antes);
+                $('#devueltos-' + id).val('0');
+            }
         }
     }, 100);
 }
@@ -741,7 +745,7 @@ function generarDetalleGuiaEntrega(id) {
                     df_detalleRemision_detrec: '',
                     df_edo_prod_fact_detrec: $('#estado-' + factura).val()
                 };
-                if (estado == 4) {
+                if (estado == 7) {
                     var cantidadProducto = row.df_cantidad_detfac * 1;
                     if (cantidadProducto > 0) {
                         var valorRestar = row.df_valor_total_detfac * 1;
@@ -826,9 +830,9 @@ function buscarParaModificarFactura(fact, estado, forma_pago, fecha_entrega, res
             response.data[0].df_forma_pago_fac = forma_pago;
             response.data[0].df_edo_factura_fac = 2;
             updateFactura(response.data[0]);
-        } else if (estadoFactura == 4) {
+        } else if (estadoFactura == 7) {
             response.data[0].df_forma_pago_fac = forma_pago;
-            response.data[0].df_edo_factura_fac = 4;
+            response.data[0].df_edo_factura_fac = 7;
             response.data[0].df_subtotal_fac = subtotal;
             response.data[0].df_iva_fac = iva;
             response.data[0].df_valor_total_fac = total;

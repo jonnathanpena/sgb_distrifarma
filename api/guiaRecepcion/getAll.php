@@ -64,7 +64,9 @@ if($num>0){
 			"df_entrega_rec"=>$df_entrega_rec,
 			"df_num_guia"=>$df_num_guia,
 			"df_creadoBy_rec"=>$df_creadoBy_rec,
-			"df_modificadoBy_rec"=>$df_modificadoBy_rec
+			"df_modificadoBy_rec"=>$df_modificadoBy_rec,
+			"df_nombre_per"=>$df_nombre_per,
+			"df_apellido_per"=>$df_apellido_per
         );
  
         array_push($guiaRecepcion_arr["data"], $guiaRecepcion_item);

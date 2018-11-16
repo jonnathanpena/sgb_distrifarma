@@ -58,7 +58,7 @@
                                     <th>Documento Compra</th>
                                     <th>Forma Pago</th>
                                     <th class="text-right">Consumo ($)</th>
-                                    <th class='text-right'>Acciones</th>
+                                    <th class='text-center' colspan="2">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>

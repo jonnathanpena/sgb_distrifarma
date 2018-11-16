@@ -30,7 +30,7 @@ $(document).ready(function() {
     } else {
         window.location.href = "login.php";
     }
-    load();
+    cargar();
 });
 
 function load() {
@@ -49,10 +49,15 @@ function cargar() {
         //console.log('guias', response);
         if (response.data.length > 0) {
             console.log('guias', response.data);
-            $.each(response.data, function(index, row) {
+            guias = response.data;
+            records = guias;
+            totalRecords = records.length;
+            totalPages = Math.ceil(totalRecords / recPerPage);
+            apply_pagination();
+            /*$.each(response.data, function(index, row) {
                 consultarVendedor(row);
-            });
-            clearTimeout(timer);
+            });*/
+            /*clearTimeout(timer);
             timer = setTimeout(function() {
                 guias.sort(function(a, b) {
                     return (b.df_guia_recepcion - a.df_guia_recepcion)
@@ -61,7 +66,7 @@ function cargar() {
                 totalRecords = records.length;
                 totalPages = Math.ceil(totalRecords / recPerPage);
                 apply_pagination();
-            }, 2000);
+            }, 2000);*/
         } else {
             $('#resultados .table-responsive table tbody').html('No se encontró ningún resultado');
         }

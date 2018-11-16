@@ -99,6 +99,7 @@ if($num>0){
 echo json_encode($compra_arr);
 
 function getCuotas($db, $compra_id) {
+    include_once '../objects/cuotasCompra.php';
     $cuotasCompra = new CuotasCompra($db);
     $cuotasCompra->compra_id = $compra_id;
     $stmt = $cuotasCompra->readByCompra();

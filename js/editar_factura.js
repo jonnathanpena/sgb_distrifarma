@@ -84,7 +84,7 @@ function consultarFactura() {
             $('#descuento').html(descuento_factura.toFixed(2));
             $('#total_iva').html(iva_factura.toFixed(2));
             $('#total').html(total_factura.toFixed(2));
-            if (factura.df_edo_factura_fac == 2 || factura.df_edo_factura_fac == 4 || factura.df_edo_factura_fac == 5) {
+            if (factura.df_edo_factura_fac == 2 || factura.df_edo_factura_fac == 7 || factura.df_edo_factura_fac == 5) {
                 $('#btn-guardar').attr('disabled', true);
             }
         } else {
@@ -323,6 +323,7 @@ function modificar() {
     factura.df_valor_total_fac = total.toFixed(2);
     factura.df_fecha_entrega_fac = $('#fecha_entrega').val();
     factura.df_num_factura = id;
+    factura.df_edo_factura_fac = 4;
     validarInsercion(factura);
 };
 

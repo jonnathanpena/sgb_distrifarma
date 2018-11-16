@@ -87,6 +87,7 @@ function generate_table() {
                 tr.append('<td>' + tipo_pago + '</td>');
                 tr.append('<td class="text-right">$ ' + (row.total_compra * 1).toFixed(3) + '</td>');
                 tr.append('<td class="text-right"> <button class="btn btn-success"><i class="glyphicon glyphicon-eye-open" onclick="observarCuotas(`' + row.id_compra + '`)"></i></button> </td>');
+                tr.append('<td class="text-right"> <button class="btn btn-default pull-right" title="Editar"><i class="glyphicon glyphicon-edit" onclick="editar(`' + row.id_compra + '`)"></i></button> </td>');
                 //tr.append('<td class="text-right"> <button class="btn btn-info pull-right" title="Imprimir" onclick="detallar(`' + row.id_compra + '`)"><i class="glyphicon glyphicon-print"></i></button> </td>');
                 $('#resultados .table-responsive table tbody').append(tr);
             } else {
@@ -97,6 +98,7 @@ function generate_table() {
                 tr.append('<td>' + tipo_pago + '</td>');
                 tr.append('<td class="text-right">$ ' + (row.total_compra * 1).toFixed(3) + '</td>');
                 tr.append('<td class="text-right"> <button class="btn btn-warning"><i class="glyphicon glyphicon-eye-open" onclick="observarCuotas(`' + row.id_compra + '`)"></i></button> </td>');
+                tr.append('<td class="text-right"> <button class="btn btn-default pull-right" title="Editar"><i class="glyphicon glyphicon-edit" onclick="editar(`' + row.id_compra + '`)"></i></button> </td>');
                 //tr.append('<td class="text-right"> <button class="btn btn-info pull-right" title="Imprimir" onclick="detallar(`' + row.id_compra + '`)"><i class="glyphicon glyphicon-print"></i></button> </td>');
                 $('#resultados .table-responsive table tbody').append(tr);
             }
@@ -108,6 +110,7 @@ function generate_table() {
             tr.append('<td>' + tipo_pago + '</td>');
             tr.append('<td class="text-right">$ ' + (row.total_compra * 1).toFixed(3) + '</td>');
             tr.append('<td class="text-right"></td>');
+            tr.append('<td class="text-right"> <button class="btn btn-default pull-right" title="Editar"><i class="glyphicon glyphicon-edit" onclick="editar(`' + row.id_compra + '`)"></i></button> </td>');
             //tr.append('<td class="text-right"> <button class="btn btn-info pull-right" title="Imprimir" onclick="detallar(`' + row.id_compra + '`)"><i class="glyphicon glyphicon-print"></i></button> </td>');
             $('#resultados .table-responsive table tbody').append(tr);
         }
@@ -305,4 +308,8 @@ function insertLibroDiario(libroDiario, compra_id) {
         console.log('insert libro diario', response);
         observarCuotas(compra_id);
     });
+}
+
+function editar(id) {
+    window.location.href = "editar_compra.php?id=" + id;
 }
