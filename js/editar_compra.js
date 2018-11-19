@@ -324,327 +324,6 @@ function initTablaCuotas() {
     }
 }
 
-$('#btn-guardar').click(function() {
-    on();
-    var currentdate = new Date();
-    datetime = currentdate.getFullYear() + "-" +
-        (currentdate.getMonth() + 1) + "-" +
-        currentdate.getDate() + " " +
-        currentdate.getHours() + ":" +
-        currentdate.getMinutes() + ":" +
-        currentdate.getSeconds();
-    compra = {
-        usuario_id: $('#usuario').val(),
-        fecha_compra: datetime,
-        proveedor_id: $('#proveedor').val(),
-        detalle_sustento_comprobante_id: $('#tipo_comprobante').val(),
-        serie_compra: $('#serie').val(),
-        documento_compra: $('#documento').val(),
-        autorizacion_compra: $('#autorizacion').val(),
-        fecha_comprobante_compra: $('#fecha_comprobante').val(),
-        fecha_ingreso_bodega_compra: $('#fecha_ingreso_bodega').val(),
-        fecha_caducidad_compra: $('#fecha_caducidad_doc').val(),
-        vencimiento_compra: $('#vencimiento').val(),
-        descripcion_compra: $('#descripcion').val(),
-        condiciones_compra: $('#condiciones').val(),
-        st_con_iva_compra: $('#pre_st_con_iv').val(),
-        descuento_con_iva_compra: $('#descuento_st_con_iva').val(),
-        total_con_iva_compra: $('#total_st_con_iva').val(),
-        descuento_sin_iva_compra: $('#descuento_st_sin_iva').val(),
-        st_sin_iva_compra: $('#pre_st_sin_iva').val(),
-        total_sin_iva_compra: $('#total_st_sin_iva').val(),
-        st_iva_cero_compra: $('#pre_st_iva_cero').val(),
-        descuento_iva_cero_compra: $('#descuento_iva_cero').val(),
-        total_iva_cero: $('#total_st_iva_cero').val(),
-        ice_cc_compra: $('#pre_ice_cc').val(),
-        imp_verde_compra: $('#imp_verde').val(),
-        iva_compra: $('#total_iva').val(),
-        otros_compra: $('#total_otros').val(),
-        interes_compra: Number(Number($('#intereses').val()) / 100).toFixed(2),
-        bonificacion_compra: Number(Number($('#bonificacion').val()) / 100).toFixed(2),
-        total_compra: Number($('#total_compra').val()).toFixed(3)
-    };
-    validarCampos(compra);
-});
-
-function validarCampos(compra) {
-    if (compra.proveedor_id == 'null') {
-        alertar('warning', '¡Alerta!', 'Debes escoger un proveedor');
-        off();
-        return;
-    }
-    if (compra.detalle_sustento_comprobante_id == 'null') {
-        alertar('warning', '¡Alerta!', 'Debes escoger un tipo de comprobante');
-        off();
-        return;
-    }
-    if (compra.condiciones_compra == 'null') {
-        alertar('warning', '¡Alerta!', 'La forma de pago es obligatoria');
-        off();
-        return;
-    }
-    var tipoPago = $('#condiciones').val() * 1;
-    if (tipoPago == 2) {
-        if ($('#banco_emisor').val() == 'null') {
-            alertar('warning', '¡Alerta!', 'Debe escoger un banco emisor');
-            off();
-            return;
-        }
-        if ($('#banco_receptor').val() == 'null') {
-            alertar('warning', '¡Alerta!', 'Debe escoger un banco receptor');
-            off();
-            return;
-        }
-        if ($('#monto').val() == '') {
-            alertar('warning', '¡Alerta!', 'Debe indicar el monto');
-            off();
-            return;
-        }
-        if ($('#codigo_transferencia').val() == '') {
-            alertar('warning', '¡Alerta!', 'Debe indicar el código de transferencia');
-            off();
-            return;
-        }
-        if ($('#fecha').val() == '') {
-            alertar('warning', '¡Alerta!', 'Debe indicar la fecha de transferencia');
-            off();
-            return;
-        }
-    } else if (tipoPago == 5) {
-        if ($('#banco_tarjeta').val() == 'null') {
-            alertar('warning', '¡Alerta!', 'Debe escoger un banco emisor');
-            off();
-            return;
-        }
-        if ($('#tipo_tarjeta').val() == 'null') {
-            alertar('warning', '¡Alerta!', 'Debe seleccionar un tipo de tarjeta');
-            off();
-            return;
-        }
-        if ($('#marca_tarjeta').val() == 'null') {
-            alertar('warning', '¡Alerta!', 'Debe seleccionar una franquicia');
-            off();
-            return;
-        }
-        if ($('#numero_recibo').val() == '') {
-            alertar('warning', '¡Alerta!', 'Debe indicar el número de recibo');
-            off();
-            return;
-        }
-        if ($('#fecha').val() == '') {
-            alertar('warning', '¡Alerta!', 'Debe indicar la fecha');
-            off();
-            return;
-        }
-        if ($('#monto_tarjeta').val() == '') {
-            alertar('warning', '¡Alerta!', 'Debe especificar el monto');
-            off();
-            return;
-        }
-        if ($('#titular_tarjeta').val() == '') {
-            alertar('warning', '¡Alerta!', 'Debe indicar el titular de la tarjeta');
-            off();
-            return;
-        }
-    } else if (tipoPago == 1) {
-        if ($('#banco_cheque').val() == 'null') {
-            alertar('warning', '¡Alerta!', 'Debe escoger un banco emisor');
-            off();
-            return;
-        }
-        if ($('#numero_cheque').val() == '') {
-            alertar('warning', '¡Alerta!', 'Debe indicar el número del cheque');
-            off();
-            return;
-        }
-        if ($('#monto_cheque').val() == '') {
-            alertar('warning', '¡Alerta!', 'Debe especificar el monto');
-            off();
-            return;
-        }
-        if ($('#titular_cheque').val() == '') {
-            alertar('warning', '¡Alerta!', 'Debe indicar el titular de la tarjeta');
-            off();
-            return;
-        }
-    } else if (tipoPago == 6) {
-        if ($('#empresa').val() == '') {
-            alertar('warning', '¡Alerta!', 'Debe indicar la empresa');
-            off();
-            return;
-        }
-        if ($('#codigo').val() == '') {
-            alertar('warning', '¡Alerta!', 'Debe especificar el código');
-            off();
-            return;
-        }
-        if ($('#monto_electronico').val() == '') {
-            alertar('warning', '¡Alerta!', 'Debe especificar el monto');
-            off();
-            return;
-        }
-    } else if (tipoPago == 4) {
-        if (cuotas.length == 0) {
-            alertar('warning', '¡Alerta!', 'Debe especificar las cuotas de pago');
-            off();
-            return;
-        }
-    }
-    getKardexId();
-    insert(compra);
-}
-
-function insert(compra) {
-    console.log('a guardar:', compra);
-    var urlCompleta = url + 'compra/insert.php';
-    $.post(urlCompleta, JSON.stringify(compra), function(response) {
-        console.log('guardado:', response);
-        if (response == false) {
-            console.log('compra insert', response);
-            alertar('danger', '¡Error!', 'Algo malo ocurrió, por favor verifique e intente de nuevo');
-            off();
-        } else {
-            if (compra.condiciones_compra != '4') {
-                getBancos(compra.total_compra, response);
-            }
-            getDataProductoTable(response);
-        }
-    })
-}
-
-function validarPago(id) {
-    var tipo = $('#condiciones').val() * 1;
-    var pago;
-    if (tipo == 3) {
-        pago = {
-            compra_id: id,
-            metodo_pago_id: tipo,
-            banco_emisor: '',
-            banco_receptor: '',
-            codigo: '',
-            fecha: '',
-            tipo_tarjeta: '',
-            franquicia: '',
-            recibo: '',
-            titular: '',
-            cheque: ''
-        };
-    } else if (tipo == 2) {
-        pago = {
-            compra_id: id,
-            metodo_pago_id: tipo,
-            banco_emisor: $('#banco_emisor').val(),
-            banco_receptor: $('#banco_receptor').val(),
-            codigo: $('#codigo_transferencia').val(),
-            fecha: $('#fecha').val(),
-            tipo_tarjeta: '',
-            franquicia: '',
-            recibo: '',
-            titular: '',
-            cheque: ''
-        };
-    } else if (tipo == 5) {
-        pago = {
-            compra_id: id,
-            metodo_pago_id: tipo,
-            banco_emisor: $('#banco_emisor').val(),
-            banco_receptor: '',
-            codigo: '',
-            fecha: $('#fecha').val(),
-            tipo_tarjeta: $('#tipo_tarjeta').val(),
-            franquicia: $('#marca_tarjeta').val(),
-            recibo: $('#numero_recibo').val(),
-            titular: $('#titular_tarjeta').val(),
-            cheque: ''
-        };
-    } else if (tipo == 1) {
-        pago = {
-            compra_id: id,
-            metodo_pago_id: tipo,
-            banco_emisor: $('#banco_cheque').val(),
-            banco_receptor: '',
-            codigo: '',
-            fecha: '',
-            tipo_tarjeta: '',
-            franquicia: '',
-            recibo: '',
-            titular: $('#titular_cheque').val(),
-            cheque: $('#numero_cheque').val()
-        };
-    } else if (tipo == 6) {
-        pago = {
-            compra_id: id,
-            metodo_pago_id: tipo,
-            banco_emisor: '',
-            banco_receptor: '',
-            codigo: $('#codigo').val(),
-            fecha: '',
-            tipo_tarjeta: '',
-            franquicia: '',
-            recibo: $('#empresa').val(),
-            titular: '',
-            cheque: ''
-        };
-    } else if (tipo == 4) {
-        pago = {
-            compra_id: id,
-            metodo_pago_id: tipo,
-            banco_emisor: '',
-            banco_receptor: '',
-            codigo: '',
-            fecha: '',
-            tipo_tarjeta: '',
-            franquicia: '',
-            recibo: '',
-            titular: '',
-            cheque: ''
-        };
-    }
-    insertPago(pago);
-}
-
-function insertPago(pago) {
-    if (pago.metodo_pago_id == 4) {
-        insertCuotas(pago.compra_id);
-    }
-    var urlCompleta = url + 'detalle_pago_compra/insert.php';
-    $.post(urlCompleta, JSON.stringify(pago), function(response) {
-        if (response == true) {
-            alertar('success', '¡Éxito!', 'Compra registrada exitosamente');
-            off();
-        } else {
-            console.log('detalle pago compra', response);
-            alertar('danger', '¡Error!', 'Algo malo ocurrió, por favor verifique e intente de nuevo');
-            off();
-        }
-        clearTimeout(timer);
-        timer = setTimeout(function() {
-            window.location.reload();
-        }, 3000);
-    });
-}
-
-function insertCuotas(compra_id) {
-    $.each(cuotas, function(index, row) {
-        var cuota = {
-            compra_id: compra_id,
-            df_fecha_cc: row.fecha,
-            df_monto_cc: row.cuota,
-            descripcion: row.descripcion,
-            descuento: 0,
-            df_estado_cc: 'PENDIENTE'
-        };
-        insertarCuota(cuota);
-    });
-}
-
-function insertarCuota(cuota) {
-    var urlCompleta = url + 'cuotasCompra/insert.php';
-    $.post(urlCompleta, JSON.stringify(cuota), function(response) {
-        console.log('insert cuotas', response);
-    });
-}
-
 function getCompraById() {
     on();
     var urlCompleta = url + 'compra/print.php';
@@ -663,13 +342,27 @@ function getCompraById() {
         $('#descripcion').val(compra.descripcion_compra);
         $('#condiciones').val(compra.condiciones_compra);
         $('#sustento_tributario').val(compra.sustento.sustento_id);
+        $('#pre_st_con_iv').val(compra.st_con_iva_compra);
+        $('#descuento_st_con_iva').val(compra.descuento_con_iva_compra);
+        $('#total_st_con_iva').val(compra.total_con_iva_compra);
+        $('#pre_st_sin_iva').val(compra.st_sin_iva_compra);
+        $('#descuento_st_sin_iva').val(compra.descuento_sin_iva_compra);
+        $('#total_st_sin_iva').val(compra.total_sin_iva_compra);
+        $('#pre_st_iva_cero').val(compra.st_iva_cero_compra);
+        $('#descuento_iva_cero').val(compra.descuento_iva_cero_compra);
+        $('#total_st_iva_cero').val(compra.total_iva_cero);
+        $('#pre_ice_cc').val(compra.ice_cc_compra);
+        $('#total_otros').val(compra.otros_compra);
+        $('#intereses').val(compra.interes_compra);
+        $('#total_compra').val(compra.total_compra);
+        validarTipoPago();
         cargarTiposComprobantes(compra.sustento.sustento_id, compra.detalle_sustento_comprobante_id);
+        llenarTablaProductos();
         off();
     });
 }
 
 function cargarTiposComprobantes(id, comprobante_id) {
-    alert('primera vez');
     var urlCompleta = url + 'sustento_tributario/getTiposComprobante.php';
     var sustento_id = id;
     var html = '<option value="null">Seleccione...</option>';
@@ -691,4 +384,439 @@ function cargarTiposComprobantes(id, comprobante_id) {
             $("#tipo_comprobante").html(html);
         }
     });
+}
+
+function llenarTablaProductos() {
+    $('#table_productos tbody').empty();
+    $.each(compra.productos, function(index, row) {
+        var tr = $('<tr/>');
+        tr.append('<td width="120">' + row.df_codigo_prod + '</td>');
+        tr.append('<td>' + row.df_nombre_producto + '</td>');
+        tr.append('<td width="100">' + row.bonificacion_dcp + '</td>');
+        tr.append('<td width="100">' + row.cantidad_dcp + '</td>');
+        tr.append('<td width="100">' + row.precio_unitario_dcp + '</td>');
+        tr.append('<td width="100" class="iva">' + row.iva_dcp + '</td>');
+        tr.append('<td width="120" class="total_tupla">' + row.descuento_dcp + '</td>');
+        tr.append('<td width="100">' + row.subtotal_dcp + '</td>');
+        $('#table_productos tbody').append(tr);
+    });
+}
+
+function cambioDescuento(tipo) {
+    clearTimeout(timer);
+    timer = setTimeout(function() {
+        var descuento = 0;
+        var total_descontar = 0;
+        var total_compra_descontar = compra.total_compra * 1;
+        var total_compra_anterior = compra.total_compra * 1;
+        if (tipo == 'st_con_iva') {
+            descuento = $('#descuento_st_con_iva').val() * 1;
+            total_descontar = compra.st_con_iva_compra * 1;
+            if ($('#descuento_st_con_iva').val() == '') {
+                $('#total_st_con_iva').val(compra.total_con_iva_compra);
+                $('#total_compra').val(compra.total_compra);
+            } else {
+                total_descontar = total_descontar - descuento;
+                $('#total_st_con_iva').val(Number(total_descontar).toFixed(2));
+                total_compra_descontar = total_compra_descontar - descuento;
+                if (total_compra_descontar < 0) {
+                    alertar('warning', '¡Alerta!', 'El descuento no puede ser mayor que el valor de la compra');
+                    $('#total_st_con_iva').val($('#pre_st_con_iv').val());
+                    $('#total_compra').val(total_compra_anterior);
+                } else {
+                    $('#total_compra').val(Number(total_compra_descontar).toFixed(2));
+                }
+            }
+        } else if (tipo == 'st_sin_iva') {
+            descuento = $('#descuento_st_sin_iva').val() * 1;
+            total_descontar = compra.st_sin_iva_compra * 1;
+            if ($('#descuento_st_con_iva').val() == '') {
+                $('#total_st_sin_iva').val(compra.total_sin_iva_compra);
+                $('#total_compra').val(compra.total_compra);
+            } else {
+                total_descontar = total_descontar - descuento;
+                $('#total_st_sin_iva').val(Number(total_descontar).toFixed(2));
+                total_compra_descontar = total_compra_descontar - descuento;
+                if (total_compra_descontar < 0) {
+                    alertar('warning', '¡Alerta!', 'El descuento no puede ser mayor que el valor de la compra');
+                    $('#total_st_sin_iva').val(compra.st_sin_iva_compra);
+                    $('#total_compra').val(total_compra_anterior);
+                } else {
+                    $('#total_compra').val(Number(total_compra_descontar).toFixed(2));
+                }
+            }
+        } else if (tipo == 'st_iva_cero') {
+            descuento = $('#descuento_iva_cero').val() * 1;
+            total_descontar = compra.st_iva_cero_compra * 1;
+            if ($('#descuento_iva_cero').val() == '') {
+                $('#total_st_iva_cero').val(compra.total_iva_cero);
+                $('#total_compra').val(compra.total_compra);
+            } else {
+                total_descontar = total_descontar - descuento;
+                $('#total_st_iva_cero').val(Number(total_descontar).toFixed(2));
+                total_compra_descontar = total_compra_descontar - descuento;
+                if (total_compra_descontar < 0) {
+                    alertar('warning', '¡Alerta!', 'El descuento no puede ser mayor que el valor de la compra');
+                    $('#total_st_iva_cero').val(compra.total_iva_cero);
+                    $('#total_compra').val(total_compra_anterior);
+                } else {
+                    $('#total_compra').val(Number(total_compra_descontar).toFixed(2));
+                }
+            }
+        }
+    }, 500);
+}
+
+$('#btn-guardar').click(function() {
+    on();
+    validarModifcar();
+});
+
+function validarModifcar() {
+    var seguir = true;
+    if ($('#proveedor').val() == 'null') {
+        seguir = false;
+        alertar('Debe seleccionar un proveedor');
+        off();
+        return;
+    }
+    if ($('#sustento_tributario').val() == 'null') {
+        seguir = false;
+        alertar('Debe seleccionar un sustento tributario');
+        off();
+        return;
+    }
+    if ($('#tipo_comprobante').val() == 'null') {
+        seguir = false;
+        alertar('Debe seleccionar un tipo de documento');
+        off();
+        return;
+    }
+    if (($('#total_compra').val() * 1) < 0) {
+        seguir = false;
+        alertar('La compra no puede estár en negativo');
+        off();
+        return;
+    }
+    if (seguir == true) {
+        crearObjetoEnviar();
+    }
+}
+
+function crearObjetoEnviar() {
+    var compra_modificada = {
+        fecha_compra: $('#fecha').val(),
+        proveedor_id: $('#proveedor').val(),
+        detalle_sustento_comprobante_id: $('#tipo_comprobante').val(),
+        serie_compra: $('#serie').val(),
+        documento_compra: $('#documento').val(),
+        autorizacion_compra: $('#autorizacion').val(),
+        fecha_comprobante_compra: $('#fecha_comprobante').val(),
+        fecha_ingreso_bodega_compra: $('#fecha_ingreso_bodega').val(),
+        fecha_caducidad_compra: $('#fecha_caducidad_doc').val(),
+        vencimiento_compra: $('#vencimiento').val(),
+        descripcion_compra: $('#descripcion').val(),
+        condiciones_compra: $('#condiciones').val(),
+        st_con_iva_compra: $('#pre_st_con_iv').val(),
+        descuento_con_iva_compra: $('#descuento_st_con_iva').val(),
+        total_con_iva_compra: $('#total_st_con_iva').val(),
+        st_sin_iva_compra: $('#pre_st_sin_iva').val(),
+        descuento_sin_iva_compra: $('#descuento_st_sin_iva').val(),
+        total_sin_iva_compra: $('#total_st_sin_iva').val(),
+        st_iva_cero_compra: $('#pre_st_iva_cero').val(),
+        descuento_iva_cero_compra: $('#descuento_iva_cero').val(),
+        total_iva_cero: $('#total_st_iva_cero').val(),
+        ice_cc_compra: $('#pre_ice_cc').val(),
+        imp_verde_compra: $('#imp_verde').val(),
+        otros_compra: $('#total_otros').val(),
+        interes_compra: $('#intereses').val(),
+        total_compra: $('#total_compra').val()
+    };
+    validarCampos(compra_modificada);
+}
+
+function validarCampos(compra_modificada) {
+    var seguir = true;
+    if (compra_modificada.proveedor_id == 'null') {
+        seguir = false;
+        alertar('warning', '¡Alerta!', 'Debes escoger un proveedor');
+        off();
+        return;
+    }
+    if (compra_modificada.detalle_sustento_comprobante_id == 'null') {
+        seguir = false;
+        alertar('warning', '¡Alerta!', 'Debes escoger un tipo de comprobante');
+        off();
+        return;
+    }
+    if (compra_modificada.condiciones_compra == 'null') {
+        seguir = false;
+        alertar('warning', '¡Alerta!', 'La forma de pago es obligatoria');
+        off();
+        return;
+    }
+    var tipoPago = $('#condiciones').val() * 1;
+    if (tipoPago == 2) {
+        if ($('#banco_emisor').val() == 'null') {
+            seguir = false;
+            alertar('warning', '¡Alerta!', 'Debe escoger un banco emisor');
+            off();
+            return;
+        }
+        if ($('#banco_receptor').val() == 'null') {
+            seguir = false;
+            alertar('warning', '¡Alerta!', 'Debe escoger un banco receptor');
+            off();
+            return;
+        }
+        if ($('#monto').val() == '') {
+            seguir = false;
+            alertar('warning', '¡Alerta!', 'Debe indicar el monto');
+            off();
+            return;
+        }
+        if ($('#codigo_transferencia').val() == '') {
+            seguir = false;
+            alertar('warning', '¡Alerta!', 'Debe indicar el código de transferencia');
+            off();
+            return;
+        }
+        if ($('#fecha').val() == '') {
+            seguir = false;
+            alertar('warning', '¡Alerta!', 'Debe indicar la fecha de transferencia');
+            off();
+            return;
+        }
+    } else if (tipoPago == 5) {
+        if ($('#banco_tarjeta').val() == 'null') {
+            seguir = false;
+            alertar('warning', '¡Alerta!', 'Debe escoger un banco emisor');
+            off();
+            return;
+        }
+        if ($('#tipo_tarjeta').val() == 'null') {
+            seguir = false;
+            alertar('warning', '¡Alerta!', 'Debe seleccionar un tipo de tarjeta');
+            off();
+            return;
+        }
+        if ($('#marca_tarjeta').val() == 'null') {
+            seguir = false;
+            alertar('warning', '¡Alerta!', 'Debe seleccionar una franquicia');
+            off();
+            return;
+        }
+        if ($('#numero_recibo').val() == '') {
+            seguir = false;
+            alertar('warning', '¡Alerta!', 'Debe indicar el número de recibo');
+            off();
+            return;
+        }
+        if ($('#fecha').val() == '') {
+            seguir = false;
+            alertar('warning', '¡Alerta!', 'Debe indicar la fecha');
+            off();
+            return;
+        }
+        if ($('#monto_tarjeta').val() == '') {
+            seguir = false;
+            alertar('warning', '¡Alerta!', 'Debe especificar el monto');
+            off();
+            return;
+        }
+        if ($('#titular_tarjeta').val() == '') {
+            seguir = false;
+            alertar('warning', '¡Alerta!', 'Debe indicar el titular de la tarjeta');
+            off();
+            return;
+        }
+    } else if (tipoPago == 1) {
+        if ($('#banco_cheque').val() == 'null') {
+            seguir = false;
+            alertar('warning', '¡Alerta!', 'Debe escoger un banco emisor');
+            off();
+            return;
+        }
+        if ($('#numero_cheque').val() == '') {
+            seguir = false;
+            alertar('warning', '¡Alerta!', 'Debe indicar el número del cheque');
+            off();
+            return;
+        }
+        if ($('#monto_cheque').val() == '') {
+            seguir = false;
+            alertar('warning', '¡Alerta!', 'Debe especificar el monto');
+            off();
+            return;
+        }
+        if ($('#titular_cheque').val() == '') {
+            seguir = false;
+            alertar('warning', '¡Alerta!', 'Debe indicar el titular de la tarjeta');
+            off();
+            return;
+        }
+    } else if (tipoPago == 6) {
+        if ($('#empresa').val() == '') {
+            seguir = false;
+            alertar('warning', '¡Alerta!', 'Debe indicar la empresa');
+            off();
+            return;
+        }
+        if ($('#codigo').val() == '') {
+            seguir = false;
+            alertar('warning', '¡Alerta!', 'Debe especificar el código');
+            off();
+            return;
+        }
+        if ($('#monto_electronico').val() == '') {
+            seguir = false;
+            alertar('warning', '¡Alerta!', 'Debe especificar el monto');
+            off();
+            return;
+        }
+    } else if (tipoPago == 4) {
+        if (cuotas.length == 0) {
+            seguir = false;
+            alertar('warning', '¡Alerta!', 'Debe especificar las cuotas de pago');
+            off();
+            return;
+        }
+    }
+    if (seguir == true) {
+        validarPago(compra_modificada);
+    }
+}
+
+function validarPago(compra_modificada) {
+    var tipo = $('#condiciones').val() * 1;
+    var pago;
+    if (tipo == 3) {
+        pago = {
+            compra_id: compra.id_compra,
+            metodo_pago_id: tipo,
+            banco_emisor: '',
+            banco_receptor: '',
+            codigo: '',
+            fecha: '',
+            tipo_tarjeta: '',
+            franquicia: '',
+            recibo: '',
+            titular: '',
+            cheque: ''
+        };
+    } else if (tipo == 2) {
+        pago = {
+            compra_id: compra.id_compra,
+            metodo_pago_id: tipo,
+            banco_emisor: $('#banco_emisor').val(),
+            banco_receptor: $('#banco_receptor').val(),
+            codigo: $('#codigo_transferencia').val(),
+            fecha: $('#fecha').val(),
+            tipo_tarjeta: '',
+            franquicia: '',
+            recibo: '',
+            titular: '',
+            cheque: ''
+        };
+    } else if (tipo == 5) {
+        pago = {
+            compra_id: compra.id_compra,
+            metodo_pago_id: tipo,
+            banco_emisor: $('#banco_emisor').val(),
+            banco_receptor: '',
+            codigo: '',
+            fecha: $('#fecha').val(),
+            tipo_tarjeta: $('#tipo_tarjeta').val(),
+            franquicia: $('#marca_tarjeta').val(),
+            recibo: $('#numero_recibo').val(),
+            titular: $('#titular_tarjeta').val(),
+            cheque: ''
+        };
+    } else if (tipo == 1) {
+        pago = {
+            compra_id: compra.id_compra,
+            metodo_pago_id: tipo,
+            banco_emisor: $('#banco_cheque').val(),
+            banco_receptor: '',
+            codigo: '',
+            fecha: '',
+            tipo_tarjeta: '',
+            franquicia: '',
+            recibo: '',
+            titular: $('#titular_cheque').val(),
+            cheque: $('#numero_cheque').val()
+        };
+    } else if (tipo == 6) {
+        pago = {
+            compra_id: compra.id_compra,
+            metodo_pago_id: tipo,
+            banco_emisor: '',
+            banco_receptor: '',
+            codigo: $('#codigo').val(),
+            fecha: '',
+            tipo_tarjeta: '',
+            franquicia: '',
+            recibo: $('#empresa').val(),
+            titular: '',
+            cheque: ''
+        };
+    } else if (tipo == 4) {
+        pago = {
+            compra_id: compra.id_compra,
+            metodo_pago_id: tipo,
+            banco_emisor: '',
+            banco_receptor: '',
+            codigo: '',
+            fecha: '',
+            tipo_tarjeta: '',
+            franquicia: '',
+            recibo: '',
+            titular: '',
+            cheque: ''
+        };
+    }
+    enviarModificar(compra_modificada, pago);
+}
+
+function enviarModificar(compra_modificada, pago) {
+    var urlComplete = url + 'compra/editar.php';
+    $.post(urlComplete, JSON.stringify({ compra_anterior: compra, compra_actual: compra_modificada, pago: pago, cuotas: cuotas }), function(response) {
+        if (response.proceso == true) {
+            if (response.mensaje == '') {
+                alertar('success', '¡Éxito!', 'Modificación exitosa');
+            } else {
+                alertar('success', '¡Éxito!', 'Modificación exitosa');
+                alertar('warning', '¡Alerta!', response.mensaje);
+            }
+        } else {
+            if (response.mensaje == '') {
+                alertar('danger', '¡Error!', 'Compruebe su conexión a internet e intente nuevamente');
+            } else {
+                alertar('danger', '¡Error!', response.mensaje);
+            }
+        }
+        off();
+    });
+}
+
+function validarTipoPago() {
+    if (compra.condiciones_compra == 1) {
+        $('#pago_cheque').show('slow');
+        $('#banco_cheque').val(compra.detalles_pago.banco_emisor_id);
+        $('#numero_cheque').val(compra.detalles_pago.cheque);
+        $('#monto_cheque').val(compra.total_compra);
+        $('#titular_cheque').val(compra.detalles_pago.titular);
+        $('#observacion_cheque').val('Cosas ');
+        $('.observaciones_cheque').hide();
+    } else if (compra.condiciones_compra == 2) {
+        $('#pago_transferencia').show('slow');
+        $('#banco_emisor').val(compra.detalles_pago.banco_emisor_id);
+        $('#banco_receptor').val(compra.detalles_pago.banco_receptor_id);
+        $('#monto_transferencia').val(compra.total_compra);
+        $('#codigo_transferencia').val(compra.detalles_pago.codigo);
+        $('#fecha').val(compra.detalles_pago.fecha);
+        $('#fecha_transferencia').val(compra.detalles_pago.fecha);
+        $('#observacion').val('Cosas ');
+        $('.observaciones_transferencia').hide();
+    }
 }

@@ -154,5 +154,15 @@ class DetallePagoCompra {
         
     }
 
+    function delete() {
+        $query = "DELETE FROM `detalle_pagos_compra` WHERE `id_dpc` = ".$this->id_dpc;
+        $stmt = $this->conn->prepare($query);
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
 ?>

@@ -20,6 +20,7 @@ class DetalleFactura {
     public $df_id_producto;
     public $df_nombre_producto;
     public $df_codigo_prod;
+    public $total_tupla;
 
     //constructor con base de datos como conexión
     public function __construct($db){
@@ -124,6 +125,26 @@ class DetalleFactura {
             return false;
         }       
         
+    }
+
+    function consultarNuevosCostos() {
+        $query = "SELECT `df_id_factura_detfac`, `df_valor_total_detfac`, `df_valor_sin_iva_detfac`, 
+                    `df_iva_detfac`, ((`df_valor_sin_iva_detfac` * `df_iva_detfac`) + `df_valor_sin_iva_detfac`) as total_tupla FROM `df_detalle_factura`";
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+    
+        // execute query
+        $stmt->execute();
+    
+        return $stmt;
+    }
+
+    function modificarPrecio() {
+        $query = "UPDATE `df_detalle_factura` SET 
+            `df_valor_total_detfac`= ".$this->df_valor_total_detfac." 
+            WHERE `df_id_factura_detfac` = ".$this->df_id_factura_detfac;
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
     }
 
 }

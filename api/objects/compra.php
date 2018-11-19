@@ -144,9 +144,47 @@ class Compra {
         }else{
             return $stmt;
         }
+    }    
+    
+    function update() {
+        $query = "UPDATE `compra` SET 
+                    `fecha_compra`='".$this->fecha_compra."',
+                    `proveedor_id`= ".$this->proveedor_id.",
+                    `detalle_sustento_comprobante_id`= ".$this->detalle_sustento_comprobante_id.",
+                    `serie_compra`= '".$this->serie_compra."',
+                    `documento_compra`= '".$this->documento_compra."',
+                    `autorizacion_compra`= '".$this->autorizacion_compra."',
+                    `fecha_comprobante_compra`= '".$this->fecha_comprobante_compra."',
+                    `fecha_ingreso_bodega_compra`= '".$this->fecha_ingreso_bodega_compra."',
+                    `fecha_caducidad_compra`= '".$this->fecha_caducidad_compra."',
+                    `vencimiento_compra`= '".$this->vencimiento_compra."',
+                    `descripcion_compra`= '".$this->descripcion_compra."',
+                    `condiciones_compra`= ".$this->condiciones_compra.",
+                    `st_con_iva_compra`= ".$this->st_con_iva_compra.",
+                    `descuento_con_iva_compra`= ".$this->descuento_con_iva_compra.",
+                    `total_con_iva_compra`= ".$this->total_con_iva_compra.",
+                    `st_sin_iva_compra`= ".$this->st_sin_iva_compra.",
+                    `descuento_sin_iva_compra`= ".$this->descuento_sin_iva_compra.",
+                    `total_sin_iva_compra`= ".$this->total_sin_iva_compra.",
+                    `st_iva_cero_compra`= ".$this->st_iva_cero_compra.",
+                    `descuento_iva_cero_compra`= ".$this->descuento_iva_cero_compra.",
+                    `total_iva_cero`= ".$this->total_iva_cero.",
+                    `ice_cc_compra`= ".$this->ice_cc_compra.",
+                    `imp_verde_compra`= ".$this->imp_verde_compra.",
+                    `otros_compra`= ".$this->otros_compra.",
+                    `interes_compra`= ".$this->interes_compra.",
+                    `total_compra`= ".$this->total_compra." 
+                    WHERE `id_compra` = ".$this->id_compra;        
         
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
         
-    }     
+        if($stmt->execute()){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
 }
 ?>

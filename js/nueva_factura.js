@@ -667,7 +667,7 @@ function insertarFactura(factura) {
 
             var iva = $('.iva', b).text() * 1;
 
-            var total_tupla = ($('.total_tupla_producto', b).text() * 1) + iva;
+            var total_tupla = ($('.total_tupla_producto', b).text() * 1) + (iva * valor_sin_iva);
 
             var nombre_unidad = $('.unidad', b).text();
 

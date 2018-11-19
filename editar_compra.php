@@ -7,7 +7,7 @@
    $active_bodega = "";
    $active_reportes = "";
    $active_reportes_usuarios = "";
-   $title="Nueva Compra | SGI";
+   $title="Editar Compra | SGI";
    date_default_timezone_set('America/Bogota');
 ?>
 <!DOCTYPE html>
@@ -139,7 +139,7 @@
                         <label for="monto" class="col-md-1 control-label">Monto<span class="obligatorio">*</span></label>
                         <div class="col-md-3">
                             <input type="number" min="0.01" step="0.01" class="form-control input-sm" name="monto" id="monto_transferencia" 
-                                placeholder="Monto abonado" onkeyup='calcularRestante()'>
+                                placeholder="Monto abonado">
                         </div>                        
                     </div>                     
 
@@ -154,8 +154,8 @@
                             <input type="date" class="form-control input-sm" name="fecha" id="fecha" placeholder="Fecha transferencia" >
                             <input type="hidden" name="fecha_transferencia" id="fecha_transferencia">
                         </div>
-                        <label for="observacion" class="col-md-2 control-label">Observación<span class="obligatorio">*</span></label>
-                        <div class="col-md-2">
+                        <label for="observacion" class="col-md-2 control-label observaciones_transferencia">Observación<span class="obligatorio">*</span></label>
+                        <div class="col-md-2 observaciones_transferencia">
                             <input type="text" class="form-control input-sm" name="observacion" id="observacion" placeholder="Observación">
                         </div>
                     </div>  
@@ -197,7 +197,7 @@
                         <label for="monto" class="col-md-2 control-label">Monto<span class="obligatorio">*</span></label>
                         <div class="col-md-2">
                             <input type="number" min="0.01" step="0.01" class="form-control input-sm" name="monto" id="monto_tarjeta" 
-                                placeholder="Monto abonado" onkeyup='calcularRestante()' >
+                                placeholder="Monto abonado">
                         </div>
                     </div>     
 
@@ -229,7 +229,7 @@
                         <label for="monto" class="col-md-2 control-label">Monto<span class="obligatorio">*</span></label>
                         <div class="col-md-2">
                             <input type="number" min="0.01" step="0.01" class="form-control input-sm" name="monto" id="monto_cheque" 
-                                placeholder="Monto Abonado" onkeyup='calcularRestante()'>
+                                placeholder="Monto Abonado" >
                         </div>                     
                     </div> 
 
@@ -239,8 +239,8 @@
                             <input type="text" class="form-control input-sm" name="titular_cheque" id="titular_cheque" 
                                 placeholder="Títular del cheque">
                         </div>
-                        <label for="observacion" class="col-md-2 control-label">Observación<span class="obligatorio">*</span></label>
-                        <div class="col-md-4">
+                        <label for="observacion" class="col-md-2 control-label observaciones_cheque">Observación<span class="obligatorio">*</span></label>
+                        <div class="col-md-4 observaciones_cheque">
                             <input type="text" class="form-control input-sm" name="observacion_cheque" id="observacion_cheque" placeholder="Observación">
                         </div>
                     </div>                    
@@ -308,7 +308,7 @@
                             </td>
                             <td>
                                 <input type="number" class="form-control input-sm" min="0.00" step="0.00" value="0.000" 
-                                    id="descuento_st_con_iva" onkeyup='cambioDescuentoConIva();'>
+                                    id="descuento_st_con_iva" onkeyup='cambioDescuento("st_con_iva");'>
                             </td>
                             <td>
                                 <label class="control-label">Total con IVA $</label> 
@@ -329,7 +329,7 @@
                             </td>
                             <td>
                                 <input type="number" class="form-control input-sm" min="0.00" step="0.00" value="0.000" 
-                                    id="descuento_st_sin_iva" onkeyup='cambioDescuentoSinIva();'>
+                                    id="descuento_st_sin_iva" onkeyup='cambioDescuento("st_sin_iva");'>
                             </td>
                             <td>
                                 <label class="control-label">Total sin IVA $</label> 
@@ -350,7 +350,7 @@
                             </td>
                             <td>
                                 <input type="number" class="form-control input-sm" min="0.00" step="0.00" value="0.000" 
-                                    id="descuento_iva_cero" onkeyup='cambioDescuentoIvaCero();'>
+                                    id="descuento_iva_cero" onkeyup='cambioDescuento("st_iva_cero");'>
                             </td>
                             <td>
                                 <label class="control-label">Total 0% IVA $</label> 
@@ -364,14 +364,14 @@
                                 <label class="control-label">ICE + CC %</label> 
                             </td>
                             <td>
-                                <input type="number" class="form-control input-sm" value="0.00" id="pre_ice_cc" onkeyup="cambioICECC()"> 
+                                <input type="number" class="form-control input-sm" value="0.00" id="pre_ice_cc" disabled> 
                             </td>
                             <td>
                                 <label class="control-label">Imp. Verde $</label> 
                             </td>
                             <td>
                                 <input type="number" class="form-control input-sm" min="0.00" step="0.00" value="0.000" 
-                                    id="imp_verde" onkeyup="calcularResultados()">
+                                    id="imp_verde" disabled>
                             </td>
                             <td>
                                 <label  style="display: none;" class="control-label">IVA</label> 
@@ -385,20 +385,19 @@
                                 <label class="control-label">Otros $</label>                             
                             </td>
                             <td>
-                                <input type="number" class="form-control input-sm" id="total_otros" value="0.000"
-                                    onkeyup="calcularResultados()">
+                                <input type="number" class="form-control input-sm" id="total_otros" disabled disabled>
                             </td>
                             <td>
                                 <label class="control-label">Interés %</label>
                             </td>
                             <td>
-                                <input type="number" class="form-control input-sm" id="intereses" value="0.000">
+                                <input type="number" class="form-control input-sm" id="intereses" disabled>
                             </td>
                             <td>
                                 <label  style="display: none;" class="control-label">Descuento (%)</label>
                             </td>
                             <td>
-                                <input  style="display: none;" type="number" class="form-control input-sm" id="bonificacion" value="0.000">
+                                <input  style="display: none;" type="number" class="form-control input-sm" id="bonificacion" disabled>
                             </td>
                         </tr>
                         <tr>
@@ -412,7 +411,7 @@
                                 <label class="control-label">Total Compra</label>                             
                             </td>
                             <td colspan="2">
-                                <input type="number" class="form-control input-sm" id="total_compra" value="0.00" disabled>
+                                <input type="number" class="form-control input-sm" id="total_compra" disabled>
                             </td>
                         </tr>
                     </table>

@@ -242,6 +242,7 @@ function getDetallePago($id_compra, $db) {
                     "compra_id"=>$compra_id,
                     "metodo_pago_id"=>$metodo_pago_id,
                     "banco_emisor"=>$banco['nombre_bancos'],
+                    "banco_emisor_id"=>$banco['id_bancos'],
                     "banco_receptor"=>$banco_receptor,
                     "codigo"=>$codigo,
                     "fecha"=>$fecha,
@@ -260,7 +261,9 @@ function getDetallePago($id_compra, $db) {
                     "compra_id"=>$compra_id,
                     "metodo_pago_id"=>$metodo_pago_id,
                     "banco_emisor"=>$banco['nombre_bancos'],
+                    "banco_emisor_id"=>$banco['id_bancos'],
                     "banco_receptor"=>$otroBanco['nombre_bancos'],
+                    "banco_receptor_id"=>$otroBanco['id_bancos'],
                     "codigo"=>$codigo,
                     "fecha"=>$fecha,
                     "tipo_tarjeta"=>$tipo_tarjeta,
@@ -290,7 +293,8 @@ function getBanco($id, $db) {
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
         extract($row);
         $banco_item=array(
-            "nombre_bancos"=>$nombre_bancos
+            "nombre_bancos"=>$nombre_bancos,
+            "id_bancos"=>$id_bancos
         );
  
         array_push($banco_arr, $banco_item);
