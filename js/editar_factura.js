@@ -46,7 +46,7 @@ function load() {
     clearTimeout(timer);
     timer = setTimeout(function() {
         cargar();
-    }, 1000);
+    }, 0);
 }
 
 function cargar() {
@@ -86,6 +86,8 @@ function consultarFactura() {
             $('#total').html(total_factura.toFixed(2));
             if (factura.df_edo_factura_fac == 2 || factura.df_edo_factura_fac == 7 || factura.df_edo_factura_fac == 5) {
                 $('#btn-guardar').attr('disabled', true);
+                $('#factAnulada').attr('disabled', true);
+                $('#factEntregada').attr('disabled', true);
             }
         } else {
             alertar('danger', '¡Error!', 'Por favor certifique que está conectado a internet, e intente nuevamente');
@@ -327,6 +329,25 @@ function modificar() {
     validarInsercion(factura);
 };
 
+function facturaEntregada() {    
+    var opcion = confirm("Debe guardar los cambios antes de ejecutar esta acción. ¿Desea continuar?");
+    if (opcion == true) {
+        on();
+        factura.df_edo_factura_fac = 2;
+        factura.df_num_factura = id;        
+        updateEntregada(factura);
+	} 
+};
+
+function facturaAnulada() {    
+    var opcion = confirm("Debe guardar los cambios antes de ejecutar esta acción. ¿Desea continuar?");
+    if (opcion == true) {
+        on();        
+        factura.df_num_factura = id;        
+        updateAnulada(factura);
+	} 
+};
+
 function validarInsercion(factura) {
     var seguir = true;
     if (factura.df_cliente_cod_fac == undefined) {
@@ -550,6 +571,7 @@ function consultarProductosFactura(facturaId) {
     var urlCompleta = url + 'detalleFactura/getById.php';
     $.post(urlCompleta, JSON.stringify({ df_num_factura_detfac: facturaId }), function(response) {
         productosFactura = response.data;
+        console.log('productos factura', productosFactura);
         $.each(productosFactura, function(index, row) {
             var subtotal_tabla = row.df_cantidad_detfac * row.df_precio_prod_detfac;
             var total_iva_tabla = subtotal_tabla * row.df_iva_detfac;
@@ -872,3 +894,36 @@ function insertLibroDiario(libroDiario) {
         console.log('inserción libro diario', response);
     });
 }
+
+function updateEntregada(facturaEnt) {
+    var urlCompleta = url + 'factura/estado.php';
+    $.post(urlCompleta, JSON.stringify(facturaEnt), function(response) {
+        console.log('factura entregada', response);
+        if (response == true) {
+            off();
+            alertar('success', '¡Éxito!', 'Factura # ' + id + ' entregada exitosamente');
+        } else {
+            off();
+            alertar('danger', '¡Error!', 'Por favor certifique que está conectado a internet, e intente nuevamente');
+        }
+    });
+    load();
+}
+
+function updateAnulada(factura) {
+    factura.usuario = $('#usuario').val();
+    factura.productos = productosFactura;
+    var urlCompleta = url + 'factura/anular.php';
+    $.post(urlCompleta, JSON.stringify(factura), function(response) {
+        console.log('factura entregada', response);
+        if (response.proceso == true) {
+            off();
+            load();
+            alertar('success', '¡Éxito!', 'Factura # ' + id + ' anulada exitosamente');            
+        } else {
+            off();
+            alertar('danger', '¡Error!', response.mensaje);
+        }
+    });    
+}
+

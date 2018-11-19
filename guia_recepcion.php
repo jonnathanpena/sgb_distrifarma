@@ -47,6 +47,7 @@
                     <table class="table">
                         <thead>
                             <tr class="info">
+                                <th>#</th>
                                 <th>Código</th>
                                 <th>Fecha</th>
                                 <th>Repartidor</th>

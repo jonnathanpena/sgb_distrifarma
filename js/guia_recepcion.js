@@ -95,6 +95,7 @@ function generate_table() {
     var tr;
     for (var i = 0; i < displayRecords.length; i++) {
         tr = $('<tr/>');
+        tr.append("<td>" + displayRecords[i].df_guia_recepcion + "</td>");
         tr.append("<td>" + displayRecords[i].df_codigo_guia_rec + "</td>");
         tr.append("<td>" + displayRecords[i].df_fecha_recepcion + "</td>");
         tr.append("<td>" + displayRecords[i].df_nombre_per + "  " + displayRecords[i].df_apellido_per + "</td>");

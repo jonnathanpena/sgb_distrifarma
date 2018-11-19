@@ -49,12 +49,14 @@
                             <tr class="info">
                                 <th>Fecha</th>
                                 <th>Número</th>
-                                <th>Cliente</th>
+                                <th>Cliente</th>                                
+                                <th>Fecha Entrega</th>
                                 <th class="text-center">Forma de Pago</th>
                                 <th class="text-center">Subtotal</th>
                                 <th class="text-center">Descuento</th>
                                 <th class="text-center">IVA</th>
                                 <th class="text-center">Total</th>
+                                <th>Estado</th>
                                 <th colspan="2" class='text-center'>Acciones</th>
                             </tr>
                         </thead>

@@ -106,17 +106,34 @@ function generate_table() {
         var descuentos = Number(factura.df_descuento_fac).toFixed(2);
         var iva = Number(factura.df_iva_fac).toFixed(2);
         var total_factura = Number(factura.df_valor_total_fac).toFixed(2);
+        var color = '';       
+        if (factura.guia != null) {
+            factura.df_nombre_estado = factura.guia;
+            color = 'label-info';
+        } else {
+            if (factura.df_edo_factura_fac == 1 || factura.df_edo_factura_fac == 6) {
+                color = 'label-danger';
+            } else if (factura.df_edo_factura_fac == 4) {
+                color = 'label-warning';
+            } else if (factura.df_edo_factura_fac == 5) {
+                color = 'label-default'; 
+            } else if (factura.df_edo_factura_fac == 2 || factura.df_edo_factura_fac == 7) {
+                color = 'label-success'; 
+            } 
+        }
         var tr;
         var fecha_fact = factura.df_fecha_fac.split(' ')[0];
         tr = $('<tr/>');
         tr.append("<td>" + fecha_fact + "</td>");
         tr.append("<td>" + factura.df_num_factura + "</td>");
-        tr.append("<td>" + factura.df_nombre_cli + "</td>");
+        tr.append("<td>" + factura.df_nombre_cli + "</td>");    
+        tr.append("<td>" + factura.df_fecha_entrega_fac + "</td>");
         tr.append("<td>" + factura.df_forma_pago_fac + "</td>");
         tr.append("<td class='text-right'>$" + subtotal + "</td>");
         tr.append("<td class='text-right'>$" + descuentos + "</td>");
         tr.append("<td class='text-right'>$" + iva + "</td>");
         tr.append("<td class='text-right'>$" + total_factura + "</td>");
+        tr.append("<td> <span class='label "+ color +"'>" + factura.df_nombre_estado + "</span></td>");
         tr.append("<td><button class='btn btn-default pull-right' title='Editar' onclick='editar(`" + factura.df_num_factura + "`)'><i class='glyphicon glyphicon-edit'></i></button></td>");
         tr.append("<td><button class='btn btn-info pull-right' title='Imprimir' onclick='imprimir(`" + factura.df_num_factura + "`)'><i class='glyphicon glyphicon-print'></i></button></td>");
         $('#resultados .table-responsive table tbody').append(tr);

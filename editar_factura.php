@@ -23,6 +23,16 @@
       <div class="container">
          <div class="panel panel-info">
             <div class="panel-heading">
+                <div class="btn-group pull-right">
+                    <button class="btn btn-warning" id="factAnulada" onclick="facturaAnulada()">
+                        <span class="glyphicon glyphicon-remove" ></span> Anulado
+                    </button>
+                </div>
+                <div class="btn-group pull-right" style="margin-right: 10px;">
+                    <button class="btn btn-success" id="factEntregada" onclick="facturaEntregada()">
+                        <span class="glyphicon glyphicon-ok" ></span> Entregado
+                    </button>
+                </div>                
                <h4><i class='glyphicon glyphicon-edit'></i> Modificar Factura</h4>
             </div>
             <div class="panel-body">
