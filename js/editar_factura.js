@@ -759,7 +759,7 @@ function reponerInventario(idProducto, cantidad, kardex, unidad) {
         var inventario = response.data[0];
         var antes = inventario.df_cant_bodega * 1;
         if (unidad == 'CAJA') {
-            var nuevo = cantidad * inventario.df_und_caja;
+            var nuevo = cantidad * (inventario.df_und_caja * 1);
             inventario.df_cant_bodega = nuevo + antes;
             kardex.df_existencia_kar = inventario.df_cant_bodega;
             kardex.df_ingresa_kar = nuevo;

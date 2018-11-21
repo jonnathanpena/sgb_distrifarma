@@ -132,7 +132,7 @@ class Inventario {
         $stmt = $this->conn->prepare($query);    
         
         if($stmt->execute()){
-            return $this->conn->lastInsertId();
+            return true; //$this->conn->lastInsertId();
         }else{
             return false;
         }           

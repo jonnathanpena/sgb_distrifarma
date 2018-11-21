@@ -187,7 +187,7 @@ function consultarInventarioProducto($db, $producto, $usuario, $factura_id) {
     }
     $cantidad = $producto['df_cantidad_detfac'] * 1;
     if ($producto['df_nombre_und_detfac'] == 'CAJA') {
-        $cantidad = $producto['df_cantidad_detfac'] * $inventario_arr[0]['df_und_caja'];
+        $cantidad = ($producto['df_cantidad_detfac'] * 1) * ($inventario_arr[0]['df_und_caja'] * 1);
     }
     $inventario_arr[0]["df_cant_bodega"] = ($inventario_arr[0]["df_cant_bodega"] * 1) + $cantidad;
     if(updateInventario($db, $inventario_arr[0], $cantidad, $usuario, $producto['df_nombre_producto'], $factura_id)) {
@@ -211,7 +211,9 @@ function updateInventario($db, $info, $cantidad, $usuario, $nombre_producto, $fa
     $inventario->df_minimo_sug= $info["df_minimo_sug"];
     $inventario->df_und_caja= $info["df_und_caja"];
     $inventario->df_bodega= $info["df_bodega"];
-    if($inventario->update()) {
+    if(!$inventario->update()) {
+        return false;
+    } else {        
         date_default_timezone_set('America/Bogota');
         $kardex = array(
             "df_fecha_kar"=>date('Y-m-d H:i:s'),
@@ -223,14 +225,12 @@ function updateInventario($db, $info, $cantidad, $usuario, $nombre_producto, $fa
             "df_creadoBy_kar"=>$usuario,
             "df_kardex_codigo"=>''
         );
-        return true;
-        /*if(paraKardex($db, $kardex)) {
+        //return true;
+        if(paraKardex($db, $kardex)) {
             return true;
         } else {
             return false;
-        }*/
-    } else {
-        return false;
+        }
     }
 }
 
@@ -260,17 +260,17 @@ function paraKardex($db, $info) {
     } else {
         $max = 'KAR-001';
     }
-    if(insertKardex($db, $info)) {
+    if(insertKardex($db, $info, $max)) {
         return true;
     } else {
         return false;
     }
 }
 
-function insertKardex($db, $info) {
+function insertKardex($db, $info, $codigo) {
     include_once '../objects/kardex.php';
     $kardex = new Kardex($db);
-    $kardex->df_kardex_codigo= $info["df_kardex_codigo"];
+    $kardex->df_kardex_codigo= $codigo;
     $kardex->df_fecha_kar= $info["df_fecha_kar"];
     $kardex->df_producto_cod_kar= $info["df_producto_cod_kar"];
     $kardex->df_producto= $info["df_producto"];
