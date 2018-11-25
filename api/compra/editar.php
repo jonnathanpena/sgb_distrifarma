@@ -86,6 +86,39 @@ if ($compra_anterior['condiciones_compra'] != $compra_actual['condiciones_compra
             }
         }
     }
+} else {
+    if ($compra_anterior['condiciones_compra'] == 1) {
+        if ($compra_anterior['detalles_pago']['banco_emisor_id'] != $pago['banco_emisor']
+            || $compra_anterior['detalles_pago']['cheque'] != $pago['cheque']
+            || $compra_anterior['detalles_pago']['titular'] != $pago['titular']) {
+                if (eliminarDetallePago($db, $compra_anterior['detalles_pago']['id_dpc'])) {
+                    if(insertarPago($db, $pago)) {
+                        $mensaje = 'Método de pago cambiado exitosamente';
+                    } else {
+                        $procesado = false;
+                        $mensaje = 'No se pudo cambiar el método de pago';
+                    }
+                } else {
+                    $mensaje = 'No se pudo eliminar la forma de pago';
+                }
+        }
+    } else if ($compra_anterior['condiciones_compra'] == 2) {
+        if ($compra_anterior['detalles_pago']['banco_emisor_id'] != $pago['banco_emisor']
+            || $compra_anterior['detalles_pago']['banco_receptor_id'] != $pago['banco_receptor']
+            || $compra_anterior['detalles_pago']['codigo'] != $pago['codigo']
+            || $compra_anterior['detalles_pago']['fecha'] != $pago['fecha']) {
+                if (eliminarDetallePago($db, $compra_anterior['detalles_pago']['id_dpc'])) {
+                    if(insertarPago($db, $pago)) {
+                        $mensaje = 'Método de pago cambiado exitosamente';
+                    } else {
+                        $procesado = false;
+                        $mensaje = 'No se pudo cambiar el método de pago';
+                    }
+                } else {
+                    $mensaje = 'No se pudo eliminar la forma de pago';
+                }
+        }
+    }
 }
 
 echo json_encode(array('proceso' => $procesado, 'mensaje' => $mensaje)); 

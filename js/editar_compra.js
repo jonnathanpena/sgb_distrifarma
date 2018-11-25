@@ -711,7 +711,7 @@ function validarPago(compra_modificada) {
             banco_emisor: $('#banco_emisor').val(),
             banco_receptor: $('#banco_receptor').val(),
             codigo: $('#codigo_transferencia').val(),
-            fecha: $('#fecha').val(),
+            fecha: $('#fecha_transferencia').val(),
             tipo_tarjeta: '',
             franquicia: '',
             recibo: '',
@@ -810,12 +810,13 @@ function validarTipoPago() {
         $('.observaciones_cheque').hide();
     } else if (compra.condiciones_compra == 2) {
         $('#pago_transferencia').show('slow');
+        $('#fecha').val(compra.detalles_pago.fecha);
+        $('#fecha_transferencia').val(compra.detalles_pago.fecha);
+        $('.fecha_transferencia').val(compra.detalles_pago.fecha);
         $('#banco_emisor').val(compra.detalles_pago.banco_emisor_id);
         $('#banco_receptor').val(compra.detalles_pago.banco_receptor_id);
         $('#monto_transferencia').val(compra.total_compra);
         $('#codigo_transferencia').val(compra.detalles_pago.codigo);
-        $('#fecha').val(compra.detalles_pago.fecha);
-        $('#fecha_transferencia').val(compra.detalles_pago.fecha);
         $('#observacion').val('Cosas ');
         $('.observaciones_transferencia').hide();
     }

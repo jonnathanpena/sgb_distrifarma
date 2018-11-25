@@ -1,0 +1,8 @@
+[26-Nov-2018 04:53:25 Australia/Melbourne] PHP Fatal error:  Uncaught Error: Call to undefined method Compra::update() in /home/sgipro/public_html/SGI_distrifarma/api/compra/editar.php:57
+Stack trace:
+#0 {main}
+  thrown in /home/sgipro/public_html/SGI_distrifarma/api/compra/editar.php on line 57
+[26-Nov-2018 04:56:43 Australia/Melbourne] PHP Fatal error:  Uncaught Error: Call to undefined method Compra::update() in /home/sgipro/public_html/SGI_distrifarma/api/compra/editar.php:57
+Stack trace:
+#0 {main}
+  thrown in /home/sgipro/public_html/SGI_distrifarma/api/compra/editar.php on line 57

@@ -151,8 +151,7 @@
                         </div>
                         <label for="fecha_transferencia" class="col-md-2 control-label">Fecha<span class="obligatorio">*</span></label>
                         <div class="col-md-2">
-                            <input type="date" class="form-control input-sm" name="fecha" id="fecha" placeholder="Fecha transferencia" >
-                            <input type="hidden" name="fecha_transferencia" id="fecha_transferencia">
+                            <input type="date" class="form-control input-sm" name="fecha" id="fecha_transferencia" placeholder="Fecha transferencia" >
                         </div>
                         <label for="observacion" class="col-md-2 control-label observaciones_transferencia">Observación<span class="obligatorio">*</span></label>
                         <div class="col-md-2 observaciones_transferencia">
