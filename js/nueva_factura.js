@@ -959,6 +959,8 @@ function limpiar() {
 
     $('#sector').attr('disabled', 'disabled');
 
+    $('#nombreDocumento').val('');
+
     location.reload();
 
 }
