@@ -205,7 +205,12 @@ function gethistoriaEstadoFactura($factura, $db) {
             extract($row);
             $historiaEstadoFactura_item=array(
                 "df_sector_factura"=>$df_sector_factura,
-                "df_direccion_factura"=>$df_direccion_factura
+                "df_direccion_factura"=>$df_direccion_factura,
+                "df_nombre_cli_factura"=>$df_nombre_cli_factura,
+                "df_telefono_cli_factura"=>$df_telefono_cli_factura,
+                "df_tipo_documento_cli_factura"=>$df_tipo_documento_cli_factura,
+                "df_documento_cli_factura"=>$df_documento_cli_factura,
+                "df_celular_cli_factura"=>$df_celular_cli_factura
             );
      
             array_push($historiaEstadoFactura_arr, $historiaEstadoFactura_item);

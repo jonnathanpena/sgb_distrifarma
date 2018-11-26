@@ -34,33 +34,6 @@
 					</td>
 				</tr>
 			</table>
-			<table style="width: 100%; margin-top: -3mm;">
-				<tr>
-					<td style="width: 13%; text-align: left;"></td>
-					<td style="width: 87%; text-align: left; font-wieght: bold;">
-					    <FONT FACE="Arial" SIZE="2"><?php echo strtoupper($data['cliente']['df_nombre_cli']) ?></FONT>
-					</td>
-				</tr>
-			</table>
-			<table style="width: 100%;">
-				<tr>
-					<td style="width: 14%; text-align: left;"></td>
-					<td style="width: 23%; text-align: left; font-wieght: bold; ">
-					    <FONT FACE="Arial" SIZE="2"><?php echo $data['cliente']['df_documento_cli'] ?></FONT>
-					</td>
-					<td style="width: 15%; text-align: left;"></td>
-					<td style="width: 15%; text-align: left; font-wieght: bold;">
-						<FONT FACE="Arial new" SIZE="2"><?php
-							if ($data['cliente']['df_telefono_cli'] == '') {
-								echo $data['cliente']['df_celular_cli'];
-							} else {
-								echo $data['cliente']['df_telefono_cli'];
-							}
-						?></FONT>
-					</td>
-					<td style="width: 33%; text-align: left;"></td>
-				</tr>
-			</table>
 
 			<?php	
 			$contadorf = count($data['historiaEstadoFactura']);	
@@ -68,7 +41,51 @@
 				$detallef = $data['historiaEstadoFactura'][$i];
 			}
 			?>
-
+			
+			<table style="width: 100%; margin-top: -3mm;">
+				<tr>
+					<td style="width: 13%; text-align: left;"></td>
+					<td style="width: 87%; text-align: left; font-wieght: bold;">
+						<FONT FACE="Arial" SIZE="2"><?php 
+							if ($detallef['df_nombre_cli_factura'] == '') {
+								$detallef['df_nombre_cli_factura'] = $data['cliente']['df_nombre_cli'];
+							}
+							echo strtoupper($detallef['df_nombre_cli_factura']) ?></FONT>
+					</td>
+				</tr>
+			</table>
+			<table style="width: 100%;">
+				<tr>
+					<td style="width: 14%; text-align: left;"></td>
+					<td style="width: 23%; text-align: left; font-wieght: bold; ">
+						<FONT FACE="Arial" SIZE="2"><?php 
+						if ($detallef['df_documento_cli_factura'] == '') {
+							$detallef['df_documento_cli_factura'] = $data['cliente']['df_documento_cli'];
+						}
+						echo  $detallef['df_documento_cli_factura'] ?></FONT>
+					</td>
+					<td style="width: 15%; text-align: left;"></td>
+					<td style="width: 15%; text-align: left; font-wieght: bold;">
+						<FONT FACE="Arial new" SIZE="2"><?php
+							if ($detallef['df_telefono_cli_factura'] == '' && $detallef['df_celular_cli_factura'] == '') {
+								if ($data['cliente']['df_telefono_cli'] == '') {
+									echo $data['cliente']['df_celular_cli'];
+								} else {
+									echo $data['cliente']['df_telefono_cli'];
+								}
+							} else {
+								if ($detallef['df_telefono_cli_factura'] == '') {
+									echo $detallef['df_celular_cli_factura'] == '';
+								} else {
+									echo $detallef['df_telefono_cli_factura'];
+								}
+							}
+							
+						?></FONT>
+					</td>
+					<td style="width: 33%; text-align: left;"></td>
+				</tr>
+			</table>
 			<table style="width: 100%; margin-top: -0.5mm">
 				<tr>
 					<td style="width: 12%; text-align: left;"></td>

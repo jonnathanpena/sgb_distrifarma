@@ -42,41 +42,54 @@ include("modal/consultar_productos.php");
 include("modal/load.php");
 ?>
                <form class="form-horizontal" role="form" id="form_modificar_factura">
+                 <div class="form-group row">
+                        <label for="num_factura" class="col-md-2 control-label" style="text-align:left">Número Factura <span class="obligatorio">*</span></label>
+                         <div class="col-md-2">
+                            <input style="font-size: 16px; font-weight: bold;" type="text" class="form-control input-sm" id="num_factura" name="num_factura" placeholder="Número Factura" readonly> 
+                        </div>                                                                                                                     
+                  </div>  
                   <div class="form-group row">
-                     <label for="usuario" class="col-md-1 control-label">Usuario</label>
+                     <label for="usuario" class="col-md-1 control-label" style="text-align: left;">Usuario</label>
                      <div class="col-md-2">
                         <select name="usuario" id="usuario" class="form-control" readonly>
                         </select>
                      </div>
-                     <label for="fecha" class="col-md-1 control-label">Fecha</label>
+                     <label for="fecha" class="col-md-1 control-label" style="text-align: left; ">Fecha</label>
                      <div class="col-md-2">
                         <input type="text" class="form-control input-sm" id="fecha" name="fecha" readonly>
                      </div>
-                     <label for="personal" class="col-md-2 control-label">Vendedor <span class="obligatorio">*</span></label>
+                     <label for="personal" class="col-md-2 control-label" style="text-align: left; ">Vendedor <span class="obligatorio">*</span></label>
                      <div class="col-md-4">
                         <select name="personal" id="personal" class="form-control"></select>
                      </div>                     
                   </div>
                   <div class="form-group row">
-                    <label for="documento_cliente" class="col-md-2 control-label">Documento Cliente <span class="obligatorio">*</span></label>
+                    <label for="documento_cliente" class="col-md-2 control-label" style="text-align: left; ">Documento Cliente <span class="obligatorio">*</span></label>
                      <div class="col-md-3">
-                        <input type="text" class="form-control input-sm" id="documento_cliente" name="documento_cliente" placeholder="Documento Cliente" onclick="consultarCliente()" style="cursor: pointer;" readonly>
+                        <input type="text" class="form-control input-sm" id="documento_cliente" name="documento_cliente" placeholder="Documento Cliente" readonly>
                         <input type="hidden" id="cliente_id" >
                      </div>
-                    <label for="nombre_cliente" class="col-md-2 control-label">Nombre Cliente</label>
+                    <label for="nombre_cliente" class="col-md-2 control-label" style="text-align: left; ">Nombre Cliente</label>
                      <div class="col-md-5">
                         <input type="text" class="form-control input-sm" id="nombre_cliente" name="nombre_cliente" readonly>
                      </div>                                                                                                 
                     </div> 
                     <div class="form-group row">
-                        <label for="sector" class="col-md-1 control-label">Sector</label>
+                        <label for="direccion_cliente" class="col-md-2 control-label" style="text-align:left">Dirección Cliente <span class="obligatorio">*</span></label>
+                         <div class="col-md-10">
+                            <input type="text" class="form-control input-sm" id="direccion_cliente" name="direccion_cliente" placeholder="Dirección Cliente" readonly>
+                            <input type="hidden" id="cliente_id">  
+                        </div>                                                                                                                     
+                    </div>   
+                    <div class="form-group row">
+                        <label for="sector" class="col-md-1 control-label" style="text-align: left; ">Sector</label>
                         <div class="col-md-4">
                             <select name="sector" id="sector" class="form-control" disabled>
                                 <option value="null">Seleccione...</option>
                             </select>
                             <input type="hidden" id="forma_pago">
                         </div> 
-                        <label for="fecha_entrega" class="col-md-2 control-label">Fecha Entrega <span class="obligatorio">*</span></label>
+                        <label for="fecha_entrega" class="col-md-2 control-label" style="text-align: left; ">Fecha Entrega <span class="obligatorio">*</span></label>
                         <div class="col-md-2">
                             <input type="date" class="form-control input-sm" id="fecha_entrega" name="fecha_entrega" required>
                         </div>  

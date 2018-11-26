@@ -71,13 +71,13 @@ function consultarFactura() {
             var fecha = dia + '/' + mes + '/' + ano;
             $('#fecha').val(fecha);
             consultarPersonal(factura.df_personal_cod_fac);
-            consultarClienteComprador(factura.df_cliente_cod_fac);
-            consultarSectores(factura.df_sector_cod_fac);
+            consultarDatosFactura(factura.df_num_factura, factura.df_cliente_cod_fac);
             consultarProductosFactura(factura.df_num_factura);
             var subtotal_factura = factura.df_subtotal_fac * 1;
             var descuento_factura = factura.df_descuento_fac * 1;
             var iva_factura = factura.df_iva_fac * 1;
             var total_factura = factura.df_valor_total_fac * 1;
+            $('#num_factura').val(factura.df_num_factura);
             $('#forma_pago').val(factura.df_forma_pago_fac);
             $('#fecha_entrega').val(factura.df_fecha_entrega_fac);
             $('#subtotal').html(subtotal_factura.toFixed(2));
@@ -329,23 +329,23 @@ function modificar() {
     validarInsercion(factura);
 };
 
-function facturaEntregada() {    
+function facturaEntregada() {
     var opcion = confirm("Debe guardar los cambios antes de ejecutar esta acción. ¿Desea continuar?");
     if (opcion == true) {
         on();
         factura.df_edo_factura_fac = 2;
-        factura.df_num_factura = id;        
+        factura.df_num_factura = id;
         updateEntregada(factura);
-	} 
+    }
 };
 
-function facturaAnulada() {    
+function facturaAnulada() {
     var opcion = confirm("Debe guardar los cambios antes de ejecutar esta acción. ¿Desea continuar?");
     if (opcion == true) {
-        on();        
-        factura.df_num_factura = id;        
+        on();
+        factura.df_num_factura = id;
         updateAnulada(factura);
-	} 
+    }
 };
 
 function validarInsercion(factura) {
@@ -919,11 +919,27 @@ function updateAnulada(factura) {
         if (response.proceso == true) {
             off();
             load();
-            alertar('success', '¡Éxito!', 'Factura # ' + id + ' anulada exitosamente');            
+            alertar('success', '¡Éxito!', 'Factura # ' + id + ' anulada exitosamente');
         } else {
             off();
             alertar('danger', '¡Error!', response.mensaje);
         }
-    });    
+    });
 }
 
+function consultarDatosFactura(id_factura, id_cliente) {
+    var urlCompleta = url + 'historiaEstadoFactura/getById.php';
+    $.post(urlCompleta, JSON.stringify({ df_num_factura: id_factura }), function(response) {
+        $('#direccion_cliente').val(response.data[0].df_direccion_factura);
+        consultarSectores(response.data[0].df_sector_factura);
+        if (response.data[0].df_documento_cli_factura == '') {
+            consultarClienteComprador(id_cliente);
+        } else {
+            $('#documento_cliente').val(response.data[0].df_documento_cli_factura);
+            $('#nombre_cliente').val(response.data[0].df_nombre_cli_factura);
+            $('#cliente_id').val(id_cliente);
+        }
+        
+        
+    });
+}

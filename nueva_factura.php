@@ -85,7 +85,7 @@ include("modal/load.php");
 
                      </div>
 
-                     <label for="personal" class="col-md-2 control-label">Vendedor <span class="obligatorio">*</span></label>
+                     <label for="personal" class="col-md-2 control-label" style="text-align: left; ">Vendedor <span class="obligatorio">*</span></label>
 
                      <div class="col-md-4">
 
@@ -104,10 +104,13 @@ include("modal/load.php");
                         <input type="text" class="form-control input-sm" id="documento_cliente" name="documento_cliente" placeholder="Documento Cliente" onclick="consultarCliente()" style="cursor: pointer;" readonly>
 
                         <input type="hidden" id="cliente_id" >
+                        <input type="hidden" id="cliente_tipo_doc" >
+                        <input type="hidden" id="cliente_telefono" >
+                        <input type="hidden" id="cliente_celular" >
 
                      </div>
 
-                    <label for="nombre_cliente" class="col-md-2 control-label">Nombre Cliente</label>
+                    <label for="nombre_cliente" class="col-md-2 control-label" style="text-align: left; ">Nombre Cliente</label>
 
                      <div class="col-md-4">
 
@@ -145,7 +148,7 @@ include("modal/load.php");
 
                      </div>
 
-                    <label for="fecha_entrega" class="col-md-2 control-label">Fecha Entrega <span class="obligatorio">*</span></label>
+                    <label for="fecha_entrega" class="col-md-2 control-label" style="text-align: left; ">Fecha Entrega <span class="obligatorio">*</span></label>
 
                     <div class="col-md-2">
 

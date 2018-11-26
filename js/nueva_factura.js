@@ -86,7 +86,7 @@ function consultarCliente() {
             var tr;
             if (response.data.length > 0) {
                 $.each(response.data, function(index, row) {
-                    tr = $('<tr style="cursor: pointer;" onclick="seleccionarCliente(' + row.df_id_cliente + ', ' + row.df_documento_cli + ', ' + row.df_sector_cod + ', `' + row.df_nombre_cli + '`, `' + row.df_direccion_cli + '` )"/>');
+                    tr = $('<tr style="cursor: pointer;" onclick="seleccionarCliente(' + row.df_id_cliente + ', ' + row.df_documento_cli + ', ' + row.df_sector_cod + ', `' + row.df_nombre_cli + '`, `' + row.df_direccion_cli + '` , `' + row.df_tipo_documento_cli + '` , `' + row.df_telefono_cli + '` , `' + row.df_celular_cli + '`)"/>');
 
                     tr.append("<td>" + row.df_codigo_cliente + "</td>");
 
@@ -116,7 +116,7 @@ function consultarCliente() {
 
 
 
-function seleccionarCliente(id_cliente, documento, sector, nombre, direccion) {
+function seleccionarCliente(id_cliente, documento, sector, nombre, direccion, tipo_doc, tlf, celular) {
 
     $('#consultarClientes').modal('hide');
 
@@ -129,8 +129,9 @@ function seleccionarCliente(id_cliente, documento, sector, nombre, direccion) {
     $('#sector').val(sector);
 
     $('#direccion_cliente').val(direccion);
-
-
+    $('#cliente_tipo_doc').val(tipo_doc);
+    $('#cliente_telefono').val(tlf);
+    $('#cliente_celular').val(celular);
 
     if (documento == '9999999999') {
 
@@ -382,7 +383,7 @@ function getCliente() {
 
                 $.each(response.data, function(index, row) {
 
-                    tr = $('<tr style="cursor: pointer;" onclick="seleccionarCliente(' + row.df_id_cliente + ', ' + row.df_documento_cli + ', ' + row.df_sector_cod + ', `' + row.df_nombre_cli + '`, `' + row.df_direccion_cli + '` )"/>');
+                    tr = $('<tr style="cursor: pointer;" onclick="seleccionarCliente(' + row.df_id_cliente + ', ' + row.df_documento_cli + ', ' + row.df_sector_cod + ', `' + row.df_nombre_cli + '`, `' + row.df_direccion_cli + '` , `' + row.df_tipo_documento_cli + '` , `' + row.df_telefono_cli + '`  , `' + row.df_celular_cli + '`)"/>');
 
                     tr.append("<td>" + row.df_codigo_cliente + "</td>");
 
@@ -915,7 +916,12 @@ function insertarHistorialFactura(facturaId) {
 
         df_sector_factura: $('#sector').val(),
 
-        df_direccion_factura: $('#direccion_cliente').val()
+        df_direccion_factura: $('#direccion_cliente').val(),
+        df_nombre_cli_factura: $('#nombre_cliente').val(),
+        df_telefono_cli_factura: $('#cliente_telefono').val(),
+        df_tipo_documento_cli_factura: $('#cliente_tipo_doc').val(),
+        df_documento_cli_factura: $('#documento_cliente').val(),
+        df_celular_cli_factura: $('#cliente_celular').val()
 
     };
 

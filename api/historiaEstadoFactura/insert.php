@@ -30,6 +30,11 @@ $historiaEstadoFactura->df_usuario_id= $info[0]["df_usuario_id"];
 $historiaEstadoFactura->df_fecha_proceso= $info[0]["df_fecha_proceso"];
 $historiaEstadoFactura->df_sector_factura= $info[0]["df_sector_factura"];
 $historiaEstadoFactura->df_direccion_factura= $info[0]["df_direccion_factura"];
+$historiaEstadoFactura->df_nombre_cli_factura= $info[0]["df_nombre_cli_factura"];
+$historiaEstadoFactura->df_telefono_cli_factura= $info[0]["df_telefono_cli_factura"];
+$historiaEstadoFactura->df_tipo_documento_cli_factura= $info[0]["df_tipo_documento_cli_factura"];
+$historiaEstadoFactura->df_documento_cli_factura= $info[0]["df_documento_cli_factura"];
+$historiaEstadoFactura->df_celular_cli_factura= $info[0]["df_celular_cli_factura"];
 
 // insert historiaEstadoFactura
 $response = $historiaEstadoFactura->insert();
