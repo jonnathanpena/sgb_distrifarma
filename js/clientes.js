@@ -49,9 +49,9 @@ function cargar() {
     $.post(urlCompleta, JSON.stringify({ df_nombre_cli: q }), function(data, status, xhr) {
         if (data.data.length > 0) {
             $('#resultados .table-responsive table tbody').html('');
-            data.data.sort(function (a, b){
+            data.data.sort(function(a, b) {
                 return (b.df_id_cliente - a.df_id_cliente)
-              });
+            });
             records = data.data;
             totalRecords = records.length;
             totalPages = Math.ceil(totalRecords / recPerPage);
@@ -86,7 +86,7 @@ function generate_table() {
     $('#resultados .table-responsive table tbody').empty();
     var tr;
     $.each(displayRecords, function(index, row) {
-        $('#resultados .table-responsive table tbody').append('<tr><td>' + row.df_codigo_cliente + '</td><td>' + row.df_tipo_documento_cli + '</td><td>' + row.df_documento_cli + '</td><td>' + row.df_nombre_cli + '</td><td>' + row.df_razon_social_cli + '</td><td>'  + row.df_direccion_cli + '</td><td>' + '<span class="pull-right"><a href="#" class="btn btn-default" title="Detallar" onclick="detallar(`' + row.df_id_cliente + '`)"><i class="glyphicon glyphicon-edit"></i> </a></span></td></tr>');
+        $('#resultados .table-responsive table tbody').append('<tr><td>' + row.df_codigo_cliente + '</td><td>' + row.df_tipo_documento_cli + '</td><td>' + row.df_documento_cli + '</td><td>' + row.df_nombre_cli + '</td><td>' + row.df_razon_social_cli + '</td><td>' + row.df_direccion_cli + '</td><td>' + '<span class="pull-right"><a href="#" class="btn btn-default" title="Detallar" onclick="detallar(`' + row.df_id_cliente + '`)"><i class="glyphicon glyphicon-edit"></i> </a></span></td></tr>');
     });
 }
 
@@ -167,7 +167,6 @@ function insertar(documento, codigo) {
         $('#documento').val('');
         $('#ruc').val('');
         $('#pasaporte').val('');
-        $('#nuevoCliente');
         $('#nuevoCliente').modal('hide');
         load();
     });
@@ -183,7 +182,7 @@ function getCodigo(documento) {
             if (data.data[0].df_id_cliente >= 0 && data.data[0].df_id_cliente < 10) {
                 codigo = 'CLI-00' + ((data.data[0].df_id_cliente * 1) + 1);
             } else if (data.data[0].df_id_cliente > 9 && data.data[0].df_id_cliente < 100) {
-                codigo = 'CLI-0' + ((data.data[0].df_id_cliente * 1 ) + 1);
+                codigo = 'CLI-0' + ((data.data[0].df_id_cliente * 1) + 1);
             } else if (data.data[0].df_id_cliente > 99) {
                 codigo = 'CLI-' + ((data.data[0].df_id_cliente * 1) + 1);
             }
@@ -223,7 +222,7 @@ $('#tipo_documento').change(function() {
 function detallar(id) {
     var urlCompleta = url + 'cliente/getById.php';
     $.post(urlCompleta, JSON.stringify({ df_id_cliente: id }), function(data, status, hrx) {
-        console.log('Detalle de Cliente para editar: ',data);
+        console.log('Detalle de Cliente para editar: ', data);
         $('#editTipo_documento').val(data.data[0].df_tipo_documento_cli);
         $('#editDocumento').val(data.data[0].df_documento_cli);
         $('#editRuc').val(data.data[0].df_documento_cli);
@@ -384,15 +383,15 @@ function consultarSectores() {
     $('#sector').empty();
     $('#sector').append('<option value="null">Seleccione...</option>');
     $.get(urlCompleta, function(response) {
-        $.each(response.data, function(index, row){
-            $('#sector').append('<option value="'+ row.df_codigo_sector +'">'+ row.df_nombre_sector +'</option>');
+        $.each(response.data, function(index, row) {
+            $('#sector').append('<option value="' + row.df_codigo_sector + '">' + row.df_nombre_sector + '</option>');
         });
     });
     $('#editSector').empty();
     $('#editSector').append('<option value="null">Seleccione...</option>');
     $.get(urlCompleta, function(response) {
-        $.each(response.data, function(index, row){
-            $('#editSector').append('<option value="'+ row.df_codigo_sector +'">'+ row.df_nombre_sector +'</option>');
+        $.each(response.data, function(index, row) {
+            $('#editSector').append('<option value="' + row.df_codigo_sector + '">' + row.df_nombre_sector + '</option>');
         });
     });
 }

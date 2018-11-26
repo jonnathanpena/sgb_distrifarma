@@ -63,7 +63,8 @@ if($num>0){
             "df_codigo_cliente"=>$df_codigo_cliente,
             "df_nombre_cli"=>$df_nombre_cli,
             "df_razon_social_cli"=>$df_razon_social_cli,
-            "df_documento_cli"=>$df_documento_cli
+            "df_documento_cli"=>$df_documento_cli,
+            "guia"=>$guia
         );
  
         array_push($factura_arr["data"], $factura_item);
