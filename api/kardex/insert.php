@@ -32,7 +32,7 @@ $kardex->df_ingresa_kar= $info[0]["df_ingresa_kar"];
 $kardex->df_egresa_kar= $info[0]["df_egresa_kar"];
 $kardex->df_existencia_kar= $info[0]["df_existencia_kar"];
 $kardex->df_creadoBy_kar= $info[0]["df_creadoBy_kar"];
-$kardex->df_edo_kardex= $info[0]["df_edo_kardex"];
+$kardex->df_edo_kardex = $info[0]["df_edo_kardex"];
 
 // insert kardex
 $response = $kardex->insert();

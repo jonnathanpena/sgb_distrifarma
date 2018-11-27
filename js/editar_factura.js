@@ -315,18 +315,29 @@ function calcular() {
 
 function modificar() {
     on();
-    factura.df_cliente_cod_fac = $('#cliente_id').val();
-    factura.df_personal_cod_fac = $('#personal').val();
-    factura.df_sector_cod_fac = $('#sector').val();
-    factura.df_forma_pago_fac = $('#forma_pago').val();
-    factura.df_subtotal_fac = subtotal;
-    factura.df_descuento_fac = descuento;
-    factura.df_iva_fac = total_iva;
-    factura.df_valor_total_fac = total.toFixed(2);
-    factura.df_fecha_entrega_fac = $('#fecha_entrega').val();
-    factura.df_num_factura = id;
-    factura.df_edo_factura_fac = 4;
-    validarInsercion(factura);
+    currentdate = new Date();
+    datetime = currentdate.getFullYear() + "-" +
+        (currentdate.getMonth() + 1) + "-" +
+        currentdate.getDate() + " " +
+        currentdate.getHours() + ":" +
+        currentdate.getMinutes() + ":" +
+        currentdate.getSeconds();
+    var nuevaFactura = {
+        df_cliente_cod_fac: $('#cliente_id').val(),
+        df_personal_cod_fac: $('#personal').val(),
+        df_sector_cod_fac: $('#sector').val(),
+        df_forma_pago_fac: $('#forma_pago').val(),
+        df_subtotal_fac: subtotal,
+        df_descuento_fac: descuento,
+        df_iva_fac: total_iva,
+        df_valor_total_fac: total.toFixed(2),
+        df_fecha_entrega_fac: $('#fecha_entrega').val(),
+        df_num_factura: id,
+        df_edo_factura_fac: 4,
+        df_fecha_fac: datetime,
+        df_creadaBy: $('#usuario').val()
+    };
+    validarInsercion(nuevaFactura);
 };
 
 function facturaEntregada() {
@@ -348,54 +359,71 @@ function facturaAnulada() {
     }
 };
 
-function validarInsercion(factura) {
+function validarInsercion(nuevaFactura) {
     var seguir = true;
-    if (factura.df_cliente_cod_fac == undefined) {
+    if (nuevaFactura.df_cliente_cod_fac == undefined) {
         off();
         alertar('warning', '¡Alerta!', 'Debe escoger un cliente');
         seguir = false;
     }
-    if (factura.df_personal_cod_fac == 'null') {
+    if (nuevaFactura.df_personal_cod_fac == 'null') {
         off();
         alertar('warning', '¡Alerta!', 'Debe escoger un personal');
         seguir = false;
     }
-    if (factura.df_sector_cod_fac == 'null') {
+    if (nuevaFactura.df_sector_cod_fac == 'null') {
         off();
         alertar('warning', '¡Alerta!', 'Debe escoger un sector');
         seguir = false;
     }
     if (seguir == true) {
-        var dineroActual = factura.df_valor_total_fac * 1;
+        /*var dineroActual = factura.df_valor_total_fac * 1;
         if (dineroAntes > dineroActual) {
             var restar = dineroAntes - dineroActual;
             consultarBanco('Egreso', restar, factura.df_num_factura);
         } else if (dineroAntes < dineroActual) {
             var sumar = dineroActual - dineroAntes;
             consultarBanco('Ingreso', sumar, factura.df_num_factura);
-        }
-        modificarFactura(factura);
+        }*/
+        //modificarFactura(nuevaFactura);
+        recorrerTablaProductos(nuevaFactura);
     }
 }
 
-function modificarFactura(factura) {
-    var urlCompleta = url + 'factura/update.php';
-    console.log('factura', factura);
-    $.post(urlCompleta, JSON.stringify(factura), function(response) {
-        if (response == true) {
-            recorrerTablaProductos();
+function modificarFactura(nuevaFactura, productosNuevos, prodEliminados) {
+    var todos = {
+        factura_anterior: facturaVieja,
+        factura_actual: nuevaFactura,
+        productos_viejos: productosFactura,
+        productos_nuevos: productosNuevos,
+        productos_eliminados: prodEliminados
+    };
+    console.log('todos los datos', todos);
+    var urlCompleta = url + 'factura/editar.php';
+    $.post(urlCompleta, JSON.stringify(todos), function(response) {
+        console.log('respuesta', response);
+        if (response.proceso == true) {
+            off();
+            alertar('success', '¡Éxito!', 'Factura modificada exitosamente');
+            clearTimeout(timer);
+            timer = setTimeout(function() {
+                window.location.reload();
+            }, 2000);
         } else {
             off();
-            alertar('danger', '¡Error!', 'Certifica que tienes conectividad estable y vuelve a intentar');
-            load();
+            alertar('danger', '¡Error!', response.mensaje + ' por favor verifique y vuelva intentar');
+            clearTimeout(timer);
+            timer = setTimeout(function() {
+                window.location.reload();
+            }, 2000);
         }
     });
 }
 
-function recorrerTablaProductos() {
+function recorrerTablaProductos(nuevaFactura) {
     detallesProducto = [];
     $('table#table_productos tbody tr').each(function(a, b) {
-        var id_precio = $('.id_precio', b).text();
+        var id_producto = $('.id_producto', b).text();
         var precio = $('.precio_unitario', b).text() * 1;
         var cantidad = $('.cantidad', b).text() * 1;
         var valor_sin_iva = $('.subtotal', b).text() * 1;
@@ -411,29 +439,45 @@ function recorrerTablaProductos() {
         }
         var cant_bodega = $('.cant_bodega', b).text() * 1;
         var detalle = {
-            df_num_factura_detfac: id,
-            df_prod_precio_detfac: id_precio,
-            df_precio_prod_detfac: precio,
-            df_cantidad_detfac: cantidad,
-            df_valor_sin_iva_detfac: valor_sin_iva,
-            df_iva_detfac: iva,
-            df_valor_total_detfac: total_tupla,
-            df_nombre_und_detfac: nombre_unidad,
-            df_cant_x_und_detfac: cant_x_und,
-            df_edo_entrega_prod_detfac: 1,
-            cant_bodega: cant_bodega,
-            nombre_producto: $('.producto', b).text()
-        }
-        consultarExistencia(detalle);
+                df_num_factura_detfac: id,
+                df_prod_precio_detfac: id_producto,
+                df_precio_prod_detfac: precio,
+                df_cantidad_detfac: cantidad,
+                df_valor_sin_iva_detfac: valor_sin_iva,
+                df_iva_detfac: iva,
+                df_valor_total_detfac: total_tupla,
+                df_nombre_und_detfac: nombre_unidad,
+                df_cant_x_und_detfac: cant_x_und,
+                df_edo_entrega_prod_detfac: 1,
+                cant_bodega: cant_bodega,
+                nombre_producto: $('.producto', b).text(),
+                df_codigo_prod: $('.codigo', b).text()
+            }
+            //consultarExistencia(detalle);
         detallesProducto.push(detalle);
     });
-    consultarElmimado();
+    var prodEliminados = [];
+    for (var i = 0; i < productosFactura.length; i++) {
+        var existe = false;
+        for (var j = 0; j < detallesProducto.length; j++) {
+            if (productosFactura[i].df_prod_precio_detfac == detallesProducto[j].df_prod_precio_detfac &&
+                productosFactura[i].df_cantidad_detfac * 1 == detallesProducto[j].df_cantidad_detfac &&
+                detallesProducto[j].df_nombre_und_detfac == productosFactura[i].df_nombre_und_detfac) {
+                existe = true;
+            }
+        }
+        if (existe == false) {
+            prodEliminados.push(productosFactura[i]);
+        }
+    }
+    modificarFactura(nuevaFactura, detallesProducto, prodEliminados);
+    /*consultarElmimado();
     clearTimeout(timer);
     timer = setTimeout(function() {
         off();
         alertar('success', '¡Éxito!', 'Factura # ' + id + 'modificada exitosamente');
         load();
-    }, 2000);
+    }, 2000);*/
 }
 
 function consultarExistencia(detalle) {
@@ -729,7 +773,7 @@ function agregar() {
 }
 
 function eliminarProducto(idProducto, codigo, nombre_producto, cantidad, unidad) {
-    currentdate = new Date();
+    /*currentdate = new Date();
     datetime = currentdate.getFullYear() + "-" +
         (currentdate.getMonth() + 1) + "-" +
         currentdate.getDate() + " " +
@@ -750,7 +794,7 @@ function eliminarProducto(idProducto, codigo, nombre_producto, cantidad, unidad)
         df_creadoBy_kar: $('#usuario').val(),
         df_edo_kardex: 3
     };
-    reponerInventario(idProducto, ingresa, kardex, unidad);
+    reponerInventario(idProducto, ingresa, kardex, unidad);*/
 }
 
 function reponerInventario(idProducto, cantidad, kardex, unidad) {
@@ -939,7 +983,7 @@ function consultarDatosFactura(id_factura, id_cliente) {
             $('#nombre_cliente').val(response.data[0].df_nombre_cli_factura);
             $('#cliente_id').val(id_cliente);
         }
-        
-        
+
+
     });
 }
