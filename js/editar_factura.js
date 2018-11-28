@@ -405,17 +405,17 @@ function modificarFactura(nuevaFactura, productosNuevos, prodEliminados) {
         if (response.proceso == true) {
             off();
             alertar('success', '¡Éxito!', 'Factura modificada exitosamente');
-            clearTimeout(timer);
+            /*clearTimeout(timer);
             timer = setTimeout(function() {
                 window.location.reload();
-            }, 2000);
+            }, 2000);*/
         } else {
             off();
             alertar('danger', '¡Error!', response.mensaje + ' por favor verifique y vuelva intentar');
-            clearTimeout(timer);
+            /*clearTimeout(timer);
             timer = setTimeout(function() {
                 window.location.reload();
-            }, 2000);
+            }, 2000);*/
         }
     });
 }

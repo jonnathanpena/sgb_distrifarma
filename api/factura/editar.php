@@ -59,7 +59,7 @@ if ($factura_anterior['df_valor_total_fac'] > $factura_actual['df_valor_total_fa
 } else if ($factura_anterior['df_valor_total_fac'] < $factura_actual['df_valor_total_fac']){
     $total_anterior = $factura_anterior['df_valor_total_fac'] * 1;
     $total_actual = $factura_actual['df_valor_total_fac'] * 1;
-    $monto = $total_anterior + $total_actual;
+    $monto = $total_actual  - $total_anterior;
     if (!agregarBancos($db, $monto, $factura_actual)) {
         $procesado = false;
         $mensaje = "Problema al agregar en bancos/libro diario";
@@ -357,7 +357,7 @@ function getCodigoKardex($db) {
 function eliminarDetalleFactura($db, $producto, $factura, $usuario) {
     include_once '../objects/detalleFactura.php';
     $detalleFactura = new DetalleFactura($db);
-    $detalleFactura->df_id_factura_detfac = $producto['df_id_producto'];
+    $detalleFactura->df_id_factura_detfac = $producto['df_id_factura_detfac'];
     $response = $detalleFactura->delete();
 
     if (reponerInventario($db, $producto, $factura, $usuario)) {
