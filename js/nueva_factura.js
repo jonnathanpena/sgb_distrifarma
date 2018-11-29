@@ -1216,53 +1216,40 @@ function agregar() {
             alert('Debe escoger valores reales');
 
         } else {
+            var exist = false;
 
-            var subtotal_tabla = cantidad * precio;
+            $('table#table_productos tbody tr').each(function(a, b) {
+                if (producto.df_codigo_prod == $('.codigo', b).text()) {
+                    alertar('warning', '¡Alerta!', 'Producto agregado con anterioridad');
+                    exist = true;
+                }
+            });
 
-            var total_iva_tabla = subtotal_tabla * iva;
-
-            var total_tupla = subtotal_tabla;
-
-            var cant_bodega = producto.df_cant_bodega;
-
-            total_tupla = total_tupla.toFixed(2);
-
-            var row = '<tr>' +
-
-                '<td class="id_producto" style="display: none;">' + producto.df_id_producto + '</td>' +
-
-                '<td class="id_precio" style="display: none;">' + producto.df_id_precio + '</td>' +
-
-                '<td class="cant_bodega" style="display: none;">' + cant_bodega + '</td>' +
-
-                '<td class="iva" style="display: none;">' + iva + '</td>' +
-
-                '<td class="subtotal" style="display: none;">' + subtotal_tabla + '</td>' +
-
-                '<td class="total_iva" style="display: none;">' + Number(total_iva_tabla).toFixed(2) + '</td>' +
-
-                '<td class="unidad_caja" style="display: none;">' + unidad_caja + '</td>' +
-
-                '<td width="100" class="codigo">' + producto.df_codigo_prod + '</td>' +
-
-                '<td class="producto">' + producto.df_nombre_producto + '</td>' +
-
-                '<td width="100" class="unidad">' + unidad + '</td>' +
-
-                '<td width="100" class="cantidad">' + cantidad + '</td>' +
-
-                '<td width="100" class="precio_unitario">' + precio + '</td>' +
-
-                '<td width="100" class="total_tupla_producto">' + total_tupla + '</td>' +
-
-                '<td width="100">' + acciones + '</td>' +
-
-                '</tr>';
-
-            $('#table_productos tbody').append(row);
-
-            $('[data-toggle="tooltip"]').tooltip();
-
+            if (exist == false) {
+                var subtotal_tabla = cantidad * precio;
+                var total_iva_tabla = subtotal_tabla * iva;
+                var total_tupla = subtotal_tabla;
+                var cant_bodega = producto.df_cant_bodega;
+                total_tupla = total_tupla.toFixed(2);
+                var row = '<tr>' +
+                    '<td class="id_producto" style="display: none;">' + producto.df_id_producto + '</td>' +
+                    '<td class="id_precio" style="display: none;">' + producto.df_id_precio + '</td>' +
+                    '<td class="cant_bodega" style="display: none;">' + cant_bodega + '</td>' +
+                    '<td class="iva" style="display: none;">' + iva + '</td>' +
+                    '<td class="subtotal" style="display: none;">' + subtotal_tabla + '</td>' +
+                    '<td class="total_iva" style="display: none;">' + Number(total_iva_tabla).toFixed(2) + '</td>' +
+                    '<td class="unidad_caja" style="display: none;">' + unidad_caja + '</td>' +
+                    '<td width="100" class="codigo">' + producto.df_codigo_prod + '</td>' +
+                    '<td class="producto">' + producto.df_nombre_producto + '</td>' +
+                    '<td width="100" class="unidad">' + unidad + '</td>' +
+                    '<td width="100" class="cantidad">' + cantidad + '</td>' +
+                    '<td width="100" class="precio_unitario">' + precio + '</td>' +
+                    '<td width="100" class="total_tupla_producto">' + total_tupla + '</td>' +
+                    '<td width="100">' + acciones + '</td>' +
+                    '</tr>';
+                $('#table_productos tbody').append(row);
+                $('[data-toggle="tooltip"]').tooltip();
+            }
         }
 
         calcular();
