@@ -466,10 +466,12 @@ function cambiaEstado(fact) {
         for (var i = 0; i < detalleFactura.length; i++) {
             if (detalleFactura[i].df_num_factura_detfac == fact) {
                 var cantidad = detalleFactura[i].df_cantidad_detfac * 1;
+                var reasignados = 0;
                 $('#table_resumen_productos tbody tr').each(function(a, b) {
                     if ($('.producto', b).text() == detalleFactura[i].df_nombre_producto && $('.unidad', b).text() == detalleFactura[i].df_nombre_und_detfac) {
                         var resta_ant = $('.resta', b).text() * 1;
                         cantidad = cantidad + resta_ant;
+                        reasignados = $('.reasignados', b).text() * 1;
                         $(this).remove();
                     }
                 });
@@ -479,6 +481,7 @@ function cambiaEstado(fact) {
                 tr.append('<td class="producto">' + detalleFactura[i].df_nombre_producto + '</td>');
                 tr.append('<td class="producto_id" style="display: none;">' + detalleFactura[i].df_id_producto + '</td>');
                 tr.append('<td class="cant_x_caja" style="display: none;">' + detalleFactura[i].df_und_caja + '</td>');
+                tr.append('<td class="reasignados" style="display: none;">' + reasignados + '</td>');
                 $('#table_resumen_productos tbody').append(tr);
                 detalleFactura[i].df_cantidad_detfac = 0;
             }
@@ -490,10 +493,13 @@ function cambiaEstado(fact) {
         for (var i = 0; i < detalleFactura.length; i++) {
             if (detalleFactura[i].df_num_factura_detfac == fact) {
                 var cantidad = detalleFactura[i].df_cantidad_detfac * 1;
+                var reasignados = cantidad;
                 $('#table_resumen_productos tbody tr').each(function(a, b) {
                     if ($('.producto', b).text() == detalleFactura[i].df_nombre_producto && $('.unidad', b).text() == detalleFactura[i].df_nombre_und_detfac) {
                         var resta_ant = $('.resta', b).text() * 1;
                         cantidad = cantidad + resta_ant;
+                        reasignados = $('.reasignados', b).text() * 1;
+                        reasignados = reasignados + cantidad;
                         $(this).remove();
                     }
                 });
@@ -503,6 +509,7 @@ function cambiaEstado(fact) {
                 tr.append('<td class="producto">' + detalleFactura[i].df_nombre_producto + '</td>');
                 tr.append('<td class="producto_id" style="display: none;">' + detalleFactura[i].df_id_producto + '</td>');
                 tr.append('<td class="cant_x_caja" style="display: none;">' + detalleFactura[i].df_und_caja + '</td>');
+                tr.append('<td class="reasignados" style="display: none;">' + reasignados + '</td>');
                 $('#table_resumen_productos tbody').append(tr);
                 detalleFactura[i].df_cantidad_detfac = 0;
             }
@@ -555,10 +562,12 @@ function gardaModificacion() {
             if (r.id == detalleFactura[i].df_id_factura_detfac) {
                 detalleFactura[i].df_cantidad_detfac = r.cantidad;
                 var devuelve = r.resta;
+                var reasignados = 0;
                 $('#table_resumen_productos tbody tr').each(function(a, b) {
                     if ($('.producto', b).text() == detalleFactura[i].df_nombre_producto && $('.unidad', b).text() == detalleFactura[i].df_nombre_und_detfac) {
                         var resta_ant = $('.resta', b).text() * 1;
                         devuelve = devuelve + resta_ant;
+                        reasignados = $('.reasignados', b).text() * 1;
                         $(this).remove();
                     }
                 });
@@ -568,6 +577,7 @@ function gardaModificacion() {
                 tr.append('<td class="producto">' + detalleFactura[i].df_nombre_producto + '</td>');
                 tr.append('<td class="producto_id" style="display: none;">' + detalleFactura[i].df_id_producto + '</td>');
                 tr.append('<td class="cant_x_caja" style="display: none;">' + detalleFactura[i].df_und_caja + '</td>');
+                tr.append('<td class="cant_x_caja" style="display: none;">' + reasignados + '</td>');
                 $('#table_resumen_productos tbody').append(tr);
             }
         }
@@ -950,13 +960,17 @@ function modificarInventario(idguia) {
         var cantidadCaja = $('.cant_x_caja', b).text() * 1;
         var resta = $('.resta', b).text() * 1;
         var prod = $('.producto', b).text();
+        var reasignados = $('.reasignados', b).text() * 1;
+        resta = resta - reasignados;
         var detalle = {
             df_prod_precio_detfac: producto_id,
             df_num_factura_detfac: idguia,
             df_cantidad_detfac: resta
         };
-        consultarInventario(producto_id, resta, unidad, cantidadCaja, prod, detalle);
-        productosDevueltos(idguia, producto_id, resta, unidad);
+        if (resta > 0) {
+            consultarInventario(producto_id, resta, unidad, cantidadCaja, prod, detalle);
+        }
+        productosDevueltos(idguia, producto_id, $('.resta', b).text() * 1, unidad);
     });
 }
 
