@@ -25,7 +25,8 @@ class HistoriaEstadoFactura {
     
         // select all query
         $query = "SELECT `df_id_hist_edo_factura`, `df_num_factura`, `df_edo_factura`, `df_edo_impresion`, 
-                    `df_usuario_id`, `df_fecha_proceso` , `df_sector_factura` , `df_direccion_factura` 
+                    `df_usuario_id`, `df_fecha_proceso` , `df_sector_factura` , `df_direccion_factura`,
+                    `df_nombre_cli_factura`, `df_telefono_cli_factura`, `df_tipo_documento_cli_factura`, `df_documento_cli_factura`, `df_celular_cli_factura`
                     FROM `df_historia_edo_factura`
                     WHERE df_num_factura = ".$this->df_num_factura."
                     ORDER BY df_fecha_proceso DESC";
@@ -44,14 +45,20 @@ class HistoriaEstadoFactura {
     
         // query to insert record
         $query = "INSERT INTO `df_historia_edo_factura`(`df_num_factura`, `df_edo_factura`, `df_edo_impresion`, 
-                    `df_usuario_id`, `df_fecha_proceso`, `df_sector_factura`, `df_direccion_factura`) VALUES (
+                    `df_usuario_id`, `df_fecha_proceso`, `df_sector_factura`, `df_direccion_factura`, 
+                    `df_nombre_cli_factura`, `df_telefono_cli_factura`, `df_tipo_documento_cli_factura`, `df_documento_cli_factura`, `df_celular_cli_factura`) VALUES (
                         ".$this->df_num_factura.",
                         ".$this->df_edo_factura.",
                         ".$this->df_edo_impresion.",
                         ".$this->df_usuario_id.",
                         '".$this->df_fecha_proceso."',
                         ".$this->df_sector_factura.",
-                        '".$this->df_direccion_factura."'
+                        '".$this->df_direccion_factura."',
+                        '".$this->df_nombre_cli_factura."',
+                        '".$this->df_telefono_cli_factura."',
+                        '".$this->df_tipo_documento_cli_factura."',
+                        '".$this->df_documento_cli_factura."',
+                        '".$this->df_celular_cli_factura."'
                         )";
         // prepara la sentencia del query
         $stmt = $this->conn->prepare($query);    

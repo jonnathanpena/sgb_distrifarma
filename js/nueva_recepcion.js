@@ -466,10 +466,12 @@ function cambiaEstado(fact) {
         for (var i = 0; i < detalleFactura.length; i++) {
             if (detalleFactura[i].df_num_factura_detfac == fact) {
                 var cantidad = detalleFactura[i].df_cantidad_detfac * 1;
+                var reasignados = 0;
                 $('#table_resumen_productos tbody tr').each(function(a, b) {
                     if ($('.producto', b).text() == detalleFactura[i].df_nombre_producto && $('.unidad', b).text() == detalleFactura[i].df_nombre_und_detfac) {
                         var resta_ant = $('.resta', b).text() * 1;
                         cantidad = cantidad + resta_ant;
+                        reasignados = $('.reasignados', b).text() * 1;
                         $(this).remove();
                     }
                 });
@@ -479,6 +481,7 @@ function cambiaEstado(fact) {
                 tr.append('<td class="producto">' + detalleFactura[i].df_nombre_producto + '</td>');
                 tr.append('<td class="producto_id" style="display: none;">' + detalleFactura[i].df_id_producto + '</td>');
                 tr.append('<td class="cant_x_caja" style="display: none;">' + detalleFactura[i].df_und_caja + '</td>');
+                tr.append('<td class="reasignados" style="display: none;">' + reasignados + '</td>');
                 $('#table_resumen_productos tbody').append(tr);
                 detalleFactura[i].df_cantidad_detfac = 0;
             }
@@ -490,10 +493,13 @@ function cambiaEstado(fact) {
         for (var i = 0; i < detalleFactura.length; i++) {
             if (detalleFactura[i].df_num_factura_detfac == fact) {
                 var cantidad = detalleFactura[i].df_cantidad_detfac * 1;
+                var reasignados = cantidad;
                 $('#table_resumen_productos tbody tr').each(function(a, b) {
                     if ($('.producto', b).text() == detalleFactura[i].df_nombre_producto && $('.unidad', b).text() == detalleFactura[i].df_nombre_und_detfac) {
                         var resta_ant = $('.resta', b).text() * 1;
                         cantidad = cantidad + resta_ant;
+                        reasignados = $('.reasignados', b).text() * 1;
+                        reasignados = reasignados + cantidad;
                         $(this).remove();
                     }
                 });
@@ -503,6 +509,7 @@ function cambiaEstado(fact) {
                 tr.append('<td class="producto">' + detalleFactura[i].df_nombre_producto + '</td>');
                 tr.append('<td class="producto_id" style="display: none;">' + detalleFactura[i].df_id_producto + '</td>');
                 tr.append('<td class="cant_x_caja" style="display: none;">' + detalleFactura[i].df_und_caja + '</td>');
+                tr.append('<td class="reasignados" style="display: none;">' + reasignados + '</td>');
                 $('#table_resumen_productos tbody').append(tr);
                 detalleFactura[i].df_cantidad_detfac = 0;
             }
@@ -555,10 +562,12 @@ function gardaModificacion() {
             if (r.id == detalleFactura[i].df_id_factura_detfac) {
                 detalleFactura[i].df_cantidad_detfac = r.cantidad;
                 var devuelve = r.resta;
+                var reasignados = 0;
                 $('#table_resumen_productos tbody tr').each(function(a, b) {
                     if ($('.producto', b).text() == detalleFactura[i].df_nombre_producto && $('.unidad', b).text() == detalleFactura[i].df_nombre_und_detfac) {
                         var resta_ant = $('.resta', b).text() * 1;
                         devuelve = devuelve + resta_ant;
+                        reasignados = $('.reasignados', b).text() * 1;
                         $(this).remove();
                     }
                 });
@@ -568,6 +577,7 @@ function gardaModificacion() {
                 tr.append('<td class="producto">' + detalleFactura[i].df_nombre_producto + '</td>');
                 tr.append('<td class="producto_id" style="display: none;">' + detalleFactura[i].df_id_producto + '</td>');
                 tr.append('<td class="cant_x_caja" style="display: none;">' + detalleFactura[i].df_und_caja + '</td>');
+                tr.append('<td class="reasignados" style="display: none;">' + reasignados + '</td>');
                 $('#table_resumen_productos tbody').append(tr);
             }
         }
@@ -943,40 +953,59 @@ function insertarLibroDiario(valorInicial, monto) {
 }
 
 function modificarInventario(idguia) {
+    var productosTabla = [];
     $('#table_resumen_productos tbody tr').each(function(a, b) {
-        var resta = $('.resta', b).text() * 1;
+        var resta = $('.resta', b).text() * 1;        
         var unidad = $('.unidad', b).text();
         var producto_id = $('.producto_id', b).text() * 1;
         var cantidadCaja = $('.cant_x_caja', b).text() * 1;
-        var resta = $('.resta', b).text() * 1;
         var prod = $('.producto', b).text();
-        var detalle = {
-            df_prod_precio_detfac: producto_id,
-            df_num_factura_detfac: idguia,
-            df_cantidad_detfac: resta
-        };
-        consultarInventario(producto_id, resta, unidad, cantidadCaja, prod, detalle);
-        productosDevueltos(idguia, producto_id, resta, unidad);
+        var reasignados = $('.reasignados', b).text() * 1;
+        resta = resta - reasignados;
+        productosTabla.push({
+            devuelto: $('.resta', b).text() * 1,
+            und:  $('.unidad', b).text(),
+            resta: resta,
+            unidad: unidad,
+            producto_id: producto_id,
+            cantidadCaja: cantidadCaja,
+            prod: prod,
+            reasignados: reasignados
+        });        
     });
+    for(var i = 0; i < productosTabla.length; i++) {
+        for(var j = 0; j < productosTabla.length; j++) {
+            if(productosTabla[i].producto_id == productosTabla[j].producto_id && productosTabla[i].unidad != productosTabla[j].unidad) {
+                productosDevueltos(idguia, productosTabla[j].producto_id, productosTabla[j].resta, productosTabla[j].unidad);    
+                var nueva_resta = productosTabla[j].resta;
+                var nuevo_reasignados = productosTabla[j].reasignados;
+                nueva_resta = nueva_resta - nuevo_reasignados;
+                if (productosTabla[i].unidad == 'CAJA') {
+                    productosTabla[i].resta = productosTabla[i].resta * productosTabla[i].cantidadCaja;
+                }
+                if (productosTabla[j].unidad == 'CAJA') {
+                    nueva_resta = nueva_resta * productosTabla[j].cantidadCaja;
+                }
+                productosTabla[i].resta = productosTabla[i].resta + nueva_resta;
+                productosTabla[i].unidad = "UND";
+                productosTabla.splice(j,1);
+            }                
+        }
+        var detalle = {
+            df_prod_precio_detfac: productosTabla[i].producto_id,
+            df_num_factura_detfac: idguia,
+            df_cantidad_detfac: productosTabla[i].resta
+        };
+        if (productosTabla[i].resta > 0) {
+            consultarInventario(productosTabla[i].producto_id, productosTabla[i].resta, productosTabla[i].unidad, productosTabla[i].cantidadCaja, productosTabla[i].prod, detalle);
+        }        
+        productosDevueltos(idguia, productosTabla[i].producto_id, productosTabla[i].devuelto, productosTabla[i].und);
+    }
 }
 
 function consultarInventario(id, agregar, unidad, unidad_x_caja, prod, detalle) {
     var urlCompleta = url + 'inventario/getByIdProd.php';
-    if (unidad_x_caja == -1) {
-        $.post(urlCompleta, JSON.stringify({ df_producto: id }), function(response) {
-            var habia = response.data[0].df_cant_bodega * 1;
-            var agrega = agregar * 1;
-            if (unidad == 'CAJA') {
-                agrega = agrega * response.data[0].df_und_caja;
-                response.data[0].df_cant_bodega = habia + agrega;
-            } else {
-                response.data[0].df_cant_bodega = habia + agrega;
-            }
-            detalle.df_cantidad_detfac = agrega;
-            updateInventario(response.data[0]);
-            getIdKardex(detalle, prod, response.data[0].df_cant_bodega);
-        });
-    } else {
+   
         $.post(urlCompleta, JSON.stringify({ df_producto: id }), function(response) {
             var habia = response.data[0].df_cant_bodega * 1;
             var agrega = agregar * 1;
@@ -990,7 +1019,7 @@ function consultarInventario(id, agregar, unidad, unidad_x_caja, prod, detalle) 
             updateInventario(response.data[0]);
             getIdKardex(detalle, prod, response.data[0].df_cant_bodega);
         });
-    }
+    
 }
 
 function updateInventario(inventario) {

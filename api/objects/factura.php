@@ -192,7 +192,8 @@ class Factura {
                     `df_valor_total_fac`= ".$this->df_valor_total_fac.",
                     `df_edo_factura_fac` = ".$this->df_edo_factura_fac.",
                     df_fecha_entrega_fac = '".$this->df_fecha_entrega_fac."'
-                    WHERE `df_num_factura`=".$this->df_num_factura;                        
+                    WHERE `df_num_factura`=".$this->df_num_factura;
+
         // prepara la sentencia del query
         $stmt = $this->conn->prepare($query);
 
